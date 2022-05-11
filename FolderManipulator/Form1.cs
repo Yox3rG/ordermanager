@@ -452,13 +452,15 @@ namespace FolderManipulator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
-            StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
+            PersistentData.StartTestTask();
+            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
+            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            StatusManager.StopCurrentDelayedMessage();
+            PersistentData.StopTestTask();
+            //StatusManager.StopCurrentDelayedMessage();
         }
     }
 }

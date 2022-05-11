@@ -1,10 +1,12 @@
 ﻿using FolderManipulator.Data;
 using FolderManipulator.UI;
+using FolderManipulator.Analytics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FolderManipulator.FolderRelated
@@ -27,6 +29,8 @@ namespace FolderManipulator.FolderRelated
         private static float saveMaxRandomDelayAfterMin = 4f;
 
         private static Task _savingTask;
+        private static CancellationTokenSource _currentCancellationTokenSource;
+        private static Task _currentTask;
 
         public static bool IsSourceReady { get; private set; } = false;
 
@@ -125,38 +129,97 @@ namespace FolderManipulator.FolderRelated
             return settings;
         }
 
+        public static void StartTestTask()
+        {
+            _currentCancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancelToken = _currentCancellationTokenSource.Token;
+            StatusManager.ShowMessage("Task starting.");
+            _currentTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await Task.Delay(5000, cancelToken);
+                    StatusManager.ShowMessage("Task finished.");
+                    Console.WriteLine("Task finished!");
+                }
+                catch (OperationCanceledException ex)
+                {
+                    StatusManager.ShowMessage("Task cancelled.", StatusColorType.Error);
+                    Console.WriteLine("Task cancelled!");
+                }
+                finally
+                {
+                    _currentCancellationTokenSource.Dispose();
+                }
+            }, cancelToken);
+        }
+
+        public static void StopTestTask()
+        {
+            try
+            {
+                _currentCancellationTokenSource?.Cancel();
+            }
+            catch (ObjectDisposedException ex) { }
+        }
+
         public static bool TrySaveOrders(OrderList orders, bool tryAgainOnFailAfterRandomTime = true)
         {
-            if (_savingTask != null && !_savingTask.IsCompleted)
-                return false;
-            if (!SaveOrders(orders))
+            try
             {
-                _savingTask = TrySaveOrdersTask(orders);
+                _currentCancellationTokenSource?.Cancel();
+            }
+            catch (ObjectDisposedException ex) { }
+
+            if (!SaveOrders(orders) && tryAgainOnFailAfterRandomTime)
+            {
+                StartTrySaveOrdersTask(orders);
                 return false;
             }
             return true;
         }
 
-        private static async Task TrySaveOrdersTask(OrderList orders)
+        private static void StartTrySaveOrdersTask(OrderList orders)
         {
-            while (true)
+            _currentCancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancelToken = _currentCancellationTokenSource.Token;
+            _savingTask = Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(RandomSaveDelay));
-
-                if (SaveOrders(orders))
+                try
                 {
-                    break;
+                    do
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(RandomSaveDelay), cancelToken);
+                    }
+                    while (!SaveOrders(orders));
                 }
-            }
+                catch (OperationCanceledException ex)
+                {
+                    AppConsole.WriteLine("SaveTask cancelled!");
+                }
+                finally
+                {
+                    _currentCancellationTokenSource.Dispose();
+                }
+            }, cancelToken);
         }
 
+        private static int failCounter = 0;
         private static bool SaveOrders(OrderList orders)
         {
             bool success = IOHandler.Save<OrderList>(OrderListTypeToPath(orders.Type), orders);
+            if ((failCounter++) % 3 != 0) success = false;
+
             if (success)
+            {
                 OnOrderSaveSuccessful?.Invoke();
+                AppConsole.WriteLine("Save successful!");
+            }
             else
+            {
                 OnOrderSaveFailed?.Invoke();
+                AppConsole.WriteLine("Save failed!");
+            }
             return success;
         }
 

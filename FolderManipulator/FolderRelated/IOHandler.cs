@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace FolderManipulator.FolderRelated
             catch (Exception e)
             {
                 // TODO: Handle IO errors.
-                Console.WriteLine(e.Message);
+                AppConsole.WriteLine(e.Message);
 
                 OnLoadFailed?.Invoke();
                 return null;
@@ -39,7 +40,7 @@ namespace FolderManipulator.FolderRelated
         public static bool Save<T>(string path, T data)
         {
             string json = JsonSerializer.Serialize(data);
-            Console.WriteLine(json);
+            //Console.WriteLine(json);
             try
             {
                 System.IO.File.WriteAllText(path, json);
@@ -47,7 +48,7 @@ namespace FolderManipulator.FolderRelated
             catch (Exception e)
             {
                 // TODO: Handle IO errors.
-                Console.WriteLine(e.Message);
+                AppConsole.WriteLine(e.Message);
 
                 OnSaveFailed?.Invoke();
                 return false;

@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\AppConsole.cs" />
     <Compile Include="Data\OrderTypes.cs" />
     <Compile Include="Data\OrderData.cs" />
     <Compile Include="Data\OrderList.cs" />
