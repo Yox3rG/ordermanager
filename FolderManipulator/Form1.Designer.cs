@@ -73,6 +73,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -304,6 +305,7 @@
             // 
             // tab_page_customize
             // 
+            this.tab_page_customize.Controls.Add(this.button3);
             this.tab_page_customize.Controls.Add(this.button2);
             this.tab_page_customize.Controls.Add(this.button1);
             this.tab_page_customize.Controls.Add(this.txt_drag_drop);
@@ -525,6 +527,16 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(589, 168);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 20;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -605,6 +617,7 @@
         private System.Windows.Forms.ToolStripStatusLabel label_status_strip_main;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

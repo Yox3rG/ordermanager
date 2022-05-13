@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FolderManipulator.Analytics;
 using FolderManipulator.Data;
 using FolderManipulator.FolderRelated;
 using FolderManipulator.UI;
@@ -391,8 +392,9 @@ namespace FolderManipulator
 
         private void SaveAll()
         {
-            PersistentData.TrySaveOrders(OrderManager.GetActiveOrders());
-            PersistentData.SaveSettings(SettingsManager.Settings);
+            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetActiveOrders());
+            PersistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
+            PersistentData.TrySaveWaitingItems();
         }
 
         private void SetTab(TabPage newSelected = null)
@@ -461,6 +463,11 @@ namespace FolderManipulator
         {
             PersistentData.StopTestTask();
             //StatusManager.StopCurrentDelayedMessage();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            AppConsole.SaveLog();
         }
     }
 }

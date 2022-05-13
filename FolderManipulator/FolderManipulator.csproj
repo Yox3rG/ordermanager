@@ -79,9 +79,12 @@
     <Compile Include="Data\OrderData.cs" />
     <Compile Include="Data\OrderList.cs" />
     <Compile Include="Data\OrderManager.cs" />
+    <Compile Include="Data\SavableDataWithPath.cs" />
     <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Data\SettingsManager.cs" />
+    <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="FolderRelated\IOHandler.cs" />
+    <Compile Include="Data\ISavableData.cs" />
     <Compile Include="FolderRelated\UserIdentifier.cs" />
     <Compile Include="FolderRelated\PersistentData.cs" />
     <Compile Include="FolderRelated\MyTreeNode.cs" />
