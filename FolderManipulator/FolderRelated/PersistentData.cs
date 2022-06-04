@@ -230,7 +230,6 @@ namespace FolderManipulator.FolderRelated
             return successCount == waitingCount;
         }
 
-        private static int failCounter = 0;
         private static bool SaveWaitingItem(SavableDataWithPath dataWithPath)
         {
             bool success = false;
@@ -242,7 +241,6 @@ namespace FolderManipulator.FolderRelated
             {
                 success = IOHandler.Save(dataWithPath.path, dataWithPath.data as OrderList);
             }
-            if ((failCounter++) % 3 != 0) success = false;
             return success;
         }
 
