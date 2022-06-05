@@ -31,6 +31,15 @@ namespace FolderManipulator.Data
             this.Description = description;
         }
 
+        public void Copy(OrderData other)
+        {
+            this.MainOrderType = other.MainOrderType;
+            this.SubOrderType  = other.SubOrderType;
+            this.FullPath      = other.FullPath;
+            this.Count         = other.Count;       
+            this.Description   = other.Description;
+        }
+
         public string GetFileName()
         {
             return Path.GetFileName(FullPath);

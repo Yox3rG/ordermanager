@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FolderManipulator.Data;
+using FolderManipulator.Extensions;
 using FolderManipulator.FolderRelated;
 using FolderManipulator.UI;
 
@@ -26,7 +27,11 @@ namespace FolderManipulator
 
             UpdateSourcePathLabel();
             FillTreeView();
+
+#if DEBUG
             //ShowMessage();
+            StartDebugTimer();
+#endif
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,6 +46,8 @@ namespace FolderManipulator
             OrderList activeOrders = PersistentData.LoadOrders(OrderListType.Active);
             OrderManager.InitializeOrders(activeOrders, null);
             StatusManager.Initialize(status_strip);
+
+            InitializeContextMenus();
 
             RefreshOrders();
             RefreshOrderTypes();
@@ -63,6 +70,19 @@ namespace FolderManipulator
         private void form_main_DeActivate(object sender, EventArgs e)
         {
             //SaveAll();
+        }
+
+        private void InitializeContextMenus()
+        {
+            SpecialContextMenuItem[] contextMenuItemsOrderTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Delete", delegate(Control owner) 
+                    { 
+                        OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>()); 
+                        RefreshOrders();
+                    })
+            };
+            SpecialContextMenu<OrderData> contextMenuOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_orders, contextMenuItemsOrderTreeView);
+            tree_view_orders.ContextMenu = contextMenuOrderTreeView.Menu;
         }
 
         private void SubscribeToActions()
@@ -184,6 +204,16 @@ namespace FolderManipulator
         private void btn_add_order_Click(object sender, EventArgs e)
         {
             var selectedFiles = checked_list_files.CheckedItems;
+            OrderData[] orderDatas = CreateOrdersFromAddUI(selectedFiles);
+            OrderManager.AddNewOrders(orderDatas);
+
+            RefreshOrders();
+            SaveAll();
+        }
+
+        private OrderData[] CreateOrdersFromAddUI(CheckedListBox.CheckedItemCollection selectedFiles)
+        {
+            OrderData[] orders = new OrderData[selectedFiles.Count];
             for (int i = 0; i < selectedFiles.Count; i++)
             {
                 string mainOrderType = "";
@@ -196,12 +226,11 @@ namespace FolderManipulator
                 string fullPath = Path.Combine(txt_folder_target.Text, selectedFiles[i].ToString());
                 string count = txt_count.Text;
                 string description = txt_comment.Text;
-                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, count, description);
-                OrderManager.AddNewOrder(orderData);
 
+                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, count, description);
+                orders[i] = orderData;
             }
-            RefreshOrders();
-            SaveAll();
+            return orders;
         }
 
         private void btn_refresh_orders_Click(object sender, EventArgs e)
@@ -408,6 +437,38 @@ namespace FolderManipulator
 
 
         #region Testing
+#if DEBUG
+        private void StartDebugTimer()
+        {
+            return;
+            Timer timer = new Timer();
+            timer.Tick += new EventHandler(dispatcherTimer_Tick);
+            timer.Interval = 20;
+            timer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            DebugSelectedNode(sender, e);
+        }
+
+        private void DebugSelectedNode()
+        {
+            DebugSelectedNode(null, null);
+        }
+
+        private void DebugSelectedNode(object sender, EventArgs e)
+        {
+            if (tree_view_orders != null)
+            {
+                if (tree_view_orders.SelectedNode == null)
+                    Console.WriteLine($"[{nameof(DebugSelectedNode)}] Nothing selected");
+                else
+                    Console.WriteLine($"[{nameof(DebugSelectedNode)}] {tree_view_orders.SelectedNode.Text}");
+            }
+        }
+#endif
+
         private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
         {
             //TreeNode selectedNode = (TreeNode)e.Item;
@@ -461,6 +522,16 @@ namespace FolderManipulator
         {
             PersistentData.StopTestTask();
             //StatusManager.StopCurrentDelayedMessage();
+        }
+
+        private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AppConsole.SaveLog();
+        }
+
+        private void tree_view_orders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            tree_view_orders.SelectedNode = e.Node;
         }
     }
 }
