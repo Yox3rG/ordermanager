@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FolderManipulator.Data
 {
     [Serializable]
-    class OrderList
+    class OrderList : ISavableData
     {
         public List<OrderData> Orders { get; set; }
         public OrderListType Type { get; set; }

@@ -63,6 +63,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,11 +80,13 @@
     <Compile Include="Data\OrderData.cs" />
     <Compile Include="Data\OrderList.cs" />
     <Compile Include="Data\OrderManager.cs" />
+    <Compile Include="Data\SavableDataWithPath.cs" />
     <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Data\SettingsManager.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Extensions\TreeViewExtension.cs" />
     <Compile Include="FolderRelated\IOHandler.cs" />
+    <Compile Include="Data\ISavableData.cs" />
     <Compile Include="FolderRelated\UserIdentifier.cs" />
     <Compile Include="FolderRelated\PersistentData.cs" />
     <Compile Include="FolderRelated\MyTreeNode.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugins\DiffMatchPatch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\SpecialContextMenus.cs" />

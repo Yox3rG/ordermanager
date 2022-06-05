@@ -15,8 +15,9 @@ namespace FolderManipulator.FolderRelated
     {
         public static Action OnSourcePathChanged;
 
-        public static Action OnOrderSaveSuccessful;
-        public static Action OnOrderSaveFailed;
+        public static Action OnSaveAllWaitingItems_Successful;
+        public static Action OnSaveAllWaitingItems_PartialSuccess;
+        public static Action OnSaveAllWaitingItems_Failed;
 
         private static string activeOrdersFileName = "active_orders.json";
         private static string finishedOrdersFileName = "finished_orders.json";
@@ -30,7 +31,7 @@ namespace FolderManipulator.FolderRelated
 
         private static Task _savingTask;
         private static CancellationTokenSource _currentCancellationTokenSource;
-        private static Task _currentTask;
+        private static List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
 
         public static bool IsSourceReady { get; private set; } = false;
 
@@ -94,92 +95,72 @@ namespace FolderManipulator.FolderRelated
             return null;
         }
 
-        public static bool SaveSettings(SettingsData settings)
-        {
-            string jsonSettings = JsonSerializer.Serialize(settings);
-            Console.WriteLine(jsonSettings);
-            try
-            {
-                System.IO.File.WriteAllText(SettingsPath, jsonSettings);
-                Console.WriteLine(settings);
-            }
-            catch (Exception e)
-            {
-                // TODO: Handle IO errors.
-                Console.WriteLine(e.Message);
-                return false;
-            }
-            return true;
-        }
-
+        #region Settings
+        // Add new types to
+        // SaveWaitingItem()
         public static SettingsData LoadSettings()
         {
-            SettingsData settings;
-            try
-            {
-                string jsonSettings = System.IO.File.ReadAllText(SettingsPath);
-                settings = JsonSerializer.Deserialize<SettingsData>(jsonSettings);
-            }
-            catch (Exception e)
-            {
-                // TODO: Handle IO errors.
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            SettingsData settings = IOHandler.Load<SettingsData>(SettingsPath);
             return settings;
         }
 
-        public static void StartTestTask()
+        public static void AddSettingsToWaitingForSaveList(SettingsData settings)
         {
-            _currentCancellationTokenSource = new CancellationTokenSource();
-            CancellationToken cancelToken = _currentCancellationTokenSource.Token;
-            StatusManager.ShowMessage("Task starting.");
-            _currentTask = Task.Run(async () =>
-            {
-                try
-                {
-                    await Task.Delay(5000, cancelToken);
-                    StatusManager.ShowMessage("Task finished.");
-                    Console.WriteLine("Task finished!");
-                }
-                catch (OperationCanceledException ex)
-                {
-                    StatusManager.ShowMessage("Task cancelled.", StatusColorType.Error);
-                    Console.WriteLine("Task cancelled!");
-                }
-                finally
-                {
-                    _currentCancellationTokenSource.Dispose();
-                }
-            }, cancelToken);
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(SettingsPath, settings);
+            AddDataToWaitingForSaveList(dataWithPath);
+        }
+        #endregion
+
+        #region Orders
+        // Add new types to
+        // SaveWaitingItem()
+        public static OrderList LoadOrders(OrderListType type)
+        {
+            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
+            return orderList;
         }
 
-        public static void StopTestTask()
+        public static void AddOrderListToWaitingForSaveList(OrderList orderList)
+        {
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToPath(orderList.Type), orderList);
+            AddDataToWaitingForSaveList(dataWithPath);
+        }
+        #endregion
+
+        public static void AddDataToWaitingForSaveList(SavableDataWithPath dataWithPath)
+        {
+            int existingIndex = _itemsWaitingForSave.IndexOf(x => x.path.Equals(dataWithPath.path));
+            if (existingIndex == -1)
+            {
+                _itemsWaitingForSave.Add(dataWithPath);
+            }
+            else
+            {
+                _itemsWaitingForSave.RemoveAt(existingIndex);
+                _itemsWaitingForSave.Insert(existingIndex, dataWithPath);
+            }
+        }
+
+        public static bool TrySaveWaitingItems(bool tryAgainOnFailAfterRandomTime = true)
         {
             try
             {
                 _currentCancellationTokenSource?.Cancel();
             }
-            catch (ObjectDisposedException ex) { }
-        }
-
-        public static bool TrySaveOrders(OrderList orders, bool tryAgainOnFailAfterRandomTime = true)
-        {
-            try
+            catch (Exception ex)
             {
-                _currentCancellationTokenSource?.Cancel();
+                AppConsole.WriteLine("CancellationToken disposed already!");
             }
-            catch (ObjectDisposedException ex) { }
 
-            if (!SaveOrders(orders) && tryAgainOnFailAfterRandomTime)
+            if (!SaveAllWaitingItems() && tryAgainOnFailAfterRandomTime)
             {
-                StartTrySaveOrdersTask(orders);
+                StartTrySaveAllWaitingItemsTask();
                 return false;
             }
             return true;
         }
 
-        private static void StartTrySaveOrdersTask(OrderList orders)
+        private static void StartTrySaveAllWaitingItemsTask()
         {
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
@@ -189,9 +170,17 @@ namespace FolderManipulator.FolderRelated
                 {
                     do
                     {
+                        if (cancelToken.IsCancellationRequested)
+                        {
+                            cancelToken.ThrowIfCancellationRequested();
+                        }
                         await Task.Delay(TimeSpan.FromSeconds(RandomSaveDelay), cancelToken);
+                        if (cancelToken.IsCancellationRequested)
+                        {
+                            cancelToken.ThrowIfCancellationRequested();
+                        }
                     }
-                    while (!SaveOrders(orders));
+                    while (!SaveAllWaitingItems());
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -204,29 +193,55 @@ namespace FolderManipulator.FolderRelated
             }, cancelToken);
         }
 
-        private static int failCounter = 0;
-        private static bool SaveOrders(OrderList orders)
+        private static bool SaveAllWaitingItems()
         {
-            bool success = IOHandler.Save<OrderList>(OrderListTypeToPath(orders.Type), orders);
-            if ((failCounter++) % 3 != 0) success = false;
-
-            if (success)
+            int successCount = 0;
+            int waitingCount = _itemsWaitingForSave.Count;
+            while (_itemsWaitingForSave.Count > 0)
             {
-                OnOrderSaveSuccessful?.Invoke();
+                bool success = SaveWaitingItem(_itemsWaitingForSave[0]);
+                if (success)
+                {
+                    successCount++;
+                    _itemsWaitingForSave.RemoveAt(0);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            AppConsole.WriteLine($"CurrentList: {_itemsWaitingForSave.ToString<SavableDataWithPath>()}");
+
+            if (successCount == waitingCount)
+            {
+                OnSaveAllWaitingItems_Successful?.Invoke();
                 AppConsole.WriteLine("Save successful!");
+            }
+            else if (successCount == 0)
+            {
+                OnSaveAllWaitingItems_Failed?.Invoke();
+                AppConsole.WriteLine("Save failed!");
             }
             else
             {
-                OnOrderSaveFailed?.Invoke();
-                AppConsole.WriteLine("Save failed!");
+                OnSaveAllWaitingItems_PartialSuccess?.Invoke();
+                AppConsole.WriteLine("Save partially successful!");
             }
-            return success;
+            return successCount == waitingCount;
         }
 
-        public static OrderList LoadOrders(OrderListType type)
+        private static bool SaveWaitingItem(SavableDataWithPath dataWithPath)
         {
-            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
-            return orderList;
+            bool success = false;
+            if (dataWithPath.data is SettingsData)
+            {
+                success = IOHandler.Save(dataWithPath.path, dataWithPath.data as SettingsData);
+            }
+            else if (dataWithPath.data is OrderList)
+            {
+                success = IOHandler.Save(dataWithPath.path, dataWithPath.data as OrderList);
+            }
+            return success;
         }
 
         public static string OrderListTypeToPath(OrderListType type)
@@ -300,5 +315,42 @@ namespace FolderManipulator.FolderRelated
             }
             return false;
         }
+
+        #region Testing
+        private static Task _currentTask;
+        public static void StartTestTask()
+        {
+            _currentCancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancelToken = _currentCancellationTokenSource.Token;
+            StatusManager.ShowMessage("Task starting.");
+            _currentTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await Task.Delay(5000, cancelToken);
+                    StatusManager.ShowMessage("Task finished.");
+                    Console.WriteLine("Task finished!");
+                }
+                catch (OperationCanceledException ex)
+                {
+                    StatusManager.ShowMessage("Task cancelled.", StatusColorType.Error);
+                    Console.WriteLine("Task cancelled!");
+                }
+                finally
+                {
+                    _currentCancellationTokenSource.Dispose();
+                }
+            }, cancelToken);
+        }
+
+        public static void StopTestTask()
+        {
+            try
+            {
+                _currentCancellationTokenSource?.Cancel();
+            }
+            catch (ObjectDisposedException ex) { }
+        }
+        #endregion
     }
 }
