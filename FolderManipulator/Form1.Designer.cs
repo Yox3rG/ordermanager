@@ -75,7 +75,6 @@
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
