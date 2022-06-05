@@ -50,6 +50,7 @@
             this.btn_refresh_overview = new System.Windows.Forms.Button();
             this.tree_view_overview = new System.Windows.Forms.TreeView();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.txt_drag_drop = new System.Windows.Forms.TextBox();
@@ -71,6 +72,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
             this.button3 = new System.Windows.Forms.Button();
@@ -139,11 +141,13 @@
             // 
             // tree_view_orders
             // 
+            this.tree_view_orders.HideSelection = false;
             this.tree_view_orders.Location = new System.Drawing.Point(17, 21);
             this.tree_view_orders.Name = "tree_view_orders";
             this.tree_view_orders.Size = new System.Drawing.Size(345, 348);
             this.tree_view_orders.TabIndex = 5;
             this.tree_view_orders.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
+            this.tree_view_orders.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_orders_NodeMouseClick);
             // 
             // lbl_main_ordertype
             // 
@@ -329,6 +333,15 @@
             this.tab_page_customize.Text = "Testreszabás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(589, 168);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 20;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(589, 139);
@@ -507,9 +520,18 @@
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveLogToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.helpToolStripMenuItem.Text = "Help?";
+            // 
+            // saveLogToolStripMenuItem
+            // 
+            this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveLogToolStripMenuItem.Text = "Save Log";
+            this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // status_strip
             // 
@@ -618,6 +640,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
     }
 }
 

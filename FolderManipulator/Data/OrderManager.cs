@@ -16,6 +16,24 @@ namespace FolderManipulator.Data
             activeOrders.Orders.Add(order);
         }
 
+        public static void AddNewOrders(OrderData[] orders)
+        {
+            for (int i = 0; i < orders.Length; i++)
+            {
+                activeOrders.Orders.Add(orders[i]);
+            }
+        }
+
+        public static bool RemoveActiveOrder(OrderData order)
+        {
+            return activeOrders.Orders.Remove(order);
+        }
+
+        //public static void EditActiveOrder(OrderData order, OrderData other)
+        //{
+        //    order.Copy(other);
+        //}
+
         public static bool FinishOrder(OrderData order)
         {
             if (activeOrders.Orders.Remove(order))
