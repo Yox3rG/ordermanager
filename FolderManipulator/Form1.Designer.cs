@@ -140,11 +140,13 @@
             // 
             // tree_view_orders
             // 
+            this.tree_view_orders.CheckBoxes = true;
             this.tree_view_orders.HideSelection = false;
             this.tree_view_orders.Location = new System.Drawing.Point(17, 21);
             this.tree_view_orders.Name = "tree_view_orders";
             this.tree_view_orders.Size = new System.Drawing.Size(345, 348);
             this.tree_view_orders.TabIndex = 5;
+            this.tree_view_orders.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_orders_AfterCheck);
             this.tree_view_orders.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
             this.tree_view_orders.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_orders_NodeMouseClick);
             // 
@@ -340,6 +342,7 @@
             this.button3.TabIndex = 20;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -547,16 +550,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(589, 168);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 20;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // form_main
             // 

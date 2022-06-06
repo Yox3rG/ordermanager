@@ -40,6 +40,7 @@ namespace FolderManipulator
             Application.Exit();
         }
 
+        #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
             SettingsData settings = PersistentData.LoadSettings();
@@ -72,13 +73,14 @@ namespace FolderManipulator
         {
             //SaveAll();
         }
+        #endregion
 
         private void InitializeContextMenus()
         {
             SpecialContextMenuItem[] contextMenuItemsOrderTreeView = new SpecialContextMenuItem[] {
-                new SpecialContextMenuItem("Delete", delegate(Control owner) 
-                    { 
-                        OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>()); 
+                new SpecialContextMenuItem("Delete", delegate(Control owner)
+                    {
+                        OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>());
                         RefreshOrders();
                     })
             };
@@ -436,7 +438,18 @@ namespace FolderManipulator
             //}
         }
 
-
+        private void ColorCheckedNodes(TreeView treeview, Color color)
+        {
+            List<TreeNode> allNodes = treeview.GetAllNodes();
+            foreach (var node in allNodes.Where(x => x.Checked))
+            {
+                node.BackColor = color;
+            }
+            foreach (var node in allNodes.Where(x => !x.Checked))
+            {
+                node.BackColor = Color.Empty;
+            }
+        }
 
         #region Testing
 #if DEBUG
@@ -470,16 +483,6 @@ namespace FolderManipulator
             }
         }
 #endif
-
-        private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            //TreeNode selectedNode = (TreeNode)e.Item;
-            //System.Collections.Specialized.StringCollection sCollection = new System.Collections.Specialized.StringCollection();
-            //sCollection.Add(selectedNode.Text);
-            //DataObject data = new DataObject();
-            //data.SetFileDropList(sCollection);
-            //DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.All | DragDropEffects.Link);
-        }
 
         private void txt_drag_drop_DragEnter(object sender, DragEventArgs e)
         {
@@ -530,15 +533,50 @@ namespace FolderManipulator
         {
             AppConsole.SaveLog();
         }
-        
+
         private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppConsole.SaveLog();
+        }
+
+        #region TreeView UI
+        private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //TreeNode selectedNode = (TreeNode)e.Item;
+            //System.Collections.Specialized.StringCollection sCollection = new System.Collections.Specialized.StringCollection();
+            //sCollection.Add(selectedNode.Text);
+            //DataObject data = new DataObject();
+            //data.SetFileDropList(sCollection);
+            //DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.All | DragDropEffects.Link);
         }
 
         private void tree_view_orders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             tree_view_orders.SelectedNode = e.Node;
         }
+
+        private void tree_view_orders_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            bool newChecked = e.Node.Checked;
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in e.Node.GetAllNodes())
+                {
+                    node.Checked = newChecked;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+        }
+        #endregion
     }
 }
