@@ -19,6 +19,7 @@ namespace FolderManipulator
     public partial class form_main : Form
     {
         private const string _dummyOrderTypeName = "Other";
+        private static List<Guid> checkedOrderIds = new List<Guid>();
 
         public form_main()
         {
@@ -82,7 +83,12 @@ namespace FolderManipulator
                     {
                         OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>());
                         RefreshOrders();
-                    })
+                    }),
+                new SpecialContextMenuItem("-", null),
+                new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
+                    {
+                        ClearCheckedOrders(((TreeView)owner));
+                    }),
             };
             SpecialContextMenu<OrderData> contextMenuOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_orders, contextMenuItemsOrderTreeView);
             tree_view_orders.ContextMenu = contextMenuOrderTreeView.Menu;
@@ -228,9 +234,10 @@ namespace FolderManipulator
 
                 string fullPath = Path.Combine(txt_folder_target.Text, selectedFiles[i].ToString());
                 string count = txt_count.Text;
+                Int32.TryParse(count, out int countNumber);
                 string description = txt_comment.Text;
 
-                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, count, description);
+                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, countNumber, description);
                 orders[i] = orderData;
             }
             return orders;
@@ -284,6 +291,8 @@ namespace FolderManipulator
                 tree_view_orders.ExpandAll();
                 tree_view_overview.ExpandAll();
             }
+
+            LoadCheckedOrders(tree_view_orders);
         }
 
         public void CopyTreeNodes(TreeView from, TreeView to)
@@ -451,6 +460,62 @@ namespace FolderManipulator
             }
         }
 
+        private void SaveCheckedOrders(TreeView treeview)
+        {
+            List<TreeNode> allNodes = treeview.GetAllNodes();
+            checkedOrderIds = allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList();
+        }
+
+        private void LoadCheckedOrders(TreeView treeview)
+        {
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in treeview.GetAllNodes())
+                {
+                    OrderData data = (OrderData)node.Tag;
+                    if (data != null && checkedOrderIds.Contains(data.Id))
+                    {
+                        node.Checked = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+        }
+
+        private void ClearCheckedOrders(TreeView treeview)
+        {
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in treeview.GetAllNodes())
+                {
+                    node.Checked = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+
+            checkedOrderIds.Clear();
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+        }
+
         #region Testing
 #if DEBUG
         private void StartDebugTimer()
@@ -569,13 +634,15 @@ namespace FolderManipulator
             }
             catch (Exception ex)
             {
-
+                AppConsole.WriteLine(ex.Message);
             }
             finally
             {
                 tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
             }
+            SaveCheckedOrders(tree_view_orders);
             ColorCheckedNodes(tree_view_orders, Color.Aqua);
+            AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
     }

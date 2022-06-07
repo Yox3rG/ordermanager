@@ -22,8 +22,15 @@ namespace FolderManipulator.UI
             Menu = new ContextMenu();
             foreach (var item in _items)
             {
-                MenuItem menuItemEdit = Menu.MenuItems.Add(item.Name);
-                menuItemEdit.Click += (sender, e) => { item.OnClick?.Invoke(_owner); };
+                if (item.Name == "-")
+                {
+                    Menu.MenuItems.Add("-");
+                }
+                else
+                {
+                    MenuItem menuItemEdit = Menu.MenuItems.Add(item.Name);
+                    menuItemEdit.Click += (sender, e) => { item.OnClick?.Invoke(_owner); };
+                }
             }
         }
     }

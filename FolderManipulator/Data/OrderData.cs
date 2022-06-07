@@ -14,7 +14,7 @@ namespace FolderManipulator.Data
         public string MainOrderType { get; set; }
         public string SubOrderType { get; set; }
         public string FullPath { get; set; }
-        public string Count { get; set; }
+        public int Count { get; set; }
         public string Description { get; set; }
 
         public OrderData()
@@ -22,7 +22,7 @@ namespace FolderManipulator.Data
             Id = Guid.NewGuid();
         }
 
-        public OrderData(string mainOrderType, string subOrderType, string fullPath, string count, string description) : base()
+        public OrderData(string mainOrderType, string subOrderType, string fullPath, int count, string description) : this()
         {
             this.MainOrderType = mainOrderType;
             this.SubOrderType = subOrderType;
@@ -53,6 +53,21 @@ namespace FolderManipulator.Data
         public override string ToString()
         {
             return $"{GetFileName()} - {Count} db {Description}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as OrderData);
+        }
+
+        public bool Equals(OrderData other)
+        {
+            return other != null && Id.Equals(other.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return 2108858624 + Id.GetHashCode();
         }
     }
 }
