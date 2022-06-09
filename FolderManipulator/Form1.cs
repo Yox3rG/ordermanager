@@ -20,10 +20,13 @@ namespace FolderManipulator
     {
         private const string _dummyOrderTypeName = "Other";
         private static List<Guid> checkedOrderIds = new List<Guid>();
+        private static int activeOrdersScrollbarValue = 0;
+        private Timer formOneSecondTimer;
 
         public form_main()
         {
             InitializeComponent();
+            InitializeOneSecondTimer();
 
             SubscribeToActions();
 
@@ -36,9 +39,12 @@ namespace FolderManipulator
 #endif
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InitializeOneSecondTimer()
         {
-            Application.Exit();
+            formOneSecondTimer = new Timer();
+            formOneSecondTimer.Interval = 1000;
+            formOneSecondTimer.Start();
+            //formOneSecondTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         }
 
         #region Form UI
@@ -256,6 +262,8 @@ namespace FolderManipulator
 
         private void RefreshOrders(bool expandAll = true)
         {
+            activeOrdersScrollbarValue = tree_view_orders.GetTreeViewScrollPosVertical();
+
             tree_view_orders.Nodes.Clear();
             tree_view_overview.Nodes.Clear();
             List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
@@ -293,6 +301,7 @@ namespace FolderManipulator
             }
 
             LoadCheckedOrders(tree_view_orders);
+            tree_view_orders.SetTreeViewScrollPosVertical(activeOrdersScrollbarValue);
         }
 
         public void CopyTreeNodes(TreeView from, TreeView to)
@@ -600,9 +609,22 @@ namespace FolderManipulator
             AppConsole.SaveLog();
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppConsole.SaveLog();
+        }
+
+        private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (!IOHandler.ReleaseLock(PersistentData.LockPath))
+            {
+                AppConsole.WriteLine($"Lock can't be deleted!");
+            }
         }
 
         #region TreeView UI
@@ -646,13 +668,5 @@ namespace FolderManipulator
             AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
-
-        private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            if (!IOHandler.ReleaseLock(PersistentData.LockPath))
-            {
-                AppConsole.WriteLine($"Lock can't be deleted!");
-            }
-        }
     }
 }
