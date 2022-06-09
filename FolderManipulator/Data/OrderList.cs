@@ -28,6 +28,7 @@ namespace FolderManipulator.Data
     public enum OrderListType
     {
         Active,
-        Finished
+        Pending,
+        Finished,
     }
 }

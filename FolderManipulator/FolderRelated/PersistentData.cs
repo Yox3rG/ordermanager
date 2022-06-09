@@ -20,6 +20,7 @@ namespace FolderManipulator.FolderRelated
         public static Action OnSaveAllWaitingItems_Failed;
 
         private static string activeOrdersFileName = "active_orders.json";
+        private static string pendingOrdersFileName = "pending_orders.json";
         private static string finishedOrdersFileName = "finished_orders.json";
         private static string settingsFileName = "settings.json";
         private static string lockFileName = "lock.lock";
@@ -41,6 +42,12 @@ namespace FolderManipulator.FolderRelated
         public static string ActiveTasksPath
         {
             get { return GetCombinedPath(activeOrdersFileName); }
+            private set { }
+        }
+
+        public static string PendingTasksPath
+        {
+            get { return GetCombinedPath(pendingOrdersFileName); }
             private set { }
         }
 
@@ -74,6 +81,7 @@ namespace FolderManipulator.FolderRelated
         private static IEnumerable<string> GeneratedFileNames()
         {
             yield return GetCombinedPath(activeOrdersFileName);
+            yield return GetCombinedPath(pendingOrdersFileName);
             yield return GetCombinedPath(finishedOrdersFileName);
             yield return GetCombinedPath(settingsFileName);
         }
@@ -257,6 +265,8 @@ namespace FolderManipulator.FolderRelated
             {
                 case OrderListType.Active:
                     return ActiveTasksPath;
+                case OrderListType.Pending:
+                    return PendingTasksPath;
                 case OrderListType.Finished:
                     return FinishedTasksPath;
             }

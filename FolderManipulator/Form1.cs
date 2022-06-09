@@ -31,7 +31,7 @@ namespace FolderManipulator
             SubscribeToActions();
 
             UpdateSourcePathLabel();
-            FillTreeView();
+            FillSourceTreeView();
 
 #if DEBUG
             //ShowMessage();
@@ -53,7 +53,7 @@ namespace FolderManipulator
             SettingsData settings = PersistentData.LoadSettings();
             SettingsManager.InitializeSettings(settings);
             OrderList activeOrders = PersistentData.LoadOrders(OrderListType.Active);
-            OrderManager.InitializeOrders(activeOrders, null);
+            OrderManager.InitializeOrders(activeOrders, null, null);
             StatusManager.Initialize(status_strip);
 
             InitializeContextMenus();
@@ -103,7 +103,7 @@ namespace FolderManipulator
         private void SubscribeToActions()
         {
             PersistentData.OnSourcePathChanged += UpdateSourcePathLabel;
-            PersistentData.OnSourcePathChanged += RefreshTreeView;
+            PersistentData.OnSourcePathChanged += RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged += RefreshOrderTypes;
         }
@@ -111,12 +111,12 @@ namespace FolderManipulator
         private void UnSubscribeFromActions()
         {
             PersistentData.OnSourcePathChanged -= UpdateSourcePathLabel;
-            PersistentData.OnSourcePathChanged -= RefreshTreeView;
+            PersistentData.OnSourcePathChanged -= RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged -= RefreshOrderTypes;
         }
 
-        private void FillTreeView()
+        private void FillSourceTreeView()
         {
             if (PersistentData.IsSourceReady)
             {
@@ -137,9 +137,9 @@ namespace FolderManipulator
                 "NULL" : PersistentData.SourcePath;
         }
 
-        private void RefreshTreeView()
+        private void RefreshSourceTreeView()
         {
-            FillTreeView();
+            FillSourceTreeView();
         }
 
         private void Btn_ChooseSourceFolder_Click(object sender, EventArgs e)
@@ -436,7 +436,7 @@ namespace FolderManipulator
             RefreshOrders();
             RefreshOrderTypes();
             RefreshTargetFolderContents();
-            RefreshTreeView();
+            RefreshSourceTreeView();
         }
 
         private void SaveAll()
