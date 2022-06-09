@@ -523,13 +523,14 @@ namespace FolderManipulator
             return;
             Timer timer = new Timer();
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
-            timer.Interval = 20;
+            timer.Interval = 1000;
             timer.Start();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            DebugSelectedNode(sender, e);
+            RefreshAll();
+            //DebugSelectedNode(sender, e);
         }
 
         private void DebugSelectedNode()
@@ -645,5 +646,13 @@ namespace FolderManipulator
             AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
+
+        private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (!IOHandler.ReleaseLock(PersistentData.LockPath))
+            {
+                AppConsole.WriteLine($"Lock can't be deleted!");
+            }
+        }
     }
 }

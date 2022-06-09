@@ -22,6 +22,7 @@ namespace FolderManipulator.FolderRelated
         private static string activeOrdersFileName = "active_orders.json";
         private static string finishedOrdersFileName = "finished_orders.json";
         private static string settingsFileName = "settings.json";
+        private static string lockFileName = "lock.lock";
         private static string sourcePath;
 
         private static string localDataFileName = "local.json";
@@ -52,6 +53,12 @@ namespace FolderManipulator.FolderRelated
         public static string SettingsPath
         {
             get { return GetCombinedPath(settingsFileName); }
+            private set { }
+        }
+
+        public static string LockPath
+        {
+            get { return GetCombinedPath(lockFileName); }
             private set { }
         }
 
