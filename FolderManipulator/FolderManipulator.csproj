@@ -83,6 +83,7 @@
     <Compile Include="Data\SavableDataWithPath.cs" />
     <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Data\SettingsManager.cs" />
+    <Compile Include="Data\UpdateID.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Extensions\TreeViewExtension.cs" />
     <Compile Include="FolderRelated\IOHandler.cs" />

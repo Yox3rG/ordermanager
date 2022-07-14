@@ -18,6 +18,8 @@ namespace FolderManipulator
 {
     public partial class form_main : Form
     {
+        private Action OnOneSecondTimer;
+
         private const string _dummyOrderTypeName = "Other";
         private static List<Guid> checkedOrderIds = new List<Guid>();
         private static int activeOrdersScrollbarValue = 0;
@@ -39,21 +41,10 @@ namespace FolderManipulator
 #endif
         }
 
-        private void InitializeOneSecondTimer()
-        {
-            formOneSecondTimer = new Timer();
-            formOneSecondTimer.Interval = 1000;
-            formOneSecondTimer.Start();
-            //formOneSecondTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-        }
-
         #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
-            SettingsData settings = PersistentData.LoadSettings();
-            SettingsManager.InitializeSettings(settings);
-            OrderList activeOrders = PersistentData.LoadOrders(OrderListType.Active);
-            OrderManager.InitializeOrders(activeOrders, null, null);
+            LoadAll();
             StatusManager.Initialize(status_strip);
 
             InitializeContextMenus();
@@ -67,13 +58,13 @@ namespace FolderManipulator
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
         {
             Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
-            SaveAll();
+            //SaveAll();
             UnSubscribeFromActions();
         }
 
         private void form_main_Activated(object sender, EventArgs e)
         {
-            RefreshAll();
+            //RefreshAll();
         }
 
         private void form_main_DeActivate(object sender, EventArgs e)
@@ -81,6 +72,23 @@ namespace FolderManipulator
             //SaveAll();
         }
         #endregion
+
+        private void InitializeOneSecondTimer()
+        {
+            formOneSecondTimer = new Timer();
+            formOneSecondTimer.Interval = 1000;
+            formOneSecondTimer.Start();
+            formOneSecondTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            OnOneSecondTimer +=
+                delegate
+                {
+                    bool isDataOnLatestUpdate = PersistentData.IsDataOnLatestUpdate(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+                    if (!isDataOnLatestUpdate)
+                    {
+                        RefreshAll();
+                    }
+                };
+        }
 
         private void InitializeContextMenus()
         {
@@ -357,22 +365,22 @@ namespace FolderManipulator
         #region OrderType
         private void btn_add_main_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
+            SettingsManager.Settings.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
         }
 
         private void btn_add_sub_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.AddNewOrderType(txt_sub_ordertype.Text, OrderCategory.Sub);
+            SettingsManager.Settings.AddNewOrderType(txt_sub_ordertype.Text, OrderCategory.Sub);
         }
 
         private void btn_delete_main_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.DeleteOrderType(listbox_main_ordertype.SelectedItem.ToString(), OrderCategory.Main);
+            SettingsManager.Settings.DeleteOrderType(listbox_main_ordertype.SelectedItem.ToString(), OrderCategory.Main);
         }
 
         private void btn_delete_sub_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.DeleteOrderType(listbox_sub_ordertype.SelectedItem.ToString(), OrderCategory.Sub);
+            SettingsManager.Settings.DeleteOrderType(listbox_sub_ordertype.SelectedItem.ToString(), OrderCategory.Sub);
         }
 
         private void RefreshOrderTypes()
@@ -437,6 +445,21 @@ namespace FolderManipulator
             RefreshOrderTypes();
             RefreshTargetFolderContents();
             RefreshSourceTreeView();
+        }
+
+        private void LoadAll()
+        {
+            SettingsData settings = PersistentData.LoadSettings();
+            SettingsManager.InitializeSettings(settings);
+            LoadAllOrders();
+        }
+
+        private static void LoadAllOrders()
+        {
+            OrderList activeOrders = PersistentData.LoadOrderList(OrderListType.Active);
+            OrderList pendingOrders = PersistentData.LoadOrderList(OrderListType.Pending);
+            OrderList finishedOrders = PersistentData.LoadOrderList(OrderListType.Finished);
+            OrderManager.InitializeOrders(activeOrders, pendingOrders, finishedOrders);
         }
 
         private void SaveAll()
@@ -538,7 +561,8 @@ namespace FolderManipulator
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            RefreshAll();
+            OnOneSecondTimer?.Invoke();
+            //RefreshAll();
             //DebugSelectedNode(sender, e);
         }
 

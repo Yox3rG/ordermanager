@@ -110,6 +110,31 @@ namespace FolderManipulator.FolderRelated
             return null;
         }
 
+        public static bool IsDataOnLatestUpdate(OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
+        {
+            bool isDataOnLatestUpdate = true;
+
+            SettingsData settings = LoadSettings();
+            if (settings == null)
+                return false;
+            OrderList activeOrders = LoadOrderList(OrderListType.Active);
+            if (activeOrders == null)
+                return false;
+            OrderList pendingOrders = LoadOrderList(OrderListType.Pending);
+            if (pendingOrders == null)
+                return false;
+            OrderList finishedOrders = LoadOrderList(OrderListType.Finished);
+            if (finishedOrders == null)
+                return false;
+
+            isDataOnLatestUpdate &= oldSettings.UpdateID.Equals(settings.UpdateID);
+            isDataOnLatestUpdate &= activeOrders.UpdateID.Equals(oldActiveOrders.UpdateID);
+            isDataOnLatestUpdate &= pendingOrders.UpdateID.Equals(oldPendingOrders.UpdateID);
+            isDataOnLatestUpdate &= finishedOrders.UpdateID.Equals(oldFinishedOrders.UpdateID);
+
+            return isDataOnLatestUpdate;
+        }
+
         #region Settings
         // Add new types to
         // SaveWaitingItem()
@@ -129,7 +154,7 @@ namespace FolderManipulator.FolderRelated
         #region Orders
         // Add new types to
         // SaveWaitingItem()
-        public static OrderList LoadOrders(OrderListType type)
+        public static OrderList LoadOrderList(OrderListType type)
         {
             OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
             return orderList;

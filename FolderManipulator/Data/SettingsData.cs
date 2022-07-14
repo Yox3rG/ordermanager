@@ -9,12 +9,14 @@ namespace FolderManipulator.Data
     [Serializable]
     class SettingsData : ISavableData
     {
+        public UpdateID UpdateID { get; set; }
         public OrderTypes mainOrderTypes { get; set; }
         public OrderTypes subOrderTypes { get; set; }
         public bool KeepCheckedFilesAfterRefresh { get; set; } = true;
 
-        public SettingsData(OrderTypes main, OrderTypes sub)
+        public SettingsData(int lastUpdateID, OrderTypes main, OrderTypes sub)
         {
+            UpdateID = new UpdateID(lastUpdateID);
             mainOrderTypes = main;
             subOrderTypes = sub;
 
@@ -30,8 +32,27 @@ namespace FolderManipulator.Data
 
         public SettingsData()
         {
+            UpdateID = new UpdateID();
             mainOrderTypes = new OrderTypes();
             subOrderTypes = new OrderTypes();
+        }
+
+        public void AddNewOrderType(string orderType, OrderCategory category)
+        {
+            GetOrderTypesFromCategory(category).list.Add(orderType);
+            UpdateID.IncreaseUpdateID();
+            SettingsManager.OnSettingsChanged?.Invoke();
+        }
+
+        public bool DeleteOrderType(string orderType, OrderCategory category)
+        {
+            bool isSuccess = GetOrderTypesFromCategory(category).list.Remove(orderType);
+            UpdateID.IncreaseUpdateID();
+            SettingsManager.OnSettingsChanged?.Invoke();
+            if (isSuccess)
+                return true;
+            else
+                return false;
         }
 
         public OrderTypes GetOrderTypesFromCategory(OrderCategory category)
