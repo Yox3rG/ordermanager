@@ -73,9 +73,10 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceSaveObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -511,6 +512,8 @@
             // 
             // editToolStripMenuItem
             // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.forceSaveObjectsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -533,9 +536,16 @@
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
+            // 
+            // deleteLockToolStripMenuItem
+            // 
+            this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
+            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteLockToolStripMenuItem.Text = "Delete Lock";
+            this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // status_strip
             // 
@@ -553,12 +563,12 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
-            // deleteLockToolStripMenuItem
+            // forceSaveObjectsToolStripMenuItem
             // 
-            this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
-            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteLockToolStripMenuItem.Text = "Delete Lock";
-            this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
+            this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
+            this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
             // form_main
             // 
@@ -643,6 +653,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteLockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceSaveObjectsToolStripMenuItem;
     }
 }
 

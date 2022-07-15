@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace FolderManipulator.UI
             {
                 _mainStatusMessage = message;
                 _mainStatusStripLabel.Text = _mainStatusMessage;
+                AppConsole.WriteLine(message);
             }
             _statusStrip.BackColor = GetStatusColorFromType(colorType);
 

@@ -110,30 +110,48 @@ namespace FolderManipulator.FolderRelated
             return null;
         }
 
-        public static bool IsDataOnLatestUpdate(OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
+        public static DataState GetDataState(OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
         {
             bool isDataOnLatestUpdate = true;
 
             SettingsData settings = LoadSettings();
             if (settings == null)
-                return false;
+            {
+                MissingObjectError(DataType.Settings);
+                return DataState.MissingObject;
+            }
             OrderList activeOrders = LoadOrderList(OrderListType.Active);
             if (activeOrders == null)
-                return false;
+            {
+                MissingObjectError(DataType.ActiveOrders);
+                return DataState.MissingObject;
+            }
             OrderList pendingOrders = LoadOrderList(OrderListType.Pending);
             if (pendingOrders == null)
-                return false;
+            {
+                MissingObjectError(DataType.PendingOrders);
+                return DataState.MissingObject;
+            }
             OrderList finishedOrders = LoadOrderList(OrderListType.Finished);
             if (finishedOrders == null)
-                return false;
+            {
+                MissingObjectError(DataType.FinishedOrders);
+                return DataState.MissingObject;
+            }
 
             isDataOnLatestUpdate &= oldSettings.UpdateID.Equals(settings.UpdateID);
             isDataOnLatestUpdate &= activeOrders.UpdateID.Equals(oldActiveOrders.UpdateID);
             isDataOnLatestUpdate &= pendingOrders.UpdateID.Equals(oldPendingOrders.UpdateID);
             isDataOnLatestUpdate &= finishedOrders.UpdateID.Equals(oldFinishedOrders.UpdateID);
 
-            return isDataOnLatestUpdate;
+            return isDataOnLatestUpdate ? DataState.Latest : DataState.NotLatest;
+
+            void MissingObjectError(DataType dataType)
+            {
+                StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+            }
         }
+
 
         #region Settings
         // Add new types to

@@ -8,5 +8,22 @@ namespace FolderManipulator.Data
 {
     public interface ISavableData
     {
+        DataType DataType { get; }
+    }
+
+    public enum DataType
+    {
+        Settings,
+        ActiveOrders,
+        PendingOrders,
+        FinishedOrders,
+    }
+
+    public enum DataState
+    {
+        Latest,
+        NotLatest,
+        MissingObject,
+        MissingFile,
     }
 }

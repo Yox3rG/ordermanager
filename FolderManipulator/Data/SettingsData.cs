@@ -9,7 +9,10 @@ namespace FolderManipulator.Data
     [Serializable]
     class SettingsData : ISavableData
     {
+        public DataType DataType { get { return DataType.Settings; } }
+
         public UpdateID UpdateID { get; set; }
+        
         public OrderTypes mainOrderTypes { get; set; }
         public OrderTypes subOrderTypes { get; set; }
         public bool KeepCheckedFilesAfterRefresh { get; set; } = true;

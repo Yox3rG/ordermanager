@@ -10,6 +10,23 @@ namespace FolderManipulator.Data
     class OrderList : ISavableData
     {
         public Action OnOrderListChanged;
+        public DataType DataType
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case OrderListType.Active:
+                        return DataType.ActiveOrders;
+                    case OrderListType.Pending:
+                        return DataType.PendingOrders;
+                    case OrderListType.Finished:
+                        return DataType.FinishedOrders;
+                    default:
+                        return DataType.ActiveOrders;
+                }
+            }
+        }
 
         public UpdateID UpdateID { get; set; }
         public List<OrderData> Orders { get; set; }
@@ -47,7 +64,7 @@ namespace FolderManipulator.Data
         {
             UpdateID.IncreaseUpdateID();
             OnOrderListChanged?.Invoke();
-            Orders.Clear(); 
+            Orders.Clear();
         }
     }
 

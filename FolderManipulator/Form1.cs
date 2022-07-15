@@ -82,9 +82,10 @@ namespace FolderManipulator
             OnOneSecondTimer +=
                 delegate
                 {
-                    bool isDataOnLatestUpdate = PersistentData.IsDataOnLatestUpdate(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
-                    if (!isDataOnLatestUpdate)
+                    DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+                    if (dataState == DataState.NotLatest)
                     {
+                        LoadAll();
                         RefreshAll();
                     }
                 };
@@ -465,6 +466,8 @@ namespace FolderManipulator
         private void SaveAll()
         {
             PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetActiveOrders());
+            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetPendingOrders());
+            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetFinishedOrders());
             PersistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
             PersistentData.TrySaveWaitingItems();
         }
@@ -692,5 +695,11 @@ namespace FolderManipulator
             AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
+
+        private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+            StatusManager.ResetStrip();
+        }
     }
 }
