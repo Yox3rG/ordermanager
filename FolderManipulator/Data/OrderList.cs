@@ -48,6 +48,8 @@ namespace FolderManipulator.Data
 
         public void Add(OrderData data)
         {
+            if (data == null)
+                return;
             if (!OrderManager.CanChangeData)
             {
                 AppConsole.WriteLine($"Can't add data to orderlist {Type}");
@@ -61,6 +63,8 @@ namespace FolderManipulator.Data
 
         public bool Remove(OrderData data)
         {
+            if (data == null)
+                return false;
             if (!OrderManager.CanChangeData)
             {
                 AppConsole.WriteLine($"Can't remove data from orderlist {Type}");

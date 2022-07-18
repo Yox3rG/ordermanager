@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using FolderManipulator.Analytics;
+﻿using FolderManipulator.Analytics;
 using FolderManipulator.Data;
 using FolderManipulator.Extensions;
 using FolderManipulator.FolderRelated;
 using FolderManipulator.UI;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace FolderManipulator
 {
@@ -86,7 +83,11 @@ namespace FolderManipulator
             SpecialContextMenuItem[] contextMenuItemsOrderTreeView = new SpecialContextMenuItem[] {
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
-                        OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>());
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order != null && MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            OrderManager.RemoveActiveOrder(order); 
+                        }
                     }),
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
