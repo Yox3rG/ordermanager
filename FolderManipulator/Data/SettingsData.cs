@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,11 @@ namespace FolderManipulator.Data
 
         public void AddNewOrderType(string orderType, OrderCategory category)
         {
+            if (!SettingsManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add new order type to settings");
+                return;
+            }
             GetOrderTypesFromCategory(category).list.Add(orderType);
             UpdateID.IncreaseUpdateID();
             SettingsManager.OnSettingsChanged?.Invoke();
@@ -49,13 +55,15 @@ namespace FolderManipulator.Data
 
         public bool DeleteOrderType(string orderType, OrderCategory category)
         {
+            if (!SettingsManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't remove order type from settings");
+                return false;
+            }
             bool isSuccess = GetOrderTypesFromCategory(category).list.Remove(orderType);
             UpdateID.IncreaseUpdateID();
             SettingsManager.OnSettingsChanged?.Invoke();
-            if (isSuccess)
-                return true;
-            else
-                return false;
+            return isSuccess;
         }
 
         public OrderTypes GetOrderTypesFromCategory(OrderCategory category)

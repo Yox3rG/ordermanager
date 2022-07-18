@@ -112,30 +112,32 @@ namespace FolderManipulator.FolderRelated
 
         public static DataState GetDataState(OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
         {
+            bool isEveryObjectPresent = true;
             bool isDataOnLatestUpdate = true;
 
             SettingsData settings = LoadSettings();
             if (settings == null)
             {
                 MissingObjectError(DataType.Settings);
-                return DataState.MissingObject;
             }
             OrderList activeOrders = LoadOrderList(OrderListType.Active);
             if (activeOrders == null)
             {
                 MissingObjectError(DataType.ActiveOrders);
-                return DataState.MissingObject;
             }
             OrderList pendingOrders = LoadOrderList(OrderListType.Pending);
             if (pendingOrders == null)
             {
                 MissingObjectError(DataType.PendingOrders);
-                return DataState.MissingObject;
             }
             OrderList finishedOrders = LoadOrderList(OrderListType.Finished);
             if (finishedOrders == null)
             {
                 MissingObjectError(DataType.FinishedOrders);
+            }
+
+            if (!isEveryObjectPresent)
+            {
                 return DataState.MissingObject;
             }
 
@@ -148,10 +150,20 @@ namespace FolderManipulator.FolderRelated
 
             void MissingObjectError(DataType dataType)
             {
+                isEveryObjectPresent = false;
                 StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
             }
         }
 
+        public static bool CheckAndCreateLock()
+        {
+            return IOHandler.CheckAndCreateLock(LockPath);
+        }
+
+        public static bool ReleaseLock()
+        {
+            return IOHandler.ReleaseLock(LockPath);
+        }
 
         #region Settings
         // Add new types to

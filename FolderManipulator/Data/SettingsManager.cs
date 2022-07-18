@@ -8,7 +8,18 @@ namespace FolderManipulator.Data
 {
     static class SettingsManager
     {
+        public static Func<bool> OnCanInitiateChange;
         public static Action OnSettingsChanged;
+
+        public static bool CanChangeData
+        {
+            get
+            {
+                if (OnCanInitiateChange == null)
+                    return true;
+                return OnCanInitiateChange();
+            }
+        }
 
         public static SettingsData Settings { get; set; }
 

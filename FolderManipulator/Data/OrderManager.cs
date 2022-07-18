@@ -8,9 +8,22 @@ namespace FolderManipulator.Data
 {
     static class OrderManager
     {
+        public static Func<bool> OnCanInitiateChange;
+        public static Action<OrderList> OnOrderListChanged;
+
         private static OrderList activeOrders;
         private static OrderList pendingOrders;
         private static OrderList finishedOrders;
+
+        public static bool CanChangeData
+        {
+            get
+            {
+                if(OnCanInitiateChange == null)
+                    return true;
+                return OnCanInitiateChange();
+            }
+        }
 
         public static void AddNewOrder(OrderData order)
         {
@@ -69,7 +82,7 @@ namespace FolderManipulator.Data
         {
             return activeOrders;
         }
-        
+
         public static OrderList GetPendingOrders()
         {
             return pendingOrders;
@@ -110,7 +123,7 @@ namespace FolderManipulator.Data
 
         public static bool AreOrdersOnLatestUpdate(OrderList newActive, OrderList newPending, OrderList newFinished)
         {
-            bool isEveryOrderLatest = 
+            bool isEveryOrderLatest =
                 activeOrders.UpdateID.Equals(newActive.UpdateID) &&
                 pendingOrders.UpdateID.Equals(newPending.UpdateID) &&
                 finishedOrders.UpdateID.Equals(newFinished.UpdateID);

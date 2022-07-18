@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,6 @@ namespace FolderManipulator.Data
     [Serializable]
     class OrderList : ISavableData
     {
-        public Action OnOrderListChanged;
         public DataType DataType
         {
             get
@@ -48,23 +48,42 @@ namespace FolderManipulator.Data
 
         public void Add(OrderData data)
         {
+            if (!OrderManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add data to orderlist {Type}");
+                return;
+            }
+
             UpdateID.IncreaseUpdateID();
-            OnOrderListChanged?.Invoke();
             Orders.Add(data);
+            OrderManager.OnOrderListChanged?.Invoke(this);
         }
 
         public bool Remove(OrderData data)
         {
+            if (!OrderManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't remove data from orderlist {Type}");
+                return false;
+            }
+
             UpdateID.IncreaseUpdateID();
-            OnOrderListChanged?.Invoke();
-            return Orders.Remove(data);
+            bool success = Orders.Remove(data);
+            OrderManager.OnOrderListChanged?.Invoke(this);
+            return success;
         }
 
         public void Clear()
         {
+            if (!OrderManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't clear data from orderlist {Type}");
+                return;
+            }
+
             UpdateID.IncreaseUpdateID();
-            OnOrderListChanged?.Invoke();
             Orders.Clear();
+            OrderManager.OnOrderListChanged?.Invoke(this);
         }
     }
 

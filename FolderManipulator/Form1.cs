@@ -79,16 +79,6 @@ namespace FolderManipulator
             formOneSecondTimer.Interval = 1000;
             formOneSecondTimer.Start();
             formOneSecondTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            OnOneSecondTimer +=
-                delegate
-                {
-                    DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
-                    if (dataState == DataState.NotLatest)
-                    {
-                        LoadAll();
-                        RefreshAll();
-                    }
-                };
         }
 
         private void InitializeContextMenus()
@@ -97,7 +87,6 @@ namespace FolderManipulator
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
                         OrderManager.RemoveActiveOrder(((TreeView)owner).GetCurrentSelectedItem<OrderData>());
-                        RefreshOrders();
                     }),
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
@@ -114,13 +103,27 @@ namespace FolderManipulator
             PersistentData.OnSourcePathChanged += UpdateSourcePathLabel;
             PersistentData.OnSourcePathChanged += RefreshSourceTreeView;
 
-            SettingsManager.OnSettingsChanged += RefreshOrderTypes;
+            SettingsManager.OnSettingsChanged += FinishChange;
+            SettingsManager.OnCanInitiateChange += CanCreateChange;
+            OrderManager.OnOrderListChanged += FinishChange;
+            OrderManager.OnCanInitiateChange += CanCreateChange;
+
+            OnOneSecondTimer +=
+                delegate
+                {
+                    LoadAllIfDataIsOld();
+                };
         }
 
         private void UnSubscribeFromActions()
         {
             PersistentData.OnSourcePathChanged -= UpdateSourcePathLabel;
             PersistentData.OnSourcePathChanged -= RefreshSourceTreeView;
+
+            SettingsManager.OnSettingsChanged -= FinishChange;
+            SettingsManager.OnCanInitiateChange -= CanCreateChange;
+            OrderManager.OnOrderListChanged -= FinishChange;
+            OrderManager.OnCanInitiateChange -= CanCreateChange;
 
             SettingsManager.OnSettingsChanged -= RefreshOrderTypes;
         }
@@ -230,9 +233,6 @@ namespace FolderManipulator
             var selectedFiles = checked_list_files.CheckedItems;
             OrderData[] orderDatas = CreateOrdersFromAddUI(selectedFiles);
             OrderManager.AddNewOrders(orderDatas);
-
-            RefreshOrders();
-            SaveAll();
         }
 
         private OrderData[] CreateOrdersFromAddUI(CheckedListBox.CheckedItemCollection selectedFiles)
@@ -440,6 +440,54 @@ namespace FolderManipulator
         }
         #endregion
 
+        #region DataManipulation
+        private void LoadAllIfDataIsOld()
+        {
+            DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            if (dataState == DataState.NotLatest)
+            {
+                LoadAll();
+                RefreshAll();
+            }
+        }
+
+        private bool CanCreateChange()
+        {
+            if (!IsOnLatestUpdate())
+            {
+                StatusManager.ShowMessage($"Can't create change, local data is outdated", StatusColorType.Error, DelayTimeType.Medium);
+                return false;
+            }
+            if (!PersistentData.CheckAndCreateLock())
+            {
+                StatusManager.ShowMessage($"Can't create change, can't create lock on server", StatusColorType.Error, DelayTimeType.Medium);
+                return false;
+            }
+            return true;
+        }
+
+        private void FinishChange()
+        {
+            FinishChange(null);
+        }
+
+        private void FinishChange(OrderList list)
+        {
+            SaveAll();
+            RefreshAll();
+            PersistentData.ReleaseLock();
+        }
+
+        private bool IsOnLatestUpdate()
+        {
+            DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            if (dataState == DataState.Latest)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private void RefreshAll()
         {
             RefreshOrders();
@@ -471,6 +519,7 @@ namespace FolderManipulator
             PersistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
             PersistentData.TrySaveWaitingItems();
         }
+        #endregion
 
         private void SetTab(TabPage newSelected = null)
         {
@@ -648,7 +697,7 @@ namespace FolderManipulator
 
         private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (!IOHandler.ReleaseLock(PersistentData.LockPath))
+            if (!PersistentData.ReleaseLock())
             {
                 AppConsole.WriteLine($"Lock can't be deleted!");
             }
