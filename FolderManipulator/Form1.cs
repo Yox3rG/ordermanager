@@ -17,20 +17,28 @@ namespace FolderManipulator
     {
         private Action OnOneSecondTimer;
 
+        private PersistentData persistentData;
+
         private const string _dummyOrderTypeName = "Other";
         private static List<Guid> checkedOrderIds = new List<Guid>();
         private static int activeOrdersScrollbarValue = 0;
         private Timer formOneSecondTimer;
 
+        private List<TabPage> tabPages;
+        private List<TabPage> tabPagesShownWhenNoSource;
+
         public form_main()
         {
             InitializeComponent();
+
+            StatusManager.Initialize(status_strip);
+            InitializeTabPages();
             InitializeOneSecondTimer();
 
-            SubscribeToActions();
+            SetupPersistentData();
 
-            UpdateSourcePathLabel();
-            FillSourceTreeView();
+            SubscribeToActions();
+            InitializeContextMenus();
 
 #if DEBUG
             //ShowMessage();
@@ -41,15 +49,6 @@ namespace FolderManipulator
         #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
-            LoadAll();
-            StatusManager.Initialize(status_strip);
-
-            InitializeContextMenus();
-
-            RefreshOrders();
-            RefreshOrderTypes();
-
-            SetTab();
         }
 
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
@@ -66,6 +65,42 @@ namespace FolderManipulator
         {
         }
         #endregion
+
+        #region Initialize
+        private void SetupPersistentData()
+        {
+            persistentData = new PersistentData();
+            persistentData.CreateLocalDataFileIfNotPresent();
+
+            if (!persistentData.LoadSourcePathFromLocal())
+            {
+                ShowTabs(sourceReady: false);
+                return;
+            }
+            if (!persistentData.AcceptSourcePath())
+            {
+                ShowTabs(sourceReady: false);
+                return;
+            }
+
+            ShowTabs(sourceReady: true);
+            UpdateSourcePathLabel();
+            FillSourceTreeView();
+            LoadAll();
+            RefreshAll();
+            //ShowTabs(sourceReady: false);
+        }
+
+        private void InitializeTabPages()
+        {
+            tabPages = new List<TabPage>() {
+                tab_page_active,
+                tab_page_pending,
+                tab_page_finished,
+                tab_page_customize };
+            tabPagesShownWhenNoSource = new List<TabPage>() {
+                tab_page_customize };
+        }
 
         private void InitializeOneSecondTimer()
         {
@@ -98,8 +133,8 @@ namespace FolderManipulator
 
         private void SubscribeToActions()
         {
-            PersistentData.OnSourcePathChanged += UpdateSourcePathLabel;
-            PersistentData.OnSourcePathChanged += RefreshSourceTreeView;
+            persistentData.OnSourcePathChanged += UpdateSourcePathLabel;
+            persistentData.OnSourcePathChanged += RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged += FinishChange;
             SettingsManager.OnCanInitiateChange += CanCreateChange;
@@ -111,8 +146,8 @@ namespace FolderManipulator
 
         private void UnSubscribeFromActions()
         {
-            PersistentData.OnSourcePathChanged -= UpdateSourcePathLabel;
-            PersistentData.OnSourcePathChanged -= RefreshSourceTreeView;
+            persistentData.OnSourcePathChanged -= UpdateSourcePathLabel;
+            persistentData.OnSourcePathChanged -= RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged -= FinishChange;
             SettingsManager.OnCanInitiateChange -= CanCreateChange;
@@ -121,26 +156,47 @@ namespace FolderManipulator
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
         }
+        #endregion
 
         private void FillSourceTreeView()
         {
-            if (PersistentData.IsSourceReady)
+            FolderStructure fs = new FolderStructure(
+                persistentData.SourcePath);
+            if (fs.IsValid)
             {
-                FolderStructure fs = new FolderStructure(
-                    PersistentData.SourcePath);
-
                 fs.FillTreeView(tree_view_hierarchy);
             }
             else
             {
-                MessageBox.Show("source is not ready");
+                tree_view_hierarchy.Nodes.Clear();
+            }
+            ShowAvailableDataObjectsInHierarchy();
+        }
+
+        private void ShowAvailableDataObjectsInHierarchy()
+        {
+            TreeNode baseNode = tree_view_hierarchy.Nodes.Add("AvailableData");
+            Color existsColor = Color.ForestGreen;
+            Color missingColor = Color.IndianRed;
+
+            AddDataObjectLabel("Settings", persistentData.SettingsExist());
+            AddDataObjectLabel(nameof(OrderListType.Active), persistentData.OrderListExist(OrderListType.Active));
+            AddDataObjectLabel(nameof(OrderListType.Pending), persistentData.OrderListExist(OrderListType.Pending));
+            AddDataObjectLabel(nameof(OrderListType.Finished), persistentData.OrderListExist(OrderListType.Finished));
+
+            baseNode.Expand();
+
+            void AddDataObjectLabel(string name, bool exists)
+            {
+                TreeNode node = baseNode.Nodes.Add(exists ? $"{name} exists" : $"{name} missing");
+                node.BackColor = exists ? existsColor : missingColor;
             }
         }
 
         private void UpdateSourcePathLabel()
         {
-            lbl_source.Text = PersistentData.SourcePath == null ?
-                "NULL" : PersistentData.SourcePath;
+            lbl_source.Text = persistentData.SourcePath == null ?
+                "NULL" : persistentData.SourcePath;
         }
 
         private void RefreshSourceTreeView()
@@ -156,10 +212,182 @@ namespace FolderManipulator
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    PersistentData.SetSourcePath(fbd.SelectedPath);
+                    persistentData.SetSourcePath(fbd.SelectedPath);
+                    ShowTabs(sourceReady: false);
                 }
             }
         }
+
+        private void button_accept_source_Click(object sender, EventArgs e)
+        {
+            if (persistentData.AcceptSourcePath())
+            {
+                StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
+                ShowTabs(sourceReady: true);
+                UpdateSourcePathLabel();
+                FillSourceTreeView();
+                LoadAll();
+                RefreshAll();
+            }
+            else
+            {
+                StatusManager.ShowMessage($"Source can't be accepted, choose a valid source", StatusColorType.Error);
+            }
+        }
+
+        #region Tabs
+        private void ShowTabs(bool sourceReady)
+        {
+            tab_control.TabPages.Clear();
+            List<TabPage> tabPagesToShow = sourceReady ? tabPages : tabPagesShownWhenNoSource;
+            foreach (var tabPage in tabPagesToShow)
+            {
+                tab_control.TabPages.Add(tabPage);
+            }
+
+            if (tab_control.TabCount > 0)
+                tab_control.SelectTab(0);
+        }
+        #endregion
+
+        #region CheckedNodes
+        private void ColorCheckedNodes(TreeView treeview, Color color)
+        {
+            List<TreeNode> allNodes = treeview.GetAllNodes();
+            foreach (var node in allNodes.Where(x => x.Checked))
+            {
+                node.BackColor = color;
+            }
+            foreach (var node in allNodes.Where(x => !x.Checked))
+            {
+                node.BackColor = Color.Empty;
+            }
+        }
+
+        private void SaveCheckedOrders(TreeView treeview)
+        {
+            List<TreeNode> allNodes = treeview.GetAllNodes();
+            checkedOrderIds = allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList();
+        }
+
+        private void LoadCheckedOrders(TreeView treeview)
+        {
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in treeview.GetAllNodes())
+                {
+                    OrderData data = (OrderData)node.Tag;
+                    if (data != null && checkedOrderIds.Contains(data.Id))
+                    {
+                        node.Checked = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+        }
+
+        private void ClearCheckedOrders(TreeView treeview)
+        {
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in treeview.GetAllNodes())
+                {
+                    node.Checked = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+
+            checkedOrderIds.Clear();
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+        }
+        #endregion
+
+        #region ToolStrip
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AppConsole.SaveLog();
+        }
+
+        private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (!persistentData.ReleaseLock())
+            {
+                AppConsole.WriteLine($"Lock can't be deleted!");
+            }
+        }
+
+        private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+            StatusManager.ResetStrip();
+        }
+        #endregion
+
+        #region TreeView UI
+        private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            //TreeNode selectedNode = (TreeNode)e.Item;
+            //System.Collections.Specialized.StringCollection sCollection = new System.Collections.Specialized.StringCollection();
+            //sCollection.Add(selectedNode.Text);
+            //DataObject data = new DataObject();
+            //data.SetFileDropList(sCollection);
+            //DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.All | DragDropEffects.Link);
+        }
+
+        private void tree_view_orders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            tree_view_orders.SelectedNode = e.Node;
+        }
+
+        private void tree_view_orders_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            bool newChecked = e.Node.Checked;
+            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
+
+            try
+            {
+                foreach (var node in e.Node.GetAllNodes())
+                {
+                    node.Checked = newChecked;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
+            }
+            SaveCheckedOrders(tree_view_orders);
+            ColorCheckedNodes(tree_view_orders, Color.Aqua);
+            AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
+        }
+        #endregion
 
         #region TargetFolder
         private void btn_choose_folder_Click(object sender, EventArgs e)
@@ -437,7 +665,10 @@ namespace FolderManipulator
         #region DataManipulation
         private void LoadAllIfDataIsOld()
         {
-            DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            if (!persistentData.IsSourceReady)
+                return;
+
+            DataState dataState = persistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
             if (dataState == DataState.NotLatest)
             {
                 LoadAll();
@@ -452,7 +683,7 @@ namespace FolderManipulator
                 StatusManager.ShowMessage($"Can't create change, local data is outdated", StatusColorType.Error, DelayTimeType.Medium);
                 return false;
             }
-            if (!PersistentData.CheckAndCreateLock())
+            if (!persistentData.CheckAndCreateLock())
             {
                 StatusManager.ShowMessage($"Can't create change, can't create lock on server", StatusColorType.Error, DelayTimeType.Medium);
                 return false;
@@ -469,12 +700,12 @@ namespace FolderManipulator
         {
             SaveAll();
             RefreshAll();
-            PersistentData.ReleaseLock();
+            persistentData.ReleaseLock();
         }
 
         private bool IsOnLatestUpdate()
         {
-            DataState dataState = PersistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            DataState dataState = persistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
             if (dataState == DataState.Latest)
             {
                 return true;
@@ -492,117 +723,56 @@ namespace FolderManipulator
 
         private void LoadAll()
         {
-            SettingsData settings = PersistentData.LoadSettings();
+            SettingsData settings = persistentData.LoadSettings();
             SettingsManager.InitializeSettings(settings);
             LoadAllOrders();
         }
 
-        private static void LoadAllOrders()
+        private void LoadAllOrders()
         {
-            OrderList activeOrders = PersistentData.LoadOrderList(OrderListType.Active);
-            OrderList pendingOrders = PersistentData.LoadOrderList(OrderListType.Pending);
-            OrderList finishedOrders = PersistentData.LoadOrderList(OrderListType.Finished);
+            OrderList activeOrders = persistentData.LoadOrderList(OrderListType.Active);
+            OrderList pendingOrders = persistentData.LoadOrderList(OrderListType.Pending);
+            OrderList finishedOrders = persistentData.LoadOrderList(OrderListType.Finished);
             OrderManager.InitializeOrders(activeOrders, pendingOrders, finishedOrders);
         }
 
         private void SaveAll()
         {
-            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetActiveOrders());
-            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetPendingOrders());
-            PersistentData.AddOrderListToWaitingForSaveList(OrderManager.GetFinishedOrders());
-            PersistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
-            PersistentData.TrySaveWaitingItems();
+            persistentData.AddOrderListToWaitingForSaveList(OrderManager.GetActiveOrders());
+            persistentData.AddOrderListToWaitingForSaveList(OrderManager.GetPendingOrders());
+            persistentData.AddOrderListToWaitingForSaveList(OrderManager.GetFinishedOrders());
+            persistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
+            persistentData.TrySaveWaitingItems();
         }
         #endregion
-
-        private void SetTab(TabPage newSelected = null)
-        {
-            if (newSelected != null)
-                tab_control.SelectedTab = newSelected;
-            //if (tab_control.SelectedTab != tab_page_edit)
-            //{
-            //    tab_control.SelectedTab = tab_page_edit;
-            //}
-        }
 
         private void formDispatcherTimer_Tick(object sender, EventArgs e)
         {
             OnOneSecondTimer?.Invoke();
         }
 
-        #region CheckedNodes
-        private void ColorCheckedNodes(TreeView treeview, Color color)
-        {
-            List<TreeNode> allNodes = treeview.GetAllNodes();
-            foreach (var node in allNodes.Where(x => x.Checked))
-            {
-                node.BackColor = color;
-            }
-            foreach (var node in allNodes.Where(x => !x.Checked))
-            {
-                node.BackColor = Color.Empty;
-            }
-        }
-
-        private void SaveCheckedOrders(TreeView treeview)
-        {
-            List<TreeNode> allNodes = treeview.GetAllNodes();
-            checkedOrderIds = allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList();
-        }
-
-        private void LoadCheckedOrders(TreeView treeview)
-        {
-            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
-
-            try
-            {
-                foreach (var node in treeview.GetAllNodes())
-                {
-                    OrderData data = (OrderData)node.Tag;
-                    if (data != null && checkedOrderIds.Contains(data.Id))
-                    {
-                        node.Checked = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                AppConsole.WriteLine(ex.Message);
-            }
-            finally
-            {
-                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
-            }
-            ColorCheckedNodes(tree_view_orders, Color.Aqua);
-        }
-
-        private void ClearCheckedOrders(TreeView treeview)
-        {
-            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
-
-            try
-            {
-                foreach (var node in treeview.GetAllNodes())
-                {
-                    node.Checked = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                AppConsole.WriteLine(ex.Message);
-            }
-            finally
-            {
-                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
-            }
-
-            checkedOrderIds.Clear();
-            ColorCheckedNodes(tree_view_orders, Color.Aqua);
-        }
-        #endregion
-
         #region Testing
 #if DEBUG
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ShowTabs(sourceReady: true);
+            //persistentData.StartTestTask();
+            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
+            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ShowTabs(sourceReady: false);
+            //persistentData.StopTestTask();
+            //StatusManager.StopCurrentDelayedMessage();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //AppConsole.SaveLog();
+        }
+
         private void StartDebugTimer()
         {
             return;
@@ -630,24 +800,6 @@ namespace FolderManipulator
                 else
                     Console.WriteLine($"[{nameof(DebugSelectedNode)}] {tree_view_orders.SelectedNode.Text}");
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            PersistentData.StartTestTask();
-            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
-            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            PersistentData.StopTestTask();
-            //StatusManager.StopCurrentDelayedMessage();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //AppConsole.SaveLog();
         }
 #endif
 
@@ -680,74 +832,6 @@ namespace FolderManipulator
 
             string s = e.Data.GetData(DataFormats.Text).ToString();
             txt_drag_drop.Text = s;
-        }
-        #endregion
-
-        #region ToolStrip
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AppConsole.SaveLog();
-        }
-
-        private void deleteLockToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            if (!PersistentData.ReleaseLock())
-            {
-                AppConsole.WriteLine($"Lock can't be deleted!");
-            }
-        }
-
-        private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveAll();
-            StatusManager.ResetStrip();
-        }
-        #endregion
-
-        #region TreeView UI
-        private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            //TreeNode selectedNode = (TreeNode)e.Item;
-            //System.Collections.Specialized.StringCollection sCollection = new System.Collections.Specialized.StringCollection();
-            //sCollection.Add(selectedNode.Text);
-            //DataObject data = new DataObject();
-            //data.SetFileDropList(sCollection);
-            //DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.All | DragDropEffects.Link);
-        }
-
-        private void tree_view_orders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            tree_view_orders.SelectedNode = e.Node;
-        }
-
-        private void tree_view_orders_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            bool newChecked = e.Node.Checked;
-            tree_view_orders.AfterCheck -= tree_view_orders_AfterCheck;
-
-            try
-            {
-                foreach (var node in e.Node.GetAllNodes())
-                {
-                    node.Checked = newChecked;
-                }
-            }
-            catch (Exception ex)
-            {
-                AppConsole.WriteLine(ex.Message);
-            }
-            finally
-            {
-                tree_view_orders.AfterCheck += tree_view_orders_AfterCheck;
-            }
-            SaveCheckedOrders(tree_view_orders);
-            ColorCheckedNodes(tree_view_orders, Color.Aqua);
-            AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
     }
