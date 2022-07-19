@@ -55,18 +55,15 @@ namespace FolderManipulator
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
         {
             Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
-            //SaveAll();
             UnSubscribeFromActions();
         }
 
         private void form_main_Activated(object sender, EventArgs e)
         {
-            //RefreshAll();
         }
 
         private void form_main_DeActivate(object sender, EventArgs e)
         {
-            //SaveAll();
         }
         #endregion
 
@@ -75,7 +72,7 @@ namespace FolderManipulator
             formOneSecondTimer = new Timer();
             formOneSecondTimer.Interval = 1000;
             formOneSecondTimer.Start();
-            formOneSecondTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            formOneSecondTimer.Tick += new EventHandler(formDispatcherTimer_Tick);
         }
 
         private void InitializeContextMenus()
@@ -86,7 +83,7 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order != null && MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            OrderManager.RemoveActiveOrder(order); 
+                            OrderManager.RemoveActiveOrder(order);
                         }
                     }),
                 new SpecialContextMenuItem("-", null),
@@ -109,11 +106,7 @@ namespace FolderManipulator
             OrderManager.OnOrderListChanged += FinishChange;
             OrderManager.OnCanInitiateChange += CanCreateChange;
 
-            OnOneSecondTimer +=
-                delegate
-                {
-                    LoadAllIfDataIsOld();
-                };
+            OnOneSecondTimer += LoadAllIfDataIsOld;
         }
 
         private void UnSubscribeFromActions()
@@ -126,7 +119,7 @@ namespace FolderManipulator
             OrderManager.OnOrderListChanged -= FinishChange;
             OrderManager.OnCanInitiateChange -= CanCreateChange;
 
-            SettingsManager.OnSettingsChanged -= RefreshOrderTypes;
+            OnOneSecondTimer -= LoadAllIfDataIsOld;
         }
 
         private void FillSourceTreeView()
@@ -532,6 +525,12 @@ namespace FolderManipulator
             //}
         }
 
+        private void formDispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            OnOneSecondTimer?.Invoke();
+        }
+
+        #region CheckedNodes
         private void ColorCheckedNodes(TreeView treeview, Color color)
         {
             List<TreeNode> allNodes = treeview.GetAllNodes();
@@ -600,6 +599,7 @@ namespace FolderManipulator
             checkedOrderIds.Clear();
             ColorCheckedNodes(tree_view_orders, Color.Aqua);
         }
+        #endregion
 
         #region Testing
 #if DEBUG
@@ -614,9 +614,6 @@ namespace FolderManipulator
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            OnOneSecondTimer?.Invoke();
-            //RefreshAll();
-            //DebugSelectedNode(sender, e);
         }
 
         private void DebugSelectedNode()
@@ -633,6 +630,24 @@ namespace FolderManipulator
                 else
                     Console.WriteLine($"[{nameof(DebugSelectedNode)}] {tree_view_orders.SelectedNode.Text}");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            PersistentData.StartTestTask();
+            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
+            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            PersistentData.StopTestTask();
+            //StatusManager.StopCurrentDelayedMessage();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //AppConsole.SaveLog();
         }
 #endif
 
@@ -668,24 +683,7 @@ namespace FolderManipulator
         }
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            PersistentData.StartTestTask();
-            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
-            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            PersistentData.StopTestTask();
-            //StatusManager.StopCurrentDelayedMessage();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            AppConsole.SaveLog();
-        }
-
+        #region ToolStrip
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -703,6 +701,13 @@ namespace FolderManipulator
                 AppConsole.WriteLine($"Lock can't be deleted!");
             }
         }
+
+        private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+            StatusManager.ResetStrip();
+        }
+        #endregion
 
         #region TreeView UI
         private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
@@ -745,11 +750,5 @@ namespace FolderManipulator
             AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
-
-        private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveAll();
-            StatusManager.ResetStrip();
-        }
     }
 }
