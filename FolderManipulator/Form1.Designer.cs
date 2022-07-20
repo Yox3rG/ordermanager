@@ -49,7 +49,9 @@
             this.tab_page_pending = new System.Windows.Forms.TabPage();
             this.btn_refresh_overview = new System.Windows.Forms.Button();
             this.tree_view_overview = new System.Windows.Forms.TreeView();
+            this.tab_page_finished = new System.Windows.Forms.TabPage();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
+            this.button_accept_source = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -77,8 +79,7 @@
             this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tab_page_finished = new System.Windows.Forms.TabPage();
-            this.button_accept_source = new System.Windows.Forms.Button();
+            this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -313,6 +314,15 @@
             this.tree_view_overview.Size = new System.Drawing.Size(345, 348);
             this.tree_view_overview.TabIndex = 6;
             // 
+            // tab_page_finished
+            // 
+            this.tab_page_finished.Location = new System.Drawing.Point(4, 22);
+            this.tab_page_finished.Name = "tab_page_finished";
+            this.tab_page_finished.Size = new System.Drawing.Size(793, 477);
+            this.tab_page_finished.TabIndex = 3;
+            this.tab_page_finished.Text = "Kész";
+            this.tab_page_finished.UseVisualStyleBackColor = true;
+            // 
             // tab_page_customize
             // 
             this.tab_page_customize.Controls.Add(this.button_accept_source);
@@ -339,6 +349,16 @@
             this.tab_page_customize.TabIndex = 2;
             this.tab_page_customize.Text = "Testreszabás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
+            // 
+            // button_accept_source
+            // 
+            this.button_accept_source.Location = new System.Drawing.Point(17, 354);
+            this.button_accept_source.Name = "button_accept_source";
+            this.button_accept_source.Size = new System.Drawing.Size(226, 23);
+            this.button_accept_source.TabIndex = 21;
+            this.button_accept_source.Text = "Accept Source Folder";
+            this.button_accept_source.UseVisualStyleBackColor = true;
+            this.button_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
             // 
             // button3
             // 
@@ -510,7 +530,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -525,7 +545,7 @@
             // forceSaveObjectsToolStripMenuItem
             // 
             this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
             this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
@@ -539,7 +559,8 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveLogToolStripMenuItem,
-            this.deleteLockToolStripMenuItem});
+            this.deleteLockToolStripMenuItem,
+            this.clearStatusBarToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.helpToolStripMenuItem.Text = "Help?";
@@ -547,14 +568,14 @@
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // deleteLockToolStripMenuItem
             // 
             this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
-            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteLockToolStripMenuItem.Text = "Delete Lock";
             this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
@@ -574,24 +595,12 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
-            // tab_page_finished
+            // clearStatusBarToolStripMenuItem
             // 
-            this.tab_page_finished.Location = new System.Drawing.Point(4, 22);
-            this.tab_page_finished.Name = "tab_page_finished";
-            this.tab_page_finished.Size = new System.Drawing.Size(793, 477);
-            this.tab_page_finished.TabIndex = 3;
-            this.tab_page_finished.Text = "Kész";
-            this.tab_page_finished.UseVisualStyleBackColor = true;
-            // 
-            // button_accept_source
-            // 
-            this.button_accept_source.Location = new System.Drawing.Point(17, 354);
-            this.button_accept_source.Name = "button_accept_source";
-            this.button_accept_source.Size = new System.Drawing.Size(226, 23);
-            this.button_accept_source.TabIndex = 21;
-            this.button_accept_source.Text = "Accept Source Folder";
-            this.button_accept_source.UseVisualStyleBackColor = true;
-            this.button_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
+            this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
+            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
+            this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // form_main
             // 
@@ -679,6 +688,7 @@
         private System.Windows.Forms.ToolStripMenuItem forceSaveObjectsToolStripMenuItem;
         private System.Windows.Forms.TabPage tab_page_finished;
         private System.Windows.Forms.Button button_accept_source;
+        private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
     }
 }
 

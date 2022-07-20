@@ -27,7 +27,7 @@ namespace FolderManipulator.Data
         {
             if (++Value > MAX_UPDATE_VALUE)
             {
-                Value = 0;
+                Value = 1;
             }
             return Value;
         }

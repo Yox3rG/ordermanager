@@ -11,6 +11,7 @@ namespace FolderManipulator.FolderRelated
     class PersistentData
     {
         public Action OnSourcePathChanged;
+        public Action OnSourcePathAccepted;
 
         public Action OnSaveAllWaitingItems_Successful;
         public Action OnSaveAllWaitingItems_PartialSuccess;
@@ -87,21 +88,14 @@ namespace FolderManipulator.FolderRelated
         {
         }
 
-        public void CreateLocal()
-        {
-            CreateLocalDataFileIfNotPresent();
-
-            LoadSourcePathFromLocal();
-
-            //System.Windows.Forms.MessageBox.Show(sourcePath);
-
-            IsSourceReady = System.IO.Directory.Exists(sourcePath);
-
-            CreateGeneratedFilesIfNotPresent();
-        }
-
         public bool LoadSourcePathFromLocal()
         {
+            CreateLocalDataFileIfNotPresent(out bool fileWasCreated);
+            if (fileWasCreated)
+            {
+                return false;
+            }
+
             string path = null;
             using (var sr = new System.IO.StreamReader(localDataFileName))
             {
@@ -117,7 +111,7 @@ namespace FolderManipulator.FolderRelated
             return null;
         }
 
-        public DataState GetDataState(OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
+        public DataState GetDataState(bool showStatusMessage, OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
         {
             bool isEveryObjectPresent = true;
             bool isDataOnLatestUpdate = true;
@@ -158,7 +152,10 @@ namespace FolderManipulator.FolderRelated
             void MissingObjectError(DataType dataType)
             {
                 isEveryObjectPresent = false;
-                StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+                if (showStatusMessage)
+                {
+                    StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+                }
             }
         }
 
@@ -375,7 +372,8 @@ namespace FolderManipulator.FolderRelated
             if (isCorrectPath)
             {
                 IsSourceReady = true;
-                CreateGeneratedFilesIfNotPresent();
+                //CreateGeneratedFilesIfNotPresent();
+                OnSourcePathAccepted?.Invoke();
 
                 return true;
             }
@@ -410,14 +408,17 @@ namespace FolderManipulator.FolderRelated
             return false;
         }
 
-        public bool CreateLocalDataFileIfNotPresent()
+        public void CreateLocalDataFileIfNotPresent(out bool fileCreated)
         {
             if (!System.IO.File.Exists(localDataFileName))
             {
                 System.IO.File.Create(localDataFileName);
-                return true;
+                fileCreated = true;
             }
-            return false;
+            else
+            {
+                fileCreated = false;
+            }
         }
 
         #region Testing

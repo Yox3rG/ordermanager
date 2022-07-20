@@ -53,7 +53,7 @@ namespace FolderManipulator
 
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
+            //Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
             UnSubscribeFromActions();
         }
 
@@ -70,7 +70,6 @@ namespace FolderManipulator
         private void SetupPersistentData()
         {
             persistentData = new PersistentData();
-            persistentData.CreateLocalDataFileIfNotPresent();
 
             if (!persistentData.LoadSourcePathFromLocal())
             {
@@ -83,11 +82,8 @@ namespace FolderManipulator
                 return;
             }
 
+            HandleDataOnAcceptingSource();
             ShowTabs(sourceReady: true);
-            UpdateSourcePathLabel();
-            FillSourceTreeView();
-            LoadAll();
-            RefreshAll();
             //ShowTabs(sourceReady: false);
         }
 
@@ -133,7 +129,7 @@ namespace FolderManipulator
 
         private void SubscribeToActions()
         {
-            persistentData.OnSourcePathChanged += UpdateSourcePathLabel;
+            persistentData.OnSourcePathAccepted += HandleDataOnAcceptingSource;
             persistentData.OnSourcePathChanged += RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged += FinishChange;
@@ -146,7 +142,7 @@ namespace FolderManipulator
 
         private void UnSubscribeFromActions()
         {
-            persistentData.OnSourcePathChanged -= UpdateSourcePathLabel;
+            persistentData.OnSourcePathAccepted -= HandleDataOnAcceptingSource;
             persistentData.OnSourcePathChanged -= RefreshSourceTreeView;
 
             SettingsManager.OnSettingsChanged -= FinishChange;
@@ -201,21 +197,24 @@ namespace FolderManipulator
 
         private void RefreshSourceTreeView()
         {
+            UpdateSourcePathLabel();
             FillSourceTreeView();
         }
 
         private void Btn_ChooseSourceFolder_Click(object sender, EventArgs e)
         {
+            string selectedPath = null;
             using (var fbd = new FolderBrowserDialog())
             {
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    persistentData.SetSourcePath(fbd.SelectedPath);
-                    ShowTabs(sourceReady: false);
+                    selectedPath = fbd.SelectedPath;
                 }
             }
+            persistentData.SetSourcePath(selectedPath);
+            ShowTabs(sourceReady: false);
         }
 
         private void button_accept_source_Click(object sender, EventArgs e)
@@ -224,15 +223,22 @@ namespace FolderManipulator
             {
                 StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
                 ShowTabs(sourceReady: true);
-                UpdateSourcePathLabel();
-                FillSourceTreeView();
-                LoadAll();
-                RefreshAll();
             }
             else
             {
                 StatusManager.ShowMessage($"Source can't be accepted, choose a valid source", StatusColorType.Error);
             }
+        }
+
+        private void HandleDataOnAcceptingSource()
+        {
+            LoadAll();
+            RefreshAll();
+            if (ServerHasMissingObjects())
+            {
+                SaveAll();
+            }
+            RefreshSourceTreeView();
         }
 
         #region Tabs
@@ -343,6 +349,11 @@ namespace FolderManipulator
         private void forceSaveObjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveAll();
+            StatusManager.ResetStrip();
+        }
+
+        private void clearStatusBarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             StatusManager.ResetStrip();
         }
         #endregion
@@ -668,7 +679,7 @@ namespace FolderManipulator
             if (!persistentData.IsSourceReady)
                 return;
 
-            DataState dataState = persistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            DataState dataState = persistentData.GetDataState(showStatusMessage: true, OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
             if (dataState == DataState.NotLatest)
             {
                 LoadAll();
@@ -705,8 +716,18 @@ namespace FolderManipulator
 
         private bool IsOnLatestUpdate()
         {
-            DataState dataState = persistentData.GetDataState(OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            DataState dataState = persistentData.GetDataState(showStatusMessage: true, OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
             if (dataState == DataState.Latest)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool ServerHasMissingObjects()
+        {
+            DataState dataState = persistentData.GetDataState(showStatusMessage: false, OrderManager.GetActiveOrders(), OrderManager.GetPendingOrders(), OrderManager.GetFinishedOrders(), SettingsManager.Settings);
+            if (dataState == DataState.MissingFile || dataState == DataState.MissingObject)
             {
                 return true;
             }
