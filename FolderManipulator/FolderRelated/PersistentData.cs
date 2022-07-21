@@ -90,23 +90,13 @@ namespace FolderManipulator.FolderRelated
 
         public bool LoadSourcePathFromLocal()
         {
-            CreateLocalDataFileIfNotPresent(out bool fileWasCreated);
-            if (fileWasCreated)
-            {
-                return false;
-            }
-
-            string path = null;
-            using (var sr = new System.IO.StreamReader(localDataFileName))
-            {
-                path = sr.ReadLine();
-            }
+            string path = IOHandler.Load<string>(localDataFileName);
             return SetSourcePath(path);
         }
 
         public string GetCombinedPath(string fileName)
         {
-            if (IsSourceReady)
+            if (sourcePath != null)
                 return System.IO.Path.Combine(sourcePath, fileName);
             return null;
         }
@@ -351,11 +341,6 @@ namespace FolderManipulator.FolderRelated
 
             if (isCorrectPath)
             {
-                using (var sw = new System.IO.StreamWriter(localDataFileName))
-                {
-                    sw.WriteLine(path);
-                }
-
                 sourcePath = path;
                 OnSourcePathChanged?.Invoke();
 
@@ -371,6 +356,8 @@ namespace FolderManipulator.FolderRelated
             bool isCorrectPath = System.IO.Directory.Exists(sourcePath);
             if (isCorrectPath)
             {
+                IOHandler.Save<string>(localDataFileName, sourcePath);
+
                 IsSourceReady = true;
                 //CreateGeneratedFilesIfNotPresent();
                 OnSourcePathAccepted?.Invoke();

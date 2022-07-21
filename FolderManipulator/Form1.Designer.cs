@@ -77,9 +77,9 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -166,6 +166,7 @@
             // 
             // drpd_main_ordertype
             // 
+            this.drpd_main_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_main_ordertype.FormattingEnabled = true;
             this.drpd_main_ordertype.Location = new System.Drawing.Point(81, 9);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
@@ -183,6 +184,7 @@
             // 
             // drpd_sub_ordertype
             // 
+            this.drpd_sub_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_sub_ordertype.FormattingEnabled = true;
             this.drpd_sub_ordertype.Location = new System.Drawing.Point(81, 36);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
@@ -530,7 +532,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -545,7 +547,7 @@
             // forceSaveObjectsToolStripMenuItem
             // 
             this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
             this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
@@ -568,16 +570,23 @@
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // deleteLockToolStripMenuItem
             // 
             this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
-            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.deleteLockToolStripMenuItem.Text = "Delete Lock";
             this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
+            // 
+            // clearStatusBarToolStripMenuItem
+            // 
+            this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
+            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
+            this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // status_strip
             // 
@@ -594,13 +603,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // clearStatusBarToolStripMenuItem
-            // 
-            this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
-            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
-            this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // form_main
             // 
