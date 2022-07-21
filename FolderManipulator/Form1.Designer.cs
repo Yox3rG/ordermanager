@@ -51,7 +51,7 @@
             this.tree_view_overview = new System.Windows.Forms.TreeView();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
-            this.button_accept_source = new System.Windows.Forms.Button();
+            this.btn_accept_source = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -327,7 +327,7 @@
             // 
             // tab_page_customize
             // 
-            this.tab_page_customize.Controls.Add(this.button_accept_source);
+            this.tab_page_customize.Controls.Add(this.btn_accept_source);
             this.tab_page_customize.Controls.Add(this.button3);
             this.tab_page_customize.Controls.Add(this.button2);
             this.tab_page_customize.Controls.Add(this.button1);
@@ -352,15 +352,15 @@
             this.tab_page_customize.Text = "Testreszabás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
             // 
-            // button_accept_source
+            // btn_accept_source
             // 
-            this.button_accept_source.Location = new System.Drawing.Point(17, 354);
-            this.button_accept_source.Name = "button_accept_source";
-            this.button_accept_source.Size = new System.Drawing.Size(226, 23);
-            this.button_accept_source.TabIndex = 21;
-            this.button_accept_source.Text = "Accept Source Folder";
-            this.button_accept_source.UseVisualStyleBackColor = true;
-            this.button_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
+            this.btn_accept_source.Location = new System.Drawing.Point(17, 354);
+            this.btn_accept_source.Name = "btn_accept_source";
+            this.btn_accept_source.Size = new System.Drawing.Size(226, 23);
+            this.btn_accept_source.TabIndex = 21;
+            this.btn_accept_source.Text = "Accept Source Folder";
+            this.btn_accept_source.UseVisualStyleBackColor = true;
+            this.btn_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
             // 
             // button3
             // 
@@ -689,7 +689,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteLockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forceSaveObjectsToolStripMenuItem;
         private System.Windows.Forms.TabPage tab_page_finished;
-        private System.Windows.Forms.Button button_accept_source;
+        private System.Windows.Forms.Button btn_accept_source;
         private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
     }
 }

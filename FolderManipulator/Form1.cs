@@ -73,11 +73,13 @@ namespace FolderManipulator
 
             if (!persistentData.LoadSourcePathFromLocal())
             {
+                ThreadHelper.BlinkHighlightControl(btn_choose_source, backColor: true);
                 ShowTabs(sourceReady: false);
                 return;
             }
             if (!persistentData.AcceptSourcePath())
             {
+                ThreadHelper.BlinkHighlightControl(btn_accept_source, backColor: true);
                 ShowTabs(sourceReady: false);
                 return;
             }
@@ -211,6 +213,8 @@ namespace FolderManipulator
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     selectedPath = fbd.SelectedPath;
+                    ThreadHelper.StopBlinkHighlightControl(btn_choose_source);
+                    ThreadHelper.BlinkHighlightControl(btn_accept_source, backColor: true);
                 }
             }
             persistentData.SetSourcePath(selectedPath);
@@ -221,6 +225,7 @@ namespace FolderManipulator
         {
             if (persistentData.AcceptSourcePath())
             {
+                ThreadHelper.StopBlinkHighlightControl(btn_accept_source);
                 StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
                 ShowTabs(sourceReady: true);
             }

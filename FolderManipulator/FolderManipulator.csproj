@@ -85,6 +85,8 @@
     <Compile Include="Data\SettingsManager.cs" />
     <Compile Include="Data\UpdateID.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />
+    <Compile Include="Extensions\MathExtension.cs" />
+    <Compile Include="Extensions\ThreadHelper.cs" />
     <Compile Include="Extensions\TreeViewExtension.cs" />
     <Compile Include="FolderRelated\IOHandler.cs" />
     <Compile Include="Data\ISavableData.cs" />
