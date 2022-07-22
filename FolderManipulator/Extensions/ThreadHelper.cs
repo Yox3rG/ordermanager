@@ -13,88 +13,53 @@ namespace FolderManipulator.Extensions
 {
     public static class ThreadHelper
     {
-        private static Dictionary<Control, CancellationTokenSource> _highlightCancellationTokenSources = new Dictionary<Control, CancellationTokenSource>();
+        private static Dictionary<string, CancellationTokenSource> _cancellationTokenSources = new Dictionary<string, CancellationTokenSource>();
 
-        public static void BlinkHighlightControl(Control control, bool backColor)
+        public static bool StartCancellableAsync(string name, IThreadAction threadAction)
         {
-            _highlightCancellationTokenSources.Add(control, new CancellationTokenSource());
-            CancellationToken cancelToken = _highlightCancellationTokenSources[control].Token;
+            if (threadAction == null)
+                return false;
+            if (_cancellationTokenSources.ContainsKey(name))
+            {
+                AppConsole.WriteLine("Already running ThreadAction needs to be stopped before starting the same one again.");
+                return false;
+            }
 
-            SoftBlinkStep(control, Color.CadetBlue, Color.LightGray, 50, backColor, cancelToken);
-            
-            //_highlightTask = Task.Factory.StartNew(() =>
-            //{
-            //    try
-            //    {
-            //        Task.Delay(1, cancelToken).Wait(cancelToken);
-            //        ShowMessage(message, colorType);
-            //    }
-            //    catch (OperationCanceledException ex)
-            //    {
-            //        Console.WriteLine(ex.Message);
-            //    }
-            //}, cancelToken);
+            _cancellationTokenSources.Add(name, new CancellationTokenSource());
+            CancellationToken cancelToken = _cancellationTokenSources[name].Token;
+
+            threadAction.Prepare();
+            AsyncStepLoop(name, 1, threadAction, cancelToken);
+            return true;
         }
 
-        public static void StopBlinkHighlightControl(Control control)
+        public static bool StopCancellableAsync(string name)
         {
-            if(_highlightCancellationTokenSources.TryGetValue(control, out CancellationTokenSource cancelToken))
+            if(_cancellationTokenSources.TryGetValue(name, out CancellationTokenSource cancelToken))
+            {
                 cancelToken.Cancel();
+                return true;
+            }
+            return false;
         }
 
-        public static async void SoftBlinkStep(Control control, Color aColor, Color bColor, short cycleTimeMs, bool backColor, CancellationToken cancellationToken)
+        private static async void AsyncStepLoop(string name, int delay, IThreadAction action, CancellationToken cancellationToken)
         {
-            short cycleTimeCounter = 0;
-            short cycleDirection = 1;
             while (true)
             {
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                await Task.Delay(1);
-                if (cycleTimeCounter <= 0)
-                    cycleDirection = 1;
-                if (cycleTimeCounter >= cycleTimeMs)
-                    cycleDirection = -1;
+                if(delay > 0)
+                    await Task.Delay(delay);
 
-                cycleTimeCounter += cycleDirection;
-                float t = (float)cycleTimeCounter / cycleTimeMs;
-
-                var color = MathExtension.Lerp(aColor, bColor, t);
-                if (backColor) 
-                    control.BackColor = color;
-                else 
-                    control.ForeColor = color;
+                action.LoopStep();
             }
 
-            if (backColor)
-                control.BackColor = bColor;
-            else
-                control.ForeColor = bColor;
-
-            _highlightCancellationTokenSources[control].Dispose();
-            _highlightCancellationTokenSources.Remove(control);
-            AppConsole.WriteLine("Blink stopped.");
-        }
-
-        public static async void SoftBlinkForever(Control control, Color aColor, Color bColor, short cycleTimeMs, bool backColor)
-        {
-            short cycleTimeCounter = 0;
-            short cycleDirection = 1;
-            while (true)
-            {
-                await Task.Delay(1);
-                if (cycleTimeCounter <= 0)
-                    cycleDirection = 1;
-                if (cycleTimeCounter >= cycleTimeMs)
-                    cycleDirection = -1;
-
-                cycleTimeCounter += cycleDirection;
-                float t = (float)cycleTimeCounter / cycleTimeMs;
-
-                var color = MathExtension.Lerp(aColor, bColor, t);
-                if (backColor) control.BackColor = color; else control.ForeColor = color;
-            }
+            action.Finish();
+            _cancellationTokenSources[name].Dispose();
+            _cancellationTokenSources.Remove(name);
+            AppConsole.WriteLine($"Async action with name [{name}] stopped.");
         }
     }
 }

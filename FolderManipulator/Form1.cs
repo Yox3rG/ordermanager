@@ -18,6 +18,7 @@ namespace FolderManipulator
         private Action OnOneSecondTimer;
 
         private PersistentData persistentData;
+        private HighlightManager normalHighlightManager;
 
         private const string _dummyOrderTypeName = "Other";
         private static List<Guid> checkedOrderIds = new List<Guid>();
@@ -35,6 +36,7 @@ namespace FolderManipulator
             InitializeTabPages();
             InitializeOneSecondTimer();
 
+            SetupManagers();
             SetupPersistentData();
 
             SubscribeToActions();
@@ -73,13 +75,13 @@ namespace FolderManipulator
 
             if (!persistentData.LoadSourcePathFromLocal())
             {
-                ThreadHelper.BlinkHighlightControl(btn_choose_source, backColor: true);
+                normalHighlightManager.StartHighlightControl(btn_choose_source);
                 ShowTabs(sourceReady: false);
                 return;
             }
             if (!persistentData.AcceptSourcePath())
             {
-                ThreadHelper.BlinkHighlightControl(btn_accept_source, backColor: true);
+                normalHighlightManager.StartHighlightControl(btn_accept_source);
                 ShowTabs(sourceReady: false);
                 return;
             }
@@ -87,6 +89,11 @@ namespace FolderManipulator
             HandleDataOnAcceptingSource();
             ShowTabs(sourceReady: true);
             //ShowTabs(sourceReady: false);
+        }
+
+        private void SetupManagers()
+        {
+            normalHighlightManager = new HighlightManager(cycleStart: Color.LightGray, cycleEnd: Color.CadetBlue, finish: Color.Transparent, 50, backColor: true);
         }
 
         private void InitializeTabPages()
@@ -213,8 +220,8 @@ namespace FolderManipulator
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     selectedPath = fbd.SelectedPath;
-                    ThreadHelper.StopBlinkHighlightControl(btn_choose_source);
-                    ThreadHelper.BlinkHighlightControl(btn_accept_source, backColor: true);
+                    normalHighlightManager.StopHighlightControl(btn_choose_source);
+                    normalHighlightManager.StartHighlightControl(btn_accept_source);
                 }
             }
             persistentData.SetSourcePath(selectedPath);
@@ -225,7 +232,7 @@ namespace FolderManipulator
         {
             if (persistentData.AcceptSourcePath())
             {
-                ThreadHelper.StopBlinkHighlightControl(btn_accept_source);
+                normalHighlightManager.StopHighlightControl(btn_accept_source);
                 StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
                 ShowTabs(sourceReady: true);
             }
