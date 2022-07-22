@@ -8,24 +8,20 @@ namespace FolderManipulator.Data
 {
     static class SettingsManager
     {
+        public static Func<bool> OnCanInitiateChange;
         public static Action OnSettingsChanged;
+
+        public static bool CanChangeData
+        {
+            get
+            {
+                if (OnCanInitiateChange == null)
+                    return true;
+                return OnCanInitiateChange();
+            }
+        }
+
         public static SettingsData Settings { get; set; }
-
-        public static void AddNewOrderType(string orderType, OrderCategory category)
-        {
-            Settings.GetOrderTypesFromCategory(category).list.Add(orderType);
-            OnSettingsChanged?.Invoke();
-        }
-
-        public static bool DeleteOrderType(string orderType, OrderCategory category)
-        {
-            bool isSuccess = !Settings.GetOrderTypesFromCategory(category).list.Remove(orderType);
-            OnSettingsChanged?.Invoke();
-            if (isSuccess)
-                return true;
-            else
-                return false;
-        }
 
         public static List<string> GetOrderTypes(OrderCategory category)
         {
@@ -42,6 +38,12 @@ namespace FolderManipulator.Data
             {
                 Settings = settingsData;
             }
+        }
+
+        public static bool AreSettingsOnLatestUpdate(SettingsData newSettings)
+        {
+            bool areSettingsLatest = Settings.UpdateID.Equals(newSettings.UpdateID);
+            return areSettingsLatest;
         }
     }
 }

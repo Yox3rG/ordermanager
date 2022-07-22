@@ -1,10 +1,7 @@
 ﻿using FolderManipulator.Analytics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FolderManipulator.FolderRelated
 {
@@ -21,7 +18,7 @@ namespace FolderManipulator.FolderRelated
             T settings;
             try
             {
-                string jsonSettings = System.IO.File.ReadAllText(path);
+                string jsonSettings = File.ReadAllText(path);
                 settings = JsonSerializer.Deserialize<T>(jsonSettings);
             }
             catch (Exception e)
@@ -43,7 +40,7 @@ namespace FolderManipulator.FolderRelated
             //Console.WriteLine(json);
             try
             {
-                System.IO.File.WriteAllText(path, json);
+                File.WriteAllText(path, json);
             }
             catch (Exception e)
             {
@@ -55,6 +52,45 @@ namespace FolderManipulator.FolderRelated
             }
 
             OnSaveSuccessful?.Invoke();
+            return true;
+        }
+
+        public static bool CheckAndCreateLock(string path)
+        {
+            if (File.Exists(path))
+            {
+                return false;
+            }
+
+            try
+            {
+                File.Create(path).Dispose();
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool ReleaseLock(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return true;
+            }
+
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+                return false;
+            }
+
             return true;
         }
     }

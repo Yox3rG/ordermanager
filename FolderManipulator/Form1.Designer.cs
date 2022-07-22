@@ -45,11 +45,13 @@
             this.lbl_comment = new System.Windows.Forms.Label();
             this.txt_comment = new System.Windows.Forms.TextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
-            this.tab_page_edit = new System.Windows.Forms.TabPage();
-            this.tab_page_overview = new System.Windows.Forms.TabPage();
+            this.tab_page_active = new System.Windows.Forms.TabPage();
+            this.tab_page_pending = new System.Windows.Forms.TabPage();
             this.btn_refresh_overview = new System.Windows.Forms.Button();
             this.tree_view_overview = new System.Windows.Forms.TreeView();
+            this.tab_page_finished = new System.Windows.Forms.TabPage();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
+            this.btn_accept_source = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -70,9 +72,12 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceSaveObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
@@ -80,8 +85,8 @@
             this.split_container_edit.Panel2.SuspendLayout();
             this.split_container_edit.SuspendLayout();
             this.tab_control.SuspendLayout();
-            this.tab_page_edit.SuspendLayout();
-            this.tab_page_overview.SuspendLayout();
+            this.tab_page_active.SuspendLayout();
+            this.tab_page_pending.SuspendLayout();
             this.tab_page_customize.SuspendLayout();
             this.menu_strip.SuspendLayout();
             this.status_strip.SuspendLayout();
@@ -161,6 +166,7 @@
             // 
             // drpd_main_ordertype
             // 
+            this.drpd_main_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_main_ordertype.FormattingEnabled = true;
             this.drpd_main_ordertype.Location = new System.Drawing.Point(81, 9);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
@@ -178,6 +184,7 @@
             // 
             // drpd_sub_ordertype
             // 
+            this.drpd_sub_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_sub_ordertype.FormattingEnabled = true;
             this.drpd_sub_ordertype.Location = new System.Drawing.Point(81, 36);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
@@ -258,8 +265,9 @@
             // 
             // tab_control
             // 
-            this.tab_control.Controls.Add(this.tab_page_edit);
-            this.tab_control.Controls.Add(this.tab_page_overview);
+            this.tab_control.Controls.Add(this.tab_page_active);
+            this.tab_control.Controls.Add(this.tab_page_pending);
+            this.tab_control.Controls.Add(this.tab_page_finished);
             this.tab_control.Controls.Add(this.tab_page_customize);
             this.tab_control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab_control.Location = new System.Drawing.Point(0, 24);
@@ -268,28 +276,28 @@
             this.tab_control.Size = new System.Drawing.Size(801, 503);
             this.tab_control.TabIndex = 6;
             // 
-            // tab_page_edit
+            // tab_page_active
             // 
-            this.tab_page_edit.Controls.Add(this.split_container_edit);
-            this.tab_page_edit.Location = new System.Drawing.Point(4, 22);
-            this.tab_page_edit.Name = "tab_page_edit";
-            this.tab_page_edit.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_edit.Size = new System.Drawing.Size(793, 477);
-            this.tab_page_edit.TabIndex = 0;
-            this.tab_page_edit.Text = "Szerkesztés";
-            this.tab_page_edit.UseVisualStyleBackColor = true;
+            this.tab_page_active.Controls.Add(this.split_container_edit);
+            this.tab_page_active.Location = new System.Drawing.Point(4, 22);
+            this.tab_page_active.Name = "tab_page_active";
+            this.tab_page_active.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_page_active.Size = new System.Drawing.Size(793, 477);
+            this.tab_page_active.TabIndex = 0;
+            this.tab_page_active.Text = "Aktív";
+            this.tab_page_active.UseVisualStyleBackColor = true;
             // 
-            // tab_page_overview
+            // tab_page_pending
             // 
-            this.tab_page_overview.Controls.Add(this.btn_refresh_overview);
-            this.tab_page_overview.Controls.Add(this.tree_view_overview);
-            this.tab_page_overview.Location = new System.Drawing.Point(4, 22);
-            this.tab_page_overview.Name = "tab_page_overview";
-            this.tab_page_overview.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_overview.Size = new System.Drawing.Size(793, 477);
-            this.tab_page_overview.TabIndex = 1;
-            this.tab_page_overview.Text = "Áttekintés";
-            this.tab_page_overview.UseVisualStyleBackColor = true;
+            this.tab_page_pending.Controls.Add(this.btn_refresh_overview);
+            this.tab_page_pending.Controls.Add(this.tree_view_overview);
+            this.tab_page_pending.Location = new System.Drawing.Point(4, 22);
+            this.tab_page_pending.Name = "tab_page_pending";
+            this.tab_page_pending.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_page_pending.Size = new System.Drawing.Size(793, 477);
+            this.tab_page_pending.TabIndex = 1;
+            this.tab_page_pending.Text = "Függőben";
+            this.tab_page_pending.UseVisualStyleBackColor = true;
             // 
             // btn_refresh_overview
             // 
@@ -308,8 +316,18 @@
             this.tree_view_overview.Size = new System.Drawing.Size(345, 348);
             this.tree_view_overview.TabIndex = 6;
             // 
+            // tab_page_finished
+            // 
+            this.tab_page_finished.Location = new System.Drawing.Point(4, 22);
+            this.tab_page_finished.Name = "tab_page_finished";
+            this.tab_page_finished.Size = new System.Drawing.Size(793, 477);
+            this.tab_page_finished.TabIndex = 3;
+            this.tab_page_finished.Text = "Kész";
+            this.tab_page_finished.UseVisualStyleBackColor = true;
+            // 
             // tab_page_customize
             // 
+            this.tab_page_customize.Controls.Add(this.btn_accept_source);
             this.tab_page_customize.Controls.Add(this.button3);
             this.tab_page_customize.Controls.Add(this.button2);
             this.tab_page_customize.Controls.Add(this.button1);
@@ -333,6 +351,16 @@
             this.tab_page_customize.TabIndex = 2;
             this.tab_page_customize.Text = "Testreszabás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
+            // 
+            // btn_accept_source
+            // 
+            this.btn_accept_source.Location = new System.Drawing.Point(17, 354);
+            this.btn_accept_source.Name = "btn_accept_source";
+            this.btn_accept_source.Size = new System.Drawing.Size(226, 23);
+            this.btn_accept_source.TabIndex = 21;
+            this.btn_accept_source.Text = "Accept Source Folder";
+            this.btn_accept_source.UseVisualStyleBackColor = true;
+            this.btn_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
             // 
             // button3
             // 
@@ -465,7 +493,7 @@
             // 
             this.btn_choose_source.Location = new System.Drawing.Point(17, 15);
             this.btn_choose_source.Name = "btn_choose_source";
-            this.btn_choose_source.Size = new System.Drawing.Size(155, 23);
+            this.btn_choose_source.Size = new System.Drawing.Size(226, 23);
             this.btn_choose_source.TabIndex = 5;
             this.btn_choose_source.Text = "Choose Source Folder";
             this.btn_choose_source.UseVisualStyleBackColor = true;
@@ -510,9 +538,18 @@
             // 
             // editToolStripMenuItem
             // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.forceSaveObjectsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // forceSaveObjectsToolStripMenuItem
+            // 
+            this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
+            this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -523,7 +560,9 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveLogToolStripMenuItem});
+            this.saveLogToolStripMenuItem,
+            this.deleteLockToolStripMenuItem,
+            this.clearStatusBarToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.helpToolStripMenuItem.Text = "Help?";
@@ -531,9 +570,23 @@
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
+            // 
+            // deleteLockToolStripMenuItem
+            // 
+            this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
+            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.deleteLockToolStripMenuItem.Text = "Delete Lock";
+            this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
+            // 
+            // clearStatusBarToolStripMenuItem
+            // 
+            this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
+            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
+            this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // status_strip
             // 
@@ -572,8 +625,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).EndInit();
             this.split_container_edit.ResumeLayout(false);
             this.tab_control.ResumeLayout(false);
-            this.tab_page_edit.ResumeLayout(false);
-            this.tab_page_overview.ResumeLayout(false);
+            this.tab_page_active.ResumeLayout(false);
+            this.tab_page_pending.ResumeLayout(false);
             this.tab_page_customize.ResumeLayout(false);
             this.tab_page_customize.PerformLayout();
             this.menu_strip.ResumeLayout(false);
@@ -589,8 +642,8 @@
         private System.Windows.Forms.Button btn_add;
         private System.Windows.Forms.SplitContainer split_container_edit;
         private System.Windows.Forms.TabControl tab_control;
-        private System.Windows.Forms.TabPage tab_page_edit;
-        private System.Windows.Forms.TabPage tab_page_overview;
+        private System.Windows.Forms.TabPage tab_page_active;
+        private System.Windows.Forms.TabPage tab_page_pending;
         private System.Windows.Forms.MenuStrip menu_strip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -633,6 +686,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceSaveObjectsToolStripMenuItem;
+        private System.Windows.Forms.TabPage tab_page_finished;
+        private System.Windows.Forms.Button btn_accept_source;
+        private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
     }
 }
 

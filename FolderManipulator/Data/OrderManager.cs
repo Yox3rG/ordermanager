@@ -8,25 +8,39 @@ namespace FolderManipulator.Data
 {
     static class OrderManager
     {
+        public static Func<bool> OnCanInitiateChange;
+        public static Action<OrderList> OnOrderListChanged;
+
         private static OrderList activeOrders;
+        private static OrderList pendingOrders;
         private static OrderList finishedOrders;
+
+        public static bool CanChangeData
+        {
+            get
+            {
+                if(OnCanInitiateChange == null)
+                    return true;
+                return OnCanInitiateChange();
+            }
+        }
 
         public static void AddNewOrder(OrderData order)
         {
-            activeOrders.Orders.Add(order);
+            activeOrders.Add(order);
         }
 
         public static void AddNewOrders(OrderData[] orders)
         {
             for (int i = 0; i < orders.Length; i++)
             {
-                activeOrders.Orders.Add(orders[i]);
+                activeOrders.Add(orders[i]);
             }
         }
 
         public static bool RemoveActiveOrder(OrderData order)
         {
-            return activeOrders.Orders.Remove(order);
+            return activeOrders.Remove(order);
         }
 
         //public static void EditActiveOrder(OrderData order, OrderData other)
@@ -36,9 +50,26 @@ namespace FolderManipulator.Data
 
         public static bool FinishOrder(OrderData order)
         {
-            if (activeOrders.Orders.Remove(order))
+            if (activeOrders.Remove(order))
             {
-                finishedOrders.Orders.Add(order);
+                finishedOrders.Add(order);
+            }
+            else if (pendingOrders.Remove(order))
+            {
+                finishedOrders.Add(order);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool AddOrderToPending(OrderData order)
+        {
+            if (activeOrders.Remove(order))
+            {
+                pendingOrders.Add(order);
             }
             else
             {
@@ -52,6 +83,11 @@ namespace FolderManipulator.Data
             return activeOrders;
         }
 
+        public static OrderList GetPendingOrders()
+        {
+            return pendingOrders;
+        }
+
         public static OrderList GetFinishedOrders()
         {
             return finishedOrders;
@@ -59,25 +95,39 @@ namespace FolderManipulator.Data
 
         public static void ClearOrders()
         {
-            activeOrders.Orders.Clear();
-            finishedOrders.Orders.Clear();
+            activeOrders.Clear();
+            pendingOrders.Clear();
+            finishedOrders.Clear();
         }
 
         public static void InitializeOrders()
         {
-            activeOrders = new OrderList(new List<OrderData>(), OrderListType.Active);
-            finishedOrders = new OrderList(new List<OrderData>(), OrderListType.Finished);
+            activeOrders = new OrderList(0, new List<OrderData>(), OrderListType.Active);
+            pendingOrders = new OrderList(0, new List<OrderData>(), OrderListType.Active);
+            finishedOrders = new OrderList(0, new List<OrderData>(), OrderListType.Finished);
         }
 
-        public static void InitializeOrders(OrderList active, OrderList finished)
+        public static void InitializeOrders(OrderList active, OrderList pending, OrderList finished)
         {
             activeOrders = active;
+            pendingOrders = pending;
             finishedOrders = finished;
 
             if (activeOrders == null)
-                activeOrders = new OrderList(new List<OrderData>(), OrderListType.Active);
+                activeOrders = new OrderList(0, new List<OrderData>(), OrderListType.Active);
+            if (pendingOrders == null)
+                pendingOrders = new OrderList(0, new List<OrderData>(), OrderListType.Pending);
             if (finishedOrders == null)
-                finishedOrders = new OrderList(new List<OrderData>(), OrderListType.Finished);
+                finishedOrders = new OrderList(0, new List<OrderData>(), OrderListType.Finished);
+        }
+
+        public static bool AreOrdersOnLatestUpdate(OrderList newActive, OrderList newPending, OrderList newFinished)
+        {
+            bool isEveryOrderLatest =
+                activeOrders.UpdateID.Equals(newActive.UpdateID) &&
+                pendingOrders.UpdateID.Equals(newPending.UpdateID) &&
+                finishedOrders.UpdateID.Equals(newFinished.UpdateID);
+            return isEveryOrderLatest;
         }
     }
 }

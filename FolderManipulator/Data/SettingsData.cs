@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,17 @@ namespace FolderManipulator.Data
     [Serializable]
     class SettingsData : ISavableData
     {
+        public DataType DataType { get { return DataType.Settings; } }
+
+        public UpdateID UpdateID { get; set; }
+        
         public OrderTypes mainOrderTypes { get; set; }
         public OrderTypes subOrderTypes { get; set; }
         public bool KeepCheckedFilesAfterRefresh { get; set; } = true;
 
-        public SettingsData(OrderTypes main, OrderTypes sub)
+        public SettingsData(int lastUpdateID, OrderTypes main, OrderTypes sub)
         {
+            UpdateID = new UpdateID(lastUpdateID);
             mainOrderTypes = main;
             subOrderTypes = sub;
 
@@ -30,8 +36,34 @@ namespace FolderManipulator.Data
 
         public SettingsData()
         {
+            UpdateID = new UpdateID();
             mainOrderTypes = new OrderTypes();
             subOrderTypes = new OrderTypes();
+        }
+
+        public void AddNewOrderType(string orderType, OrderCategory category)
+        {
+            if (!SettingsManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add new order type to settings");
+                return;
+            }
+            GetOrderTypesFromCategory(category).list.Add(orderType);
+            UpdateID.IncreaseUpdateID();
+            SettingsManager.OnSettingsChanged?.Invoke();
+        }
+
+        public bool DeleteOrderType(string orderType, OrderCategory category)
+        {
+            if (!SettingsManager.CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't remove order type from settings");
+                return false;
+            }
+            bool isSuccess = GetOrderTypesFromCategory(category).list.Remove(orderType);
+            UpdateID.IncreaseUpdateID();
+            SettingsManager.OnSettingsChanged?.Invoke();
+            return isSuccess;
         }
 
         public OrderTypes GetOrderTypesFromCategory(OrderCategory category)

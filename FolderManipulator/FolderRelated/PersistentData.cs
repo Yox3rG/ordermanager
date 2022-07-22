@@ -1,61 +1,73 @@
-﻿using FolderManipulator.Data;
+﻿using FolderManipulator.Analytics;
+using FolderManipulator.Data;
 using FolderManipulator.UI;
-using FolderManipulator.Analytics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FolderManipulator.FolderRelated
 {
-    static class PersistentData
+    class PersistentData
     {
-        public static Action OnSourcePathChanged;
+        public Action OnSourcePathChanged;
+        public Action OnSourcePathAccepted;
 
-        public static Action OnSaveAllWaitingItems_Successful;
-        public static Action OnSaveAllWaitingItems_PartialSuccess;
-        public static Action OnSaveAllWaitingItems_Failed;
+        public Action OnSaveAllWaitingItems_Successful;
+        public Action OnSaveAllWaitingItems_PartialSuccess;
+        public Action OnSaveAllWaitingItems_Failed;
 
-        private static string activeOrdersFileName = "active_orders.json";
-        private static string finishedOrdersFileName = "finished_orders.json";
-        private static string settingsFileName = "settings.json";
-        private static string sourcePath;
+        private string activeOrdersFileName = "active_orders.json";
+        private string pendingOrdersFileName = "pending_orders.json";
+        private string finishedOrdersFileName = "finished_orders.json";
+        private string settingsFileName = "settings.json";
+        private string lockFileName = "lock.lock";
+        private string sourcePath;
 
-        private static string localDataFileName = "local.json";
+        private string localDataFileName = "local.json";
 
-        private static float saveMinDelay = 1f;
-        private static float saveMaxRandomDelayAfterMin = 4f;
+        private float saveMinDelay = 1f;
+        private float saveMaxRandomDelayAfterMin = 4f;
 
-        private static Task _savingTask;
-        private static CancellationTokenSource _currentCancellationTokenSource;
-        private static List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
+        private Task _savingTask;
+        private CancellationTokenSource _currentCancellationTokenSource;
+        private List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
 
-        public static bool IsSourceReady { get; private set; } = false;
+        public bool IsSourceReady { get; private set; } = false;
 
-        public static string SourcePath { get { return sourcePath; } private set { } }
+        public string SourcePath { get { return sourcePath; } private set { } }
 
-        public static string ActiveTasksPath
+        public string ActiveTasksPath
         {
             get { return GetCombinedPath(activeOrdersFileName); }
             private set { }
         }
 
-        public static string FinishedTasksPath
+        public string PendingTasksPath
+        {
+            get { return GetCombinedPath(pendingOrdersFileName); }
+            private set { }
+        }
+
+        public string FinishedTasksPath
         {
             get { return GetCombinedPath(finishedOrdersFileName); }
             private set { }
         }
 
-        public static string SettingsPath
+        public string SettingsPath
         {
             get { return GetCombinedPath(settingsFileName); }
             private set { }
         }
 
-        public static double RandomSaveDelay
+        public string LockPath
+        {
+            get { return GetCombinedPath(lockFileName); }
+            private set { }
+        }
+
+        public double RandomSaveDelay
         {
             get
             {
@@ -64,47 +76,104 @@ namespace FolderManipulator.FolderRelated
             }
         }
 
-        private static IEnumerable<string> GeneratedFileNames()
+        private IEnumerable<string> GeneratedFileNames()
         {
             yield return GetCombinedPath(activeOrdersFileName);
+            yield return GetCombinedPath(pendingOrdersFileName);
             yield return GetCombinedPath(finishedOrdersFileName);
             yield return GetCombinedPath(settingsFileName);
         }
 
-        static PersistentData()
+        public PersistentData()
         {
-            CreateLocalDataFileIfNotPresent();
-
-            using (var sr = new System.IO.StreamReader(localDataFileName))
-            {
-                sourcePath = sr.ReadLine();
-                OnSourcePathChanged?.Invoke();
-            }
-
-            //System.Windows.Forms.MessageBox.Show(sourcePath);
-
-            IsSourceReady = System.IO.Directory.Exists(sourcePath);
-
-            CreateGeneratedFilesIfNotPresent();
         }
 
-        public static string GetCombinedPath(string fileName)
+        public bool LoadSourcePathFromLocal()
         {
-            if (IsSourceReady)
+            string path = IOHandler.Load<string>(localDataFileName);
+            return SetSourcePath(path);
+        }
+
+        public string GetCombinedPath(string fileName)
+        {
+            if (sourcePath != null)
                 return System.IO.Path.Combine(sourcePath, fileName);
             return null;
+        }
+
+        public DataState GetDataState(bool showStatusMessage, OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
+        {
+            bool isEveryObjectPresent = true;
+            bool isDataOnLatestUpdate = true;
+
+            SettingsData settings = LoadSettings();
+            if (settings == null)
+            {
+                MissingObjectError(DataType.Settings);
+            }
+            OrderList activeOrders = LoadOrderList(OrderListType.Active);
+            if (activeOrders == null)
+            {
+                MissingObjectError(DataType.ActiveOrders);
+            }
+            OrderList pendingOrders = LoadOrderList(OrderListType.Pending);
+            if (pendingOrders == null)
+            {
+                MissingObjectError(DataType.PendingOrders);
+            }
+            OrderList finishedOrders = LoadOrderList(OrderListType.Finished);
+            if (finishedOrders == null)
+            {
+                MissingObjectError(DataType.FinishedOrders);
+            }
+
+            if (!isEveryObjectPresent)
+            {
+                return DataState.MissingObject;
+            }
+
+            isDataOnLatestUpdate &= oldSettings.UpdateID.Equals(settings.UpdateID);
+            isDataOnLatestUpdate &= activeOrders.UpdateID.Equals(oldActiveOrders.UpdateID);
+            isDataOnLatestUpdate &= pendingOrders.UpdateID.Equals(oldPendingOrders.UpdateID);
+            isDataOnLatestUpdate &= finishedOrders.UpdateID.Equals(oldFinishedOrders.UpdateID);
+
+            return isDataOnLatestUpdate ? DataState.Latest : DataState.NotLatest;
+
+            void MissingObjectError(DataType dataType)
+            {
+                isEveryObjectPresent = false;
+                if (showStatusMessage)
+                {
+                    StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+                }
+            }
+        }
+
+        public bool CheckAndCreateLock()
+        {
+            return IOHandler.CheckAndCreateLock(LockPath);
+        }
+
+        public bool ReleaseLock()
+        {
+            return IOHandler.ReleaseLock(LockPath);
         }
 
         #region Settings
         // Add new types to
         // SaveWaitingItem()
-        public static SettingsData LoadSettings()
+        public bool SettingsExist()
+        {
+            return LoadSettings() != null;
+        }
+
+        public SettingsData LoadSettings()
         {
             SettingsData settings = IOHandler.Load<SettingsData>(SettingsPath);
             return settings;
         }
 
-        public static void AddSettingsToWaitingForSaveList(SettingsData settings)
+        public void AddSettingsToWaitingForSaveList(SettingsData settings)
         {
             SavableDataWithPath dataWithPath = new SavableDataWithPath(SettingsPath, settings);
             AddDataToWaitingForSaveList(dataWithPath);
@@ -114,20 +183,25 @@ namespace FolderManipulator.FolderRelated
         #region Orders
         // Add new types to
         // SaveWaitingItem()
-        public static OrderList LoadOrders(OrderListType type)
+        public bool OrderListExist(OrderListType type)
+        {
+            return LoadOrderList(type) != null;
+        }
+
+        public OrderList LoadOrderList(OrderListType type)
         {
             OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
             return orderList;
         }
 
-        public static void AddOrderListToWaitingForSaveList(OrderList orderList)
+        public void AddOrderListToWaitingForSaveList(OrderList orderList)
         {
             SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToPath(orderList.Type), orderList);
             AddDataToWaitingForSaveList(dataWithPath);
         }
         #endregion
 
-        public static void AddDataToWaitingForSaveList(SavableDataWithPath dataWithPath)
+        public void AddDataToWaitingForSaveList(SavableDataWithPath dataWithPath)
         {
             int existingIndex = _itemsWaitingForSave.IndexOf(x => x.path.Equals(dataWithPath.path));
             if (existingIndex == -1)
@@ -141,7 +215,7 @@ namespace FolderManipulator.FolderRelated
             }
         }
 
-        public static bool TrySaveWaitingItems(bool tryAgainOnFailAfterRandomTime = true)
+        public bool TrySaveWaitingItems(bool tryAgainOnFailAfterRandomTime = true)
         {
             try
             {
@@ -160,7 +234,7 @@ namespace FolderManipulator.FolderRelated
             return true;
         }
 
-        private static void StartTrySaveAllWaitingItemsTask()
+        private void StartTrySaveAllWaitingItemsTask()
         {
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
@@ -193,7 +267,7 @@ namespace FolderManipulator.FolderRelated
             }, cancelToken);
         }
 
-        private static bool SaveAllWaitingItems()
+        private bool SaveAllWaitingItems()
         {
             int successCount = 0;
             int waitingCount = _itemsWaitingForSave.Count;
@@ -230,7 +304,7 @@ namespace FolderManipulator.FolderRelated
             return successCount == waitingCount;
         }
 
-        private static bool SaveWaitingItem(SavableDataWithPath dataWithPath)
+        private bool SaveWaitingItem(SavableDataWithPath dataWithPath)
         {
             bool success = false;
             if (dataWithPath.data is SettingsData)
@@ -244,41 +318,56 @@ namespace FolderManipulator.FolderRelated
             return success;
         }
 
-        public static string OrderListTypeToPath(OrderListType type)
+        public string OrderListTypeToPath(OrderListType type)
         {
             switch (type)
             {
                 case OrderListType.Active:
                     return ActiveTasksPath;
+                case OrderListType.Pending:
+                    return PendingTasksPath;
                 case OrderListType.Finished:
                     return FinishedTasksPath;
             }
             return null;
         }
 
-        public static bool SetSourcePath(string path)
+        public bool SetSourcePath(string path)
         {
+            if (path == null)
+                return false;
+
             bool isCorrectPath = System.IO.Directory.Exists(path);
 
             if (isCorrectPath)
             {
-                using (var sw = new System.IO.StreamWriter(localDataFileName))
-                {
-                    sw.WriteLine(path);
-                }
-
                 sourcePath = path;
                 OnSourcePathChanged?.Invoke();
-                IsSourceReady = true;
 
-                CreateGeneratedFilesIfNotPresent();
+                IsSourceReady = false;
                 return true;
             }
 
             return false;
         }
 
-        private static bool CreateGeneratedFilesIfNotPresent()
+        public bool AcceptSourcePath()
+        {
+            bool isCorrectPath = System.IO.Directory.Exists(sourcePath);
+            if (isCorrectPath)
+            {
+                IOHandler.Save<string>(localDataFileName, sourcePath);
+
+                IsSourceReady = true;
+                //CreateGeneratedFilesIfNotPresent();
+                OnSourcePathAccepted?.Invoke();
+
+                return true;
+            }
+            return false;
+        }
+
+        private bool CreateGeneratedFilesIfNotPresent()
         {
             bool isSuccess = true;
             foreach (string path in GeneratedFileNames())
@@ -289,7 +378,7 @@ namespace FolderManipulator.FolderRelated
             return isSuccess;
         }
 
-        private static bool CreateFileIfNotPresent(string path)
+        private bool CreateFileIfNotPresent(string path)
         {
             try
             {
@@ -306,19 +395,22 @@ namespace FolderManipulator.FolderRelated
             return false;
         }
 
-        private static bool CreateLocalDataFileIfNotPresent()
+        public void CreateLocalDataFileIfNotPresent(out bool fileCreated)
         {
             if (!System.IO.File.Exists(localDataFileName))
             {
                 System.IO.File.Create(localDataFileName);
-                return true;
+                fileCreated = true;
             }
-            return false;
+            else
+            {
+                fileCreated = false;
+            }
         }
 
         #region Testing
-        private static Task _currentTask;
-        public static void StartTestTask()
+        private Task _currentTask;
+        public void StartTestTask()
         {
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
@@ -343,7 +435,7 @@ namespace FolderManipulator.FolderRelated
             }, cancelToken);
         }
 
-        public static void StopTestTask()
+        public void StopTestTask()
         {
             try
             {

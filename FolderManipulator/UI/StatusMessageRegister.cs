@@ -25,19 +25,19 @@ namespace FolderManipulator.UI
         public static void RegisterMessageForSaveOrderListSuccessful()
         {
             SaveOrderListSuccessfulAction = delegate { StatusManager.ShowMessage("Mentés sikeres.", StatusColorType.Success, resetAfter: DelayTimeType.Medium); };
-            PersistentData.OnSaveAllWaitingItems_Successful += SaveOrderListSuccessfulAction;
+            //PersistentData.OnSaveAllWaitingItems_Successful += SaveOrderListSuccessfulAction;
         }
 
         public static void RegisterMessageForSaveOrderListPartialSuccess()
         {
             SaveOrderListPartialSuccessAction = delegate { StatusManager.ShowMessage("Mentés részlegesen sikeres.", StatusColorType.Warning); };
-            PersistentData.OnSaveAllWaitingItems_PartialSuccess += SaveOrderListPartialSuccessAction;
+            //PersistentData.OnSaveAllWaitingItems_PartialSuccess += SaveOrderListPartialSuccessAction;
         }
 
         public static void RegisterMessageForSaveOrderListFailed()
         {
             SaveOrderListFailedAction = delegate { StatusManager.ShowMessage("Mentés sikertelen. Újrapróbálkozás...", StatusColorType.Error); };
-            PersistentData.OnSaveAllWaitingItems_Failed += SaveOrderListFailedAction;
+            //PersistentData.OnSaveAllWaitingItems_Failed += SaveOrderListFailedAction;
         }
     }
 }
