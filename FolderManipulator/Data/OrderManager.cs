@@ -147,14 +147,14 @@ namespace FolderManipulator.Data
             HandleOrderAction(orders, activeOrders.Add);
         }
 
-        public static bool RemoveActiveOrder(OrderData order)
+        public static bool RemoveOrder(OrderListType listType, OrderData order)
         {
-            return HandleOrderFunc(order, activeOrders.Remove);
+            return HandleOrderFunc(order, GetOrderList(listType).Remove);
         }
 
-        public static bool RemoveActiveOrder(IEnumerable<OrderData> orders)
+        public static bool RemoveOrder(OrderListType listType, IEnumerable<OrderData> orders)
         {
-            return HandleOrderFunc(orders, activeOrders.Remove);
+            return HandleOrderFunc(orders, GetOrderList(listType).Remove);
         }
 
         //public static void EditActiveOrder(OrderData order, OrderData other)

@@ -20,7 +20,7 @@ namespace FolderManipulator
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
 
-        private TreeViewHandleGroup treeViewHandleGroup = new TreeViewHandleGroup();
+        private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
         private const string _dummyOrderTypeName = "Other";
         private static List<Guid> checkedActineOrderIds = new List<Guid>();
         private static List<Guid> checkedPendingOrderIds = new List<Guid>();
@@ -44,9 +44,9 @@ namespace FolderManipulator
             treeViewToAfterCheck[tree_view_active] = tree_view_active_AfterCheck;
             treeViewToAfterCheck[tree_view_pending] = tree_view_pending_AfterCheck;
             treeViewToAfterCheck[tree_view_finished] = tree_view_finished_AfterCheck;
-            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_active, tree_view_active_AfterCheck, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
 
             StatusManager.Initialize(status_strip);
             InitializeTabPages();
@@ -139,7 +139,8 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order != null && MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            OrderManager.RemoveActiveOrder(order);
+                            OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
+                            OrderManager.RemoveOrder(orderListType, order);
                         }
                     }),
                 new SpecialContextMenuItem("-", null),
@@ -148,8 +149,12 @@ namespace FolderManipulator
                         ClearCheckedOrders(treeViewHandleGroup.GetHandle((TreeView)owner));
                     }),
             };
-            SpecialContextMenu<OrderData> contextMenuOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_active, contextMenuItemsOrderTreeView);
-            tree_view_active.ContextMenu = contextMenuOrderTreeView.Menu;
+            SpecialContextMenu<OrderData> contextMenuActiveOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_active, contextMenuItemsOrderTreeView);
+            SpecialContextMenu<OrderData> contextMenuPendingOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_pending, contextMenuItemsOrderTreeView);
+            SpecialContextMenu<OrderData> contextMenuFinishedOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_finished, contextMenuItemsOrderTreeView);
+            tree_view_active.ContextMenu = contextMenuActiveOrderTreeView.Menu;
+            tree_view_pending.ContextMenu = contextMenuPendingOrderTreeView.Menu;
+            tree_view_finished.ContextMenu = contextMenuFinishedOrderTreeView.Menu;
         }
 
         private void SubscribeToActions()
@@ -298,13 +303,13 @@ namespace FolderManipulator
             }
         }
 
-        private void SaveCheckedOrders(TreeViewHandle treeViewHandle)
+        private void SaveCheckedOrders(OrderTreeViewHandle treeViewHandle)
         {
             List<TreeNode> allNodes = treeViewHandle.TreeView.GetAllNodes();
             treeViewHandle.UpdateCheckedData(allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList());
         }
 
-        private void LoadCheckedOrders(TreeViewHandle treeViewHandle)
+        private void LoadCheckedOrders(OrderTreeViewHandle treeViewHandle)
         {
             treeViewHandle.RemoveAfterCheckFunction();
 
@@ -331,7 +336,7 @@ namespace FolderManipulator
             ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
         }
 
-        private void ClearCheckedOrders(TreeViewHandle treeViewHandle)
+        private void ClearCheckedOrders(OrderTreeViewHandle treeViewHandle)
         {
             treeViewHandle.RemoveAfterCheckFunction();
 
@@ -355,7 +360,7 @@ namespace FolderManipulator
             ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
         }
 
-        private void CheckAllChildren(TreeViewHandle treeViewHandle, TreeViewEventArgs e)
+        private void CheckAllChildren(OrderTreeViewHandle treeViewHandle, TreeViewEventArgs e)
         {
             bool newChecked = e.Node.Checked;
             treeViewHandle.RemoveAfterCheckFunction();

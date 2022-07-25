@@ -1,4 +1,5 @@
-﻿using FolderManipulator.Extensions;
+﻿using FolderManipulator.Data;
+using FolderManipulator.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,21 @@ using System.Windows.Forms;
 
 namespace FolderManipulator.UI
 {
-    public class TreeViewHandle
+    public class OrderTreeViewHandle
     {
         private List<Guid> checkedData;
         private int scrollBarValue;
 
         public TreeView TreeView { get; private set; }
         public TreeViewEventHandler AfterCheckFunction { get; private set; }
+        public OrderListType OrderListType { get; private set; }
 
 
-        public TreeViewHandle(TreeView treeView, TreeViewEventHandler afterCheckFunction, List<Guid> checkedData)
+        public OrderTreeViewHandle(TreeView treeView, TreeViewEventHandler afterCheckFunction, OrderListType type, List<Guid> checkedData)
         {
             TreeView = treeView;
             AfterCheckFunction = afterCheckFunction;
+            this.OrderListType = type;
             this.checkedData = checkedData;
             this.scrollBarValue = 0;
         }

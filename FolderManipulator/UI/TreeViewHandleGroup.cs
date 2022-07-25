@@ -7,32 +7,32 @@ using System.Windows.Forms;
 
 namespace FolderManipulator.UI
 {
-    public class TreeViewHandleGroup
+    public class OrderTreeViewHandleGroup
     {
-        private List<TreeViewHandle> handles;
-        private Dictionary<TreeView, TreeViewHandle> treeViewToHandle;
+        private List<OrderTreeViewHandle> handles;
+        private Dictionary<TreeView, OrderTreeViewHandle> treeViewToHandle;
 
-        public TreeViewHandleGroup()
+        public OrderTreeViewHandleGroup()
         {
-            handles = new List<TreeViewHandle>();
-            treeViewToHandle = new Dictionary<TreeView, TreeViewHandle>();
+            handles = new List<OrderTreeViewHandle>();
+            treeViewToHandle = new Dictionary<TreeView, OrderTreeViewHandle>();
         }
 
-        public void AddHandle(TreeViewHandle handle)
+        public void AddHandle(OrderTreeViewHandle handle)
         {
             handles.Add(handle);
             treeViewToHandle[handle.TreeView] = handle;
         }
 
-        public bool RemoveHandle(TreeViewHandle handle)
+        public bool RemoveHandle(OrderTreeViewHandle handle)
         {
             bool success = treeViewToHandle.Remove(handle.TreeView);
             return handles.Remove(handle) && success;
         }
 
-        public TreeViewHandle GetHandle(TreeView treeView)
+        public OrderTreeViewHandle GetHandle(TreeView treeView)
         {
-            if (treeViewToHandle.TryGetValue(treeView, out TreeViewHandle handle))
+            if (treeViewToHandle.TryGetValue(treeView, out OrderTreeViewHandle handle))
             {
                 return handle;
             }
