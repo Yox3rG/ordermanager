@@ -545,19 +545,40 @@ namespace FolderManipulator
             return orders;
         }
 
-        private void btn_add_pending_Click(object sender, EventArgs e)
+        private void btn_add_active_pending_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            OrderManager.AddOrderToPending(orders);
+            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Pending);
         }
 
-        private void btn_add_finished_Click(object sender, EventArgs e)
+        private void btn_add_active_finished_Click(object sender, EventArgs e)
         {
+            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
+            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Finished);
         }
 
-        private void btn_refresh_overview_Click(object sender, EventArgs e)
+        private void btn_add_pending_active_Click(object sender, EventArgs e)
         {
-            RefreshOrders();
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Active);
+        }
+
+        private void btn_add_pending_finished_Click(object sender, EventArgs e)
+        {
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Finished);
+        }
+
+        private void btn_add_finished_active_Click(object sender, EventArgs e)
+        {
+            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
+            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Active);
+        }
+
+        private void btn_add_finished_pending_Click(object sender, EventArgs e)
+        {
+            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
+            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
         }
 
         private void RefreshOrders(bool expandAll = true)

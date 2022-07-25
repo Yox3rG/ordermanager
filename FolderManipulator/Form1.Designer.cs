@@ -30,8 +30,8 @@
         {
             this.btn_add = new System.Windows.Forms.Button();
             this.split_container_edit = new System.Windows.Forms.SplitContainer();
-            this.btn_add_finished = new System.Windows.Forms.Button();
-            this.btn_add_pending = new System.Windows.Forms.Button();
+            this.btn_add_active_finished = new System.Windows.Forms.Button();
+            this.btn_add_active_pending = new System.Windows.Forms.Button();
             this.tree_view_active = new System.Windows.Forms.TreeView();
             this.lbl_main_ordertype = new System.Windows.Forms.Label();
             this.drpd_main_ordertype = new System.Windows.Forms.ComboBox();
@@ -48,11 +48,11 @@
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tab_page_active = new System.Windows.Forms.TabPage();
             this.tab_page_pending = new System.Windows.Forms.TabPage();
-            this.btn_refresh_overview = new System.Windows.Forms.Button();
+            this.btn_add_pending_finished = new System.Windows.Forms.Button();
             this.tree_view_pending = new System.Windows.Forms.TreeView();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btn_add_finished_pending = new System.Windows.Forms.Button();
+            this.btn_add_finished_active = new System.Windows.Forms.Button();
             this.tree_view_finished = new System.Windows.Forms.TreeView();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
             this.btn_accept_source = new System.Windows.Forms.Button();
@@ -84,6 +84,7 @@
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btn_add_pending_active = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -116,8 +117,8 @@
             // split_container_edit.Panel1
             // 
             this.split_container_edit.Panel1.AutoScroll = true;
-            this.split_container_edit.Panel1.Controls.Add(this.btn_add_finished);
-            this.split_container_edit.Panel1.Controls.Add(this.btn_add_pending);
+            this.split_container_edit.Panel1.Controls.Add(this.btn_add_active_finished);
+            this.split_container_edit.Panel1.Controls.Add(this.btn_add_active_pending);
             this.split_container_edit.Panel1.Controls.Add(this.tree_view_active);
             // 
             // split_container_edit.Panel2
@@ -139,25 +140,25 @@
             this.split_container_edit.SplitterDistance = 486;
             this.split_container_edit.TabIndex = 5;
             // 
-            // btn_add_finished
+            // btn_add_active_finished
             // 
-            this.btn_add_finished.Location = new System.Drawing.Point(115, 385);
-            this.btn_add_finished.Name = "btn_add_finished";
-            this.btn_add_finished.Size = new System.Drawing.Size(92, 37);
-            this.btn_add_finished.TabIndex = 7;
-            this.btn_add_finished.Text = "Add to Finished";
-            this.btn_add_finished.UseVisualStyleBackColor = true;
-            this.btn_add_finished.Click += new System.EventHandler(this.btn_add_finished_Click);
+            this.btn_add_active_finished.Location = new System.Drawing.Point(115, 375);
+            this.btn_add_active_finished.Name = "btn_add_active_finished";
+            this.btn_add_active_finished.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_active_finished.TabIndex = 7;
+            this.btn_add_active_finished.Text = "Add to Finished";
+            this.btn_add_active_finished.UseVisualStyleBackColor = true;
+            this.btn_add_active_finished.Click += new System.EventHandler(this.btn_add_active_finished_Click);
             // 
-            // btn_add_pending
+            // btn_add_active_pending
             // 
-            this.btn_add_pending.Location = new System.Drawing.Point(17, 385);
-            this.btn_add_pending.Name = "btn_add_pending";
-            this.btn_add_pending.Size = new System.Drawing.Size(92, 37);
-            this.btn_add_pending.TabIndex = 6;
-            this.btn_add_pending.Text = "Add to Pending";
-            this.btn_add_pending.UseVisualStyleBackColor = true;
-            this.btn_add_pending.Click += new System.EventHandler(this.btn_add_pending_Click);
+            this.btn_add_active_pending.Location = new System.Drawing.Point(17, 375);
+            this.btn_add_active_pending.Name = "btn_add_active_pending";
+            this.btn_add_active_pending.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_active_pending.TabIndex = 6;
+            this.btn_add_active_pending.Text = "Add to Pending";
+            this.btn_add_active_pending.UseVisualStyleBackColor = true;
+            this.btn_add_active_pending.Click += new System.EventHandler(this.btn_add_active_pending_Click);
             // 
             // tree_view_active
             // 
@@ -305,7 +306,8 @@
             // 
             // tab_page_pending
             // 
-            this.tab_page_pending.Controls.Add(this.btn_refresh_overview);
+            this.tab_page_pending.Controls.Add(this.btn_add_pending_active);
+            this.tab_page_pending.Controls.Add(this.btn_add_pending_finished);
             this.tab_page_pending.Controls.Add(this.tree_view_pending);
             this.tab_page_pending.Location = new System.Drawing.Point(4, 22);
             this.tab_page_pending.Name = "tab_page_pending";
@@ -315,15 +317,15 @@
             this.tab_page_pending.Text = "Függőben";
             this.tab_page_pending.UseVisualStyleBackColor = true;
             // 
-            // btn_refresh_overview
+            // btn_add_pending_finished
             // 
-            this.btn_refresh_overview.Location = new System.Drawing.Point(18, 394);
-            this.btn_refresh_overview.Name = "btn_refresh_overview";
-            this.btn_refresh_overview.Size = new System.Drawing.Size(92, 37);
-            this.btn_refresh_overview.TabIndex = 7;
-            this.btn_refresh_overview.Text = "Frissítés";
-            this.btn_refresh_overview.UseVisualStyleBackColor = true;
-            this.btn_refresh_overview.Click += new System.EventHandler(this.btn_refresh_overview_Click);
+            this.btn_add_pending_finished.Location = new System.Drawing.Point(116, 379);
+            this.btn_add_pending_finished.Name = "btn_add_pending_finished";
+            this.btn_add_pending_finished.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending_finished.TabIndex = 7;
+            this.btn_add_pending_finished.Text = "Add to Finished";
+            this.btn_add_pending_finished.UseVisualStyleBackColor = true;
+            this.btn_add_pending_finished.Click += new System.EventHandler(this.btn_add_pending_finished_Click);
             // 
             // tree_view_pending
             // 
@@ -337,8 +339,8 @@
             // 
             // tab_page_finished
             // 
-            this.tab_page_finished.Controls.Add(this.button4);
-            this.tab_page_finished.Controls.Add(this.button5);
+            this.tab_page_finished.Controls.Add(this.btn_add_finished_pending);
+            this.tab_page_finished.Controls.Add(this.btn_add_finished_active);
             this.tab_page_finished.Controls.Add(this.tree_view_finished);
             this.tab_page_finished.Location = new System.Drawing.Point(4, 22);
             this.tab_page_finished.Name = "tab_page_finished";
@@ -347,23 +349,25 @@
             this.tab_page_finished.Text = "Kész";
             this.tab_page_finished.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btn_add_finished_pending
             // 
-            this.button4.Location = new System.Drawing.Point(116, 384);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(92, 37);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Add to Finished";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btn_add_finished_pending.Location = new System.Drawing.Point(116, 374);
+            this.btn_add_finished_pending.Name = "btn_add_finished_pending";
+            this.btn_add_finished_pending.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_finished_pending.TabIndex = 10;
+            this.btn_add_finished_pending.Text = "Add to Pending";
+            this.btn_add_finished_pending.UseVisualStyleBackColor = true;
+            this.btn_add_finished_pending.Click += new System.EventHandler(this.btn_add_finished_pending_Click);
             // 
-            // button5
+            // btn_add_finished_active
             // 
-            this.button5.Location = new System.Drawing.Point(18, 384);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(92, 37);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "Add to Pending";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btn_add_finished_active.Location = new System.Drawing.Point(18, 374);
+            this.btn_add_finished_active.Name = "btn_add_finished_active";
+            this.btn_add_finished_active.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_finished_active.TabIndex = 9;
+            this.btn_add_finished_active.Text = "Add to Active";
+            this.btn_add_finished_active.UseVisualStyleBackColor = true;
+            this.btn_add_finished_active.Click += new System.EventHandler(this.btn_add_finished_active_Click);
             // 
             // tree_view_finished
             // 
@@ -655,6 +659,16 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
+            // btn_add_pending_active
+            // 
+            this.btn_add_pending_active.Location = new System.Drawing.Point(18, 379);
+            this.btn_add_pending_active.Name = "btn_add_pending_active";
+            this.btn_add_pending_active.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending_active.TabIndex = 8;
+            this.btn_add_pending_active.Text = "Add to Active";
+            this.btn_add_pending_active.UseVisualStyleBackColor = true;
+            this.btn_add_pending_active.Click += new System.EventHandler(this.btn_add_pending_active_Click);
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -716,7 +730,7 @@
         private System.Windows.Forms.Label lbl_source;
         private System.Windows.Forms.Button btn_choose_source;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btn_add_pending;
+        private System.Windows.Forms.Button btn_add_active_pending;
         private System.Windows.Forms.TreeView tree_view_active;
         private System.Windows.Forms.TreeView tree_view_hierarchy;
         private System.Windows.Forms.TextBox txt_main_ordertype;
@@ -729,7 +743,7 @@
         private System.Windows.Forms.ListBox listbox_sub_ordertype;
         private System.Windows.Forms.Button btn_delete_sub_ordertype;
         private System.Windows.Forms.Button btn_delete_main_ordertype;
-        private System.Windows.Forms.Button btn_refresh_overview;
+        private System.Windows.Forms.Button btn_add_pending_finished;
         private System.Windows.Forms.TreeView tree_view_pending;
         private System.Windows.Forms.TextBox txt_drag_drop;
         private System.Windows.Forms.StatusStrip status_strip;
@@ -743,10 +757,11 @@
         private System.Windows.Forms.TabPage tab_page_finished;
         private System.Windows.Forms.Button btn_accept_source;
         private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
-        private System.Windows.Forms.Button btn_add_finished;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btn_add_active_finished;
+        private System.Windows.Forms.Button btn_add_finished_pending;
+        private System.Windows.Forms.Button btn_add_finished_active;
         private System.Windows.Forms.TreeView tree_view_finished;
+        private System.Windows.Forms.Button btn_add_pending_active;
     }
 }
 

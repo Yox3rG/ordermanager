@@ -27,7 +27,7 @@ namespace FolderManipulator.Data
             }
         }
 
-        private static void HandleOrderData(OrderData order, Action<OrderData> action)
+        private static void HandleOrderAction(OrderData order, Action<OrderData> action)
         {
             if (order == null || action == null)
                 return;
@@ -40,7 +40,7 @@ namespace FolderManipulator.Data
             OnOrderListChanged?.Invoke();
         }
 
-        private static void HandleOrderData(IEnumerable<OrderData> orders, Action<OrderData> action)
+        private static void HandleOrderAction(IEnumerable<OrderData> orders, Action<OrderData> action)
         {
             if (orders == null || action == null)
                 return;
@@ -56,7 +56,7 @@ namespace FolderManipulator.Data
             OnOrderListChanged?.Invoke();
         }
 
-        private static bool HandleOrderData(OrderData order, Func<OrderData, bool> func)
+        private static bool HandleOrderFunc(OrderData order, Func<OrderData, bool> func)
         {
             if (order == null || func == null)
                 return false;
@@ -70,7 +70,7 @@ namespace FolderManipulator.Data
             return result;
         }
 
-        private static bool HandleOrderData(IEnumerable<OrderData> orders, Func<OrderData, bool> func)
+        private static bool HandleOrderFunc(IEnumerable<OrderData> orders, Func<OrderData, bool> func)
         {
             if (orders == null || func == null)
                 return false;
@@ -90,26 +90,71 @@ namespace FolderManipulator.Data
             OnOrderListChanged?.Invoke();
             return result;
         }
+
+        private static bool HandleOrderMove(OrderData order, OrderList from, OrderList to)
+        {
+            if (order == null || from == null || to == null)
+                return false;
+            if (!CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't move to orderlist {activeOrders.Type}");
+                return false;
+            }
+            bool result = MoveOrderFunction(order, from, to);
+            OnOrderListChanged?.Invoke();
+            return result;
+        }
+
+        private static bool HandleOrderMove(IEnumerable<OrderData> orders, OrderList from, OrderList to)
+        {
+            if (orders == null || from == null || to == null)
+                return false;
+            if (!CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't move to orderlist {activeOrders.Type}");
+                return false;
+            }
+            bool result = true;
+            foreach (OrderData order in orders)
+            {
+                if (!MoveOrderFunction(order, from, to))
+                {
+                    result = false;
+                }
+            }
+            OnOrderListChanged?.Invoke();
+            return result;
+        }
+
+        private static bool MoveOrderFunction(OrderData order, OrderList from, OrderList to)
+        {
+            if (from.Remove(order))
+            {
+                to.Add(order);
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         public static void AddNewOrder(OrderData order)
         {
-            HandleOrderData(order, activeOrders.Add);
+            HandleOrderAction(order, activeOrders.Add);
         }
 
         public static void AddNewOrder(IEnumerable<OrderData> orders)
         {
-            HandleOrderData(orders, activeOrders.Add);
+            HandleOrderAction(orders, activeOrders.Add);
         }
 
         public static bool RemoveActiveOrder(OrderData order)
         {
-            return HandleOrderData(order, activeOrders.Remove);
+            return HandleOrderFunc(order, activeOrders.Remove);
         }
 
         public static bool RemoveActiveOrder(IEnumerable<OrderData> orders)
         {
-            return HandleOrderData(orders, activeOrders.Remove);
+            return HandleOrderFunc(orders, activeOrders.Remove);
         }
 
         //public static void EditActiveOrder(OrderData order, OrderData other)
@@ -117,49 +162,28 @@ namespace FolderManipulator.Data
         //    order.Copy(other);
         //}
 
-        public static bool FinishOrder(OrderData order)
+        public static bool MoveOrder(OrderData order, OrderListType from, OrderListType to)
         {
-            return HandleOrderData(order, FinishOrderFunction);
+            return HandleOrderMove(order, GetOrderList(from), GetOrderList(to));
         }
 
-        public static bool FinishOrder(IEnumerable<OrderData> orders)
+        public static bool MoveOrder(IEnumerable<OrderData> orders, OrderListType from, OrderListType to)
         {
-            return HandleOrderData(orders, FinishOrderFunction);
+            return HandleOrderMove(orders, GetOrderList(from), GetOrderList(to));
         }
 
-        private static bool FinishOrderFunction(OrderData order)
+        public static OrderList GetOrderList(OrderListType type)
         {
-            if (activeOrders.Remove(order))
+            switch (type)
             {
-                finishedOrders.Add(order);
-                return true;
+                case OrderListType.Active:
+                    return activeOrders;
+                case OrderListType.Pending:
+                    return pendingOrders;
+                case OrderListType.Finished:
+                    return finishedOrders;
             }
-            else if (pendingOrders.Remove(order))
-            {
-                finishedOrders.Add(order);
-                return true;
-            }
-            return false;
-        }
-
-        public static bool AddOrderToPending(OrderData order)
-        {
-            return HandleOrderData(order, AddOrderToPendingFunction);
-        }
-
-        public static bool AddOrderToPending(IEnumerable<OrderData> orders)
-        {
-            return HandleOrderData(orders, AddOrderToPendingFunction);
-        }
-
-        private static bool AddOrderToPendingFunction(OrderData order)
-        {
-            if (activeOrders.Remove(order))
-            {
-                pendingOrders.Add(order);
-                return true;
-            }
-            return false;
+            return null;
         }
 
         public static OrderList GetActiveOrders()
