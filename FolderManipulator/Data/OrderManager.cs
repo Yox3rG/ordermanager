@@ -139,21 +139,29 @@ namespace FolderManipulator.Data
 
         public static void AddNewOrder(OrderData order)
         {
+            if (order == null)
+                return;
+            AppConsole.WriteLine($"Order [{order.Id}] added to active orders.");
             HandleOrderAction(order, activeOrders.Add);
         }
 
         public static void AddNewOrder(IEnumerable<OrderData> orders)
         {
+            AppConsole.WriteLine($"Orders added to active orders.");
             HandleOrderAction(orders, activeOrders.Add);
         }
 
         public static bool RemoveOrder(OrderListType listType, OrderData order)
         {
+            if (order == null)
+                return false;
+            AppConsole.WriteLine($"Order [{order.Id}] removed from [{listType}].");
             return HandleOrderFunc(order, GetOrderList(listType).Remove);
         }
 
         public static bool RemoveOrder(OrderListType listType, IEnumerable<OrderData> orders)
         {
+            AppConsole.WriteLine($"Orders removed from [{listType}].");
             return HandleOrderFunc(orders, GetOrderList(listType).Remove);
         }
 
@@ -164,11 +172,13 @@ namespace FolderManipulator.Data
 
         public static bool MoveOrder(OrderData order, OrderListType from, OrderListType to)
         {
+            AppConsole.WriteLine($"Order [{order.Id}] from [{from}] to [{to}].");
             return HandleOrderMove(order, GetOrderList(from), GetOrderList(to));
         }
 
         public static bool MoveOrder(IEnumerable<OrderData> orders, OrderListType from, OrderListType to)
         {
+            AppConsole.WriteLine($"Orders from [{from}] to [{to}].");
             return HandleOrderMove(orders, GetOrderList(from), GetOrderList(to));
         }
 
