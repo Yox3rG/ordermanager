@@ -20,9 +20,17 @@ namespace FolderManipulator
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
 
+        private TreeViewHandleGroup treeViewHandleGroup = new TreeViewHandleGroup();
         private const string _dummyOrderTypeName = "Other";
-        private static List<Guid> checkedOrderIds = new List<Guid>();
+        private static List<Guid> checkedActineOrderIds = new List<Guid>();
+        private static List<Guid> checkedPendingOrderIds = new List<Guid>();
+        private static List<Guid> checkedFinishedOrderIds = new List<Guid>();
         private static int activeOrdersScrollbarValue = 0;
+        private static int pendingOrdersScrollbarValue = 0;
+        private static int finishedOrdersScrollbarValue = 0;
+
+        private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
+
         private Timer formOneSecondTimer;
 
         private List<TabPage> tabPages;
@@ -33,6 +41,12 @@ namespace FolderManipulator
         public form_main()
         {
             InitializeComponent();
+            treeViewToAfterCheck[tree_view_active] = tree_view_active_AfterCheck;
+            treeViewToAfterCheck[tree_view_pending] = tree_view_pending_AfterCheck;
+            treeViewToAfterCheck[tree_view_finished] = tree_view_finished_AfterCheck;
+            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_active, tree_view_active_AfterCheck, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new TreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, new List<Guid>()));
 
             StatusManager.Initialize(status_strip);
             InitializeTabPages();
@@ -131,7 +145,7 @@ namespace FolderManipulator
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
                     {
-                        ClearCheckedOrders(((TreeView)owner));
+                        ClearCheckedOrders(treeViewHandleGroup.GetHandle((TreeView)owner));
                     }),
             };
             SpecialContextMenu<OrderData> contextMenuOrderTreeView = new SpecialContextMenu<OrderData>(tree_view_active, contextMenuItemsOrderTreeView);
@@ -284,22 +298,23 @@ namespace FolderManipulator
             }
         }
 
-        private void SaveCheckedOrders(TreeView treeview)
+        private void SaveCheckedOrders(TreeViewHandle treeViewHandle)
         {
-            List<TreeNode> allNodes = treeview.GetAllNodes();
-            checkedOrderIds = allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList();
+            List<TreeNode> allNodes = treeViewHandle.TreeView.GetAllNodes();
+            treeViewHandle.UpdateCheckedData(allNodes.Where(x => x.Checked && x.Tag is OrderData).Select(x => ((OrderData)x.Tag).Id).ToList());
         }
 
-        private void LoadCheckedOrders(TreeView treeview)
+        private void LoadCheckedOrders(TreeViewHandle treeViewHandle)
         {
-            tree_view_active.AfterCheck -= tree_view_active_AfterCheck;
+            treeViewHandle.RemoveAfterCheckFunction();
 
             try
             {
-                foreach (var node in treeview.GetAllNodes())
+                List<Guid> guids = treeViewHandle.GetCheckedData();
+                foreach (var node in treeViewHandle.TreeView.GetAllNodes())
                 {
                     OrderData data = (OrderData)node.Tag;
-                    if (data != null && checkedOrderIds.Contains(data.Id))
+                    if (data != null && guids.Contains(data.Id))
                     {
                         node.Checked = true;
                     }
@@ -311,18 +326,18 @@ namespace FolderManipulator
             }
             finally
             {
-                tree_view_active.AfterCheck += tree_view_active_AfterCheck;
+                treeViewHandle.AddAfterCheckFunction();
             }
-            ColorCheckedNodes(tree_view_active, checkedColor);
+            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
         }
 
-        private void ClearCheckedOrders(TreeView treeview)
+        private void ClearCheckedOrders(TreeViewHandle treeViewHandle)
         {
-            tree_view_active.AfterCheck -= tree_view_active_AfterCheck;
+            treeViewHandle.RemoveAfterCheckFunction();
 
             try
             {
-                foreach (var node in treeview.GetAllNodes())
+                foreach (var node in treeViewHandle.TreeView.GetAllNodes())
                 {
                     node.Checked = false;
                 }
@@ -333,11 +348,36 @@ namespace FolderManipulator
             }
             finally
             {
-                tree_view_active.AfterCheck += tree_view_active_AfterCheck;
+                treeViewHandle.AddAfterCheckFunction();
             }
 
-            checkedOrderIds.Clear();
-            ColorCheckedNodes(tree_view_active, checkedColor);
+            treeViewHandle.ClearCheckedData();
+            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
+        }
+
+        private void CheckAllChildren(TreeViewHandle treeViewHandle, TreeViewEventArgs e)
+        {
+            bool newChecked = e.Node.Checked;
+            treeViewHandle.RemoveAfterCheckFunction();
+
+            try
+            {
+                foreach (var node in e.Node.GetAllNodes())
+                {
+                    node.Checked = newChecked;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                treeViewHandle.AddAfterCheckFunction();
+            }
+            SaveCheckedOrders(treeViewHandle);
+            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
+            //AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
 
@@ -388,39 +428,29 @@ namespace FolderManipulator
             tree_view_active.SelectedNode = e.Node;
         }
 
+        private void tree_view_pending_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            tree_view_pending.SelectedNode = e.Node;
+        }
+
+        private void tree_view_finished_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            tree_view_finished.SelectedNode = e.Node;
+        }
+
         private void tree_view_active_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            CheckAllChildren(tree_view_active, e, tree_view_active_AfterCheck);
+            CheckAllChildren(treeViewHandleGroup.GetHandle(tree_view_active), e);
         }
 
-        private void tree_view_pending_AfterSelect(object sender, TreeViewEventArgs e)
+        private void tree_view_pending_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            CheckAllChildren(tree_view_pending, e, tree_view_pending_AfterSelect);
+            CheckAllChildren(treeViewHandleGroup.GetHandle(tree_view_pending), e);
         }
 
-        private void CheckAllChildren(TreeView targetTreeView, TreeViewEventArgs e, TreeViewEventHandler afterCheckAction)
+        private void tree_view_finished_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            bool newChecked = e.Node.Checked;
-            targetTreeView.AfterCheck -= afterCheckAction;
-
-            try
-            {
-                foreach (var node in e.Node.GetAllNodes())
-                {
-                    node.Checked = newChecked;
-                }
-            }
-            catch (Exception ex)
-            {
-                AppConsole.WriteLine(ex.Message);
-            }
-            finally
-            {
-                targetTreeView.AfterCheck += afterCheckAction;
-            }
-            SaveCheckedOrders(targetTreeView);
-            ColorCheckedNodes(targetTreeView, checkedColor);
-            //AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
+            CheckAllChildren(treeViewHandleGroup.GetHandle(tree_view_finished), e);
         }
         #endregion
 
@@ -517,13 +547,12 @@ namespace FolderManipulator
 
         private void btn_add_pending_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(checkedOrderIds);
+            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
             OrderManager.AddOrderToPending(orders);
         }
 
         private void btn_add_finished_Click(object sender, EventArgs e)
         {
-
         }
 
         private void btn_refresh_overview_Click(object sender, EventArgs e)
@@ -533,19 +562,22 @@ namespace FolderManipulator
 
         private void RefreshOrders(bool expandAll = true)
         {
-            activeOrdersScrollbarValue = tree_view_active.GetTreeViewScrollPosVertical();
+            treeViewHandleGroup.SaveCurrentScrollBarPosition();
 
             FillTreeViewWithOrders(tree_view_active, OrderManager.GetActiveOrders());
             FillTreeViewWithOrders(tree_view_pending, OrderManager.GetPendingOrders());
+            FillTreeViewWithOrders(tree_view_finished, OrderManager.GetFinishedOrders());
 
             if (expandAll)
             {
-                tree_view_active.ExpandAll();
-                tree_view_pending.ExpandAll();
+                treeViewHandleGroup.ExpandAll();
             }
 
-            LoadCheckedOrders(tree_view_active);
-            tree_view_active.SetTreeViewScrollPosVertical(activeOrdersScrollbarValue);
+            LoadCheckedOrders(treeViewHandleGroup.GetHandle(tree_view_active));
+            LoadCheckedOrders(treeViewHandleGroup.GetHandle(tree_view_pending));
+            LoadCheckedOrders(treeViewHandleGroup.GetHandle(tree_view_finished));
+
+            treeViewHandleGroup.ResetToSavedScrollBarPosition();
         }
 
         private void FillTreeViewWithOrders(TreeView treeView, OrderList orders)

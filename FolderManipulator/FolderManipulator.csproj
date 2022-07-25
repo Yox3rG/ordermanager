@@ -110,6 +110,8 @@
     <Compile Include="UI\SpecialContextMenus.cs" />
     <Compile Include="UI\StatusManager.cs" />
     <Compile Include="UI\StatusMessageRegister.cs" />
+    <Compile Include="UI\TreeViewHandle.cs" />
+    <Compile Include="UI\TreeViewHandleGroup.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -51,6 +51,9 @@
             this.btn_refresh_overview = new System.Windows.Forms.Button();
             this.tree_view_pending = new System.Windows.Forms.TreeView();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.tree_view_finished = new System.Windows.Forms.TreeView();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
             this.btn_accept_source = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -88,6 +91,7 @@
             this.tab_control.SuspendLayout();
             this.tab_page_active.SuspendLayout();
             this.tab_page_pending.SuspendLayout();
+            this.tab_page_finished.SuspendLayout();
             this.tab_page_customize.SuspendLayout();
             this.menu_strip.SuspendLayout();
             this.status_strip.SuspendLayout();
@@ -155,12 +159,12 @@
             this.btn_add_pending.UseVisualStyleBackColor = true;
             this.btn_add_pending.Click += new System.EventHandler(this.btn_add_pending_Click);
             // 
-            // tree_view_orders
+            // tree_view_active
             // 
             this.tree_view_active.CheckBoxes = true;
             this.tree_view_active.HideSelection = false;
             this.tree_view_active.Location = new System.Drawing.Point(17, 21);
-            this.tree_view_active.Name = "tree_view_orders";
+            this.tree_view_active.Name = "tree_view_active";
             this.tree_view_active.Size = new System.Drawing.Size(345, 348);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
@@ -328,16 +332,49 @@
             this.tree_view_pending.Name = "tree_view_pending";
             this.tree_view_pending.Size = new System.Drawing.Size(345, 348);
             this.tree_view_pending.TabIndex = 6;
-            this.tree_view_pending.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_pending_AfterSelect);
+            this.tree_view_pending.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_pending_AfterCheck);
+            this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
             // 
             // tab_page_finished
             // 
+            this.tab_page_finished.Controls.Add(this.button4);
+            this.tab_page_finished.Controls.Add(this.button5);
+            this.tab_page_finished.Controls.Add(this.tree_view_finished);
             this.tab_page_finished.Location = new System.Drawing.Point(4, 22);
             this.tab_page_finished.Name = "tab_page_finished";
             this.tab_page_finished.Size = new System.Drawing.Size(793, 477);
             this.tab_page_finished.TabIndex = 3;
             this.tab_page_finished.Text = "Kész";
             this.tab_page_finished.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(116, 384);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(92, 37);
+            this.button4.TabIndex = 10;
+            this.button4.Text = "Add to Finished";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(18, 384);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(92, 37);
+            this.button5.TabIndex = 9;
+            this.button5.Text = "Add to Pending";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // tree_view_finished
+            // 
+            this.tree_view_finished.CheckBoxes = true;
+            this.tree_view_finished.HideSelection = false;
+            this.tree_view_finished.Location = new System.Drawing.Point(18, 20);
+            this.tree_view_finished.Name = "tree_view_finished";
+            this.tree_view_finished.Size = new System.Drawing.Size(345, 348);
+            this.tree_view_finished.TabIndex = 8;
+            this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
+            this.tree_view_finished.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_finished_NodeMouseClick);
             // 
             // tab_page_customize
             // 
@@ -641,6 +678,7 @@
             this.tab_control.ResumeLayout(false);
             this.tab_page_active.ResumeLayout(false);
             this.tab_page_pending.ResumeLayout(false);
+            this.tab_page_finished.ResumeLayout(false);
             this.tab_page_customize.ResumeLayout(false);
             this.tab_page_customize.PerformLayout();
             this.menu_strip.ResumeLayout(false);
@@ -706,6 +744,9 @@
         private System.Windows.Forms.Button btn_accept_source;
         private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
         private System.Windows.Forms.Button btn_add_finished;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TreeView tree_view_finished;
     }
 }
 
