@@ -50,44 +50,38 @@ namespace FolderManipulator.Data
         {
             if (data == null)
                 return;
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't add data to orderlist {Type}");
-                return;
-            }
 
             UpdateID.IncreaseUpdateID();
             Orders.Add(data);
-            OrderManager.OnOrderListChanged?.Invoke(this);
         }
 
         public bool Remove(OrderData data)
         {
             if (data == null)
                 return false;
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't remove data from orderlist {Type}");
-                return false;
-            }
 
             UpdateID.IncreaseUpdateID();
             bool success = Orders.Remove(data);
-            OrderManager.OnOrderListChanged?.Invoke(this);
             return success;
         }
 
         public void Clear()
         {
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't clear data from orderlist {Type}");
-                return;
-            }
-
             UpdateID.IncreaseUpdateID();
             Orders.Clear();
-            OrderManager.OnOrderListChanged?.Invoke(this);
+        }
+
+        public List<OrderData> GetOrders(List<Guid> guids)
+        {
+            List<OrderData> ordersFromGuid = new List<OrderData>();
+            for (int i = 0; i < Orders.Count; i++)
+            {
+                if (guids.Contains(Orders[i].Id))
+                {
+                    ordersFromGuid.Add(Orders[i]);
+                }
+            }
+            return ordersFromGuid;
         }
     }
 

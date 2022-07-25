@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Analytics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,38 +10,106 @@ namespace FolderManipulator.Data
     static class OrderManager
     {
         public static Func<bool> OnCanInitiateChange;
-        public static Action<OrderList> OnOrderListChanged;
+        public static Action OnOrderListChanged;
 
         private static OrderList activeOrders;
         private static OrderList pendingOrders;
         private static OrderList finishedOrders;
 
+        #region HandleChanges
         public static bool CanChangeData
         {
             get
             {
-                if(OnCanInitiateChange == null)
+                if (OnCanInitiateChange == null)
                     return true;
                 return OnCanInitiateChange();
             }
         }
 
-        public static void AddNewOrder(OrderData order)
+        private static void HandleOrderData(OrderData order, Action<OrderData> action)
         {
-            activeOrders.Add(order);
+            if (order == null || action == null)
+                return;
+            if (!CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add to orderlist {activeOrders.Type}");
+                return;
+            }
+            action.Invoke(order);
+            OnOrderListChanged?.Invoke();
         }
 
-        public static void AddNewOrders(OrderData[] orders)
+        private static void HandleOrderData(IEnumerable<OrderData> orders, Action<OrderData> action)
         {
-            for (int i = 0; i < orders.Length; i++)
+            if (orders == null || action == null)
+                return;
+            if (!CanChangeData)
             {
-                activeOrders.Add(orders[i]);
+                AppConsole.WriteLine($"Can't add to orderlist {activeOrders.Type}");
+                return;
             }
+            foreach (OrderData order in orders)
+            {
+                action.Invoke(order);
+            }
+            OnOrderListChanged?.Invoke();
+        }
+
+        private static bool HandleOrderData(OrderData order, Func<OrderData, bool> func)
+        {
+            if (order == null || func == null)
+                return false;
+            if (!CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add to orderlist {activeOrders.Type}");
+                return false;
+            }
+            bool result = func.Invoke(order);
+            OnOrderListChanged?.Invoke();
+            return result;
+        }
+
+        private static bool HandleOrderData(IEnumerable<OrderData> orders, Func<OrderData, bool> func)
+        {
+            if (orders == null || func == null)
+                return false;
+            if (!CanChangeData)
+            {
+                AppConsole.WriteLine($"Can't add to orderlist {activeOrders.Type}");
+                return false;
+            }
+            bool result = true;
+            foreach (OrderData order in orders)
+            {
+                if (!func.Invoke(order))
+                {
+                    result = false;
+                }
+            }
+            OnOrderListChanged?.Invoke();
+            return result;
+        }
+        #endregion
+
+        public static void AddNewOrder(OrderData order)
+        {
+            HandleOrderData(order, activeOrders.Add);
+        }
+
+        public static void AddNewOrder(IEnumerable<OrderData> orders)
+        {
+            HandleOrderData(orders, activeOrders.Add);
         }
 
         public static bool RemoveActiveOrder(OrderData order)
         {
-            return activeOrders.Remove(order);
+            return HandleOrderData(order, activeOrders.Remove);
+        }
+
+        public static bool RemoveActiveOrder(IEnumerable<OrderData> orders)
+        {
+            return HandleOrderData(orders, activeOrders.Remove);
         }
 
         //public static void EditActiveOrder(OrderData order, OrderData other)
@@ -50,32 +119,47 @@ namespace FolderManipulator.Data
 
         public static bool FinishOrder(OrderData order)
         {
+            return HandleOrderData(order, FinishOrderFunction);
+        }
+
+        public static bool FinishOrder(IEnumerable<OrderData> orders)
+        {
+            return HandleOrderData(orders, FinishOrderFunction);
+        }
+
+        private static bool FinishOrderFunction(OrderData order)
+        {
             if (activeOrders.Remove(order))
             {
                 finishedOrders.Add(order);
+                return true;
             }
             else if (pendingOrders.Remove(order))
             {
                 finishedOrders.Add(order);
+                return true;
             }
-            else
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public static bool AddOrderToPending(OrderData order)
         {
+            return HandleOrderData(order, AddOrderToPendingFunction);
+        }
+
+        public static bool AddOrderToPending(IEnumerable<OrderData> orders)
+        {
+            return HandleOrderData(orders, AddOrderToPendingFunction);
+        }
+
+        private static bool AddOrderToPendingFunction(OrderData order)
+        {
             if (activeOrders.Remove(order))
             {
                 pendingOrders.Add(order);
+                return true;
             }
-            else
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public static OrderList GetActiveOrders()

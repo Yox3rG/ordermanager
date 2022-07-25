@@ -30,8 +30,9 @@
         {
             this.btn_add = new System.Windows.Forms.Button();
             this.split_container_edit = new System.Windows.Forms.SplitContainer();
-            this.btn_refresh_orders = new System.Windows.Forms.Button();
-            this.tree_view_orders = new System.Windows.Forms.TreeView();
+            this.btn_add_finished = new System.Windows.Forms.Button();
+            this.btn_add_pending = new System.Windows.Forms.Button();
+            this.tree_view_active = new System.Windows.Forms.TreeView();
             this.lbl_main_ordertype = new System.Windows.Forms.Label();
             this.drpd_main_ordertype = new System.Windows.Forms.ComboBox();
             this.lbl_sub_ordertype = new System.Windows.Forms.Label();
@@ -48,7 +49,7 @@
             this.tab_page_active = new System.Windows.Forms.TabPage();
             this.tab_page_pending = new System.Windows.Forms.TabPage();
             this.btn_refresh_overview = new System.Windows.Forms.Button();
-            this.tree_view_overview = new System.Windows.Forms.TreeView();
+            this.tree_view_pending = new System.Windows.Forms.TreeView();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
             this.tab_page_customize = new System.Windows.Forms.TabPage();
             this.btn_accept_source = new System.Windows.Forms.Button();
@@ -111,8 +112,9 @@
             // split_container_edit.Panel1
             // 
             this.split_container_edit.Panel1.AutoScroll = true;
-            this.split_container_edit.Panel1.Controls.Add(this.btn_refresh_orders);
-            this.split_container_edit.Panel1.Controls.Add(this.tree_view_orders);
+            this.split_container_edit.Panel1.Controls.Add(this.btn_add_finished);
+            this.split_container_edit.Panel1.Controls.Add(this.btn_add_pending);
+            this.split_container_edit.Panel1.Controls.Add(this.tree_view_active);
             // 
             // split_container_edit.Panel2
             // 
@@ -133,27 +135,37 @@
             this.split_container_edit.SplitterDistance = 486;
             this.split_container_edit.TabIndex = 5;
             // 
-            // btn_refresh_orders
+            // btn_add_finished
             // 
-            this.btn_refresh_orders.Location = new System.Drawing.Point(17, 385);
-            this.btn_refresh_orders.Name = "btn_refresh_orders";
-            this.btn_refresh_orders.Size = new System.Drawing.Size(92, 37);
-            this.btn_refresh_orders.TabIndex = 6;
-            this.btn_refresh_orders.Text = "Frissítés";
-            this.btn_refresh_orders.UseVisualStyleBackColor = true;
-            this.btn_refresh_orders.Click += new System.EventHandler(this.btn_refresh_orders_Click);
+            this.btn_add_finished.Location = new System.Drawing.Point(115, 385);
+            this.btn_add_finished.Name = "btn_add_finished";
+            this.btn_add_finished.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_finished.TabIndex = 7;
+            this.btn_add_finished.Text = "Add to Finished";
+            this.btn_add_finished.UseVisualStyleBackColor = true;
+            this.btn_add_finished.Click += new System.EventHandler(this.btn_add_finished_Click);
+            // 
+            // btn_add_pending
+            // 
+            this.btn_add_pending.Location = new System.Drawing.Point(17, 385);
+            this.btn_add_pending.Name = "btn_add_pending";
+            this.btn_add_pending.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending.TabIndex = 6;
+            this.btn_add_pending.Text = "Add to Pending";
+            this.btn_add_pending.UseVisualStyleBackColor = true;
+            this.btn_add_pending.Click += new System.EventHandler(this.btn_add_pending_Click);
             // 
             // tree_view_orders
             // 
-            this.tree_view_orders.CheckBoxes = true;
-            this.tree_view_orders.HideSelection = false;
-            this.tree_view_orders.Location = new System.Drawing.Point(17, 21);
-            this.tree_view_orders.Name = "tree_view_orders";
-            this.tree_view_orders.Size = new System.Drawing.Size(345, 348);
-            this.tree_view_orders.TabIndex = 5;
-            this.tree_view_orders.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_orders_AfterCheck);
-            this.tree_view_orders.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
-            this.tree_view_orders.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_orders_NodeMouseClick);
+            this.tree_view_active.CheckBoxes = true;
+            this.tree_view_active.HideSelection = false;
+            this.tree_view_active.Location = new System.Drawing.Point(17, 21);
+            this.tree_view_active.Name = "tree_view_orders";
+            this.tree_view_active.Size = new System.Drawing.Size(345, 348);
+            this.tree_view_active.TabIndex = 5;
+            this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
+            this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
+            this.tree_view_active.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_active_NodeMouseClick);
             // 
             // lbl_main_ordertype
             // 
@@ -290,7 +302,7 @@
             // tab_page_pending
             // 
             this.tab_page_pending.Controls.Add(this.btn_refresh_overview);
-            this.tab_page_pending.Controls.Add(this.tree_view_overview);
+            this.tab_page_pending.Controls.Add(this.tree_view_pending);
             this.tab_page_pending.Location = new System.Drawing.Point(4, 22);
             this.tab_page_pending.Name = "tab_page_pending";
             this.tab_page_pending.Padding = new System.Windows.Forms.Padding(3);
@@ -309,12 +321,14 @@
             this.btn_refresh_overview.UseVisualStyleBackColor = true;
             this.btn_refresh_overview.Click += new System.EventHandler(this.btn_refresh_overview_Click);
             // 
-            // tree_view_overview
+            // tree_view_pending
             // 
-            this.tree_view_overview.Location = new System.Drawing.Point(18, 25);
-            this.tree_view_overview.Name = "tree_view_overview";
-            this.tree_view_overview.Size = new System.Drawing.Size(345, 348);
-            this.tree_view_overview.TabIndex = 6;
+            this.tree_view_pending.CheckBoxes = true;
+            this.tree_view_pending.Location = new System.Drawing.Point(18, 25);
+            this.tree_view_pending.Name = "tree_view_pending";
+            this.tree_view_pending.Size = new System.Drawing.Size(345, 348);
+            this.tree_view_pending.TabIndex = 6;
+            this.tree_view_pending.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_pending_AfterSelect);
             // 
             // tab_page_finished
             // 
@@ -664,8 +678,8 @@
         private System.Windows.Forms.Label lbl_source;
         private System.Windows.Forms.Button btn_choose_source;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btn_refresh_orders;
-        private System.Windows.Forms.TreeView tree_view_orders;
+        private System.Windows.Forms.Button btn_add_pending;
+        private System.Windows.Forms.TreeView tree_view_active;
         private System.Windows.Forms.TreeView tree_view_hierarchy;
         private System.Windows.Forms.TextBox txt_main_ordertype;
         private System.Windows.Forms.Button btn_add_main_ordertype;
@@ -678,7 +692,7 @@
         private System.Windows.Forms.Button btn_delete_sub_ordertype;
         private System.Windows.Forms.Button btn_delete_main_ordertype;
         private System.Windows.Forms.Button btn_refresh_overview;
-        private System.Windows.Forms.TreeView tree_view_overview;
+        private System.Windows.Forms.TreeView tree_view_pending;
         private System.Windows.Forms.TextBox txt_drag_drop;
         private System.Windows.Forms.StatusStrip status_strip;
         private System.Windows.Forms.ToolStripStatusLabel label_status_strip_main;
@@ -691,6 +705,7 @@
         private System.Windows.Forms.TabPage tab_page_finished;
         private System.Windows.Forms.Button btn_accept_source;
         private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
+        private System.Windows.Forms.Button btn_add_finished;
     }
 }
 
