@@ -16,6 +16,7 @@ namespace FolderManipulator.Data
         public string FullPath { get; set; }
         public int Count { get; set; }
         public string Description { get; set; }
+        public DateTime BirthDate { get; set; }
 
         public OrderData()
         {
@@ -29,6 +30,7 @@ namespace FolderManipulator.Data
             this.FullPath = fullPath;
             this.Count = count;
             this.Description = description;
+            this.BirthDate = DateTime.Now;
         }
 
         public void Copy(OrderData other)
@@ -38,6 +40,7 @@ namespace FolderManipulator.Data
             this.FullPath      = other.FullPath;
             this.Count         = other.Count;       
             this.Description   = other.Description;
+            this.BirthDate  = other.BirthDate;
         }
 
         public string GetFileName()
