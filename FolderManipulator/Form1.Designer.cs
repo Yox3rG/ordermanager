@@ -40,7 +40,7 @@
             this.btn_choose_folder = new System.Windows.Forms.Button();
             this.lbl_folder = new System.Windows.Forms.Label();
             this.txt_folder_target = new System.Windows.Forms.TextBox();
-            this.checked_list_files = new System.Windows.Forms.CheckedListBox();
+            this.list_checked_files = new System.Windows.Forms.CheckedListBox();
             this.lbl_count = new System.Windows.Forms.Label();
             this.txt_count = new System.Windows.Forms.TextBox();
             this.lbl_comment = new System.Windows.Forms.Label();
@@ -48,6 +48,7 @@
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tab_page_active = new System.Windows.Forms.TabPage();
             this.tab_page_pending = new System.Windows.Forms.TabPage();
+            this.btn_add_pending_active = new System.Windows.Forms.Button();
             this.btn_add_pending_finished = new System.Windows.Forms.Button();
             this.tree_view_pending = new System.Windows.Forms.TreeView();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
@@ -84,7 +85,6 @@
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btn_add_pending_active = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -130,7 +130,7 @@
             this.split_container_edit.Panel2.Controls.Add(this.btn_choose_folder);
             this.split_container_edit.Panel2.Controls.Add(this.lbl_folder);
             this.split_container_edit.Panel2.Controls.Add(this.txt_folder_target);
-            this.split_container_edit.Panel2.Controls.Add(this.checked_list_files);
+            this.split_container_edit.Panel2.Controls.Add(this.list_checked_files);
             this.split_container_edit.Panel2.Controls.Add(this.lbl_count);
             this.split_container_edit.Panel2.Controls.Add(this.txt_count);
             this.split_container_edit.Panel2.Controls.Add(this.lbl_comment);
@@ -238,15 +238,17 @@
             this.txt_folder_target.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_folder_target_DragDrop);
             this.txt_folder_target.DragEnter += new System.Windows.Forms.DragEventHandler(this.txt_folder_target_DragEnter);
             // 
-            // checked_list_files
+            // list_checked_files
             // 
-            this.checked_list_files.FormattingEnabled = true;
-            this.checked_list_files.Items.AddRange(new object[] {
+            this.list_checked_files.CheckOnClick = true;
+            this.list_checked_files.FormattingEnabled = true;
+            this.list_checked_files.Items.AddRange(new object[] {
             "empty"});
-            this.checked_list_files.Location = new System.Drawing.Point(81, 118);
-            this.checked_list_files.Name = "checked_list_files";
-            this.checked_list_files.Size = new System.Drawing.Size(201, 199);
-            this.checked_list_files.TabIndex = 28;
+            this.list_checked_files.Location = new System.Drawing.Point(81, 118);
+            this.list_checked_files.Name = "list_checked_files";
+            this.list_checked_files.Size = new System.Drawing.Size(201, 199);
+            this.list_checked_files.TabIndex = 28;
+            this.list_checked_files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.list_checked_files_ItemCheck);
             // 
             // lbl_count
             // 
@@ -316,6 +318,16 @@
             this.tab_page_pending.TabIndex = 1;
             this.tab_page_pending.Text = "Függőben";
             this.tab_page_pending.UseVisualStyleBackColor = true;
+            // 
+            // btn_add_pending_active
+            // 
+            this.btn_add_pending_active.Location = new System.Drawing.Point(18, 379);
+            this.btn_add_pending_active.Name = "btn_add_pending_active";
+            this.btn_add_pending_active.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending_active.TabIndex = 8;
+            this.btn_add_pending_active.Text = "Add to Active";
+            this.btn_add_pending_active.UseVisualStyleBackColor = true;
+            this.btn_add_pending_active.Click += new System.EventHandler(this.btn_add_pending_active_Click);
             // 
             // btn_add_pending_finished
             // 
@@ -659,16 +671,6 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
-            // btn_add_pending_active
-            // 
-            this.btn_add_pending_active.Location = new System.Drawing.Point(18, 379);
-            this.btn_add_pending_active.Name = "btn_add_pending_active";
-            this.btn_add_pending_active.Size = new System.Drawing.Size(92, 37);
-            this.btn_add_pending_active.TabIndex = 8;
-            this.btn_add_pending_active.Text = "Add to Active";
-            this.btn_add_pending_active.UseVisualStyleBackColor = true;
-            this.btn_add_pending_active.Click += new System.EventHandler(this.btn_add_pending_active_Click);
-            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -724,7 +726,7 @@
         private System.Windows.Forms.Label lbl_folder;
         private System.Windows.Forms.TextBox txt_folder_target;
         private System.Windows.Forms.ComboBox drpd_main_ordertype;
-        private System.Windows.Forms.CheckedListBox checked_list_files;
+        private System.Windows.Forms.CheckedListBox list_checked_files;
         private System.Windows.Forms.Label lbl_sub_ordertype;
         private System.Windows.Forms.TabPage tab_page_customize;
         private System.Windows.Forms.Label lbl_source;

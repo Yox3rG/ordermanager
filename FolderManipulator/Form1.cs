@@ -182,6 +182,11 @@ namespace FolderManipulator
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
         }
+
+        private void formDispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            OnOneSecondTimer?.Invoke();
+        }
         #endregion
 
         private void FillSourceTreeView()
@@ -327,7 +332,7 @@ namespace FolderManipulator
                     if (data != null)
                     {
                         int guidIndex = guids.IndexOf(data.Id);
-                        if(guidIndex >= 0)
+                        if (guidIndex >= 0)
                         {
                             node.Checked = true;
                             unusedGuids[guidIndex] = false;
@@ -495,11 +500,85 @@ namespace FolderManipulator
             RefreshTargetFolderContents();
         }
 
+        private void list_checked_files_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            list_checked_files.ItemCheck -= list_checked_files_ItemCheck;
+
+            try
+            {
+                if (e.Index == 0)
+                {
+                    CheckState newCheckState = e.NewValue;
+
+                    for (int i = 0; i < list_checked_files.Items.Count; i++)
+                    {
+                        list_checked_files.SetItemCheckState(i, newCheckState);
+                    }
+                }
+                else
+                {
+                    int checkedCount = CheckedItemCount();
+                    int allCount = list_checked_files.Items.Count - 1;
+
+                    if (e.NewValue == CheckState.Checked)
+                        checkedCount++;
+                    if (e.NewValue == CheckState.Unchecked)
+                        checkedCount--;
+
+                    if (checkedCount == allCount)
+                    {
+                        SetSelectAllState(CheckState.Checked);
+                    }
+                    else if (checkedCount == 0)
+                    {
+                        SetSelectAllState(CheckState.Unchecked);
+                    }
+                    else
+                    {
+                        SetSelectAllState(CheckState.Indeterminate);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConsole.WriteLine(ex.Message);
+            }
+            finally
+            {
+                list_checked_files.ItemCheck += list_checked_files_ItemCheck;
+            }
+
+            int CheckedItemCount()
+            {
+                int result = 0;
+                for (int i = 1; i < list_checked_files.Items.Count; i++)
+                {
+                    if (list_checked_files.GetItemCheckState(i) == CheckState.Checked)
+                    {
+                        result++;
+                    }
+                }
+                return result;
+            }
+
+            CheckState GetSelectAllState()
+            {
+                return list_checked_files.GetItemCheckState(0);
+            }
+
+            void SetSelectAllState(CheckState state)
+            {
+                list_checked_files.SetItemCheckState(0, state);
+            }
+        }
+
         private void RefreshTargetFolderContents()
         {
             string targetPath = txt_folder_target.Text;
-            var checkedItems = checked_list_files.CheckedItems.OfType<string>().ToList();
-            checked_list_files.Items.Clear();
+            var checkedItems = list_checked_files.CheckedItems.OfType<string>().ToList();
+            if (list_checked_files.GetItemCheckState(0) != CheckState.Unchecked)
+                checkedItems.RemoveAt(0);
+            list_checked_files.Items.Clear();
 
             if (System.IO.File.Exists(targetPath))
             {
@@ -508,8 +587,8 @@ namespace FolderManipulator
 
                 LoadFilesFromTargetFolder(directoryPath);
 
-                int selectedFileIndex = checked_list_files.Items.IndexOf(fileName);
-                checked_list_files.SetItemChecked(selectedFileIndex, true);
+                int selectedFileIndex = list_checked_files.Items.IndexOf(fileName);
+                list_checked_files.SetItemChecked(selectedFileIndex, true);
             }
 
             if (System.IO.Directory.Exists(targetPath))
@@ -517,13 +596,15 @@ namespace FolderManipulator
                 LoadFilesFromTargetFolder(targetPath);
             }
 
+            list_checked_files.Items.Insert(0, "Select All");
+
             if (SettingsManager.Settings.KeepCheckedFilesAfterRefresh)
             {
                 foreach (var checkedItem in checkedItems)
                 {
-                    int oldItemIndex = checked_list_files.Items.IndexOf(checkedItem);
+                    int oldItemIndex = list_checked_files.Items.IndexOf(checkedItem);
                     if (oldItemIndex != -1)
-                        checked_list_files.SetItemChecked(oldItemIndex, true);
+                        list_checked_files.SetItemChecked(oldItemIndex, true);
                 }
             }
         }
@@ -532,22 +613,41 @@ namespace FolderManipulator
         {
             string[] files = System.IO.Directory.GetFiles(targetPath);
             files = files.Select(x => x.Split(Path.DirectorySeparatorChar).Last()).ToArray();
-            checked_list_files.Items.AddRange(files);
+            list_checked_files.Items.AddRange(files);
+        }
+
+        List<string> GetCheckedItemStrings()
+        {
+            List<string> checkedFileNames = new List<string>();
+            for (int i = 1; i < list_checked_files.Items.Count; i++)
+            {
+                if (list_checked_files.GetItemCheckState(i) == CheckState.Checked)
+                {
+                    checkedFileNames.Add(list_checked_files.Items[i].ToString());
+                }
+            }
+            return checkedFileNames;
         }
         #endregion
 
         #region Order
         private void btn_add_order_Click(object sender, EventArgs e)
         {
-            var selectedFiles = checked_list_files.CheckedItems;
-            OrderData[] orderDatas = CreateOrdersFromAddUI(selectedFiles);
+            List<string> checkedFileNames = GetCheckedItemStrings();
+            if(checkedFileNames.Count <= 0)
+            {
+                StatusManager.ShowMessage("No file was selected for Add operation.", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            OrderData[] orderDatas = CreateOrdersFromAddUI(checkedFileNames);
             OrderManager.AddNewOrder(orderDatas);
         }
 
-        private OrderData[] CreateOrdersFromAddUI(CheckedListBox.CheckedItemCollection selectedFiles)
+        private OrderData[] CreateOrdersFromAddUI(List<string> selectedFileNames)
         {
-            OrderData[] orders = new OrderData[selectedFiles.Count];
-            for (int i = 0; i < selectedFiles.Count; i++)
+            OrderData[] orders = new OrderData[selectedFileNames.Count];
+            for (int i = 0; i < selectedFileNames.Count; i++)
             {
                 string mainOrderType = "";
                 if (drpd_main_ordertype.SelectedItem != null)
@@ -556,7 +656,7 @@ namespace FolderManipulator
                 if (drpd_main_ordertype.SelectedItem != null)
                     subOrderType = drpd_sub_ordertype.SelectedItem.ToString();
 
-                string fullPath = Path.Combine(txt_folder_target.Text, selectedFiles[i].ToString());
+                string fullPath = Path.Combine(txt_folder_target.Text, selectedFileNames[i]);
                 string count = txt_count.Text;
                 Int32.TryParse(count, out int countNumber);
                 string description = txt_comment.Text;
@@ -567,6 +667,7 @@ namespace FolderManipulator
             return orders;
         }
 
+        #region Move Order Buttons
         private void btn_add_active_pending_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
@@ -602,6 +703,7 @@ namespace FolderManipulator
             List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
             OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
         }
+        #endregion
 
         private void RefreshOrders(bool expandAll = true)
         {
@@ -872,11 +974,6 @@ namespace FolderManipulator
             persistentData.TrySaveWaitingItems();
         }
         #endregion
-
-        private void formDispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            OnOneSecondTimer?.Invoke();
-        }
 
         #region Testing
 #if DEBUG
