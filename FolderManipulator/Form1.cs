@@ -316,12 +316,29 @@ namespace FolderManipulator
             try
             {
                 List<Guid> guids = treeViewHandle.GetCheckedData();
+                bool[] unusedGuids = new bool[guids.Count];
+                for (int i = 0; i < unusedGuids.Length; i++)
+                {
+                    unusedGuids[i] = true;
+                }
                 foreach (var node in treeViewHandle.TreeView.GetAllNodes())
                 {
                     OrderData data = (OrderData)node.Tag;
-                    if (data != null && guids.Contains(data.Id))
+                    if (data != null)
                     {
-                        node.Checked = true;
+                        int guidIndex = guids.IndexOf(data.Id);
+                        if(guidIndex >= 0)
+                        {
+                            node.Checked = true;
+                            unusedGuids[guidIndex] = false;
+                        }
+                    }
+                }
+                for (int i = unusedGuids.Length - 1; i >= 0; i--)
+                {
+                    if (unusedGuids[i])
+                    {
+                        guids.RemoveAt(i);
                     }
                 }
             }
