@@ -32,6 +32,7 @@ namespace FolderManipulator.FolderRelated
         private Task _savingTask;
         private CancellationTokenSource _currentCancellationTokenSource;
         private List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
+        private List<SavableDataWithPath> _itemsWaitingForLocalSave = new List<SavableDataWithPath>();
 
         public bool IsSourceReady { get; private set; } = false;
 
@@ -190,17 +191,18 @@ namespace FolderManipulator.FolderRelated
 
         public OrderList LoadOrderList(OrderListType type)
         {
-            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
+            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToFullPath(type));
             return orderList;
         }
 
         public void AddOrderListToWaitingForSaveList(OrderList orderList)
         {
-            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToPath(orderList.Type), orderList);
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToFullPath(orderList.Type), orderList);
             AddDataToWaitingForSaveList(dataWithPath);
         }
         #endregion
 
+        #region SaveToServer
         public void AddDataToWaitingForSaveList(SavableDataWithPath dataWithPath)
         {
             int existingIndex = _itemsWaitingForSave.IndexOf(x => x.path.Equals(dataWithPath.path));
@@ -317,8 +319,46 @@ namespace FolderManipulator.FolderRelated
             }
             return success;
         }
+        #endregion
 
-        public string OrderListTypeToPath(OrderListType type)
+        #region Local Backup
+        public void AddDataToLocalWaitingForSaveList(SettingsData settings)
+        {
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(settingsFileName, settings);
+            AddDataToLocalSaveWaitingList(dataWithPath);
+        }
+
+        public void AddDataToLocalWaitingForSaveList(OrderList orderList)
+        {
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToLocalPath(orderList.Type), orderList);
+            AddDataToLocalSaveWaitingList(dataWithPath);
+        }
+
+        public void AddDataToLocalSaveWaitingList(SavableDataWithPath dataWithPath)
+        {
+            _itemsWaitingForLocalSave.Add(dataWithPath);
+        }
+
+        public bool SaveWaitingLocalBackupData()
+        {
+            bool success = true;
+            foreach (SavableDataWithPath dataWithPath in _itemsWaitingForLocalSave)
+            {
+                if (dataWithPath.data is SettingsData)
+                {
+                    success &= IOHandler.Save(dataWithPath.path, dataWithPath.data as SettingsData);
+                }
+                else if (dataWithPath.data is OrderList)
+                {
+                    success &= IOHandler.Save(dataWithPath.path, dataWithPath.data as OrderList);
+                }
+            }
+            _itemsWaitingForLocalSave.Clear();
+            return success;
+        }
+        #endregion
+
+        public string OrderListTypeToFullPath(OrderListType type)
         {
             switch (type)
             {
@@ -328,6 +368,20 @@ namespace FolderManipulator.FolderRelated
                     return PendingTasksPath;
                 case OrderListType.Finished:
                     return FinishedTasksPath;
+            }
+            return null;
+        }
+
+        public string OrderListTypeToLocalPath(OrderListType type)
+        {
+            switch (type)
+            {
+                case OrderListType.Active:
+                    return activeOrdersFileName;
+                case OrderListType.Pending:
+                    return pendingOrdersFileName;
+                case OrderListType.Finished:
+                    return finishedOrdersFileName;
             }
             return null;
         }

@@ -16,22 +16,18 @@ namespace FolderManipulator
     public partial class form_main : Form
     {
         private Action OnOneSecondTimer;
+        private Action OnOneMinuteTimer;
 
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
 
         private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
         private const string _dummyOrderTypeName = "Other";
-        private static List<Guid> checkedActineOrderIds = new List<Guid>();
-        private static List<Guid> checkedPendingOrderIds = new List<Guid>();
-        private static List<Guid> checkedFinishedOrderIds = new List<Guid>();
-        private static int activeOrdersScrollbarValue = 0;
-        private static int pendingOrdersScrollbarValue = 0;
-        private static int finishedOrdersScrollbarValue = 0;
 
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
 
         private Timer formOneSecondTimer;
+        private Timer formOneMinuteTimer;
 
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
@@ -39,16 +35,13 @@ namespace FolderManipulator
         public form_main()
         {
             InitializeComponent();
-            treeViewToAfterCheck[tree_view_active] = tree_view_active_AfterCheck;
-            treeViewToAfterCheck[tree_view_pending] = tree_view_pending_AfterCheck;
-            treeViewToAfterCheck[tree_view_finished] = tree_view_finished_AfterCheck;
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
 
             StatusManager.Initialize(status_strip);
             InitializeTabPages();
-            InitializeOneSecondTimer();
+            InitializeTimers();
 
             SetupManagers();
             SetupPersistentData();
@@ -121,12 +114,17 @@ namespace FolderManipulator
                 tab_page_customize };
         }
 
-        private void InitializeOneSecondTimer()
+        private void InitializeTimers()
         {
             formOneSecondTimer = new Timer();
             formOneSecondTimer.Interval = 1000;
             formOneSecondTimer.Start();
-            formOneSecondTimer.Tick += new EventHandler(formDispatcherTimer_Tick);
+            formOneSecondTimer.Tick += new EventHandler(formDispatcher1SecTimer_Tick);
+
+            formOneMinuteTimer = new Timer();
+            formOneMinuteTimer.Interval = 60000;
+            formOneMinuteTimer.Start();
+            formOneMinuteTimer.Tick += new EventHandler(formDispatcher1MinTimer_Tick);
         }
 
         private void InitializeContextMenus()
@@ -166,6 +164,7 @@ namespace FolderManipulator
             OrderManager.OnCanInitiateChange += CanCreateChange;
 
             OnOneSecondTimer += LoadAllIfDataIsOld;
+            OnOneMinuteTimer += SaveAllLocal;
         }
 
         private void UnSubscribeFromActions()
@@ -179,11 +178,17 @@ namespace FolderManipulator
             OrderManager.OnCanInitiateChange -= CanCreateChange;
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
+            OnOneMinuteTimer -= SaveAllLocal;
         }
 
-        private void formDispatcherTimer_Tick(object sender, EventArgs e)
+        private void formDispatcher1SecTimer_Tick(object sender, EventArgs e)
         {
             OnOneSecondTimer?.Invoke();
+        }
+
+        private void formDispatcher1MinTimer_Tick(object sender, EventArgs e)
+        {
+            OnOneMinuteTimer?.Invoke();
         }
         #endregion
 
@@ -999,6 +1004,15 @@ namespace FolderManipulator
             persistentData.AddOrderListToWaitingForSaveList(OrderManager.GetFinishedOrders());
             persistentData.AddSettingsToWaitingForSaveList(SettingsManager.Settings);
             persistentData.TrySaveWaitingItems();
+        }
+
+        private void SaveAllLocal()
+        {
+            persistentData.AddDataToLocalWaitingForSaveList(OrderManager.GetActiveOrders());
+            persistentData.AddDataToLocalWaitingForSaveList(OrderManager.GetPendingOrders());
+            persistentData.AddDataToLocalWaitingForSaveList(OrderManager.GetFinishedOrders());
+            persistentData.AddDataToLocalWaitingForSaveList(SettingsManager.Settings);
+            persistentData.SaveWaitingLocalBackupData();
         }
         #endregion
 
