@@ -36,8 +36,6 @@ namespace FolderManipulator
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
 
-        private Color checkedColor = Color.Aqua;
-
         public form_main()
         {
             InitializeComponent();
@@ -295,17 +293,26 @@ namespace FolderManipulator
         #endregion
 
         #region CheckedNodes
-        private void ColorCheckedNodes(TreeView treeview, Color color)
+        private void ColorNodes(TreeView treeview)
         {
             List<TreeNode> allNodes = treeview.GetAllNodes();
-            foreach (var node in allNodes.Where(x => x.Checked))
-            {
-                node.BackColor = color;
-            }
-            foreach (var node in allNodes.Where(x => !x.Checked))
+            foreach (var node in allNodes)
             {
                 node.BackColor = Color.Empty;
             }
+            foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Pending))
+            {
+                node.BackColor = ColorManager.pendingOrderColor;
+            }
+            foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Notified))
+            {
+                node.BackColor = ColorManager.notifiedOrderColor;
+            }
+            foreach (var node in allNodes.Where(x => x.Checked))
+            {
+                node.BackColor = ColorManager.checkedOrderColor;
+            }
+
         }
 
         private void SaveCheckedOrders(OrderTreeViewHandle treeViewHandle)
@@ -355,7 +362,7 @@ namespace FolderManipulator
             {
                 treeViewHandle.AddAfterCheckFunction();
             }
-            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
+            ColorNodes(treeViewHandle.TreeView);
         }
 
         private void ClearCheckedOrders(OrderTreeViewHandle treeViewHandle)
@@ -379,7 +386,7 @@ namespace FolderManipulator
             }
 
             treeViewHandle.ClearCheckedData();
-            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
+            ColorNodes(treeViewHandle.TreeView);
         }
 
         private void CheckAllChildren(OrderTreeViewHandle treeViewHandle, TreeViewEventArgs e)
@@ -403,7 +410,7 @@ namespace FolderManipulator
                 treeViewHandle.AddAfterCheckFunction();
             }
             SaveCheckedOrders(treeViewHandle);
-            ColorCheckedNodes(treeViewHandle.TreeView, checkedColor);
+            ColorNodes(treeViewHandle.TreeView);
             //AppConsole.WriteLine(checkedOrderIds.ToString<Guid>());
         }
         #endregion
@@ -634,7 +641,7 @@ namespace FolderManipulator
         private void btn_add_order_Click(object sender, EventArgs e)
         {
             List<string> checkedFileNames = GetCheckedItemStrings();
-            if(checkedFileNames.Count <= 0)
+            if (checkedFileNames.Count <= 0)
             {
                 StatusManager.ShowMessage("No file was selected for Add operation.", StatusColorType.Warning, DelayTimeType.Short);
                 return;
@@ -642,6 +649,26 @@ namespace FolderManipulator
 
             OrderData[] orderDatas = CreateOrdersFromAddUI(checkedFileNames);
             OrderManager.AddNewOrder(orderDatas);
+        }
+
+        private void btn_reset_notified_Click(object sender, EventArgs e)
+        {
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            foreach (OrderData order in orders)
+            {
+                order.State = OrderState.Pending;
+            }
+            RefreshOrders();
+        }
+
+        private void btn_set_notified_Click(object sender, EventArgs e)
+        {
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            foreach (OrderData order in orders)
+            {
+                order.State = OrderState.Notified;
+            }
+            RefreshOrders();
         }
 
         private OrderData[] CreateOrdersFromAddUI(List<string> selectedFileNames)

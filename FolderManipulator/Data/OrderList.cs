@@ -53,6 +53,7 @@ namespace FolderManipulator.Data
 
             UpdateID.IncreaseUpdateID();
             Orders.Add(data);
+            SetStatusOnAdd(data);
         }
 
         public bool Remove(OrderData data)
@@ -82,6 +83,27 @@ namespace FolderManipulator.Data
                 }
             }
             return ordersFromGuid;
+        }
+
+        private void SetStatusOnAdd(OrderData orderData)
+        {
+            switch (Type)
+            {
+                case OrderListType.Active:
+                    orderData.State = OrderState.None;
+                    break;
+                case OrderListType.Pending:
+                    if(orderData.State == OrderState.None)
+                    {
+                        orderData.State = OrderState.Pending;
+                    }
+                    break;
+                case OrderListType.Finished:
+                    orderData.State = OrderState.None;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

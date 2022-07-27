@@ -17,6 +17,8 @@ namespace FolderManipulator.Data
         public int Count { get; set; }
         public string Description { get; set; }
         public DateTime BirthDate { get; set; }
+        public DateTime FinishedDate { get; set; }
+        public OrderState State { get; set; }
 
         public OrderData()
         {
@@ -31,6 +33,7 @@ namespace FolderManipulator.Data
             this.Count = count;
             this.Description = description;
             this.BirthDate = DateTime.Now;
+            this.State = OrderState.None;
         }
 
         public void Copy(OrderData other)
@@ -40,7 +43,9 @@ namespace FolderManipulator.Data
             this.FullPath      = other.FullPath;
             this.Count         = other.Count;       
             this.Description   = other.Description;
-            this.BirthDate  = other.BirthDate;
+            this.BirthDate     = other.BirthDate;
+            this.FinishedDate  = other.FinishedDate;
+            this.State         = other.State;
         }
 
         public string GetFileName()
@@ -72,5 +77,12 @@ namespace FolderManipulator.Data
         {
             return 2108858624 + Id.GetHashCode();
         }
+    }
+
+    public enum OrderState
+    {
+        None,
+        Pending,
+        Notified,
     }
 }

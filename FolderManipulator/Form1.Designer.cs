@@ -48,6 +48,8 @@
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tab_page_active = new System.Windows.Forms.TabPage();
             this.tab_page_pending = new System.Windows.Forms.TabPage();
+            this.btn_set_notified = new System.Windows.Forms.Button();
+            this.btn_reset_notified = new System.Windows.Forms.Button();
             this.btn_add_pending_active = new System.Windows.Forms.Button();
             this.btn_add_pending_finished = new System.Windows.Forms.Button();
             this.tree_view_pending = new System.Windows.Forms.TreeView();
@@ -308,6 +310,8 @@
             // 
             // tab_page_pending
             // 
+            this.tab_page_pending.Controls.Add(this.btn_set_notified);
+            this.tab_page_pending.Controls.Add(this.btn_reset_notified);
             this.tab_page_pending.Controls.Add(this.btn_add_pending_active);
             this.tab_page_pending.Controls.Add(this.btn_add_pending_finished);
             this.tab_page_pending.Controls.Add(this.tree_view_pending);
@@ -318,6 +322,26 @@
             this.tab_page_pending.TabIndex = 1;
             this.tab_page_pending.Text = "Függőben";
             this.tab_page_pending.UseVisualStyleBackColor = true;
+            // 
+            // btn_set_notified
+            // 
+            this.btn_set_notified.Location = new System.Drawing.Point(116, 422);
+            this.btn_set_notified.Name = "btn_set_notified";
+            this.btn_set_notified.Size = new System.Drawing.Size(92, 37);
+            this.btn_set_notified.TabIndex = 10;
+            this.btn_set_notified.Text = "Notified";
+            this.btn_set_notified.UseVisualStyleBackColor = true;
+            this.btn_set_notified.Click += new System.EventHandler(this.btn_set_notified_Click);
+            // 
+            // btn_reset_notified
+            // 
+            this.btn_reset_notified.Location = new System.Drawing.Point(18, 422);
+            this.btn_reset_notified.Name = "btn_reset_notified";
+            this.btn_reset_notified.Size = new System.Drawing.Size(92, 37);
+            this.btn_reset_notified.TabIndex = 9;
+            this.btn_reset_notified.Text = "Not Notified";
+            this.btn_reset_notified.UseVisualStyleBackColor = true;
+            this.btn_reset_notified.Click += new System.EventHandler(this.btn_reset_notified_Click);
             // 
             // btn_add_pending_active
             // 
@@ -346,7 +370,6 @@
             this.tree_view_pending.Name = "tree_view_pending";
             this.tree_view_pending.Size = new System.Drawing.Size(345, 348);
             this.tree_view_pending.TabIndex = 6;
-            this.tree_view_pending.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_pending_AfterCheck);
             this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
             // 
             // tab_page_finished
@@ -764,6 +787,8 @@
         private System.Windows.Forms.Button btn_add_finished_active;
         private System.Windows.Forms.TreeView tree_view_finished;
         private System.Windows.Forms.Button btn_add_pending_active;
+        private System.Windows.Forms.Button btn_set_notified;
+        private System.Windows.Forms.Button btn_reset_notified;
     }
 }
 
