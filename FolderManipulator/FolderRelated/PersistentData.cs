@@ -25,6 +25,7 @@ namespace FolderManipulator.FolderRelated
         private string sourcePath;
 
         private string localDataFileName = "local.json";
+        private string localBackupFolderName = "backup";
 
         private float saveMinDelay = 1f;
         private float saveMaxRandomDelayAfterMin = 4f;
@@ -33,6 +34,9 @@ namespace FolderManipulator.FolderRelated
         private CancellationTokenSource _currentCancellationTokenSource;
         private List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
         private List<SavableDataWithPath> _itemsWaitingForLocalSave = new List<SavableDataWithPath>();
+
+        private int _maxLocalBackupIndex = 2;
+        private int _currentLocalBackupIndex = 0;
 
         public bool IsSourceReady { get; private set; } = false;
 
@@ -99,6 +103,13 @@ namespace FolderManipulator.FolderRelated
         {
             if (sourcePath != null)
                 return System.IO.Path.Combine(sourcePath, fileName);
+            return null;
+        }
+
+        public string GetCombinedPath(string folder, string fileName)
+        {
+            if (folder != null && fileName != null)
+                return System.IO.Path.Combine(folder, fileName);
             return null;
         }
 
@@ -324,7 +335,7 @@ namespace FolderManipulator.FolderRelated
         #region Local Backup
         public void AddDataToLocalWaitingForSaveList(SettingsData settings)
         {
-            SavableDataWithPath dataWithPath = new SavableDataWithPath(settingsFileName, settings);
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + settingsFileName), settings);
             AddDataToLocalSaveWaitingList(dataWithPath);
         }
 
@@ -341,6 +352,8 @@ namespace FolderManipulator.FolderRelated
 
         public bool SaveWaitingLocalBackupData()
         {
+            CreateBackupFolderIfNotPresent(out _);
+
             bool success = true;
             foreach (SavableDataWithPath dataWithPath in _itemsWaitingForLocalSave)
             {
@@ -353,7 +366,13 @@ namespace FolderManipulator.FolderRelated
                     success &= IOHandler.Save(dataWithPath.path, dataWithPath.data as OrderList);
                 }
             }
+
+            if (++_currentLocalBackupIndex > _maxLocalBackupIndex)
+            {
+                _currentLocalBackupIndex = 0;
+            }
             _itemsWaitingForLocalSave.Clear();
+            AppConsole.WriteLine($"Local backup {(success ? "saved succesfully" : "failed")}.");
             return success;
         }
         #endregion
@@ -377,11 +396,11 @@ namespace FolderManipulator.FolderRelated
             switch (type)
             {
                 case OrderListType.Active:
-                    return activeOrdersFileName;
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + activeOrdersFileName);
                 case OrderListType.Pending:
-                    return pendingOrdersFileName;
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + pendingOrdersFileName);
                 case OrderListType.Finished:
-                    return finishedOrdersFileName;
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + finishedOrdersFileName);
             }
             return null;
         }
@@ -454,6 +473,19 @@ namespace FolderManipulator.FolderRelated
             if (!System.IO.File.Exists(localDataFileName))
             {
                 System.IO.File.Create(localDataFileName);
+                fileCreated = true;
+            }
+            else
+            {
+                fileCreated = false;
+            }
+        }
+
+        public void CreateBackupFolderIfNotPresent(out bool fileCreated)
+        {
+            if (!System.IO.Directory.Exists(localBackupFolderName))
+            {
+                System.IO.Directory.CreateDirectory(localBackupFolderName);
                 fileCreated = true;
             }
             else

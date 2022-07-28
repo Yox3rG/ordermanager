@@ -16,7 +16,7 @@ namespace FolderManipulator
     public partial class form_main : Form
     {
         private Action OnOneSecondTimer;
-        private Action OnOneMinuteTimer;
+        private Action OnTenMinuteTimer;
 
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
@@ -27,7 +27,7 @@ namespace FolderManipulator
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
 
         private Timer formOneSecondTimer;
-        private Timer formOneMinuteTimer;
+        private Timer formTenMinuteTimer;
 
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
@@ -121,10 +121,10 @@ namespace FolderManipulator
             formOneSecondTimer.Start();
             formOneSecondTimer.Tick += new EventHandler(formDispatcher1SecTimer_Tick);
 
-            formOneMinuteTimer = new Timer();
-            formOneMinuteTimer.Interval = 60000;
-            formOneMinuteTimer.Start();
-            formOneMinuteTimer.Tick += new EventHandler(formDispatcher1MinTimer_Tick);
+            formTenMinuteTimer = new Timer();
+            formTenMinuteTimer.Interval = 600000;
+            formTenMinuteTimer.Start();
+            formTenMinuteTimer.Tick += new EventHandler(formDispatcher10MinTimer_Tick);
         }
 
         private void InitializeContextMenus()
@@ -164,7 +164,7 @@ namespace FolderManipulator
             OrderManager.OnCanInitiateChange += CanCreateChange;
 
             OnOneSecondTimer += LoadAllIfDataIsOld;
-            OnOneMinuteTimer += SaveAllLocal;
+            OnTenMinuteTimer += SaveAllLocal;
         }
 
         private void UnSubscribeFromActions()
@@ -178,7 +178,7 @@ namespace FolderManipulator
             OrderManager.OnCanInitiateChange -= CanCreateChange;
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
-            OnOneMinuteTimer -= SaveAllLocal;
+            OnTenMinuteTimer -= SaveAllLocal;
         }
 
         private void formDispatcher1SecTimer_Tick(object sender, EventArgs e)
@@ -186,9 +186,9 @@ namespace FolderManipulator
             OnOneSecondTimer?.Invoke();
         }
 
-        private void formDispatcher1MinTimer_Tick(object sender, EventArgs e)
+        private void formDispatcher10MinTimer_Tick(object sender, EventArgs e)
         {
-            OnOneMinuteTimer?.Invoke();
+            OnTenMinuteTimer?.Invoke();
         }
         #endregion
 
