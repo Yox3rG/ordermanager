@@ -53,6 +53,7 @@ namespace FolderManipulator.Data
 
             UpdateID.IncreaseUpdateID();
             Orders.Add(data);
+            Orders.Sort();
             SetSpecialFieldsOnAdd(data);
         }
 
@@ -63,6 +64,10 @@ namespace FolderManipulator.Data
 
             UpdateID.IncreaseUpdateID();
             bool success = Orders.Remove(data);
+            if (success)
+            {
+                Orders.Sort();
+            }
             return success;
         }
 

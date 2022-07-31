@@ -48,7 +48,7 @@ namespace FolderManipulator.Data
                 AppConsole.WriteLine($"Can't add new order type to settings");
                 return;
             }
-            GetOrderTypesFromCategory(category).list.Add(orderType);
+            GetOrderTypesFromCategory(category).Add(orderType);
             UpdateID.IncreaseUpdateID();
             SettingsManager.OnSettingsChanged?.Invoke();
         }
@@ -60,7 +60,7 @@ namespace FolderManipulator.Data
                 AppConsole.WriteLine($"Can't remove order type from settings");
                 return false;
             }
-            bool isSuccess = GetOrderTypesFromCategory(category).list.Remove(orderType);
+            bool isSuccess = GetOrderTypesFromCategory(category).Remove(orderType);
             UpdateID.IncreaseUpdateID();
             SettingsManager.OnSettingsChanged?.Invoke();
             return isSuccess;

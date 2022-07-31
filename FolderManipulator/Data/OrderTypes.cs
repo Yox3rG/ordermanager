@@ -27,6 +27,22 @@ namespace FolderManipulator.Data
             if (list == null)
                 list = new List<string>();
         }
+
+        public void Add(string orderType)
+        {
+            list.Add(orderType);
+            list.Sort();
+        }
+
+        public bool Remove(string orderType)
+        {
+            if (list.Remove(orderType))
+            {
+                list.Sort();
+                return true;
+            }
+            return false;
+        }
     }
 
     public enum OrderCategory

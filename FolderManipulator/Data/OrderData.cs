@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FolderManipulator.Data
 {
     [Serializable]
-    class OrderData
+    class OrderData : IComparable<OrderData>
     {
         public Guid Id { get; set; }
         public string MainOrderType { get; set; }
@@ -76,6 +76,24 @@ namespace FolderManipulator.Data
         public override int GetHashCode()
         {
             return 2108858624 + Id.GetHashCode();
+        }
+
+        public int CompareTo(OrderData other)
+        {
+            int difference = 0;
+            difference = MainOrderType.CompareTo(other.MainOrderType);
+            if (difference != 0)
+                return difference;
+            difference = SubOrderType.CompareTo(other.SubOrderType);
+            if (difference != 0)
+                return difference;
+            difference = BirthDate.CompareTo(other.BirthDate);
+            if (difference != 0)
+                return difference;
+            difference = FullPath.CompareTo(other.FullPath);
+            if (difference != 0)
+                return difference;
+            return 0;
         }
     }
 
