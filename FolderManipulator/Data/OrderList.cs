@@ -29,8 +29,8 @@ namespace FolderManipulator.Data
         }
 
         public UpdateID UpdateID { get; set; }
-        public List<OrderData> Orders { get; set; }
         public OrderListType Type { get; set; }
+        public List<OrderData> Orders { get; set; }
 
         public OrderList()
         {
@@ -53,7 +53,7 @@ namespace FolderManipulator.Data
 
             UpdateID.IncreaseUpdateID();
             Orders.Add(data);
-            SetStatusOnAdd(data);
+            SetSpecialFieldsOnAdd(data);
         }
 
         public bool Remove(OrderData data)
@@ -85,7 +85,7 @@ namespace FolderManipulator.Data
             return ordersFromGuid;
         }
 
-        private void SetStatusOnAdd(OrderData orderData)
+        private void SetSpecialFieldsOnAdd(OrderData orderData)
         {
             switch (Type)
             {
@@ -100,6 +100,7 @@ namespace FolderManipulator.Data
                     break;
                 case OrderListType.Finished:
                     orderData.State = OrderState.None;
+                    orderData.FinishedDate = DateTime.Now;
                     break;
                 default:
                     break;
