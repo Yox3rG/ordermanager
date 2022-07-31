@@ -1060,6 +1060,40 @@ namespace FolderManipulator
         }
         #endregion
 
+        #region Enter in InputField
+        private void txt_count_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_order_Click(this, e);
+            }
+        }
+
+        private void txt_comment_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_order_Click(this, e);
+            }
+        }
+
+        private void txt_main_ordertype_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_main_ordertype_Click(this, e);
+            }
+        }
+
+        private void txt_sub_ordertype_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_sub_ordertype_Click(this, e);
+            }
+        }
+        #endregion
+
         #region Testing
 #if DEBUG
         private void button1_Click(object sender, EventArgs e)

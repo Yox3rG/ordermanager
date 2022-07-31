@@ -267,6 +267,7 @@
             this.txt_count.Name = "txt_count";
             this.txt_count.Size = new System.Drawing.Size(105, 20);
             this.txt_count.TabIndex = 30;
+            this.txt_count.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_count_KeyUp);
             // 
             // lbl_comment
             // 
@@ -283,6 +284,7 @@
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(201, 20);
             this.txt_comment.TabIndex = 32;
+            this.txt_comment.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_comment_KeyUp);
             // 
             // tab_control
             // 
@@ -518,6 +520,7 @@
             this.txt_sub_ordertype.Name = "txt_sub_ordertype";
             this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
             this.txt_sub_ordertype.TabIndex = 14;
+            this.txt_sub_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_sub_ordertype_KeyUp);
             // 
             // btn_add_sub_ordertype
             // 
@@ -543,6 +546,7 @@
             this.txt_main_ordertype.Name = "txt_main_ordertype";
             this.txt_main_ordertype.Size = new System.Drawing.Size(120, 20);
             this.txt_main_ordertype.TabIndex = 11;
+            this.txt_main_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_main_ordertype_KeyUp);
             // 
             // btn_add_main_ordertype
             // 
