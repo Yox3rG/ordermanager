@@ -637,7 +637,7 @@
             // forceSaveObjectsToolStripMenuItem
             // 
             this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
             this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 

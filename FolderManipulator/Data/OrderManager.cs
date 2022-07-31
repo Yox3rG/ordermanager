@@ -211,7 +211,12 @@ namespace FolderManipulator.Data
             return finishedOrders;
         }
 
-        public static void ClearOrders()
+        public static void ClearOrders(OrderListType orderListType)
+        {
+            GetOrderList(orderListType).Clear();
+        }
+
+        public static void ClearAllOrders()
         {
             activeOrders.Clear();
             pendingOrders.Clear();

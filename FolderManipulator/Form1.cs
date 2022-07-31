@@ -165,6 +165,7 @@ namespace FolderManipulator
 
             OnOneSecondTimer += LoadAllIfDataIsOld;
             OnTenMinuteTimer += SaveAllLocal;
+            OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
         }
 
         private void UnSubscribeFromActions()
@@ -179,6 +180,7 @@ namespace FolderManipulator
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
             OnTenMinuteTimer -= SaveAllLocal;
+            OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
         }
 
         private void formDispatcher1SecTimer_Tick(object sender, EventArgs e)
@@ -867,6 +869,48 @@ namespace FolderManipulator
             listbox_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
             drpd_sub_ordertype.DataSource = null;
             drpd_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+        }
+        #endregion
+
+        #region Archive
+        private void ArchiveFinishedOrdersIfNewMonth()
+        {
+            if (!persistentData.DoesArchiveForLastMonthExists())
+            {
+                ArchiveFinishedOrders();
+            }
+        }
+
+        private void ArchiveFinishedOrders()
+        {
+            if (persistentData.CheckAndCreateLock())
+            {
+                try
+                {
+                    if (persistentData.ArchiveOrderList(OrderManager.GetFinishedOrders()))
+                    {
+                        OrderManager.ClearOrders(OrderListType.Finished);
+                        SaveAll();
+                        RefreshAll();
+                    }
+                    else
+                    {
+                        StatusManager.ShowMessage($"Can't archive finished orders, can't save on server", StatusColorType.Warning, DelayTimeType.Medium);
+                    }
+                }
+                catch (Exception e)
+                {
+                    AppConsole.WriteLine(e.Message);
+                }
+                finally
+                {
+                    persistentData.ReleaseLock();
+                }
+            }
+            else
+            {
+                StatusManager.ShowMessage($"Can't archive finished orders, can't create lock on server", StatusColorType.Warning, DelayTimeType.Medium);
+            }
         }
         #endregion
 

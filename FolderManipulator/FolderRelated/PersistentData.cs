@@ -22,6 +22,9 @@ namespace FolderManipulator.FolderRelated
         private string finishedOrdersFileName = "finished_orders.json";
         private string settingsFileName = "settings.json";
         private string lockFileName = "lock.lock";
+        private string archiveFolderName = "Archive";
+        private string archiveFilePrefix = "archived_orders";
+        private string archiveFileSuffix = ".json";
         private string sourcePath;
 
         private string localDataFileName = "local.json";
@@ -101,7 +104,7 @@ namespace FolderManipulator.FolderRelated
 
         public string GetCombinedPath(string fileName)
         {
-            if (sourcePath != null)
+            if (sourcePath != null && fileName != null)
                 return System.IO.Path.Combine(sourcePath, fileName);
             return null;
         }
@@ -111,6 +114,30 @@ namespace FolderManipulator.FolderRelated
             if (folder != null && fileName != null)
                 return System.IO.Path.Combine(folder, fileName);
             return null;
+        }
+
+        public string GetCombinedArchivePath(string archiveFilePrefix)
+        {
+            if (sourcePath != null)
+                return System.IO.Path.Combine(System.IO.Path.Combine(sourcePath, archiveFolderName), archiveFilePrefix + '_' + DateTime.Now.Year + '_' + DateTime.Now.Month + archiveFileSuffix);
+            return null;
+        }
+
+        public bool DoesArchiveForLastMonthExists()
+        {
+            bool exists = System.IO.File.Exists(GetCombinedArchivePath(archiveFilePrefix));
+            return exists;
+        }  
+
+        public bool ArchiveOrderList(OrderList orderList)
+        {
+            CreateFolderIfNotPresent(System.IO.Path.Combine(sourcePath, archiveFolderName), out _);
+
+            bool success = true;
+            success &= IOHandler.Save(GetCombinedArchivePath(archiveFilePrefix), orderList);
+
+            AppConsole.WriteLine($"OrderList {(success ? "archived succesfully" : "archiving failed")}.");
+            return success;
         }
 
         public DataState GetDataState(bool showStatusMessage, OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
@@ -352,7 +379,7 @@ namespace FolderManipulator.FolderRelated
 
         public bool SaveWaitingLocalBackupData()
         {
-            CreateBackupFolderIfNotPresent(out _);
+            CreateFolderIfNotPresent(localBackupFolderName, out _);
 
             bool success = true;
             foreach (SavableDataWithPath dataWithPath in _itemsWaitingForLocalSave)
@@ -481,11 +508,11 @@ namespace FolderManipulator.FolderRelated
             }
         }
 
-        public void CreateBackupFolderIfNotPresent(out bool fileCreated)
+        public void CreateFolderIfNotPresent(string path, out bool fileCreated)
         {
-            if (!System.IO.Directory.Exists(localBackupFolderName))
+            if (!System.IO.Directory.Exists(path))
             {
-                System.IO.Directory.CreateDirectory(localBackupFolderName);
+                System.IO.Directory.CreateDirectory(path);
                 fileCreated = true;
             }
             else
