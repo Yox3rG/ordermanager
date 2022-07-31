@@ -109,6 +109,7 @@ namespace FolderManipulator
                 tab_page_active,
                 tab_page_pending,
                 tab_page_finished,
+                tab_page_archive,
                 tab_page_customize };
             tabPagesShownWhenNoSource = new List<TabPage>() {
                 tab_page_customize };
@@ -151,6 +152,16 @@ namespace FolderManipulator
             tree_view_active.ContextMenu = contextMenuActiveOrderTreeView.Menu;
             tree_view_pending.ContextMenu = contextMenuPendingOrderTreeView.Menu;
             tree_view_finished.ContextMenu = contextMenuFinishedOrderTreeView.Menu;
+
+            SpecialContextMenuItem[] contextMenuItemsArchiveTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Clear", delegate(Control owner)
+                    {
+                        tree_view_archive.Nodes.Clear();
+                        lbl_archive_name.Text = "Drag and Drop archived files to see the orders!";
+                    }),
+            };
+            SpecialContextMenu<OrderData> contextMenuArchiveTreeView = new SpecialContextMenu<OrderData>(tree_view_archive, contextMenuItemsArchiveTreeView);
+            tree_view_archive.ContextMenu = contextMenuArchiveTreeView.Menu;
         }
 
         private void SubscribeToActions()
@@ -873,6 +884,61 @@ namespace FolderManipulator
         #endregion
 
         #region Archive
+        private void treeview_archive_DragEnter(object sender, DragEventArgs e)
+        {
+            AppConsole.WriteLine("Drag Entered Archive TreeView.");
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                AppConsole.WriteLine("Drag type incompatible.");
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void treeview_archive_DragDrop(object sender, DragEventArgs e)
+        {
+            string path = null;
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Length > 0)
+            {
+                path = files[0];
+            }
+            else
+            {
+                path = e.Data.GetData(DataFormats.Text).ToString();
+            }
+            LoadArchivedFileToTreeView(path);
+        }
+
+        private void LoadArchivedFileToTreeView(string path, bool expandAll = true)
+        {
+            OrderList orderList = IOHandler.Load<OrderList>(path);
+            if(orderList != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(path);
+                lbl_archive_name.Text = fileName;
+                FillTreeViewWithOrders(tree_view_archive, orderList);
+
+                if (expandAll)
+                {
+                    tree_view_archive.ExpandAll();
+                }
+
+                AppConsole.WriteLine($"Archived file [{fileName}] loaded.");
+            }
+            else
+            {
+                StatusManager.ShowMessage($"Can't load archived file.", StatusColorType.Warning, DelayTimeType.Short);
+            }
+        }
+
         private void ArchiveFinishedOrdersIfNewMonth()
         {
             if (!persistentData.DoesArchiveForLastMonthExists())

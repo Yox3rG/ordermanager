@@ -87,6 +87,10 @@
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tab_page_archive = new System.Windows.Forms.TabPage();
+            this.tree_view_archive = new System.Windows.Forms.TreeView();
+            this.lbl_archive_name = new System.Windows.Forms.Label();
+            this.table_layout_archive = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.split_container_edit)).BeginInit();
             this.split_container_edit.Panel1.SuspendLayout();
             this.split_container_edit.Panel2.SuspendLayout();
@@ -98,6 +102,8 @@
             this.tab_page_customize.SuspendLayout();
             this.menu_strip.SuspendLayout();
             this.status_strip.SuspendLayout();
+            this.tab_page_archive.SuspendLayout();
+            this.table_layout_archive.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_add
@@ -167,8 +173,9 @@
             this.tree_view_active.CheckBoxes = true;
             this.tree_view_active.HideSelection = false;
             this.tree_view_active.Location = new System.Drawing.Point(17, 21);
+            this.tree_view_active.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
             this.tree_view_active.Name = "tree_view_active";
-            this.tree_view_active.Size = new System.Drawing.Size(345, 348);
+            this.tree_view_active.Size = new System.Drawing.Size(305, 344);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
             this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
@@ -291,6 +298,7 @@
             this.tab_control.Controls.Add(this.tab_page_active);
             this.tab_control.Controls.Add(this.tab_page_pending);
             this.tab_control.Controls.Add(this.tab_page_finished);
+            this.tab_control.Controls.Add(this.tab_page_archive);
             this.tab_control.Controls.Add(this.tab_page_customize);
             this.tab_control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab_control.Location = new System.Drawing.Point(0, 24);
@@ -698,6 +706,56 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
+            // tab_page_archive
+            // 
+            this.tab_page_archive.Controls.Add(this.table_layout_archive);
+            this.tab_page_archive.Location = new System.Drawing.Point(4, 22);
+            this.tab_page_archive.Name = "tab_page_archive";
+            this.tab_page_archive.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_page_archive.Size = new System.Drawing.Size(793, 477);
+            this.tab_page_archive.TabIndex = 4;
+            this.tab_page_archive.Text = "Archívum";
+            this.tab_page_archive.UseVisualStyleBackColor = true;
+            // 
+            // tree_view_archive
+            // 
+            this.tree_view_archive.AllowDrop = true;
+            this.tree_view_archive.CheckBoxes = true;
+            this.tree_view_archive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree_view_archive.HideSelection = false;
+            this.tree_view_archive.Location = new System.Drawing.Point(3, 23);
+            this.tree_view_archive.Name = "tree_view_archive";
+            this.tree_view_archive.Size = new System.Drawing.Size(781, 425);
+            this.tree_view_archive.TabIndex = 9;
+            this.tree_view_archive.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragDrop);
+            this.tree_view_archive.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragEnter);
+            // 
+            // lbl_archive_name
+            // 
+            this.lbl_archive_name.AutoSize = true;
+            this.lbl_archive_name.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbl_archive_name.Location = new System.Drawing.Point(3, 0);
+            this.lbl_archive_name.Name = "lbl_archive_name";
+            this.lbl_archive_name.Size = new System.Drawing.Size(781, 13);
+            this.lbl_archive_name.TabIndex = 10;
+            this.lbl_archive_name.Text = "Drag and Drop archived files to see the orders!";
+            // 
+            // table_layout_archive
+            // 
+            this.table_layout_archive.ColumnCount = 1;
+            this.table_layout_archive.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.table_layout_archive.Controls.Add(this.lbl_archive_name, 0, 0);
+            this.table_layout_archive.Controls.Add(this.tree_view_archive, 0, 1);
+            this.table_layout_archive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.table_layout_archive.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_archive.Name = "table_layout_archive";
+            this.table_layout_archive.RowCount = 3;
+            this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table_layout_archive.Size = new System.Drawing.Size(787, 471);
+            this.table_layout_archive.TabIndex = 11;
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -728,6 +786,9 @@
             this.menu_strip.PerformLayout();
             this.status_strip.ResumeLayout(false);
             this.status_strip.PerformLayout();
+            this.tab_page_archive.ResumeLayout(false);
+            this.table_layout_archive.ResumeLayout(false);
+            this.table_layout_archive.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -793,6 +854,10 @@
         private System.Windows.Forms.Button btn_add_pending_active;
         private System.Windows.Forms.Button btn_set_notified;
         private System.Windows.Forms.Button btn_reset_notified;
+        private System.Windows.Forms.TabPage tab_page_archive;
+        private System.Windows.Forms.TreeView tree_view_archive;
+        private System.Windows.Forms.Label lbl_archive_name;
+        private System.Windows.Forms.TableLayoutPanel table_layout_archive;
     }
 }
 
