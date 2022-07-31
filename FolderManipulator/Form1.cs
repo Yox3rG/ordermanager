@@ -981,14 +981,34 @@ namespace FolderManipulator
         #endregion
 
         #region DragAndDrop
-        private void tree_view_orders_ItemDrag(object sender, ItemDragEventArgs e)
+        private void tree_view_active_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            TreeNode selectedNode = (TreeNode)e.Item;
-            System.Collections.Specialized.StringCollection sCollection = new System.Collections.Specialized.StringCollection();
-            sCollection.Add(((OrderData)selectedNode.Tag).FullPath);
+            System.Collections.Specialized.StringCollection stringCollection = new System.Collections.Specialized.StringCollection();
             DataObject data = new DataObject();
-            data.SetFileDropList(sCollection);
-            DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.All | DragDropEffects.Link);
+            
+            TreeNode selectedNode = (TreeNode)e.Item;
+            OrderData selectedOrderData = (OrderData)selectedNode.Tag;
+            
+            if(selectedOrderData != null)
+            {
+                stringCollection.Add(selectedOrderData.FullPath);
+                data.SetFileDropList(stringCollection);
+                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+            }
+            else
+            {
+                List<TreeNode> allChildNodes = selectedNode.GetAllNodes();
+                foreach (TreeNode node in allChildNodes)
+                {
+                    OrderData orderData = (OrderData)node.Tag;
+                    if(orderData != null)
+                    {
+                        stringCollection.Add(orderData.FullPath);
+                    }
+                }
+                data.SetFileDropList(stringCollection);
+                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+            }
         }
 
         private void txt_folder_target_DragEnter(object sender, DragEventArgs e)

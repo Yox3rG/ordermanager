@@ -178,7 +178,7 @@
             this.tree_view_active.Size = new System.Drawing.Size(305, 344);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
-            this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_orders_ItemDrag);
+            this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_active_ItemDrag);
             this.tree_view_active.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_active_NodeMouseClick);
             // 
             // lbl_main_ordertype
