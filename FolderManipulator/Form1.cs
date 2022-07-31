@@ -134,11 +134,27 @@ namespace FolderManipulator
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
-                        if(order != null && MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"Can't find selected order to delete.", StatusColorType.Warning, DelayTimeType.Short);
+                            return;
+                        }
+                        if(MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
                             OrderManager.RemoveOrder(orderListType, order);
                         }
+                    }),
+                new SpecialContextMenuItem("Open file location", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"Can't find selected order to show in explorer.", StatusColorType.Warning, DelayTimeType.Short);
+                            return;
+                        }
+
+                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(order.FullPath));
                     }),
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
@@ -920,7 +936,7 @@ namespace FolderManipulator
         private void LoadArchivedFileToTreeView(string path, bool expandAll = true)
         {
             OrderList orderList = IOHandler.Load<OrderList>(path);
-            if(orderList != null)
+            if (orderList != null)
             {
                 string fileName = Path.GetFileNameWithoutExtension(path);
                 lbl_archive_name.Text = fileName;
@@ -985,11 +1001,11 @@ namespace FolderManipulator
         {
             System.Collections.Specialized.StringCollection stringCollection = new System.Collections.Specialized.StringCollection();
             DataObject data = new DataObject();
-            
+
             TreeNode selectedNode = (TreeNode)e.Item;
             OrderData selectedOrderData = (OrderData)selectedNode.Tag;
-            
-            if(selectedOrderData != null)
+
+            if (selectedOrderData != null)
             {
                 stringCollection.Add(selectedOrderData.FullPath);
                 data.SetFileDropList(stringCollection);
@@ -1001,7 +1017,7 @@ namespace FolderManipulator
                 foreach (TreeNode node in allChildNodes)
                 {
                     OrderData orderData = (OrderData)node.Tag;
-                    if(orderData != null)
+                    if (orderData != null)
                     {
                         stringCollection.Add(orderData.FullPath);
                     }
