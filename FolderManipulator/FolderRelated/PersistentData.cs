@@ -133,8 +133,13 @@ namespace FolderManipulator.FolderRelated
         {
             CreateFolderIfNotPresent(System.IO.Path.Combine(sourcePath, archiveFolderName), out _);
 
+            OrderListType oldType = orderList.Type;
+            orderList.Type = OrderListType.Archived;
+
             bool success = true;
             success &= IOHandler.Save(GetCombinedArchivePath(archiveFilePrefix), orderList);
+
+            orderList.Type = oldType;
 
             AppConsole.WriteLine($"OrderList {(success ? "archived succesfully" : "archiving failed")}.");
             return success;

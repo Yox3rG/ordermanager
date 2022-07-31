@@ -107,6 +107,9 @@ namespace FolderManipulator.Data
                     orderData.State = OrderState.None;
                     orderData.FinishedDate = DateTime.Now;
                     break;
+                case OrderListType.Archived:
+                    orderData.State = OrderState.None;
+                    break;
                 default:
                     break;
             }
@@ -118,5 +121,6 @@ namespace FolderManipulator.Data
         Active,
         Pending,
         Finished,
+        Archived,
     }
 }
