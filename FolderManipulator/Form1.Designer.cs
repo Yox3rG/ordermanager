@@ -86,12 +86,12 @@
             this.btn_delete_sub_ordertype = new System.Windows.Forms.Button();
             this.listbox_sub_ordertype = new System.Windows.Forms.ListBox();
             this.menu_strip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_file = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_edit = new System.Windows.Forms.ToolStripMenuItem();
             this.forceSaveObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_view = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -768,80 +768,80 @@
             // menu_strip
             // 
             this.menu_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.viewToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.toolstrip_item_file,
+            this.toolstrip_item_edit,
+            this.toolstrip_item_view,
+            this.toolstrip_item_help});
             this.menu_strip.Location = new System.Drawing.Point(0, 0);
             this.menu_strip.Name = "menu_strip";
             this.menu_strip.Size = new System.Drawing.Size(801, 24);
             this.menu_strip.TabIndex = 7;
             this.menu_strip.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // toolstrip_item_file
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.toolstrip_item_file.Name = "toolstrip_item_file";
+            this.toolstrip_item_file.Size = new System.Drawing.Size(37, 20);
+            this.toolstrip_item_file.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
+            // toolstrip_item_edit
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.forceSaveObjectsToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.toolstrip_item_edit.Name = "toolstrip_item_edit";
+            this.toolstrip_item_edit.Size = new System.Drawing.Size(39, 20);
+            this.toolstrip_item_edit.Text = "Edit";
             // 
             // forceSaveObjectsToolStripMenuItem
             // 
             this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
             this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
-            // viewToolStripMenuItem
+            // toolstrip_item_view
             // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.toolstrip_item_view.Name = "toolstrip_item_view";
+            this.toolstrip_item_view.Size = new System.Drawing.Size(44, 20);
+            this.toolstrip_item_view.Text = "View";
             // 
-            // helpToolStripMenuItem
+            // toolstrip_item_help
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveLogToolStripMenuItem,
             this.deleteLockToolStripMenuItem,
             this.clearStatusBarToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.helpToolStripMenuItem.Text = "Help?";
+            this.toolstrip_item_help.Name = "toolstrip_item_help";
+            this.toolstrip_item_help.Size = new System.Drawing.Size(49, 20);
+            this.toolstrip_item_help.Text = "Help?";
             // 
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // deleteLockToolStripMenuItem
             // 
             this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
-            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteLockToolStripMenuItem.Text = "Delete Lock";
             this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // clearStatusBarToolStripMenuItem
             // 
             this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
-            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
             this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
@@ -918,11 +918,11 @@
         private System.Windows.Forms.TabPage tab_page_active;
         private System.Windows.Forms.TabPage tab_page_pending;
         private System.Windows.Forms.MenuStrip menu_strip;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_file;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_view;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_help;
         private System.Windows.Forms.Label lbl_comment;
         private System.Windows.Forms.TextBox txt_comment;
         private System.Windows.Forms.Label lbl_count;

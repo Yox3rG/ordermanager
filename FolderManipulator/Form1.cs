@@ -31,6 +31,7 @@ namespace FolderManipulator
 
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
+        private List<ToolStripItem> toolStripItems;
 
         public form_main()
         {
@@ -40,7 +41,7 @@ namespace FolderManipulator
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
 
             StatusManager.Initialize(status_strip);
-            InitializeTabPages();
+            InitializeFormElements();
             InitializeTimers();
 
             SetupManagers();
@@ -83,18 +84,18 @@ namespace FolderManipulator
             if (!persistentData.LoadSourcePathFromLocal())
             {
                 normalHighlightManager.StartHighlightControl(btn_choose_source);
-                ShowTabs(sourceReady: false);
+                SetApplicationState(sourceReady: false);
                 return;
             }
             if (!persistentData.AcceptSourcePath())
             {
                 normalHighlightManager.StartHighlightControl(btn_accept_source);
-                ShowTabs(sourceReady: false);
+                SetApplicationState(sourceReady: false);
                 return;
             }
 
             HandleDataOnAcceptingSource();
-            ShowTabs(sourceReady: true);
+            SetApplicationState(sourceReady: true);
             //ShowTabs(sourceReady: false);
         }
 
@@ -103,16 +104,24 @@ namespace FolderManipulator
             normalHighlightManager = new HighlightManager(cycleStart: Color.LightGray, cycleEnd: Color.CadetBlue, finish: Color.Transparent, 50, backColor: true);
         }
 
-        private void InitializeTabPages()
+        private void InitializeFormElements()
         {
             tabPages = new List<TabPage>() {
                 tab_page_active,
                 tab_page_pending,
                 tab_page_finished,
                 tab_page_archive,
-                tab_page_customize };
+                tab_page_customize
+            };
             tabPagesShownWhenNoSource = new List<TabPage>() {
-                tab_page_customize };
+                tab_page_customize
+            };
+            toolStripItems = new List<ToolStripItem>() {
+                toolstrip_item_file, 
+                toolstrip_item_edit,
+                toolstrip_item_view,
+                toolstrip_item_help
+            };
         }
 
         private void InitializeTimers()
@@ -283,7 +292,7 @@ namespace FolderManipulator
                 }
             }
             persistentData.SetSourcePath(selectedPath);
-            ShowTabs(sourceReady: false);
+            SetApplicationState(sourceReady: false);
         }
 
         private void button_accept_source_Click(object sender, EventArgs e)
@@ -292,7 +301,7 @@ namespace FolderManipulator
             {
                 normalHighlightManager.StopHighlightControl(btn_accept_source);
                 StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
-                ShowTabs(sourceReady: true);
+                SetApplicationState(sourceReady: true);
             }
             else
             {
@@ -309,6 +318,20 @@ namespace FolderManipulator
                 SaveAll();
             }
             RefreshSourceTreeView();
+        }
+
+        private void SetApplicationState(bool sourceReady)
+        {
+            ShowTabs(sourceReady);
+            EnableToolStripItems(sourceReady);
+        }
+
+        private void EnableToolStripItems(bool sourceReady)
+        {
+            foreach (var toolStripItem in toolStripItems)
+            {
+                toolStripItem.Enabled = sourceReady;
+            }
         }
 
         #region Tabs
