@@ -1198,26 +1198,6 @@ namespace FolderManipulator
 
         #region Testing
 #if DEBUG
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ShowTabs(sourceReady: true);
-            //persistentData.StartTestTask();
-            //StatusManager.ShowMessage("started delayed message", StatusColorType.Warning);
-            //StatusManager.ShowMessageDelayed(1000, "time over", StatusColorType.Error);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ShowTabs(sourceReady: false);
-            //persistentData.StopTestTask();
-            //StatusManager.StopCurrentDelayedMessage();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //AppConsole.SaveLog();
-        }
-
         private void StartDebugTimer()
         {
             return;
@@ -1247,37 +1227,6 @@ namespace FolderManipulator
             }
         }
 #endif
-
-        private void txt_drag_drop_DragEnter(object sender, DragEventArgs e)
-        {
-            Console.WriteLine("DragEnter");
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else if (e.Data.GetDataPresent(DataFormats.Text))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                Console.WriteLine("None :(");
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void txt_drag_drop_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null)
-            {
-                txt_drag_drop.Text = string.Join(";", files);
-                return;
-            }
-
-            string s = e.Data.GetData(DataFormats.Text).ToString();
-            txt_drag_drop.Text = s;
-        }
         #endregion
     }
 }
