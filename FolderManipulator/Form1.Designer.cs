@@ -75,16 +75,16 @@
             this.lbl_source = new System.Windows.Forms.Label();
             this.tree_view_hierarchy = new System.Windows.Forms.TreeView();
             this.btn_accept_source = new System.Windows.Forms.Button();
-            this.btn_delete_sub_ordertype = new System.Windows.Forms.Button();
-            this.btn_delete_main_ordertype = new System.Windows.Forms.Button();
-            this.txt_sub_ordertype = new System.Windows.Forms.TextBox();
-            this.btn_add_sub_ordertype = new System.Windows.Forms.Button();
-            this.listbox_sub_ordertype = new System.Windows.Forms.ListBox();
+            this.panel_main_ordertype = new System.Windows.Forms.Panel();
             this.txt_main_ordertype = new System.Windows.Forms.TextBox();
             this.btn_add_main_ordertype = new System.Windows.Forms.Button();
             this.listbox_main_ordertype = new System.Windows.Forms.ListBox();
+            this.btn_delete_main_ordertype = new System.Windows.Forms.Button();
             this.panel_sub_ordertype = new System.Windows.Forms.Panel();
-            this.panel_main_ordertype = new System.Windows.Forms.Panel();
+            this.txt_sub_ordertype = new System.Windows.Forms.TextBox();
+            this.btn_add_sub_ordertype = new System.Windows.Forms.Button();
+            this.btn_delete_sub_ordertype = new System.Windows.Forms.Button();
+            this.listbox_sub_ordertype = new System.Windows.Forms.ListBox();
             this.menu_strip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,8 +116,8 @@
             this.table_layout_archive.SuspendLayout();
             this.tab_page_customize.SuspendLayout();
             this.panel_choose_source.SuspendLayout();
-            this.panel_sub_ordertype.SuspendLayout();
             this.panel_main_ordertype.SuspendLayout();
+            this.panel_sub_ordertype.SuspendLayout();
             this.menu_strip.SuspendLayout();
             this.status_strip.SuspendLayout();
             this.SuspendLayout();
@@ -671,51 +671,16 @@
             this.btn_accept_source.UseVisualStyleBackColor = true;
             this.btn_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
             // 
-            // btn_delete_sub_ordertype
+            // panel_main_ordertype
             // 
-            this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(3, 206);
-            this.btn_delete_sub_ordertype.Name = "btn_delete_sub_ordertype";
-            this.btn_delete_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_sub_ordertype.TabIndex = 16;
-            this.btn_delete_sub_ordertype.Text = "Altípus Törlése";
-            this.btn_delete_sub_ordertype.UseVisualStyleBackColor = true;
-            this.btn_delete_sub_ordertype.Click += new System.EventHandler(this.btn_delete_sub_ordertype_Click);
-            // 
-            // btn_delete_main_ordertype
-            // 
-            this.btn_delete_main_ordertype.Location = new System.Drawing.Point(3, 206);
-            this.btn_delete_main_ordertype.Name = "btn_delete_main_ordertype";
-            this.btn_delete_main_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_main_ordertype.TabIndex = 15;
-            this.btn_delete_main_ordertype.Text = "Típus Törlése";
-            this.btn_delete_main_ordertype.UseVisualStyleBackColor = true;
-            this.btn_delete_main_ordertype.Click += new System.EventHandler(this.btn_delete_main_ordertype_Click);
-            // 
-            // txt_sub_ordertype
-            // 
-            this.txt_sub_ordertype.Location = new System.Drawing.Point(3, 9);
-            this.txt_sub_ordertype.Name = "txt_sub_ordertype";
-            this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
-            this.txt_sub_ordertype.TabIndex = 14;
-            this.txt_sub_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_sub_ordertype_KeyUp);
-            // 
-            // btn_add_sub_ordertype
-            // 
-            this.btn_add_sub_ordertype.Location = new System.Drawing.Point(3, 35);
-            this.btn_add_sub_ordertype.Name = "btn_add_sub_ordertype";
-            this.btn_add_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_add_sub_ordertype.TabIndex = 13;
-            this.btn_add_sub_ordertype.Text = "Altípus Hozzáadása";
-            this.btn_add_sub_ordertype.UseVisualStyleBackColor = true;
-            this.btn_add_sub_ordertype.Click += new System.EventHandler(this.btn_add_sub_ordertype_Click);
-            // 
-            // listbox_sub_ordertype
-            // 
-            this.listbox_sub_ordertype.FormattingEnabled = true;
-            this.listbox_sub_ordertype.Location = new System.Drawing.Point(3, 66);
-            this.listbox_sub_ordertype.Name = "listbox_sub_ordertype";
-            this.listbox_sub_ordertype.Size = new System.Drawing.Size(120, 134);
-            this.listbox_sub_ordertype.TabIndex = 12;
+            this.panel_main_ordertype.Controls.Add(this.txt_main_ordertype);
+            this.panel_main_ordertype.Controls.Add(this.btn_add_main_ordertype);
+            this.panel_main_ordertype.Controls.Add(this.listbox_main_ordertype);
+            this.panel_main_ordertype.Controls.Add(this.btn_delete_main_ordertype);
+            this.panel_main_ordertype.Location = new System.Drawing.Point(243, 0);
+            this.panel_main_ordertype.Name = "panel_main_ordertype";
+            this.panel_main_ordertype.Size = new System.Drawing.Size(126, 477);
+            this.panel_main_ordertype.TabIndex = 23;
             // 
             // txt_main_ordertype
             // 
@@ -743,6 +708,16 @@
             this.listbox_main_ordertype.Size = new System.Drawing.Size(120, 134);
             this.listbox_main_ordertype.TabIndex = 9;
             // 
+            // btn_delete_main_ordertype
+            // 
+            this.btn_delete_main_ordertype.Location = new System.Drawing.Point(3, 206);
+            this.btn_delete_main_ordertype.Name = "btn_delete_main_ordertype";
+            this.btn_delete_main_ordertype.Size = new System.Drawing.Size(120, 23);
+            this.btn_delete_main_ordertype.TabIndex = 15;
+            this.btn_delete_main_ordertype.Text = "Típus Törlése";
+            this.btn_delete_main_ordertype.UseVisualStyleBackColor = true;
+            this.btn_delete_main_ordertype.Click += new System.EventHandler(this.btn_delete_main_ordertype_Click);
+            // 
             // panel_sub_ordertype
             // 
             this.panel_sub_ordertype.Controls.Add(this.txt_sub_ordertype);
@@ -754,16 +729,41 @@
             this.panel_sub_ordertype.Size = new System.Drawing.Size(126, 477);
             this.panel_sub_ordertype.TabIndex = 23;
             // 
-            // panel_main_ordertype
+            // txt_sub_ordertype
             // 
-            this.panel_main_ordertype.Controls.Add(this.txt_main_ordertype);
-            this.panel_main_ordertype.Controls.Add(this.btn_add_main_ordertype);
-            this.panel_main_ordertype.Controls.Add(this.listbox_main_ordertype);
-            this.panel_main_ordertype.Controls.Add(this.btn_delete_main_ordertype);
-            this.panel_main_ordertype.Location = new System.Drawing.Point(243, 0);
-            this.panel_main_ordertype.Name = "panel_main_ordertype";
-            this.panel_main_ordertype.Size = new System.Drawing.Size(126, 477);
-            this.panel_main_ordertype.TabIndex = 23;
+            this.txt_sub_ordertype.Location = new System.Drawing.Point(3, 9);
+            this.txt_sub_ordertype.Name = "txt_sub_ordertype";
+            this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
+            this.txt_sub_ordertype.TabIndex = 14;
+            this.txt_sub_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_sub_ordertype_KeyUp);
+            // 
+            // btn_add_sub_ordertype
+            // 
+            this.btn_add_sub_ordertype.Location = new System.Drawing.Point(3, 35);
+            this.btn_add_sub_ordertype.Name = "btn_add_sub_ordertype";
+            this.btn_add_sub_ordertype.Size = new System.Drawing.Size(120, 23);
+            this.btn_add_sub_ordertype.TabIndex = 13;
+            this.btn_add_sub_ordertype.Text = "Altípus Hozzáadása";
+            this.btn_add_sub_ordertype.UseVisualStyleBackColor = true;
+            this.btn_add_sub_ordertype.Click += new System.EventHandler(this.btn_add_sub_ordertype_Click);
+            // 
+            // btn_delete_sub_ordertype
+            // 
+            this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(3, 206);
+            this.btn_delete_sub_ordertype.Name = "btn_delete_sub_ordertype";
+            this.btn_delete_sub_ordertype.Size = new System.Drawing.Size(120, 23);
+            this.btn_delete_sub_ordertype.TabIndex = 16;
+            this.btn_delete_sub_ordertype.Text = "Altípus Törlése";
+            this.btn_delete_sub_ordertype.UseVisualStyleBackColor = true;
+            this.btn_delete_sub_ordertype.Click += new System.EventHandler(this.btn_delete_sub_ordertype_Click);
+            // 
+            // listbox_sub_ordertype
+            // 
+            this.listbox_sub_ordertype.FormattingEnabled = true;
+            this.listbox_sub_ordertype.Location = new System.Drawing.Point(3, 66);
+            this.listbox_sub_ordertype.Name = "listbox_sub_ordertype";
+            this.listbox_sub_ordertype.Size = new System.Drawing.Size(120, 134);
+            this.listbox_sub_ordertype.TabIndex = 12;
             // 
             // menu_strip
             // 
@@ -898,10 +898,10 @@
             this.tab_page_customize.ResumeLayout(false);
             this.panel_choose_source.ResumeLayout(false);
             this.panel_choose_source.PerformLayout();
-            this.panel_sub_ordertype.ResumeLayout(false);
-            this.panel_sub_ordertype.PerformLayout();
             this.panel_main_ordertype.ResumeLayout(false);
             this.panel_main_ordertype.PerformLayout();
+            this.panel_sub_ordertype.ResumeLayout(false);
+            this.panel_sub_ordertype.PerformLayout();
             this.menu_strip.ResumeLayout(false);
             this.menu_strip.PerformLayout();
             this.status_strip.ResumeLayout(false);
