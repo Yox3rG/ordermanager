@@ -105,11 +105,14 @@
     <Compile Include="Plugins\DiffMatchPatch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ColorManager.cs" />
     <Compile Include="UI\Highlight.cs" />
     <Compile Include="UI\HighlightManager.cs" />
     <Compile Include="UI\SpecialContextMenus.cs" />
     <Compile Include="UI\StatusManager.cs" />
     <Compile Include="UI\StatusMessageRegister.cs" />
+    <Compile Include="UI\TreeViewHandle.cs" />
+    <Compile Include="UI\TreeViewHandleGroup.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

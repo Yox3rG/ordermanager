@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FolderManipulator.Data
 {
     [Serializable]
-    class OrderData
+    class OrderData : IComparable<OrderData>
     {
         public Guid Id { get; set; }
         public string MainOrderType { get; set; }
@@ -16,6 +16,9 @@ namespace FolderManipulator.Data
         public string FullPath { get; set; }
         public int Count { get; set; }
         public string Description { get; set; }
+        public DateTime BirthDate { get; set; }
+        public DateTime FinishedDate { get; set; }
+        public OrderState State { get; set; }
 
         public OrderData()
         {
@@ -29,6 +32,8 @@ namespace FolderManipulator.Data
             this.FullPath = fullPath;
             this.Count = count;
             this.Description = description;
+            this.BirthDate = DateTime.Now;
+            this.State = OrderState.None;
         }
 
         public void Copy(OrderData other)
@@ -38,6 +43,9 @@ namespace FolderManipulator.Data
             this.FullPath      = other.FullPath;
             this.Count         = other.Count;       
             this.Description   = other.Description;
+            this.BirthDate     = other.BirthDate;
+            this.FinishedDate  = other.FinishedDate;
+            this.State         = other.State;
         }
 
         public string GetFileName()
@@ -69,5 +77,30 @@ namespace FolderManipulator.Data
         {
             return 2108858624 + Id.GetHashCode();
         }
+
+        public int CompareTo(OrderData other)
+        {
+            int difference = 0;
+            difference = MainOrderType.CompareTo(other.MainOrderType);
+            if (difference != 0)
+                return difference;
+            difference = SubOrderType.CompareTo(other.SubOrderType);
+            if (difference != 0)
+                return difference;
+            difference = BirthDate.CompareTo(other.BirthDate);
+            if (difference != 0)
+                return difference;
+            difference = FullPath.CompareTo(other.FullPath);
+            if (difference != 0)
+                return difference;
+            return 0;
+        }
+    }
+
+    public enum OrderState
+    {
+        None,
+        Pending,
+        Notified,
     }
 }

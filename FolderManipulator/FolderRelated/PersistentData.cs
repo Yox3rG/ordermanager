@@ -22,9 +22,13 @@ namespace FolderManipulator.FolderRelated
         private string finishedOrdersFileName = "finished_orders.json";
         private string settingsFileName = "settings.json";
         private string lockFileName = "lock.lock";
+        private string archiveFolderName = "Archive";
+        private string archiveFilePrefix = "archived_orders";
+        private string archiveFileSuffix = ".json";
         private string sourcePath;
 
         private string localDataFileName = "local.json";
+        private string localBackupFolderName = "backup";
 
         private float saveMinDelay = 1f;
         private float saveMaxRandomDelayAfterMin = 4f;
@@ -32,6 +36,10 @@ namespace FolderManipulator.FolderRelated
         private Task _savingTask;
         private CancellationTokenSource _currentCancellationTokenSource;
         private List<SavableDataWithPath> _itemsWaitingForSave = new List<SavableDataWithPath>();
+        private List<SavableDataWithPath> _itemsWaitingForLocalSave = new List<SavableDataWithPath>();
+
+        private int _maxLocalBackupIndex = 2;
+        private int _currentLocalBackupIndex = 0;
 
         public bool IsSourceReady { get; private set; } = false;
 
@@ -96,9 +104,45 @@ namespace FolderManipulator.FolderRelated
 
         public string GetCombinedPath(string fileName)
         {
-            if (sourcePath != null)
+            if (sourcePath != null && fileName != null)
                 return System.IO.Path.Combine(sourcePath, fileName);
             return null;
+        }
+
+        public string GetCombinedPath(string folder, string fileName)
+        {
+            if (folder != null && fileName != null)
+                return System.IO.Path.Combine(folder, fileName);
+            return null;
+        }
+
+        public string GetCombinedArchivePath(string archiveFilePrefix)
+        {
+            if (sourcePath != null)
+                return System.IO.Path.Combine(System.IO.Path.Combine(sourcePath, archiveFolderName), archiveFilePrefix + '_' + DateTime.Now.Year + '_' + DateTime.Now.Month + archiveFileSuffix);
+            return null;
+        }
+
+        public bool DoesArchiveForLastMonthExists()
+        {
+            bool exists = System.IO.File.Exists(GetCombinedArchivePath(archiveFilePrefix));
+            return exists;
+        }  
+
+        public bool ArchiveOrderList(OrderList orderList)
+        {
+            CreateFolderIfNotPresent(System.IO.Path.Combine(sourcePath, archiveFolderName), out _);
+
+            OrderListType oldType = orderList.Type;
+            orderList.Type = OrderListType.Archived;
+
+            bool success = true;
+            success &= IOHandler.Save(GetCombinedArchivePath(archiveFilePrefix), orderList);
+
+            orderList.Type = oldType;
+
+            AppConsole.WriteLine($"OrderList {(success ? "archived succesfully" : "archiving failed")}.");
+            return success;
         }
 
         public DataState GetDataState(bool showStatusMessage, OrderList oldActiveOrders, OrderList oldPendingOrders, OrderList oldFinishedOrders, SettingsData oldSettings)
@@ -190,17 +234,18 @@ namespace FolderManipulator.FolderRelated
 
         public OrderList LoadOrderList(OrderListType type)
         {
-            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToPath(type));
+            OrderList orderList = IOHandler.Load<OrderList>(OrderListTypeToFullPath(type));
             return orderList;
         }
 
         public void AddOrderListToWaitingForSaveList(OrderList orderList)
         {
-            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToPath(orderList.Type), orderList);
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToFullPath(orderList.Type), orderList);
             AddDataToWaitingForSaveList(dataWithPath);
         }
         #endregion
 
+        #region SaveToServer
         public void AddDataToWaitingForSaveList(SavableDataWithPath dataWithPath)
         {
             int existingIndex = _itemsWaitingForSave.IndexOf(x => x.path.Equals(dataWithPath.path));
@@ -317,8 +362,54 @@ namespace FolderManipulator.FolderRelated
             }
             return success;
         }
+        #endregion
 
-        public string OrderListTypeToPath(OrderListType type)
+        #region Local Backup
+        public void AddDataToLocalWaitingForSaveList(SettingsData settings)
+        {
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + settingsFileName), settings);
+            AddDataToLocalSaveWaitingList(dataWithPath);
+        }
+
+        public void AddDataToLocalWaitingForSaveList(OrderList orderList)
+        {
+            SavableDataWithPath dataWithPath = new SavableDataWithPath(OrderListTypeToLocalPath(orderList.Type), orderList);
+            AddDataToLocalSaveWaitingList(dataWithPath);
+        }
+
+        public void AddDataToLocalSaveWaitingList(SavableDataWithPath dataWithPath)
+        {
+            _itemsWaitingForLocalSave.Add(dataWithPath);
+        }
+
+        public bool SaveWaitingLocalBackupData()
+        {
+            CreateFolderIfNotPresent(localBackupFolderName, out _);
+
+            bool success = true;
+            foreach (SavableDataWithPath dataWithPath in _itemsWaitingForLocalSave)
+            {
+                if (dataWithPath.data is SettingsData)
+                {
+                    success &= IOHandler.Save(dataWithPath.path, dataWithPath.data as SettingsData);
+                }
+                else if (dataWithPath.data is OrderList)
+                {
+                    success &= IOHandler.Save(dataWithPath.path, dataWithPath.data as OrderList);
+                }
+            }
+
+            if (++_currentLocalBackupIndex > _maxLocalBackupIndex)
+            {
+                _currentLocalBackupIndex = 0;
+            }
+            _itemsWaitingForLocalSave.Clear();
+            AppConsole.WriteLine($"Local backup {(success ? "saved succesfully" : "failed")}.");
+            return success;
+        }
+        #endregion
+
+        public string OrderListTypeToFullPath(OrderListType type)
         {
             switch (type)
             {
@@ -328,6 +419,20 @@ namespace FolderManipulator.FolderRelated
                     return PendingTasksPath;
                 case OrderListType.Finished:
                     return FinishedTasksPath;
+            }
+            return null;
+        }
+
+        public string OrderListTypeToLocalPath(OrderListType type)
+        {
+            switch (type)
+            {
+                case OrderListType.Active:
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + activeOrdersFileName);
+                case OrderListType.Pending:
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + pendingOrdersFileName);
+                case OrderListType.Finished:
+                    return GetCombinedPath(localBackupFolderName, _currentLocalBackupIndex.ToString() + '_' + finishedOrdersFileName);
             }
             return null;
         }
@@ -400,6 +505,19 @@ namespace FolderManipulator.FolderRelated
             if (!System.IO.File.Exists(localDataFileName))
             {
                 System.IO.File.Create(localDataFileName);
+                fileCreated = true;
+            }
+            else
+            {
+                fileCreated = false;
+            }
+        }
+
+        public void CreateFolderIfNotPresent(string path, out bool fileCreated)
+        {
+            if (!System.IO.Directory.Exists(path))
+            {
+                System.IO.Directory.CreateDirectory(path);
                 fileCreated = true;
             }
             else

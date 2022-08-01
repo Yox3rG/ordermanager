@@ -29,8 +29,8 @@ namespace FolderManipulator.Data
         }
 
         public UpdateID UpdateID { get; set; }
-        public List<OrderData> Orders { get; set; }
         public OrderListType Type { get; set; }
+        public List<OrderData> Orders { get; set; }
 
         public OrderList()
         {
@@ -50,44 +50,69 @@ namespace FolderManipulator.Data
         {
             if (data == null)
                 return;
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't add data to orderlist {Type}");
-                return;
-            }
 
             UpdateID.IncreaseUpdateID();
             Orders.Add(data);
-            OrderManager.OnOrderListChanged?.Invoke(this);
+            Orders.Sort();
+            SetSpecialFieldsOnAdd(data);
         }
 
         public bool Remove(OrderData data)
         {
             if (data == null)
                 return false;
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't remove data from orderlist {Type}");
-                return false;
-            }
 
             UpdateID.IncreaseUpdateID();
             bool success = Orders.Remove(data);
-            OrderManager.OnOrderListChanged?.Invoke(this);
+            if (success)
+            {
+                Orders.Sort();
+            }
             return success;
         }
 
         public void Clear()
         {
-            if (!OrderManager.CanChangeData)
-            {
-                AppConsole.WriteLine($"Can't clear data from orderlist {Type}");
-                return;
-            }
-
             UpdateID.IncreaseUpdateID();
             Orders.Clear();
-            OrderManager.OnOrderListChanged?.Invoke(this);
+        }
+
+        public List<OrderData> GetOrders(List<Guid> guids)
+        {
+            List<OrderData> ordersFromGuid = new List<OrderData>();
+            for (int i = 0; i < Orders.Count; i++)
+            {
+                if (guids.Contains(Orders[i].Id))
+                {
+                    ordersFromGuid.Add(Orders[i]);
+                }
+            }
+            return ordersFromGuid;
+        }
+
+        private void SetSpecialFieldsOnAdd(OrderData orderData)
+        {
+            switch (Type)
+            {
+                case OrderListType.Active:
+                    orderData.State = OrderState.None;
+                    break;
+                case OrderListType.Pending:
+                    if(orderData.State == OrderState.None)
+                    {
+                        orderData.State = OrderState.Pending;
+                    }
+                    break;
+                case OrderListType.Finished:
+                    orderData.State = OrderState.None;
+                    orderData.FinishedDate = DateTime.Now;
+                    break;
+                case OrderListType.Archived:
+                    orderData.State = OrderState.None;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -96,5 +121,6 @@ namespace FolderManipulator.Data
         Active,
         Pending,
         Finished,
+        Archived,
     }
 }
