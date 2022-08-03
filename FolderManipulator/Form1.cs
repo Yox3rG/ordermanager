@@ -18,6 +18,11 @@ namespace FolderManipulator
         private Action OnOneSecondTimer;
         private Action OnTenMinuteTimer;
 
+        private FormOrderTypeSettings formOrderTypeSettings;
+
+        private Timer formOneSecondTimer;
+        private Timer formTenMinuteTimer;
+
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
 
@@ -28,8 +33,8 @@ namespace FolderManipulator
 
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
 
-        private Timer formOneSecondTimer;
-        private Timer formTenMinuteTimer;
+        private List<ListControl> listsOfMainOrderTypes;
+        private List<ListControl> listsOfSubOrderTypes;
 
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
@@ -41,10 +46,11 @@ namespace FolderManipulator
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
-
+            
             StatusManager.Initialize(status_strip);
             InitializeFormElements();
             InitializeTimers();
+            FillListControls();
 
             SetupManagers();
             SetupPersistentData();
@@ -219,6 +225,17 @@ namespace FolderManipulator
             OnOneSecondTimer -= LoadAllIfDataIsOld;
             OnTenMinuteTimer -= SaveAllLocal;
             OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+        }
+
+        private void FillListControls()
+        {
+            listsOfMainOrderTypes = new List<ListControl>();
+            listsOfMainOrderTypes.Add(listbox_main_ordertype);
+            listsOfMainOrderTypes.Add(drpd_main_ordertype);
+
+            listsOfSubOrderTypes = new List<ListControl>();
+            listsOfSubOrderTypes.Add(listbox_sub_ordertype);
+            listsOfSubOrderTypes.Add(drpd_sub_ordertype);
         }
 
         private void formDispatcher1SecTimer_Tick(object sender, EventArgs e)
@@ -932,14 +949,16 @@ namespace FolderManipulator
 
             try
             {
-                listbox_main_ordertype.DataSource = null;
-                listbox_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-                drpd_main_ordertype.DataSource = null;
-                drpd_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-                listbox_sub_ordertype.DataSource = null;
-                listbox_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
-                drpd_sub_ordertype.DataSource = null;
-                drpd_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+                foreach (var listBox in listsOfMainOrderTypes)
+                {
+                    listBox.DataSource = null;
+                    listBox.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+                }
+                foreach (var listBox in listsOfSubOrderTypes)
+                {
+                    listBox.DataSource = null;
+                    listBox.DataSource = SettingsManager.Settings.subOrderTypes.list;
+                }
 
                 selectedMainOrderTypeIndex = selectedMainOrderTypeIndex.Clamp(0, drpd_main_ordertype.Items.Count - 1);
                 selectedSubOrderTypeIndex = selectedSubOrderTypeIndex.Clamp(0, drpd_sub_ordertype.Items.Count - 1);
@@ -1287,5 +1306,43 @@ namespace FolderManipulator
         }
 #endif
         #endregion
+
+        private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formOrderTypeSettings != null)
+            {
+                StatusManager.ShowMessage($"OrderType Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            formOrderTypeSettings = new FormOrderTypeSettings();
+
+            ListControl listControlMainOrderType = formOrderTypeSettings.GetMainOrderTypeListControl();
+            ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
+
+            listControlMainOrderType.DataSource = null;
+            listControlMainOrderType.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+
+            listControlSubOrderType.DataSource = null;
+            listControlSubOrderType.DataSource = SettingsManager.Settings.subOrderTypes.list;
+
+            listsOfMainOrderTypes.Add(listControlMainOrderType);
+            listsOfSubOrderTypes.Add(listControlSubOrderType);
+
+            formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
+            formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
+            formOrderTypeSettings.Show();
+        }
+
+        private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            listsOfMainOrderTypes.Remove(formOrderTypeSettings.GetMainOrderTypeListControl());
+            listsOfSubOrderTypes.Remove(formOrderTypeSettings.GetSubOrderTypeListControl());
+        }
+
+        private void FormOrderTypeSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formOrderTypeSettings = null;
+        }
     }
 }

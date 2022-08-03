@@ -101,6 +101,8 @@
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.editOrderTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -847,7 +849,9 @@
             // toolstrip_item_edit
             // 
             this.toolstrip_item_edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.forceSaveObjectsToolStripMenuItem});
+            this.forceSaveObjectsToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.editOrderTypesToolStripMenuItem});
             this.toolstrip_item_edit.Name = "toolstrip_item_edit";
             this.toolstrip_item_edit.Size = new System.Drawing.Size(39, 20);
             this.toolstrip_item_edit.Text = "Edit";
@@ -911,6 +915,18 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // editOrderTypesToolStripMenuItem
+            // 
+            this.editOrderTypesToolStripMenuItem.Name = "editOrderTypesToolStripMenuItem";
+            this.editOrderTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editOrderTypesToolStripMenuItem.Text = "Edit OrderTypes";
+            this.editOrderTypesToolStripMenuItem.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
             // 
             // form_main
             // 
@@ -1037,6 +1053,8 @@
         private System.Windows.Forms.Button btn_reset_notified;
         private System.Windows.Forms.Button btn_add_finished_pending;
         private System.Windows.Forms.Button btn_add_finished_active;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem editOrderTypesToolStripMenuItem;
     }
 }
 
