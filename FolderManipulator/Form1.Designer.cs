@@ -734,6 +734,7 @@
             this.panel_main_ordertype.Name = "panel_main_ordertype";
             this.panel_main_ordertype.Size = new System.Drawing.Size(126, 477);
             this.panel_main_ordertype.TabIndex = 23;
+            this.panel_main_ordertype.Visible = false;
             // 
             // txt_main_ordertype
             // 
@@ -781,6 +782,7 @@
             this.panel_sub_ordertype.Name = "panel_sub_ordertype";
             this.panel_sub_ordertype.Size = new System.Drawing.Size(126, 477);
             this.panel_sub_ordertype.TabIndex = 23;
+            this.panel_sub_ordertype.Visible = false;
             // 
             // txt_sub_ordertype
             // 

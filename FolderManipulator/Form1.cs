@@ -40,6 +40,8 @@ namespace FolderManipulator
         private List<TabPage> tabPagesShownWhenNoSource;
         private List<ToolStripItem> toolStripItems;
 
+        private ToolTip sourceToolTip = new ToolTip();
+
         public form_main()
         {
             InitializeComponent();
@@ -288,6 +290,9 @@ namespace FolderManipulator
         {
             lbl_source.Text = persistentData.SourcePath == null ?
                 "NULL" : persistentData.SourcePath;
+
+            sourceToolTip.RemoveAll();
+            sourceToolTip.SetToolTip(lbl_source, lbl_source.Text);
         }
 
         private void RefreshSourceTreeView()
