@@ -712,21 +712,25 @@ namespace FolderManipulator
 
         private void btn_reset_notified_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
             foreach (OrderData order in orders)
             {
                 order.State = OrderState.Pending;
             }
+            treeViewHandle.ClearCheckedData();
             RefreshOrders();
         }
 
         private void btn_set_notified_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
+            OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
             foreach (OrderData order in orders)
             {
                 order.State = OrderState.Notified;
             }
+            treeViewHandle.ClearCheckedData();
             RefreshOrders();
         }
 
