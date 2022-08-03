@@ -119,7 +119,19 @@ namespace FolderManipulator.FolderRelated
         public string GetCombinedArchivePath(string archiveFilePrefix)
         {
             if (sourcePath != null)
-                return System.IO.Path.Combine(System.IO.Path.Combine(sourcePath, archiveFolderName), archiveFilePrefix + '_' + DateTime.Now.Year + '_' + DateTime.Now.Month + archiveFileSuffix);
+            {
+                string archiveFolderPath = System.IO.Path.Combine(sourcePath, archiveFolderName);
+                int year = DateTime.Now.Year;
+                int lastMonth = DateTime.Now.Month - 1;
+                if (lastMonth == 0)
+                {
+                    year--;
+                    lastMonth = 12;
+                }
+                string yearAndLastMonth = year.ToString() + '_' + lastMonth;
+                return System.IO.Path.Combine(archiveFolderPath, archiveFilePrefix + '_' + yearAndLastMonth + archiveFileSuffix);
+            }
+
             return null;
         }
 
