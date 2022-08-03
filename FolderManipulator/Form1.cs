@@ -23,6 +23,8 @@ namespace FolderManipulator
 
         private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
         private const string _dummyOrderTypeName = "Other";
+        private int selectedMainOrderTypeIndex = 0;
+        private int selectedSubOrderTypeIndex = 0;
 
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
 
@@ -117,7 +119,7 @@ namespace FolderManipulator
                 tab_page_customize
             };
             toolStripItems = new List<ToolStripItem>() {
-                toolstrip_item_file, 
+                toolstrip_item_file,
                 toolstrip_item_edit,
                 toolstrip_item_view,
                 toolstrip_item_help
@@ -889,6 +891,16 @@ namespace FolderManipulator
         #endregion
 
         #region OrderType
+        private void drpd_main_ordertype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedMainOrderTypeIndex = drpd_main_ordertype.SelectedIndex;
+        }
+
+        private void drpd_sub_ordertype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedSubOrderTypeIndex = drpd_sub_ordertype.SelectedIndex;
+        }
+
         private void btn_add_main_ordertype_Click(object sender, EventArgs e)
         {
             SettingsManager.Settings.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
@@ -911,14 +923,34 @@ namespace FolderManipulator
 
         private void RefreshOrderTypes()
         {
-            listbox_main_ordertype.DataSource = null;
-            listbox_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-            drpd_main_ordertype.DataSource = null;
-            drpd_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-            listbox_sub_ordertype.DataSource = null;
-            listbox_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
-            drpd_sub_ordertype.DataSource = null;
-            drpd_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+            drpd_main_ordertype.SelectedIndexChanged -= drpd_main_ordertype_SelectedIndexChanged;
+            drpd_sub_ordertype.SelectedIndexChanged -= drpd_sub_ordertype_SelectedIndexChanged;
+
+            try
+            {
+                listbox_main_ordertype.DataSource = null;
+                listbox_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+                drpd_main_ordertype.DataSource = null;
+                drpd_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+                listbox_sub_ordertype.DataSource = null;
+                listbox_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+                drpd_sub_ordertype.DataSource = null;
+                drpd_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+
+                selectedMainOrderTypeIndex = selectedMainOrderTypeIndex.Clamp(0, drpd_main_ordertype.Items.Count - 1);
+                selectedSubOrderTypeIndex = selectedSubOrderTypeIndex.Clamp(0, drpd_sub_ordertype.Items.Count - 1);
+                drpd_main_ordertype.SelectedIndex = selectedMainOrderTypeIndex;
+                drpd_sub_ordertype.SelectedIndex = selectedSubOrderTypeIndex;
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            finally
+            {
+                drpd_main_ordertype.SelectedIndexChanged += drpd_main_ordertype_SelectedIndexChanged;
+                drpd_sub_ordertype.SelectedIndexChanged += drpd_sub_ordertype_SelectedIndexChanged;
+            }
         }
         #endregion
 

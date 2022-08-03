@@ -256,6 +256,7 @@
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
             this.drpd_main_ordertype.Size = new System.Drawing.Size(121, 21);
             this.drpd_main_ordertype.TabIndex = 20;
+            this.drpd_main_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_main_ordertype_SelectedIndexChanged);
             // 
             // lbl_sub_ordertype
             // 
@@ -274,6 +275,7 @@
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
             this.drpd_sub_ordertype.Size = new System.Drawing.Size(121, 21);
             this.drpd_sub_ordertype.TabIndex = 22;
+            this.drpd_sub_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_sub_ordertype_SelectedIndexChanged);
             // 
             // btn_choose_folder
             // 
