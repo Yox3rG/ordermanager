@@ -59,9 +59,9 @@
             this.tree_view_pending = new System.Windows.Forms.TreeView();
             this.table_layout_pending_order_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btn_add_pending_active = new System.Windows.Forms.Button();
-            this.btn_reset_notified = new System.Windows.Forms.Button();
             this.btn_add_pending_finished = new System.Windows.Forms.Button();
             this.btn_set_notified = new System.Windows.Forms.Button();
+            this.btn_reset_notified = new System.Windows.Forms.Button();
             this.tab_page_finished = new System.Windows.Forms.TabPage();
             this.table_layout_finished_orders = new System.Windows.Forms.TableLayoutPanel();
             this.tree_view_finished = new System.Windows.Forms.TreeView();
@@ -138,17 +138,16 @@
             // 
             // table_layout_active_orders
             // 
-            this.table_layout_active_orders.ColumnCount = 1;
+            this.table_layout_active_orders.ColumnCount = 2;
+            this.table_layout_active_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_active_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders.Controls.Add(this.tree_view_active, 0, 0);
-            this.table_layout_active_orders.Controls.Add(this.table_layout_active_order_buttons, 0, 1);
+            this.table_layout_active_orders.Controls.Add(this.tree_view_active, 1, 0);
+            this.table_layout_active_orders.Controls.Add(this.table_layout_active_order_buttons, 0, 0);
             this.table_layout_active_orders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_active_orders.Location = new System.Drawing.Point(3, 3);
             this.table_layout_active_orders.Name = "table_layout_active_orders";
-            this.table_layout_active_orders.RowCount = 2;
+            this.table_layout_active_orders.RowCount = 1;
             this.table_layout_active_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.table_layout_active_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.table_layout_active_orders.Size = new System.Drawing.Size(481, 465);
             this.table_layout_active_orders.TabIndex = 8;
             // 
@@ -157,9 +156,9 @@
             this.tree_view_active.CheckBoxes = true;
             this.tree_view_active.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_active.HideSelection = false;
-            this.tree_view_active.Location = new System.Drawing.Point(3, 3);
+            this.tree_view_active.Location = new System.Drawing.Point(103, 3);
             this.tree_view_active.Name = "tree_view_active";
-            this.tree_view_active.Size = new System.Drawing.Size(475, 409);
+            this.tree_view_active.Size = new System.Drawing.Size(375, 459);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
             this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_active_ItemDrag);
@@ -167,26 +166,26 @@
             // 
             // table_layout_active_order_buttons
             // 
-            this.table_layout_active_order_buttons.ColumnCount = 4;
+            this.table_layout_active_order_buttons.ColumnCount = 1;
             this.table_layout_active_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_active_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_active_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_active_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_active_order_buttons.Controls.Add(this.btn_add_active_pending, 0, 0);
-            this.table_layout_active_order_buttons.Controls.Add(this.btn_add_active_finished, 1, 0);
+            this.table_layout_active_order_buttons.Controls.Add(this.btn_add_active_finished, 0, 1);
             this.table_layout_active_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_active_order_buttons.Location = new System.Drawing.Point(3, 418);
+            this.table_layout_active_order_buttons.Location = new System.Drawing.Point(0, 0);
+            this.table_layout_active_order_buttons.Margin = new System.Windows.Forms.Padding(0);
             this.table_layout_active_order_buttons.Name = "table_layout_active_order_buttons";
-            this.table_layout_active_order_buttons.RowCount = 1;
+            this.table_layout_active_order_buttons.RowCount = 3;
+            this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_order_buttons.Size = new System.Drawing.Size(475, 44);
+            this.table_layout_active_order_buttons.Size = new System.Drawing.Size(100, 465);
             this.table_layout_active_order_buttons.TabIndex = 6;
             // 
             // btn_add_active_pending
             // 
             this.btn_add_active_pending.Location = new System.Drawing.Point(3, 3);
             this.btn_add_active_pending.Name = "btn_add_active_pending";
-            this.btn_add_active_pending.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_active_pending.Size = new System.Drawing.Size(92, 34);
             this.btn_add_active_pending.TabIndex = 6;
             this.btn_add_active_pending.Text = "Add to Pending";
             this.btn_add_active_pending.UseVisualStyleBackColor = true;
@@ -194,9 +193,9 @@
             // 
             // btn_add_active_finished
             // 
-            this.btn_add_active_finished.Location = new System.Drawing.Point(103, 3);
+            this.btn_add_active_finished.Location = new System.Drawing.Point(3, 43);
             this.btn_add_active_finished.Name = "btn_add_active_finished";
-            this.btn_add_active_finished.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_active_finished.Size = new System.Drawing.Size(92, 34);
             this.btn_add_active_finished.TabIndex = 7;
             this.btn_add_active_finished.Text = "Add to Finished";
             this.btn_add_active_finished.UseVisualStyleBackColor = true;
@@ -440,17 +439,16 @@
             // 
             // table_layout_pending_orders
             // 
-            this.table_layout_pending_orders.ColumnCount = 1;
+            this.table_layout_pending_orders.ColumnCount = 2;
+            this.table_layout_pending_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_pending_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_pending_orders.Controls.Add(this.tree_view_pending, 0, 0);
-            this.table_layout_pending_orders.Controls.Add(this.table_layout_pending_order_buttons, 0, 1);
+            this.table_layout_pending_orders.Controls.Add(this.tree_view_pending, 1, 0);
+            this.table_layout_pending_orders.Controls.Add(this.table_layout_pending_order_buttons, 0, 0);
             this.table_layout_pending_orders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_pending_orders.Location = new System.Drawing.Point(3, 3);
             this.table_layout_pending_orders.Name = "table_layout_pending_orders";
             this.table_layout_pending_orders.RowCount = 1;
             this.table_layout_pending_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_pending_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.table_layout_pending_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.table_layout_pending_orders.Size = new System.Drawing.Size(787, 471);
             this.table_layout_pending_orders.TabIndex = 11;
             // 
@@ -458,57 +456,50 @@
             // 
             this.tree_view_pending.CheckBoxes = true;
             this.tree_view_pending.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tree_view_pending.Location = new System.Drawing.Point(3, 3);
+            this.tree_view_pending.Location = new System.Drawing.Point(106, 6);
+            this.tree_view_pending.Margin = new System.Windows.Forms.Padding(6);
             this.tree_view_pending.Name = "tree_view_pending";
-            this.tree_view_pending.Size = new System.Drawing.Size(781, 415);
+            this.tree_view_pending.Size = new System.Drawing.Size(675, 459);
             this.tree_view_pending.TabIndex = 6;
             this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
             // 
             // table_layout_pending_order_buttons
             // 
-            this.table_layout_pending_order_buttons.ColumnCount = 4;
-            this.table_layout_pending_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_pending_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.table_layout_pending_order_buttons.ColumnCount = 2;
             this.table_layout_pending_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_pending_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_pending_order_buttons.Controls.Add(this.btn_add_pending_active, 0, 0);
-            this.table_layout_pending_order_buttons.Controls.Add(this.btn_reset_notified, 3, 0);
-            this.table_layout_pending_order_buttons.Controls.Add(this.btn_add_pending_finished, 1, 0);
-            this.table_layout_pending_order_buttons.Controls.Add(this.btn_set_notified, 2, 0);
+            this.table_layout_pending_order_buttons.Controls.Add(this.btn_add_pending_finished, 0, 1);
+            this.table_layout_pending_order_buttons.Controls.Add(this.btn_set_notified, 0, 2);
+            this.table_layout_pending_order_buttons.Controls.Add(this.btn_reset_notified, 0, 3);
             this.table_layout_pending_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_pending_order_buttons.Location = new System.Drawing.Point(3, 424);
+            this.table_layout_pending_order_buttons.Location = new System.Drawing.Point(3, 3);
             this.table_layout_pending_order_buttons.Name = "table_layout_pending_order_buttons";
-            this.table_layout_pending_order_buttons.RowCount = 1;
-            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(781, 44);
+            this.table_layout_pending_order_buttons.RowCount = 5;
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(94, 465);
             this.table_layout_pending_order_buttons.TabIndex = 6;
             // 
             // btn_add_pending_active
             // 
             this.btn_add_pending_active.Location = new System.Drawing.Point(3, 3);
             this.btn_add_pending_active.Name = "btn_add_pending_active";
-            this.btn_add_pending_active.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending_active.Size = new System.Drawing.Size(92, 34);
             this.btn_add_pending_active.TabIndex = 8;
             this.btn_add_pending_active.Text = "Add to Active";
             this.btn_add_pending_active.UseVisualStyleBackColor = true;
             this.btn_add_pending_active.Click += new System.EventHandler(this.btn_add_pending_active_Click);
             // 
-            // btn_reset_notified
-            // 
-            this.btn_reset_notified.Location = new System.Drawing.Point(303, 3);
-            this.btn_reset_notified.Name = "btn_reset_notified";
-            this.btn_reset_notified.Size = new System.Drawing.Size(92, 37);
-            this.btn_reset_notified.TabIndex = 9;
-            this.btn_reset_notified.Text = "Not Notified";
-            this.btn_reset_notified.UseVisualStyleBackColor = true;
-            this.btn_reset_notified.Click += new System.EventHandler(this.btn_reset_notified_Click);
-            // 
             // btn_add_pending_finished
             // 
-            this.btn_add_pending_finished.Location = new System.Drawing.Point(103, 3);
+            this.btn_add_pending_finished.Location = new System.Drawing.Point(3, 43);
             this.btn_add_pending_finished.Name = "btn_add_pending_finished";
-            this.btn_add_pending_finished.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_pending_finished.Size = new System.Drawing.Size(92, 34);
             this.btn_add_pending_finished.TabIndex = 7;
             this.btn_add_pending_finished.Text = "Add to Finished";
             this.btn_add_pending_finished.UseVisualStyleBackColor = true;
@@ -516,13 +507,23 @@
             // 
             // btn_set_notified
             // 
-            this.btn_set_notified.Location = new System.Drawing.Point(203, 3);
+            this.btn_set_notified.Location = new System.Drawing.Point(3, 83);
             this.btn_set_notified.Name = "btn_set_notified";
-            this.btn_set_notified.Size = new System.Drawing.Size(92, 37);
-            this.btn_set_notified.TabIndex = 10;
-            this.btn_set_notified.Text = "Notified";
+            this.btn_set_notified.Size = new System.Drawing.Size(92, 34);
+            this.btn_set_notified.TabIndex = 9;
+            this.btn_set_notified.Text = "Notify";
             this.btn_set_notified.UseVisualStyleBackColor = true;
             this.btn_set_notified.Click += new System.EventHandler(this.btn_set_notified_Click);
+            // 
+            // btn_reset_notified
+            // 
+            this.btn_reset_notified.Location = new System.Drawing.Point(3, 123);
+            this.btn_reset_notified.Name = "btn_reset_notified";
+            this.btn_reset_notified.Size = new System.Drawing.Size(92, 34);
+            this.btn_reset_notified.TabIndex = 10;
+            this.btn_reset_notified.Text = "Reset Notify";
+            this.btn_reset_notified.UseVisualStyleBackColor = true;
+            this.btn_reset_notified.Click += new System.EventHandler(this.btn_reset_notified_Click);
             // 
             // tab_page_finished
             // 
@@ -537,17 +538,17 @@
             // 
             // table_layout_finished_orders
             // 
-            this.table_layout_finished_orders.ColumnCount = 1;
+            this.table_layout_finished_orders.ColumnCount = 2;
+            this.table_layout_finished_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_finished_orders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_orders.Controls.Add(this.tree_view_finished, 0, 0);
-            this.table_layout_finished_orders.Controls.Add(this.table_layout_finished_order_buttons, 0, 1);
+            this.table_layout_finished_orders.Controls.Add(this.tree_view_finished, 1, 0);
+            this.table_layout_finished_orders.Controls.Add(this.table_layout_finished_order_buttons, 0, 0);
             this.table_layout_finished_orders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_finished_orders.Location = new System.Drawing.Point(3, 3);
             this.table_layout_finished_orders.Name = "table_layout_finished_orders";
             this.table_layout_finished_orders.RowCount = 1;
             this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 471F));
             this.table_layout_finished_orders.Size = new System.Drawing.Size(787, 471);
             this.table_layout_finished_orders.TabIndex = 12;
             // 
@@ -556,36 +557,35 @@
             this.tree_view_finished.CheckBoxes = true;
             this.tree_view_finished.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_finished.HideSelection = false;
-            this.tree_view_finished.Location = new System.Drawing.Point(3, 3);
+            this.tree_view_finished.Location = new System.Drawing.Point(106, 6);
+            this.tree_view_finished.Margin = new System.Windows.Forms.Padding(6);
             this.tree_view_finished.Name = "tree_view_finished";
-            this.tree_view_finished.Size = new System.Drawing.Size(781, 415);
+            this.tree_view_finished.Size = new System.Drawing.Size(675, 459);
             this.tree_view_finished.TabIndex = 8;
             this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
             this.tree_view_finished.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_finished_NodeMouseClick);
             // 
             // table_layout_finished_order_buttons
             // 
-            this.table_layout_finished_order_buttons.ColumnCount = 4;
+            this.table_layout_finished_order_buttons.ColumnCount = 1;
             this.table_layout_finished_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_finished_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_finished_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.table_layout_finished_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_pending, 1, 0);
+            this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_pending, 0, 1);
             this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_active, 0, 0);
             this.table_layout_finished_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_finished_order_buttons.Location = new System.Drawing.Point(3, 424);
+            this.table_layout_finished_order_buttons.Location = new System.Drawing.Point(3, 3);
             this.table_layout_finished_order_buttons.Name = "table_layout_finished_order_buttons";
-            this.table_layout_finished_order_buttons.RowCount = 1;
-            this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(781, 44);
+            this.table_layout_finished_order_buttons.RowCount = 3;
+            this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(94, 465);
             this.table_layout_finished_order_buttons.TabIndex = 6;
             // 
             // btn_add_finished_pending
             // 
-            this.btn_add_finished_pending.Location = new System.Drawing.Point(103, 3);
+            this.btn_add_finished_pending.Location = new System.Drawing.Point(3, 43);
             this.btn_add_finished_pending.Name = "btn_add_finished_pending";
-            this.btn_add_finished_pending.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_finished_pending.Size = new System.Drawing.Size(92, 34);
             this.btn_add_finished_pending.TabIndex = 10;
             this.btn_add_finished_pending.Text = "Add to Pending";
             this.btn_add_finished_pending.UseVisualStyleBackColor = true;
@@ -595,7 +595,7 @@
             // 
             this.btn_add_finished_active.Location = new System.Drawing.Point(3, 3);
             this.btn_add_finished_active.Name = "btn_add_finished_active";
-            this.btn_add_finished_active.Size = new System.Drawing.Size(92, 37);
+            this.btn_add_finished_active.Size = new System.Drawing.Size(92, 34);
             this.btn_add_finished_active.TabIndex = 9;
             this.btn_add_finished_active.Text = "Add to Active";
             this.btn_add_finished_active.UseVisualStyleBackColor = true;
@@ -1012,12 +1012,8 @@
         private System.Windows.Forms.Button btn_accept_source;
         private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
         private System.Windows.Forms.Button btn_add_active_finished;
-        private System.Windows.Forms.Button btn_add_finished_pending;
-        private System.Windows.Forms.Button btn_add_finished_active;
         private System.Windows.Forms.TreeView tree_view_finished;
         private System.Windows.Forms.Button btn_add_pending_active;
-        private System.Windows.Forms.Button btn_set_notified;
-        private System.Windows.Forms.Button btn_reset_notified;
         private System.Windows.Forms.TabPage tab_page_archive;
         private System.Windows.Forms.TreeView tree_view_archive;
         private System.Windows.Forms.Label lbl_archive_name;
@@ -1037,6 +1033,10 @@
         private System.Windows.Forms.Label lbl_add_order_title;
         private System.Windows.Forms.Panel panel_add_order_bottom;
         private System.Windows.Forms.TableLayoutPanel table_layout_active_orders_page;
+        private System.Windows.Forms.Button btn_set_notified;
+        private System.Windows.Forms.Button btn_reset_notified;
+        private System.Windows.Forms.Button btn_add_finished_pending;
+        private System.Windows.Forms.Button btn_add_finished_active;
     }
 }
 
