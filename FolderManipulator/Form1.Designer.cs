@@ -435,7 +435,7 @@
             this.tab_page_pending.Padding = new System.Windows.Forms.Padding(3);
             this.tab_page_pending.Size = new System.Drawing.Size(793, 477);
             this.tab_page_pending.TabIndex = 1;
-            this.tab_page_pending.Text = "Függőben";
+            this.tab_page_pending.Text = "Kész";
             this.tab_page_pending.UseVisualStyleBackColor = true;
             // 
             // table_layout_pending_orders
@@ -532,7 +532,7 @@
             this.tab_page_finished.Padding = new System.Windows.Forms.Padding(3);
             this.tab_page_finished.Size = new System.Drawing.Size(793, 477);
             this.tab_page_finished.TabIndex = 3;
-            this.tab_page_finished.Text = "Kész";
+            this.tab_page_finished.Text = "Teljesített";
             this.tab_page_finished.UseVisualStyleBackColor = true;
             // 
             // table_layout_finished_orders
