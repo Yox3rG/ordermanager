@@ -981,12 +981,32 @@ namespace FolderManipulator
 
         private void btn_delete_main_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.Settings.DeleteOrderType(listbox_main_ordertype.SelectedItem.ToString(), OrderCategory.Main);
+            if (listbox_main_ordertype.SelectedItem == null)
+            {
+                StatusManager.ShowMessage("No main OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            string orderType = listbox_main_ordertype.SelectedItem.ToString();
+            if (MessageBox.Show($"Do you really want to delete main type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
+            }
         }
 
         private void btn_delete_sub_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.Settings.DeleteOrderType(listbox_sub_ordertype.SelectedItem.ToString(), OrderCategory.Sub);
+            if (listbox_sub_ordertype.SelectedItem == null)
+            {
+                StatusManager.ShowMessage("No sub OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            string orderType = listbox_sub_ordertype.SelectedItem.ToString();
+            if (MessageBox.Show($"Do you really want to delete sub type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
+            }
         }
 
         private void RefreshOrderTypes()
