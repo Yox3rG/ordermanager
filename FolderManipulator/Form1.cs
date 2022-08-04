@@ -121,7 +121,6 @@ namespace FolderManipulator
                 tab_page_pending,
                 tab_page_finished,
                 tab_page_archive,
-                tab_page_customize
             };
             tabPagesShownWhenNoSource = new List<TabPage>() {
                 tab_page_customize
@@ -524,6 +523,49 @@ namespace FolderManipulator
         private void clearStatusBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StatusManager.ResetStrip();
+        }
+
+        private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formOrderTypeSettings != null)
+            {
+                StatusManager.ShowMessage($"OrderType Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            formOrderTypeSettings = new FormOrderTypeSettings();
+
+            ListControl listControlMainOrderType = formOrderTypeSettings.GetMainOrderTypeListControl();
+            ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
+
+            listControlMainOrderType.DataSource = null;
+            listControlMainOrderType.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+
+            listControlSubOrderType.DataSource = null;
+            listControlSubOrderType.DataSource = SettingsManager.Settings.subOrderTypes.list;
+
+            listsOfMainOrderTypes.Add(listControlMainOrderType);
+            listsOfSubOrderTypes.Add(listControlSubOrderType);
+
+            formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
+            formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
+            formOrderTypeSettings.Show();
+        }
+
+        private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            listsOfMainOrderTypes.Remove(formOrderTypeSettings.GetMainOrderTypeListControl());
+            listsOfSubOrderTypes.Remove(formOrderTypeSettings.GetSubOrderTypeListControl());
+        }
+
+        private void FormOrderTypeSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formOrderTypeSettings = null;
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowTabs(sourceReady: false);
         }
         #endregion
 
@@ -1311,43 +1353,5 @@ namespace FolderManipulator
         }
 #endif
         #endregion
-
-        private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (formOrderTypeSettings != null)
-            {
-                StatusManager.ShowMessage($"OrderType Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
-                return;
-            }
-
-            formOrderTypeSettings = new FormOrderTypeSettings();
-
-            ListControl listControlMainOrderType = formOrderTypeSettings.GetMainOrderTypeListControl();
-            ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
-
-            listControlMainOrderType.DataSource = null;
-            listControlMainOrderType.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-
-            listControlSubOrderType.DataSource = null;
-            listControlSubOrderType.DataSource = SettingsManager.Settings.subOrderTypes.list;
-
-            listsOfMainOrderTypes.Add(listControlMainOrderType);
-            listsOfSubOrderTypes.Add(listControlSubOrderType);
-
-            formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
-            formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
-            formOrderTypeSettings.Show();
-        }
-
-        private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            listsOfMainOrderTypes.Remove(formOrderTypeSettings.GetMainOrderTypeListControl());
-            listsOfSubOrderTypes.Remove(formOrderTypeSettings.GetSubOrderTypeListControl());
-        }
-
-        private void FormOrderTypeSettings_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            formOrderTypeSettings = null;
-        }
     }
 }

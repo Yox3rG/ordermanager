@@ -94,6 +94,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_edit = new System.Windows.Forms.ToolStripMenuItem();
             this.forceSaveObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.editOrderTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_view = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,8 +103,7 @@
             this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.editOrderTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -663,7 +664,7 @@
             this.tab_page_customize.Padding = new System.Windows.Forms.Padding(3);
             this.tab_page_customize.Size = new System.Drawing.Size(793, 477);
             this.tab_page_customize.TabIndex = 2;
-            this.tab_page_customize.Text = "Testreszabás";
+            this.tab_page_customize.Text = "Forrás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
             // 
             // panel_choose_source
@@ -853,7 +854,8 @@
             this.toolstrip_item_edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.forceSaveObjectsToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.editOrderTypesToolStripMenuItem});
+            this.editOrderTypesToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.toolstrip_item_edit.Name = "toolstrip_item_edit";
             this.toolstrip_item_edit.Size = new System.Drawing.Size(39, 20);
             this.toolstrip_item_edit.Text = "Edit";
@@ -861,9 +863,21 @@
             // forceSaveObjectsToolStripMenuItem
             // 
             this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
             this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // editOrderTypesToolStripMenuItem
+            // 
+            this.editOrderTypesToolStripMenuItem.Name = "editOrderTypesToolStripMenuItem";
+            this.editOrderTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editOrderTypesToolStripMenuItem.Text = "Edit OrderTypes";
+            this.editOrderTypesToolStripMenuItem.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
             // 
             // toolstrip_item_view
             // 
@@ -918,17 +932,12 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
-            // toolStripMenuItem1
+            // editToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // editOrderTypesToolStripMenuItem
-            // 
-            this.editOrderTypesToolStripMenuItem.Name = "editOrderTypesToolStripMenuItem";
-            this.editOrderTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editOrderTypesToolStripMenuItem.Text = "Edit OrderTypes";
-            this.editOrderTypesToolStripMenuItem.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Text = "Edit Source Path";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // form_main
             // 
@@ -1057,6 +1066,7 @@
         private System.Windows.Forms.Button btn_add_finished_active;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem editOrderTypesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     }
 }
 
