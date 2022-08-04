@@ -41,6 +41,7 @@ namespace FolderManipulator
         private List<ToolStripItem> toolStripItems;
 
         private ToolTip sourceToolTip = new ToolTip();
+        private Size? editOrderWindowSize = null;
 
         public form_main()
         {
@@ -149,6 +150,25 @@ namespace FolderManipulator
         private void InitializeContextMenus()
         {
             SpecialContextMenuItem[] contextMenuItemsOrderTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Edit", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"Can't find selected order to edit.", StatusColorType.Warning, DelayTimeType.Short);
+                            return;
+                        }
+                        OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
+
+                        FormEditOrder formEditOrder = new FormEditOrder();
+                        formEditOrder.SetTarget(orderListType, order);
+                        if(editOrderWindowSize != null)
+                        {
+                            formEditOrder.Size = editOrderWindowSize.Value;
+                        }
+                        formEditOrder.OnCloseSendSize += delegate (Size size) { editOrderWindowSize = size; };
+                        formEditOrder.Show();
+                    }),
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();

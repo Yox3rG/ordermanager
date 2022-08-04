@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FolderManipulator.Data
 {
     [Serializable]
-    class OrderData : IComparable<OrderData>
+    public class OrderData : IComparable<OrderData>
     {
         public Guid Id { get; set; }
         public string MainOrderType { get; set; }
@@ -34,6 +34,22 @@ namespace FolderManipulator.Data
             this.Description = description;
             this.BirthDate = DateTime.Now;
             this.State = OrderState.None;
+        }
+
+        public void Edit(OrderEditData editData)
+        {
+            this.MainOrderType = editData.MainOrderType;
+            this.SubOrderType  = editData.SubOrderType;
+            this.Count         = editData.Count;
+            this.Description   = editData.Description;
+        }
+
+        public void Edit(string mainOrderType, string subOrderType, int count, string description)
+        {
+            this.MainOrderType = mainOrderType;
+            this.SubOrderType  = subOrderType;
+            this.Count         = count;       
+            this.Description   = description;
         }
 
         public void Copy(OrderData other)

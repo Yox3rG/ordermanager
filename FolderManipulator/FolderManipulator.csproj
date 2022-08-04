@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AppConsole.cs" />
+    <Compile Include="Data\OrderDataEdit.cs" />
     <Compile Include="Data\OrderTypes.cs" />
     <Compile Include="Data\OrderData.cs" />
     <Compile Include="Data\OrderList.cs" />
@@ -102,6 +103,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditOrder.Designer.cs">
+      <DependentUpon>FormEditOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormOrderTypeSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +128,9 @@
     <Compile Include="UI\TreeViewHandleGroup.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditOrder.resx">
+      <DependentUpon>FormEditOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOrderTypeSettings.resx">
       <DependentUpon>FormOrderTypeSettings.cs</DependentUpon>
