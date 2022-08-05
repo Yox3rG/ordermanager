@@ -49,7 +49,7 @@ namespace FolderManipulator
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
             treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
-            
+
             StatusManager.Initialize(status_strip);
             InitializeFormElements();
             InitializeTimers();
@@ -117,6 +117,8 @@ namespace FolderManipulator
 
         private void InitializeFormElements()
         {
+            InitialiseTreeViewParameters();
+
             tabPages = new List<TabPage>() {
                 tab_page_active,
                 tab_page_pending,
@@ -590,6 +592,96 @@ namespace FolderManipulator
         #endregion
 
         #region TreeView UI
+
+        #region Draw TreeView
+        private void InitialiseTreeViewParameters()
+        {
+            tree_view_active.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            tree_view_pending.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            tree_view_finished.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            tree_view_archive.DrawMode = TreeViewDrawMode.OwnerDrawText;
+        }
+
+        private void orderTreeViewDrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            TreeView treeView = sender as TreeView;
+            Font treeViewFont = treeView.Font;
+            Font nodeFont = e.Node.NodeFont;
+            if (nodeFont == null) nodeFont = treeViewFont;
+            Rectangle bounds = e.Bounds;
+
+            e.DrawDefault = false;
+
+            Color backGroundColor = e.Node.BackColor;
+            if (backGroundColor.A <= 250)
+                backGroundColor = Color.White;
+
+            if (IsMainNode(treeView, e.Node, out Color mainNodeColor))
+            {
+                using (SolidBrush backGroundBrush = new SolidBrush(mainNodeColor))
+                {
+                    e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, 9000, 0));
+                }
+            }
+            else
+            {
+                using (SolidBrush backGroundBrush = new SolidBrush(backGroundColor))
+                {
+                    e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
+                }
+            }
+
+            if ((e.State & TreeNodeStates.Selected) != 0)
+            {
+                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor))
+                {
+                    e.Graphics.FillRectangle(selectionBrush, bounds);
+                }
+
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.White);
+            }
+            else
+            {
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.Black);
+            }
+        }
+
+        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainNodeColor)
+        {
+            TreeNodeCollection mainTypes = treeView.Nodes;
+            int indexOfCurrentNode = mainTypes.IndexOf(treeNode);
+            if (indexOfCurrentNode >= 0)
+            {
+                mainNodeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1 : ColorManager.mainOrderTypeTreeViewNodeColor2;
+                return true;
+            }
+            mainNodeColor = Color.White;
+            return false;
+        }
+
+        private Rectangle NodeBounds(TreeView treeView, TreeNode node)
+        {
+            // Set the return value to the normal node bounds.
+            Rectangle bounds = node.Bounds;
+            Rectangle.FromLTRB(bounds.Left, bounds.Top, bounds.Right + 30, bounds.Bottom);
+            if (node.Tag != null)
+            {
+                // Retrieve a Graphics object from the TreeView handle
+                // and use it to calculate the display width of the tag.
+                Graphics g = treeView.CreateGraphics();
+                int tagWidth = (int)g.MeasureString
+                    (node.Tag.ToString(), new Font("Helvetica", 8, FontStyle.Bold)).Width + 6;
+
+                // Adjust the node bounds using the calculated value.
+                bounds.Offset(tagWidth / 2, 0);
+                bounds = Rectangle.Inflate(bounds, tagWidth / 2, 0);
+                g.Dispose();
+            }
+
+            return bounds;
+        }
+        #endregion
+
         private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
         {
             //TreeNode selectedNode = (TreeNode)e.Item;
@@ -798,24 +890,30 @@ namespace FolderManipulator
         {
             OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
             List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
-            foreach (OrderData order in orders)
+            if (IsCheckedListCorrect(orders))
             {
-                order.State = OrderState.Pending;
+                foreach (OrderData order in orders)
+                {
+                    order.State = OrderState.Pending;
+                }
+                treeViewHandle.ClearCheckedData();
+                RefreshOrders();
             }
-            treeViewHandle.ClearCheckedData();
-            RefreshOrders();
         }
 
         private void btn_set_notified_Click(object sender, EventArgs e)
         {
             OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
             List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
-            foreach (OrderData order in orders)
+            if (IsCheckedListCorrect(orders))
             {
-                order.State = OrderState.Notified;
+                foreach (OrderData order in orders)
+                {
+                    order.State = OrderState.Notified;
+                }
+                treeViewHandle.ClearCheckedData();
+                RefreshOrders();
             }
-            treeViewHandle.ClearCheckedData();
-            RefreshOrders();
         }
 
         private OrderData[] CreateOrdersFromAddUI(List<string> selectedFileNames)
@@ -845,37 +943,65 @@ namespace FolderManipulator
         private void btn_add_active_pending_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Pending);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Pending);
+            }
         }
 
         private void btn_add_active_finished_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Finished);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Finished);
+            }
         }
 
         private void btn_add_pending_active_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Active);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Active);
+            }
         }
 
         private void btn_add_pending_finished_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Finished);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Finished);
+            }
         }
 
         private void btn_add_finished_active_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Active);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Active);
+            }
         }
 
         private void btn_add_finished_pending_Click(object sender, EventArgs e)
         {
             List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
+            }
+        }
+
+        private bool IsCheckedListCorrect(List<OrderData> list)
+        {
+            if (list == null || list.Count == 0)
+            {
+                StatusManager.ShowMessage("Can't handle operation because list is empty!", StatusColorType.Warning, DelayTimeType.Short);
+                return false;
+            }
+            return true;
         }
         #endregion
 
@@ -965,7 +1091,6 @@ namespace FolderManipulator
             foreach (string orderType in strings)
             {
                 TreeNode node = CreateTreeNode(orderType);
-
                 parent.Add(node);
             }
         }

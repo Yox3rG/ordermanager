@@ -119,6 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ColorManager.cs" />
+    <Compile Include="UI\FontManager.cs" />
     <Compile Include="UI\Highlight.cs" />
     <Compile Include="UI\HighlightManager.cs" />
     <Compile Include="UI\SpecialContextMenus.cs" />

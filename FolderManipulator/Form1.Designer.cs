@@ -159,11 +159,13 @@
             this.tree_view_active.CheckBoxes = true;
             this.tree_view_active.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_active.HideSelection = false;
+            this.tree_view_active.ItemHeight = 16;
             this.tree_view_active.Location = new System.Drawing.Point(103, 3);
             this.tree_view_active.Name = "tree_view_active";
             this.tree_view_active.Size = new System.Drawing.Size(375, 459);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
+            this.tree_view_active.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_active.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tree_view_active_ItemDrag);
             this.tree_view_active.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_active_NodeMouseClick);
             // 
@@ -464,6 +466,7 @@
             this.tree_view_pending.Name = "tree_view_pending";
             this.tree_view_pending.Size = new System.Drawing.Size(675, 459);
             this.tree_view_pending.TabIndex = 6;
+            this.tree_view_pending.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
             // 
             // table_layout_pending_order_buttons
@@ -566,6 +569,7 @@
             this.tree_view_finished.Size = new System.Drawing.Size(675, 459);
             this.tree_view_finished.TabIndex = 8;
             this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
+            this.tree_view_finished.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_finished.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_finished_NodeMouseClick);
             // 
             // table_layout_finished_order_buttons
@@ -651,6 +655,7 @@
             this.tree_view_archive.Name = "tree_view_archive";
             this.tree_view_archive.Size = new System.Drawing.Size(781, 425);
             this.tree_view_archive.TabIndex = 9;
+            this.tree_view_archive.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_archive.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragDrop);
             this.tree_view_archive.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragEnter);
             // 
