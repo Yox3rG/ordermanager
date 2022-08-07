@@ -1085,7 +1085,7 @@ namespace FolderManipulator
             treeViewHandleGroup.ResetToSavedScrollBarPosition();
         }
 
-        private void FillTreeViewWithOrders(TreeView treeView, OrderList orders)
+        private void FillTreeViewWithOrders(TreeView treeView, OrderList orders, bool includeFinishedDate = false)
         {
             treeView.Nodes.Clear();
             List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
@@ -1107,7 +1107,7 @@ namespace FolderManipulator
                     grandParent.Nodes.Add(parent);
                 }
 
-                TreeNode node = CreateTreeNode(order.ToString());
+                TreeNode node = CreateTreeNode(order.ToString(includeFinishedDate));
                 node.Tag = order;
 
                 parent.Nodes.Add(node);
@@ -1290,7 +1290,7 @@ namespace FolderManipulator
             {
                 string fileName = Path.GetFileNameWithoutExtension(path);
                 lbl_archive_name.Text = fileName;
-                FillTreeViewWithOrders(tree_view_archive, orderList);
+                FillTreeViewWithOrders(tree_view_archive, orderList, includeFinishedDate: true);
 
                 if (expandAll)
                 {

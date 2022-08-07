@@ -17,6 +17,8 @@ namespace FolderManipulator.UI
         public static Font orderFont;
         public static int orderItemHeight;
 
+        private static string fontName = "Consolas";
+
         public static void Initialize(int pixelSize)
         {
             UpdateFontSize(pixelSize);
@@ -32,8 +34,8 @@ namespace FolderManipulator.UI
 
             DisposeFontIfNotNull();
 
-            mainOrderTypeFont = new Font("Microsoft Sans Serif", pixelSize, GraphicsUnit.Pixel);
-            orderFont = new Font("Microsoft Sans Serif", pixelSize, GraphicsUnit.Pixel);
+            mainOrderTypeFont = new Font(fontName, pixelSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            orderFont = new Font(fontName, pixelSize, GraphicsUnit.Pixel);
             orderItemHeight = pixelSize + 6;
 
             OnFontSizeChanged?.Invoke();

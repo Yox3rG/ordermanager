@@ -76,7 +76,21 @@ namespace FolderManipulator.Data
 
         public override string ToString()
         {
-            return $"{GetFileName()} - {Count} db {Description}";
+            //return $"{GetFileName()} - {Count} db {Description}";
+            
+            return String.Format("{0,-40} | {1,-8} | {2,-22} | {3}", GetFileName(), Count + " db", BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), Description);
+        }
+
+        public string ToString(bool includeFinishedDate)
+        {
+            if (includeFinishedDate)
+            {
+                return String.Format("{0,-40} | {1,-8} | {2,-22} | {3,-22} | {4}", GetFileName(), Count + " db", BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), Description);
+            }
+            else
+            {
+                return ToString();
+            }
         }
 
         public override bool Equals(object obj)
