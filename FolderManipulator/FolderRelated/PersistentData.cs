@@ -98,8 +98,9 @@ namespace FolderManipulator.FolderRelated
 
         public bool LoadSourcePathFromLocal()
         {
-            string path = IOHandler.Load<string>(localDataFileName);
-            return SetSourcePath(path);
+            LocalSettingsData localSettings = IOHandler.Load<LocalSettingsData>(localDataFileName);
+            SettingsManager.InitializeLocalSettings(localSettings);
+            return SetSourcePath(SettingsManager.LocalSettings.SourcePath);
         }
 
         public string GetCombinedPath(string fileName)
@@ -233,6 +234,11 @@ namespace FolderManipulator.FolderRelated
         {
             SavableDataWithPath dataWithPath = new SavableDataWithPath(SettingsPath, settings);
             AddDataToWaitingForSaveList(dataWithPath);
+        }
+
+        public bool SaveLocalSettings()
+        {
+            return IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
         }
         #endregion
 
@@ -473,7 +479,8 @@ namespace FolderManipulator.FolderRelated
             bool isCorrectPath = System.IO.Directory.Exists(sourcePath);
             if (isCorrectPath)
             {
-                IOHandler.Save<string>(localDataFileName, sourcePath);
+                SettingsManager.LocalSettings.SourcePath = sourcePath;
+                IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
 
                 IsSourceReady = true;
                 //CreateGeneratedFilesIfNotPresent();

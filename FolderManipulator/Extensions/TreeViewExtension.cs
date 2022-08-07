@@ -20,7 +20,7 @@ namespace FolderManipulator.Extensions
 
         public static int GetTreeViewScrollPosVertical(this TreeView _self)
         {
-                return GetScrollPos(_self.Handle, SB_VERT);
+            return GetScrollPos(_self.Handle, SB_VERT);
         }
 
         public static void SetTreeViewScrollPosVertical(this TreeView _self, int scrollPosition)

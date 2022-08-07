@@ -97,6 +97,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.editOrderTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_view = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -158,8 +159,9 @@
             // 
             this.tree_view_active.CheckBoxes = true;
             this.tree_view_active.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree_view_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tree_view_active.HideSelection = false;
-            this.tree_view_active.ItemHeight = 16;
+            this.tree_view_active.ItemHeight = 15;
             this.tree_view_active.Location = new System.Drawing.Point(103, 3);
             this.tree_view_active.Name = "tree_view_active";
             this.tree_view_active.Size = new System.Drawing.Size(375, 459);
@@ -860,7 +862,8 @@
             this.forceSaveObjectsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.editOrderTypesToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.toolstrip_item_edit.Name = "toolstrip_item_edit";
             this.toolstrip_item_edit.Size = new System.Drawing.Size(39, 20);
             this.toolstrip_item_edit.Text = "Edit";
@@ -890,6 +893,13 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.editToolStripMenuItem.Text = "Edit Source Path";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolstrip_item_view
             // 
@@ -1072,6 +1082,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem editOrderTypesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

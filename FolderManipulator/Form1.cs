@@ -19,6 +19,7 @@ namespace FolderManipulator
         private Action OnTenMinuteTimer;
 
         private FormOrderTypeSettings formOrderTypeSettings;
+        private FormSettings formSettings;
 
         private Timer formOneSecondTimer;
         private Timer formTenMinuteTimer;
@@ -32,6 +33,7 @@ namespace FolderManipulator
         private int selectedSubOrderTypeIndex = 0;
 
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
+        private List<TreeView> orderTreeViews = new List<TreeView>();
 
         private List<ListControl> listsOfMainOrderTypes;
         private List<ListControl> listsOfSubOrderTypes;
@@ -43,14 +45,14 @@ namespace FolderManipulator
         private ToolTip sourceToolTip = new ToolTip();
         private Size? editOrderWindowSize = null;
 
+
         public form_main()
         {
             InitializeComponent();
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
+            FillTreeViewLists();
 
             StatusManager.Initialize(status_strip);
+            FontManager.Initialize(12);
             InitializeFormElements();
             InitializeTimers();
             FillListControls();
@@ -61,10 +63,36 @@ namespace FolderManipulator
             SubscribeToActions();
             InitializeContextMenus();
 
+            RefreshOrderTreeViewFont();
+            FontManager.OnFontSizeChanged += RefreshOrderTreeViewFont;
 #if DEBUG
             //ShowMessage();
             StartDebugTimer();
 #endif
+        }
+
+        private void FillTreeViewLists()
+        {
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
+
+            orderTreeViews.Add(tree_view_active);
+            orderTreeViews.Add(tree_view_pending);
+            orderTreeViews.Add(tree_view_finished);
+            orderTreeViews.Add(tree_view_archive);
+        }
+
+        private void DoOnAllOrderTreeView(Action<TreeView> action)
+        {
+            if (action == null)
+            {
+                return;
+            }
+            foreach (var treeView in orderTreeViews)
+            {
+                action(treeView);
+            }
         }
 
         #region Form UI
@@ -76,6 +104,7 @@ namespace FolderManipulator
         {
             //Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
             UnSubscribeFromActions();
+            FontManager.DisposeFontIfNotNull();
         }
 
         private void form_main_Activated(object sender, EventArgs e)
@@ -589,25 +618,55 @@ namespace FolderManipulator
         {
             ShowTabs(sourceReady: false);
         }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formSettings != null)
+            {
+                StatusManager.ShowMessage($"Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            formSettings = new FormSettings();
+            formSettings.SetTarget(SettingsManager.LocalSettings);
+            formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
+            formSettings.OnTrySave += persistentData.SaveLocalSettings;
+            formSettings.FormClosed += FormSettings_FormClosed;
+            formSettings.Show();
+        }
+
+        private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formSettings = null;
+        }
         #endregion
 
         #region TreeView UI
 
         #region Draw TreeView
+        private void RefreshOrderTreeViewFont()
+        {
+            DoOnAllOrderTreeView(
+                delegate (TreeView treeView)
+                {
+                    treeView.Font = FontManager.orderFont;
+                    treeView.ItemHeight = FontManager.orderItemHeight;
+                    //treeView.Refresh();
+                    treeView.ExpandAll();
+                });
+        }
+
         private void InitialiseTreeViewParameters()
         {
-            tree_view_active.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            tree_view_pending.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            tree_view_finished.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            tree_view_archive.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            DoOnAllOrderTreeView(delegate (TreeView treeView) { treeView.DrawMode = TreeViewDrawMode.OwnerDrawText; });
         }
 
         private void orderTreeViewDrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             TreeView treeView = sender as TreeView;
-            Font treeViewFont = treeView.Font;
-            Font nodeFont = e.Node.NodeFont;
-            if (nodeFont == null) nodeFont = treeViewFont;
+            //Font treeViewFont = treeView.Font;
+            //Font nodeFont = e.Node.NodeFont;
+            Font nodeFont;
             Rectangle bounds = e.Bounds;
 
             e.DrawDefault = false;
@@ -616,18 +675,19 @@ namespace FolderManipulator
             if (backGroundColor.A <= 250)
                 backGroundColor = Color.White;
 
+            nodeFont = FontManager.orderFont;
+            using (SolidBrush backGroundBrush = new SolidBrush(backGroundColor))
+            {
+                e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
+            }
+
             if (IsMainNode(treeView, e.Node, out Color mainNodeColor))
             {
+                nodeFont = FontManager.mainOrderTypeFont;
+
                 using (SolidBrush backGroundBrush = new SolidBrush(mainNodeColor))
                 {
                     e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, 9000, 0));
-                }
-            }
-            else
-            {
-                using (SolidBrush backGroundBrush = new SolidBrush(backGroundColor))
-                {
-                    e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
                 }
             }
 
