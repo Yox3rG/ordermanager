@@ -1,6 +1,6 @@
 ﻿namespace FolderManipulator
 {
-    partial class FormEditOrder
+    partial class form_edit_order
     {
         /// <summary>
         /// Required designer variable.
@@ -35,7 +35,6 @@
             this.drpd_new_sub_ordertype = new System.Windows.Forms.ComboBox();
             this.lbl_new_main_ordertype = new System.Windows.Forms.Label();
             this.drpd_new_main_ordertype = new System.Windows.Forms.ComboBox();
-            this.lbl_edit_order_title = new System.Windows.Forms.Label();
             this.lbl_main_ordertype = new System.Windows.Forms.Label();
             this.drpd_main_ordertype = new System.Windows.Forms.ComboBox();
             this.lbl_sub_ordertype = new System.Windows.Forms.Label();
@@ -61,6 +60,7 @@
             this.lbl_comment = new System.Windows.Forms.Label();
             this.txt_comment = new System.Windows.Forms.TextBox();
             this.btn_edit = new System.Windows.Forms.Button();
+            this.lbl_edit_order_title = new System.Windows.Forms.Label();
             this.panel_add_order.SuspendLayout();
             this.table_layout_add_order.SuspendLayout();
             this.panel_add_order_top.SuspendLayout();
@@ -150,16 +150,6 @@
             this.drpd_new_main_ordertype.Name = "drpd_new_main_ordertype";
             this.drpd_new_main_ordertype.Size = new System.Drawing.Size(177, 21);
             this.drpd_new_main_ordertype.TabIndex = 29;
-            // 
-            // lbl_edit_order_title
-            // 
-            this.lbl_edit_order_title.AutoSize = true;
-            this.lbl_edit_order_title.Location = new System.Drawing.Point(16, 9);
-            this.lbl_edit_order_title.Margin = new System.Windows.Forms.Padding(16, 9, 3, 3);
-            this.lbl_edit_order_title.Name = "lbl_edit_order_title";
-            this.lbl_edit_order_title.Size = new System.Drawing.Size(116, 13);
-            this.lbl_edit_order_title.TabIndex = 27;
-            this.lbl_edit_order_title.Text = "Rendelés szerkesztése";
             // 
             // lbl_main_ordertype
             // 
@@ -420,13 +410,23 @@
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
             // 
-            // FormEditOrder
+            // lbl_edit_order_title
+            // 
+            this.lbl_edit_order_title.AutoSize = true;
+            this.lbl_edit_order_title.Location = new System.Drawing.Point(16, 9);
+            this.lbl_edit_order_title.Margin = new System.Windows.Forms.Padding(16, 9, 3, 3);
+            this.lbl_edit_order_title.Name = "lbl_edit_order_title";
+            this.lbl_edit_order_title.Size = new System.Drawing.Size(116, 13);
+            this.lbl_edit_order_title.TabIndex = 27;
+            this.lbl_edit_order_title.Text = "Rendelés szerkesztése";
+            // 
+            // form_edit_order
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 441);
             this.Controls.Add(this.panel_add_order);
-            this.Name = "FormEditOrder";
+            this.Name = "form_edit_order";
             this.Text = "Edit Order";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditOrder_FormClosing);
             this.panel_add_order.ResumeLayout(false);

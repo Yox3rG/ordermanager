@@ -91,20 +91,19 @@
             this.btn_delete_sub_ordertype = new System.Windows.Forms.Button();
             this.listbox_sub_ordertype = new System.Windows.Forms.ListBox();
             this.image_list_tabs = new System.Windows.Forms.ImageList(this.components);
-            this.menu_strip = new System.Windows.Forms.MenuStrip();
+            this.toolstrip_menu = new System.Windows.Forms.MenuStrip();
             this.toolstrip_item_file = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_edit = new System.Windows.Forms.ToolStripMenuItem();
-            this.forceSaveObjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_force_save = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.editOrderTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_edit_ordertype = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_edit_source_path = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_edit_settings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_view = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteLockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearStatusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
             this.table_layout_active_orders.SuspendLayout();
@@ -128,7 +127,7 @@
             this.panel_choose_source.SuspendLayout();
             this.panel_main_ordertype.SuspendLayout();
             this.panel_sub_ordertype.SuspendLayout();
-            this.menu_strip.SuspendLayout();
+            this.toolstrip_menu.SuspendLayout();
             this.status_strip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -842,78 +841,69 @@
             this.image_list_tabs.ImageSize = new System.Drawing.Size(16, 16);
             this.image_list_tabs.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // menu_strip
+            // toolstrip_menu
             // 
-            this.menu_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolstrip_item_file,
             this.toolstrip_item_edit,
             this.toolstrip_item_view,
             this.toolstrip_item_help});
-            this.menu_strip.Location = new System.Drawing.Point(0, 0);
-            this.menu_strip.Name = "menu_strip";
-            this.menu_strip.Size = new System.Drawing.Size(801, 24);
-            this.menu_strip.TabIndex = 7;
-            this.menu_strip.Text = "menuStrip1";
+            this.toolstrip_menu.Location = new System.Drawing.Point(0, 0);
+            this.toolstrip_menu.Name = "toolstrip_menu";
+            this.toolstrip_menu.Size = new System.Drawing.Size(801, 24);
+            this.toolstrip_menu.TabIndex = 7;
+            this.toolstrip_menu.Text = "menuStrip1";
             // 
             // toolstrip_item_file
             // 
-            this.toolstrip_item_file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
             this.toolstrip_item_file.Name = "toolstrip_item_file";
             this.toolstrip_item_file.Size = new System.Drawing.Size(37, 20);
             this.toolstrip_item_file.Text = "File";
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // toolstrip_item_edit
             // 
             this.toolstrip_item_edit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.forceSaveObjectsToolStripMenuItem,
+            this.toolstrip_item_force_save,
             this.toolStripMenuItem1,
-            this.editOrderTypesToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.settingsToolStripMenuItem});
+            this.toolstrip_item_edit_ordertype,
+            this.toolstrip_item_edit_source_path,
+            this.toolstrip_item_edit_settings});
             this.toolstrip_item_edit.Name = "toolstrip_item_edit";
             this.toolstrip_item_edit.Size = new System.Drawing.Size(39, 20);
             this.toolstrip_item_edit.Text = "Edit";
             // 
-            // forceSaveObjectsToolStripMenuItem
+            // toolstrip_item_force_save
             // 
-            this.forceSaveObjectsToolStripMenuItem.Name = "forceSaveObjectsToolStripMenuItem";
-            this.forceSaveObjectsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.forceSaveObjectsToolStripMenuItem.Text = "Force Save Objects";
-            this.forceSaveObjectsToolStripMenuItem.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
+            this.toolstrip_item_force_save.Name = "toolstrip_item_force_save";
+            this.toolstrip_item_force_save.Size = new System.Drawing.Size(173, 22);
+            this.toolstrip_item_force_save.Text = "Force Save Objects";
+            this.toolstrip_item_force_save.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(170, 6);
             // 
-            // editOrderTypesToolStripMenuItem
+            // toolstrip_item_edit_ordertype
             // 
-            this.editOrderTypesToolStripMenuItem.Name = "editOrderTypesToolStripMenuItem";
-            this.editOrderTypesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.editOrderTypesToolStripMenuItem.Text = "Edit OrderTypes";
-            this.editOrderTypesToolStripMenuItem.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
+            this.toolstrip_item_edit_ordertype.Name = "toolstrip_item_edit_ordertype";
+            this.toolstrip_item_edit_ordertype.Size = new System.Drawing.Size(173, 22);
+            this.toolstrip_item_edit_ordertype.Text = "Edit OrderTypes";
+            this.toolstrip_item_edit_ordertype.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
+            // toolstrip_item_edit_source_path
             // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.editToolStripMenuItem.Text = "Edit Source Path";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            this.toolstrip_item_edit_source_path.Name = "toolstrip_item_edit_source_path";
+            this.toolstrip_item_edit_source_path.Size = new System.Drawing.Size(173, 22);
+            this.toolstrip_item_edit_source_path.Text = "Edit Source Path";
+            this.toolstrip_item_edit_source_path.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // settingsToolStripMenuItem
+            // toolstrip_item_edit_settings
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.toolstrip_item_edit_settings.Name = "toolstrip_item_edit_settings";
+            this.toolstrip_item_edit_settings.Size = new System.Drawing.Size(173, 22);
+            this.toolstrip_item_edit_settings.Text = "Settings";
+            this.toolstrip_item_edit_settings.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolstrip_item_view
             // 
@@ -924,33 +914,33 @@
             // toolstrip_item_help
             // 
             this.toolstrip_item_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveLogToolStripMenuItem,
-            this.deleteLockToolStripMenuItem,
-            this.clearStatusBarToolStripMenuItem});
+            this.toolstrip_item_save_logs,
+            this.toolstrip_item_delete_lock,
+            this.toolstrip_item_clear_status});
             this.toolstrip_item_help.Name = "toolstrip_item_help";
             this.toolstrip_item_help.Size = new System.Drawing.Size(49, 20);
             this.toolstrip_item_help.Text = "Help?";
             // 
-            // saveLogToolStripMenuItem
+            // toolstrip_item_save_logs
             // 
-            this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.saveLogToolStripMenuItem.Text = "Save Log";
-            this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
+            this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_save_logs.Text = "Save Log";
+            this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
-            // deleteLockToolStripMenuItem
+            // toolstrip_item_delete_lock
             // 
-            this.deleteLockToolStripMenuItem.Name = "deleteLockToolStripMenuItem";
-            this.deleteLockToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.deleteLockToolStripMenuItem.Text = "Delete Lock";
-            this.deleteLockToolStripMenuItem.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
+            this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_delete_lock.Text = "Delete Lock";
+            this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
-            // clearStatusBarToolStripMenuItem
+            // toolstrip_item_clear_status
             // 
-            this.clearStatusBarToolStripMenuItem.Name = "clearStatusBarToolStripMenuItem";
-            this.clearStatusBarToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.clearStatusBarToolStripMenuItem.Text = "Clear StatusBar";
-            this.clearStatusBarToolStripMenuItem.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
+            this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_clear_status.Text = "Clear StatusBar";
+            this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // status_strip
             // 
@@ -974,9 +964,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 549);
             this.Controls.Add(this.tab_control);
-            this.Controls.Add(this.menu_strip);
+            this.Controls.Add(this.toolstrip_menu);
             this.Controls.Add(this.status_strip);
-            this.MainMenuStrip = this.menu_strip;
+            this.MainMenuStrip = this.toolstrip_menu;
             this.Name = "form_main";
             this.Text = "PontJo";
             this.Activated += new System.EventHandler(this.form_main_Activated);
@@ -1010,8 +1000,8 @@
             this.panel_main_ordertype.PerformLayout();
             this.panel_sub_ordertype.ResumeLayout(false);
             this.panel_sub_ordertype.PerformLayout();
-            this.menu_strip.ResumeLayout(false);
-            this.menu_strip.PerformLayout();
+            this.toolstrip_menu.ResumeLayout(false);
+            this.toolstrip_menu.PerformLayout();
             this.status_strip.ResumeLayout(false);
             this.status_strip.PerformLayout();
             this.ResumeLayout(false);
@@ -1024,9 +1014,8 @@
         private System.Windows.Forms.TabControl tab_control;
         private System.Windows.Forms.TabPage tab_page_active;
         private System.Windows.Forms.TabPage tab_page_pending;
-        private System.Windows.Forms.MenuStrip menu_strip;
+        private System.Windows.Forms.MenuStrip toolstrip_menu;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_file;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_view;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_help;
@@ -1061,12 +1050,12 @@
         private System.Windows.Forms.TreeView tree_view_pending;
         private System.Windows.Forms.StatusStrip status_strip;
         private System.Windows.Forms.ToolStripStatusLabel label_status_strip_main;
-        private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteLockToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forceSaveObjectsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_save_logs;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_delete_lock;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_force_save;
         private System.Windows.Forms.TabPage tab_page_finished;
         private System.Windows.Forms.Button btn_accept_source;
-        private System.Windows.Forms.ToolStripMenuItem clearStatusBarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_clear_status;
         private System.Windows.Forms.Button btn_add_active_finished;
         private System.Windows.Forms.TreeView tree_view_finished;
         private System.Windows.Forms.Button btn_add_pending_active;
@@ -1094,9 +1083,9 @@
         private System.Windows.Forms.Button btn_add_finished_pending;
         private System.Windows.Forms.Button btn_add_finished_active;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem editOrderTypesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit_ordertype;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit_source_path;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit_settings;
         private System.Windows.Forms.ImageList image_list_tabs;
     }
 }

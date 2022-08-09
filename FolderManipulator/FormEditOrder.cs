@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace FolderManipulator
 {
-    public partial class FormEditOrder : Form
+    public partial class form_edit_order : Form
     {
         public Action<Size> OnCloseSendSize;
 
@@ -20,7 +20,7 @@ namespace FolderManipulator
         private OrderData targetOrderData;
         private ToolTip toolTip;
 
-        public FormEditOrder()
+        public form_edit_order()
         {
             InitializeComponent();
         }

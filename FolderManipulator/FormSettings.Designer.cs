@@ -1,6 +1,6 @@
 ﻿namespace FolderManipulator
 {
-    partial class FormSettings
+    partial class form_settings
     {
         /// <summary>
         /// Required designer variable.
@@ -128,13 +128,13 @@
             this.lbl_edit_order_title.TabIndex = 27;
             this.lbl_edit_order_title.Text = "Beállítások";
             // 
-            // FormSettings
+            // form_settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(428, 515);
             this.Controls.Add(this.panel_add_order);
-            this.Name = "FormSettings";
+            this.Name = "form_settings";
             this.Text = "Settings";
             this.panel_add_order.ResumeLayout(false);
             this.table_layout_add_order.ResumeLayout(false);

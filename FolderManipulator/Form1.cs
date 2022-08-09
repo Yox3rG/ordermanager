@@ -18,13 +18,14 @@ namespace FolderManipulator
         private Action OnOneSecondTimer;
         private Action OnTenMinuteTimer;
 
-        private FormOrderTypeSettings formOrderTypeSettings;
-        private FormSettings formSettings;
+        private form_ordertype_settings formOrderTypeSettings;
+        private form_settings formSettings;
 
         private Timer formOneSecondTimer;
         private Timer formTenMinuteTimer;
 
         private PersistentData persistentData;
+        private LanguageManager languageManager;
         private HighlightManager normalHighlightManager;
 
         private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
@@ -66,6 +67,15 @@ namespace FolderManipulator
             RefreshOrderTreeViewFont();
             FontManager.OnFontSizeChanged += RefreshOrderTreeViewFont;
 #if DEBUG
+            languageManager = new LanguageManager(
+                new string[] 
+                {
+                    nameof(form_main), nameof(form_ordertype_settings), nameof(form_settings), nameof(form_edit_order) 
+                });
+            LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
+            //languageManager.LoadAllDataFromCSV();
+            //languageManager.ChangeLanguage(LanguageType.English);
+
             //ShowMessage();
             StartDebugTimer();
 #endif
@@ -191,7 +201,7 @@ namespace FolderManipulator
                         }
                         OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
 
-                        FormEditOrder formEditOrder = new FormEditOrder();
+                        form_edit_order formEditOrder = new form_edit_order();
                         formEditOrder.SetTarget(orderListType, order);
                         if(editOrderWindowSize != null)
                         {
@@ -547,11 +557,6 @@ namespace FolderManipulator
         #endregion
 
         #region ToolStrip
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppConsole.SaveLog();
@@ -574,6 +579,7 @@ namespace FolderManipulator
         private void clearStatusBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StatusManager.ResetStrip();
+            
         }
 
         private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -584,7 +590,7 @@ namespace FolderManipulator
                 return;
             }
 
-            formOrderTypeSettings = new FormOrderTypeSettings();
+            formOrderTypeSettings = new form_ordertype_settings();
 
             ListControl listControlMainOrderType = formOrderTypeSettings.GetMainOrderTypeListControl();
             ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
@@ -627,7 +633,7 @@ namespace FolderManipulator
                 return;
             }
 
-            formSettings = new FormSettings();
+            formSettings = new form_settings();
             formSettings.SetTarget(SettingsManager.LocalSettings);
             formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
             formSettings.OnTrySave += persistentData.SaveLocalSettings;

@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace FolderManipulator
 {
-    public partial class FormOrderTypeSettings : Form
+    public partial class form_ordertype_settings : Form
     {
-        public FormOrderTypeSettings()
+        public form_ordertype_settings()
         {
             InitializeComponent();
         }

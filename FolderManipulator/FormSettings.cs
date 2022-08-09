@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace FolderManipulator
 {
-    public partial class FormSettings : Form
+    public partial class form_settings : Form
     {
         public Action<int> OnFontValueChanged;
         public Func<bool> OnTrySave;
@@ -22,7 +22,7 @@ namespace FolderManipulator
         private int oldValue;
         LocalSettingsData targetLocalSettingsData;
 
-        public FormSettings()
+        public form_settings()
         {
             InitializeComponent();
         }
