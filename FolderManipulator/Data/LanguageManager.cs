@@ -12,6 +12,8 @@ namespace FolderManipulator.Data
 {
     public class LanguageManager
     {
+        public Action<LanguageType> OnLanguageChanged;
+
         private string languageFolder = "languages";
         private Dictionary<string, Dictionary<LanguageType, LanguageDataList>> formLanguageLists;
         private string[] formNames;
@@ -33,6 +35,7 @@ namespace FolderManipulator.Data
             {
                 handle.LoadLanguageListToForm(formLanguageLists[handle.FormName][language]);
             }
+            OnLanguageChanged?.Invoke(language);
         }
 
         public LanguageHandle GetNewHandle(Form targetForm, MenuStrip menuStrip)

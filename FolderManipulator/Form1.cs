@@ -66,7 +66,7 @@ namespace FolderManipulator
 
             RefreshOrderTreeViewFont();
             FontManager.OnFontSizeChanged += RefreshOrderTreeViewFont;
-            
+
             InitializeLanguageManager();
 
 #if DEBUG
@@ -157,7 +157,12 @@ namespace FolderManipulator
                             });
             languageManager.LoadAllDataFromCSV();
             LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
-            languageManager.ChangeLanguage(LanguageType.Hungarian);
+            languageManager.ChangeLanguage(SettingsManager.LocalSettings.Language);
+
+            languageManager.OnLanguageChanged += delegate (LanguageType language)
+            {
+                SettingsManager.LocalSettings.SetLanguage(language); persistentData.SaveLocalSettings();
+            };
         }
 
         private void InitializeFormElements()
@@ -589,7 +594,7 @@ namespace FolderManipulator
             StatusManager.ResetStrip();
             languageManager.MakeLanguageDataFromForms();
             languageManager.SaveAllDataToCSV();
-            
+
         }
 
         private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -617,7 +622,7 @@ namespace FolderManipulator
             formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
             formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
             formOrderTypeSettings.Show();
-         
+
             languageManager.GetNewHandle(formOrderTypeSettings, null);
         }
 

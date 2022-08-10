@@ -238,6 +238,7 @@ namespace FolderManipulator.FolderRelated
 
         public bool SaveLocalSettings()
         {
+            AppConsole.WriteLine($"Trying to save local settings.");
             return IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
         }
         #endregion

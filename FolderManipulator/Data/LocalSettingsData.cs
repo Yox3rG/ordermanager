@@ -11,23 +11,31 @@ namespace FolderManipulator.Data
     {
         public string SourcePath { get; set; }
         public int OrdersFontPixelSize { get; set; }
+        public LanguageType Language { get; set; }
 
         public LocalSettingsData()
         {
             SourcePath = null;
             SetPixelSize(12);
+            Language = LanguageType.English;
         }
 
         public LocalSettingsData(string sourcePath, int pixelSize)
         {
             SourcePath = sourcePath;
             SetPixelSize(pixelSize);
+            Language = LanguageType.English;
         }
 
         public void SetPixelSize(int newPixelSize)
         {
             OrdersFontPixelSize = newPixelSize;
             SettingsManager.OnOrderFontSizeChange?.Invoke(OrdersFontPixelSize);
+        }
+
+        public void SetLanguage(LanguageType language)
+        {
+            Language = language;
         }
     }
 }
