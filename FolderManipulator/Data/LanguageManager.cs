@@ -16,6 +16,8 @@ namespace FolderManipulator.Data
         private Dictionary<string, Dictionary<LanguageType, LanguageDataList>> formLanguageLists;
         private string[] formNames;
 
+        private LanguageType currentLanguageType;
+
         private List<LanguageHandle> languageHandles;
 
         public LanguageManager(string[] formNames)
@@ -26,6 +28,7 @@ namespace FolderManipulator.Data
 
         public void ChangeLanguage(LanguageType language)
         {
+            currentLanguageType = language;
             foreach (var handle in languageHandles)
             {
                 handle.LoadLanguageListToForm(formLanguageLists[handle.FormName][language]);
@@ -37,6 +40,7 @@ namespace FolderManipulator.Data
             LanguageHandle languageHandle = new LanguageHandle(targetForm, menuStrip);
             languageHandles.Add(languageHandle);
             targetForm.FormClosed += delegate { if (languageHandles != null) languageHandles.Remove(languageHandle); };
+            languageHandle.LoadLanguageListToForm(formLanguageLists[targetForm.Name][currentLanguageType]);
             return languageHandle;
         }
 
@@ -87,11 +91,17 @@ namespace FolderManipulator.Data
             return success;
         }
 
-        private void MakeLanguageDataFromForms()
+        public void MakeLanguageDataFromForms()
         {
+            if (formLanguageLists == null)
+                formLanguageLists = new Dictionary<string, Dictionary<LanguageType, LanguageDataList>>();
+            formLanguageLists.Clear();
+
             foreach (var handle in languageHandles)
             {
-                handle.MakeLangugaeListsFromCurrentFormData();
+                formLanguageLists.Add(handle.FormName, new Dictionary<LanguageType, LanguageDataList>());
+                formLanguageLists[handle.FormName][LanguageType.English] = handle.MakeLangugaeListsFromCurrentFormData(LanguageType.English);
+                formLanguageLists[handle.FormName][LanguageType.Hungarian] = handle.MakeLangugaeListsFromCurrentFormData(LanguageType.Hungarian);
             }
         }
 

@@ -66,16 +66,10 @@ namespace FolderManipulator
 
             RefreshOrderTreeViewFont();
             FontManager.OnFontSizeChanged += RefreshOrderTreeViewFont;
-#if DEBUG
-            languageManager = new LanguageManager(
-                new string[] 
-                {
-                    nameof(form_main), nameof(form_ordertype_settings), nameof(form_settings), nameof(form_edit_order) 
-                });
-            LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
-            //languageManager.LoadAllDataFromCSV();
-            //languageManager.ChangeLanguage(LanguageType.English);
+            
+            InitializeLanguageManager();
 
+#if DEBUG
             //ShowMessage();
             StartDebugTimer();
 #endif
@@ -154,6 +148,18 @@ namespace FolderManipulator
             normalHighlightManager = new HighlightManager(cycleStart: Color.LightGray, cycleEnd: Color.CadetBlue, finish: Color.Transparent, 50, backColor: true);
         }
 
+        private void InitializeLanguageManager()
+        {
+            languageManager = new LanguageManager(
+                            new string[]
+                            {
+                    nameof(form_main), nameof(form_ordertype_settings), nameof(form_settings), nameof(form_edit_order)
+                            });
+            languageManager.LoadAllDataFromCSV();
+            LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
+            languageManager.ChangeLanguage(LanguageType.Hungarian);
+        }
+
         private void InitializeFormElements()
         {
             InitialiseTreeViewParameters();
@@ -209,6 +215,8 @@ namespace FolderManipulator
                         }
                         formEditOrder.OnCloseSendSize += delegate (Size size) { editOrderWindowSize = size; };
                         formEditOrder.Show();
+
+                        languageManager.GetNewHandle(formEditOrder, null);
                     }),
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
@@ -579,6 +587,8 @@ namespace FolderManipulator
         private void clearStatusBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StatusManager.ResetStrip();
+            languageManager.MakeLanguageDataFromForms();
+            languageManager.SaveAllDataToCSV();
             
         }
 
@@ -607,6 +617,8 @@ namespace FolderManipulator
             formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
             formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
             formOrderTypeSettings.Show();
+         
+            languageManager.GetNewHandle(formOrderTypeSettings, null);
         }
 
         private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -634,11 +646,14 @@ namespace FolderManipulator
             }
 
             formSettings = new form_settings();
+
             formSettings.SetTarget(SettingsManager.LocalSettings);
             formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
             formSettings.OnTrySave += persistentData.SaveLocalSettings;
             formSettings.FormClosed += FormSettings_FormClosed;
             formSettings.Show();
+
+            languageManager.GetNewHandle(formSettings, null);
         }
 
         private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
@@ -1584,5 +1599,15 @@ namespace FolderManipulator
         }
 #endif
         #endregion
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageManager.ChangeLanguage(LanguageType.English);
+        }
+
+        private void magyarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageManager.ChangeLanguage(LanguageType.Hungarian);
+        }
     }
 }

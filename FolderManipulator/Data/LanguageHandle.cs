@@ -57,7 +57,7 @@ namespace FolderManipulator.Data
             }
         }
 
-        public LanguageDataList MakeLangugaeListsFromCurrentFormData()
+        public LanguageDataList MakeLangugaeListsFromCurrentFormData(LanguageType language)
         {
             List<LanguageData> languageList = new List<LanguageData>();
             if (targetForm != null)
@@ -84,7 +84,7 @@ namespace FolderManipulator.Data
             }
 
             languageList.Sort();
-            LanguageDataList languageDataList = new LanguageDataList(LanguageType.English, languageList);
+            LanguageDataList languageDataList = new LanguageDataList(language, languageList);
             return languageDataList;
         }
     }

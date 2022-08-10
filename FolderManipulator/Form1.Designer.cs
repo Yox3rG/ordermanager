@@ -100,6 +100,9 @@
             this.toolstrip_item_edit_source_path = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_edit_settings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_view = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_language = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_language_english = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_language_hungarian = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
@@ -133,7 +136,7 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(16, 90);
+            this.btn_add.Location = new System.Drawing.Point(6, 91);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(92, 37);
             this.btn_add.TabIndex = 34;
@@ -256,7 +259,7 @@
             // lbl_add_order_title
             // 
             this.lbl_add_order_title.AutoSize = true;
-            this.lbl_add_order_title.Location = new System.Drawing.Point(13, 9);
+            this.lbl_add_order_title.Location = new System.Drawing.Point(3, 9);
             this.lbl_add_order_title.Name = "lbl_add_order_title";
             this.lbl_add_order_title.Size = new System.Drawing.Size(112, 13);
             this.lbl_add_order_title.TabIndex = 27;
@@ -265,7 +268,7 @@
             // lbl_main_ordertype
             // 
             this.lbl_main_ordertype.AutoSize = true;
-            this.lbl_main_ordertype.Location = new System.Drawing.Point(13, 31);
+            this.lbl_main_ordertype.Location = new System.Drawing.Point(3, 31);
             this.lbl_main_ordertype.Name = "lbl_main_ordertype";
             this.lbl_main_ordertype.Size = new System.Drawing.Size(38, 13);
             this.lbl_main_ordertype.TabIndex = 14;
@@ -275,16 +278,16 @@
             // 
             this.drpd_main_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_main_ordertype.FormattingEnabled = true;
-            this.drpd_main_ordertype.Location = new System.Drawing.Point(85, 28);
+            this.drpd_main_ordertype.Location = new System.Drawing.Point(94, 28);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
-            this.drpd_main_ordertype.Size = new System.Drawing.Size(121, 21);
+            this.drpd_main_ordertype.Size = new System.Drawing.Size(145, 21);
             this.drpd_main_ordertype.TabIndex = 20;
             this.drpd_main_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_main_ordertype_SelectedIndexChanged);
             // 
             // lbl_sub_ordertype
             // 
             this.lbl_sub_ordertype.AutoSize = true;
-            this.lbl_sub_ordertype.Location = new System.Drawing.Point(13, 58);
+            this.lbl_sub_ordertype.Location = new System.Drawing.Point(3, 58);
             this.lbl_sub_ordertype.Name = "lbl_sub_ordertype";
             this.lbl_sub_ordertype.Size = new System.Drawing.Size(43, 13);
             this.lbl_sub_ordertype.TabIndex = 12;
@@ -294,17 +297,17 @@
             // 
             this.drpd_sub_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_sub_ordertype.FormattingEnabled = true;
-            this.drpd_sub_ordertype.Location = new System.Drawing.Point(85, 55);
+            this.drpd_sub_ordertype.Location = new System.Drawing.Point(94, 55);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
-            this.drpd_sub_ordertype.Size = new System.Drawing.Size(121, 21);
+            this.drpd_sub_ordertype.Size = new System.Drawing.Size(145, 21);
             this.drpd_sub_ordertype.TabIndex = 22;
             this.drpd_sub_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_sub_ordertype_SelectedIndexChanged);
             // 
             // btn_choose_folder
             // 
-            this.btn_choose_folder.Location = new System.Drawing.Point(85, 82);
+            this.btn_choose_folder.Location = new System.Drawing.Point(94, 82);
             this.btn_choose_folder.Name = "btn_choose_folder";
-            this.btn_choose_folder.Size = new System.Drawing.Size(121, 23);
+            this.btn_choose_folder.Size = new System.Drawing.Size(145, 23);
             this.btn_choose_folder.TabIndex = 24;
             this.btn_choose_folder.Text = "Válassz Mappát";
             this.btn_choose_folder.UseVisualStyleBackColor = true;
@@ -313,7 +316,7 @@
             // lbl_folder
             // 
             this.lbl_folder.AutoSize = true;
-            this.lbl_folder.Location = new System.Drawing.Point(13, 114);
+            this.lbl_folder.Location = new System.Drawing.Point(3, 114);
             this.lbl_folder.Name = "lbl_folder";
             this.lbl_folder.Size = new System.Drawing.Size(43, 13);
             this.lbl_folder.TabIndex = 10;
@@ -322,9 +325,9 @@
             // txt_folder_target
             // 
             this.txt_folder_target.AllowDrop = true;
-            this.txt_folder_target.Location = new System.Drawing.Point(85, 111);
+            this.txt_folder_target.Location = new System.Drawing.Point(94, 111);
             this.txt_folder_target.Name = "txt_folder_target";
-            this.txt_folder_target.Size = new System.Drawing.Size(201, 20);
+            this.txt_folder_target.Size = new System.Drawing.Size(192, 20);
             this.txt_folder_target.TabIndex = 26;
             this.txt_folder_target.TextChanged += new System.EventHandler(this.txt_folder_target_TextChanged);
             this.txt_folder_target.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_folder_target_DragDrop);
@@ -362,7 +365,7 @@
             // lbl_count
             // 
             this.lbl_count.AutoSize = true;
-            this.lbl_count.Location = new System.Drawing.Point(13, 11);
+            this.lbl_count.Location = new System.Drawing.Point(3, 11);
             this.lbl_count.Name = "lbl_count";
             this.lbl_count.Size = new System.Drawing.Size(63, 13);
             this.lbl_count.TabIndex = 6;
@@ -370,16 +373,16 @@
             // 
             // txt_count
             // 
-            this.txt_count.Location = new System.Drawing.Point(85, 8);
+            this.txt_count.Location = new System.Drawing.Point(94, 8);
             this.txt_count.Name = "txt_count";
-            this.txt_count.Size = new System.Drawing.Size(105, 20);
+            this.txt_count.Size = new System.Drawing.Size(129, 20);
             this.txt_count.TabIndex = 30;
             this.txt_count.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_count_KeyUp);
             // 
             // lbl_comment
             // 
             this.lbl_comment.AutoSize = true;
-            this.lbl_comment.Location = new System.Drawing.Point(13, 40);
+            this.lbl_comment.Location = new System.Drawing.Point(3, 40);
             this.lbl_comment.Name = "lbl_comment";
             this.lbl_comment.Size = new System.Drawing.Size(66, 13);
             this.lbl_comment.TabIndex = 4;
@@ -387,9 +390,9 @@
             // 
             // txt_comment
             // 
-            this.txt_comment.Location = new System.Drawing.Point(85, 37);
+            this.txt_comment.Location = new System.Drawing.Point(94, 37);
             this.txt_comment.Name = "txt_comment";
-            this.txt_comment.Size = new System.Drawing.Size(201, 20);
+            this.txt_comment.Size = new System.Drawing.Size(192, 20);
             this.txt_comment.TabIndex = 32;
             this.txt_comment.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_comment_KeyUp);
             // 
@@ -907,9 +910,34 @@
             // 
             // toolstrip_item_view
             // 
+            this.toolstrip_item_view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_language});
             this.toolstrip_item_view.Name = "toolstrip_item_view";
             this.toolstrip_item_view.Size = new System.Drawing.Size(44, 20);
             this.toolstrip_item_view.Text = "View";
+            // 
+            // toolstrip_item_language
+            // 
+            this.toolstrip_item_language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_language_english,
+            this.toolstrip_item_language_hungarian});
+            this.toolstrip_item_language.Name = "toolstrip_item_language";
+            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language.Text = "Language";
+            // 
+            // toolstrip_item_language_english
+            // 
+            this.toolstrip_item_language_english.Name = "toolstrip_item_language_english";
+            this.toolstrip_item_language_english.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_english.Text = "English";
+            this.toolstrip_item_language_english.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
+            // 
+            // toolstrip_item_language_hungarian
+            // 
+            this.toolstrip_item_language_hungarian.Name = "toolstrip_item_language_hungarian";
+            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_hungarian.Text = "Magyar";
+            this.toolstrip_item_language_hungarian.Click += new System.EventHandler(this.magyarToolStripMenuItem_Click);
             // 
             // toolstrip_item_help
             // 
@@ -924,21 +952,21 @@
             // toolstrip_item_save_logs
             // 
             this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
-            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_save_logs.Text = "Save Log";
             this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // toolstrip_item_delete_lock
             // 
             this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
-            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_delete_lock.Text = "Delete Lock";
             this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // toolstrip_item_clear_status
             // 
             this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
-            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
@@ -1087,6 +1115,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit_source_path;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_edit_settings;
         private System.Windows.Forms.ImageList image_list_tabs;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_english;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_hungarian;
     }
 }
 
