@@ -38,6 +38,13 @@ namespace FolderManipulator
             }
 
             string orderType = listbox_main_ordertype.SelectedItem.ToString();
+
+            if (orderType == OrderTypes.noTypeName)
+            {
+                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
             if (MessageBox.Show($"Do you really want to delete main type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
@@ -53,6 +60,13 @@ namespace FolderManipulator
             }
 
             string orderType = listbox_sub_ordertype.SelectedItem.ToString();
+
+            if (orderType == OrderTypes.noTypeName)
+            {
+                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
             if (MessageBox.Show($"Do you really want to delete sub type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
@@ -61,11 +75,21 @@ namespace FolderManipulator
 
         private void btn_add_main_ordertype_Click(object sender, EventArgs e)
         {
+            if (txt_main_ordertype.Text == OrderTypes.noTypeName)
+            {
+                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
             SettingsManager.Settings.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
         }
 
         private void btn_add_sub_ordertype_Click(object sender, EventArgs e)
         {
+            if (txt_sub_ordertype.Text == OrderTypes.noTypeName)
+            {
+                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
             SettingsManager.Settings.AddNewOrderType(txt_sub_ordertype.Text, OrderCategory.Sub);
         }
 

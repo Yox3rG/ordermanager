@@ -592,9 +592,6 @@ namespace FolderManipulator
         private void clearStatusBarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StatusManager.ResetStrip();
-            languageManager.MakeLanguageDataFromForms();
-            languageManager.SaveAllDataToCSV();
-
         }
 
         private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -611,10 +608,10 @@ namespace FolderManipulator
             ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
 
             listControlMainOrderType.DataSource = null;
-            listControlMainOrderType.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+            listControlMainOrderType.DataSource = SettingsManager.Settings.GetMainOrderTypeList();
 
             listControlSubOrderType.DataSource = null;
-            listControlSubOrderType.DataSource = SettingsManager.Settings.subOrderTypes.list;
+            listControlSubOrderType.DataSource = SettingsManager.Settings.GetSubOrderTypeList();
 
             listsOfMainOrderTypes.Add(listControlMainOrderType);
             listsOfSubOrderTypes.Add(listControlSubOrderType);
@@ -1093,6 +1090,8 @@ namespace FolderManipulator
 
         private void RefreshOrders(bool expandAll = true)
         {
+            DoOnAllOrderTreeView(ResetOwnerDraw);
+
             treeViewHandleGroup.SaveCurrentScrollBarPosition();
 
             FillTreeViewWithOrders(tree_view_active, OrderManager.GetActiveOrders());
@@ -1109,6 +1108,18 @@ namespace FolderManipulator
             LoadCheckedOrders(treeViewHandleGroup.GetHandle(tree_view_finished));
 
             treeViewHandleGroup.ResetToSavedScrollBarPosition();
+
+            DoOnAllOrderTreeView(SetOwnerDraw);
+        }
+
+        private void SetOwnerDraw(TreeView treeView)
+        {
+            treeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
+        }
+
+        private void ResetOwnerDraw(TreeView treeView)
+        {
+            treeView.DrawMode = TreeViewDrawMode.Normal;
         }
 
         private void FillTreeViewWithOrders(TreeView treeView, OrderList orders, bool includeFinishedDate = false)
@@ -1126,7 +1137,13 @@ namespace FolderManipulator
 
                 if (order.SubOrderType == null)
                     order.SubOrderType = _dummyOrderTypeName;
-                TreeNode parent = FindParent(order.SubOrderType, grandParent.Nodes);
+                
+                TreeNode parent = null;
+                if (order.SubOrderType == OrderTypes.noTypeName)
+                    parent = grandParent;
+                else
+                    parent = FindParent(order.SubOrderType, grandParent.Nodes);
+
                 if (parent == null)
                 {
                     parent = CreateTreeNode(order.SubOrderType);
@@ -1250,12 +1267,12 @@ namespace FolderManipulator
                 foreach (var listBox in listsOfMainOrderTypes)
                 {
                     listBox.DataSource = null;
-                    listBox.DataSource = SettingsManager.Settings.mainOrderTypes.list;
+                    listBox.DataSource = SettingsManager.Settings.GetMainOrderTypeList();
                 }
                 foreach (var listBox in listsOfSubOrderTypes)
                 {
                     listBox.DataSource = null;
-                    listBox.DataSource = SettingsManager.Settings.subOrderTypes.list;
+                    listBox.DataSource = SettingsManager.Settings.GetSubOrderTypeList();
                 }
 
                 selectedMainOrderTypeIndex = selectedMainOrderTypeIndex.Clamp(0, drpd_main_ordertype.Items.Count - 1);
@@ -1472,8 +1489,8 @@ namespace FolderManipulator
         private void FinishChange(List<OrderList> list)
         {
             SaveAll();
-            RefreshAll();
             persistentData.ReleaseLock();
+            RefreshAll();
         }
 
         private bool IsOnLatestUpdate()
@@ -1585,6 +1602,24 @@ namespace FolderManipulator
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+        }
+
+        private void TestEditOrderBug()
+        {
+            AppConsole.WriteLine("Test edit order bug");
+            OrderData order = OrderManager.GetActiveOrders().Orders[0];
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
         }
 
         private void DebugSelectedNode()

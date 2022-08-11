@@ -37,10 +37,10 @@ namespace FolderManipulator
             toolTip = new ToolTip();
 
             // Editable
-            List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
+            List<string> mainOrderTypes = SettingsManager.Settings.GetMainOrderTypeList();
             FillDropDown(drpd_new_main_ordertype, orderData.MainOrderType, mainOrderTypes);
 
-            List<string> subOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Sub);
+            List<string> subOrderTypes = SettingsManager.Settings.GetSubOrderTypeList();
             FillDropDown(drpd_new_sub_ordertype, orderData.SubOrderType, subOrderTypes);
 
             txt_new_count.Text = orderData.Count.ToString();

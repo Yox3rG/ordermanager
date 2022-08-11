@@ -77,5 +77,18 @@ namespace FolderManipulator.Data
             }
             return null;
         }
+
+        public List<string> GetMainOrderTypeList()
+        {
+            List<string> list = new List<string>(mainOrderTypes.list);
+            return list;
+        }
+
+        public List<string> GetSubOrderTypeList()
+        {
+            List<string> list = new List<string>(subOrderTypes.list);
+            list.Insert(0, OrderTypes.noTypeName);
+            return list;
+        }
     }
 }
