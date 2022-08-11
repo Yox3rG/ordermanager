@@ -84,7 +84,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(321, 34);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
-            this.btn_cancel.TabIndex = 47;
+            this.btn_cancel.TabIndex = 2;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -105,7 +105,7 @@
             this.txt_new_font_size.Location = new System.Drawing.Point(98, 8);
             this.txt_new_font_size.Name = "txt_new_font_size";
             this.txt_new_font_size.Size = new System.Drawing.Size(178, 20);
-            this.txt_new_font_size.TabIndex = 36;
+            this.txt_new_font_size.TabIndex = 0;
             this.txt_new_font_size.TextChanged += new System.EventHandler(this.txt_new_count_TextChanged);
             // 
             // btn_save
@@ -113,7 +113,7 @@
             this.btn_save.Location = new System.Drawing.Point(9, 34);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(92, 37);
-            this.btn_save.TabIndex = 34;
+            this.btn_save.TabIndex = 1;
             this.btn_save.Text = "Save Changes";
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);

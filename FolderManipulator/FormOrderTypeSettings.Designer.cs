@@ -90,7 +90,7 @@
             this.panel_main_ordertype.Location = new System.Drawing.Point(3, 3);
             this.panel_main_ordertype.Name = "panel_main_ordertype";
             this.panel_main_ordertype.Size = new System.Drawing.Size(126, 477);
-            this.panel_main_ordertype.TabIndex = 25;
+            this.panel_main_ordertype.TabIndex = 0;
             // 
             // lbl_main_order_type_title
             // 
@@ -106,7 +106,7 @@
             this.txt_main_ordertype.Location = new System.Drawing.Point(3, 38);
             this.txt_main_ordertype.Name = "txt_main_ordertype";
             this.txt_main_ordertype.Size = new System.Drawing.Size(120, 20);
-            this.txt_main_ordertype.TabIndex = 11;
+            this.txt_main_ordertype.TabIndex = 0;
             this.txt_main_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_main_ordertype_KeyUp);
             // 
             // btn_add_main_ordertype
@@ -114,7 +114,7 @@
             this.btn_add_main_ordertype.Location = new System.Drawing.Point(3, 64);
             this.btn_add_main_ordertype.Name = "btn_add_main_ordertype";
             this.btn_add_main_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_add_main_ordertype.TabIndex = 10;
+            this.btn_add_main_ordertype.TabIndex = 1;
             this.btn_add_main_ordertype.Text = "Típus Hozzáadása";
             this.btn_add_main_ordertype.UseVisualStyleBackColor = true;
             this.btn_add_main_ordertype.Click += new System.EventHandler(this.btn_add_main_ordertype_Click);
@@ -125,14 +125,14 @@
             this.listbox_main_ordertype.Location = new System.Drawing.Point(3, 95);
             this.listbox_main_ordertype.Name = "listbox_main_ordertype";
             this.listbox_main_ordertype.Size = new System.Drawing.Size(120, 134);
-            this.listbox_main_ordertype.TabIndex = 9;
+            this.listbox_main_ordertype.TabIndex = 2;
             // 
             // btn_delete_main_ordertype
             // 
             this.btn_delete_main_ordertype.Location = new System.Drawing.Point(3, 235);
             this.btn_delete_main_ordertype.Name = "btn_delete_main_ordertype";
             this.btn_delete_main_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_main_ordertype.TabIndex = 15;
+            this.btn_delete_main_ordertype.TabIndex = 3;
             this.btn_delete_main_ordertype.Text = "Típus Törlése";
             this.btn_delete_main_ordertype.UseVisualStyleBackColor = true;
             this.btn_delete_main_ordertype.Click += new System.EventHandler(this.btn_delete_main_ordertype_Click);
@@ -147,7 +147,7 @@
             this.panel_sub_ordertype.Location = new System.Drawing.Point(135, 3);
             this.panel_sub_ordertype.Name = "panel_sub_ordertype";
             this.panel_sub_ordertype.Size = new System.Drawing.Size(126, 477);
-            this.panel_sub_ordertype.TabIndex = 24;
+            this.panel_sub_ordertype.TabIndex = 1;
             // 
             // lbl_sub_order_type_title
             // 
@@ -163,7 +163,7 @@
             this.txt_sub_ordertype.Location = new System.Drawing.Point(3, 38);
             this.txt_sub_ordertype.Name = "txt_sub_ordertype";
             this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
-            this.txt_sub_ordertype.TabIndex = 14;
+            this.txt_sub_ordertype.TabIndex = 0;
             this.txt_sub_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_sub_ordertype_KeyUp);
             // 
             // btn_add_sub_ordertype
@@ -171,7 +171,7 @@
             this.btn_add_sub_ordertype.Location = new System.Drawing.Point(3, 64);
             this.btn_add_sub_ordertype.Name = "btn_add_sub_ordertype";
             this.btn_add_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_add_sub_ordertype.TabIndex = 13;
+            this.btn_add_sub_ordertype.TabIndex = 1;
             this.btn_add_sub_ordertype.Text = "Altípus Hozzáadása";
             this.btn_add_sub_ordertype.UseVisualStyleBackColor = true;
             this.btn_add_sub_ordertype.Click += new System.EventHandler(this.btn_add_sub_ordertype_Click);
@@ -181,7 +181,7 @@
             this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(3, 235);
             this.btn_delete_sub_ordertype.Name = "btn_delete_sub_ordertype";
             this.btn_delete_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_sub_ordertype.TabIndex = 16;
+            this.btn_delete_sub_ordertype.TabIndex = 3;
             this.btn_delete_sub_ordertype.Text = "Altípus Törlése";
             this.btn_delete_sub_ordertype.UseVisualStyleBackColor = true;
             this.btn_delete_sub_ordertype.Click += new System.EventHandler(this.btn_delete_sub_ordertype_Click);
@@ -192,7 +192,7 @@
             this.listbox_sub_ordertype.Location = new System.Drawing.Point(3, 95);
             this.listbox_sub_ordertype.Name = "listbox_sub_ordertype";
             this.listbox_sub_ordertype.Size = new System.Drawing.Size(120, 134);
-            this.listbox_sub_ordertype.TabIndex = 12;
+            this.listbox_sub_ordertype.TabIndex = 2;
             // 
             // btn_finish
             // 
@@ -200,7 +200,7 @@
             this.btn_finish.Location = new System.Drawing.Point(3, 511);
             this.btn_finish.Name = "btn_finish";
             this.btn_finish.Size = new System.Drawing.Size(268, 44);
-            this.btn_finish.TabIndex = 8;
+            this.btn_finish.TabIndex = 0;
             this.btn_finish.Text = "Finish";
             this.btn_finish.UseVisualStyleBackColor = true;
             this.btn_finish.Click += new System.EventHandler(this.btn_finish_Click);

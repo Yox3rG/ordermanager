@@ -139,7 +139,7 @@
             this.btn_add.Location = new System.Drawing.Point(6, 91);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(92, 37);
-            this.btn_add.TabIndex = 34;
+            this.btn_add.TabIndex = 2;
             this.btn_add.Text = "Hozzáadás";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_order_Click);
@@ -197,7 +197,7 @@
             this.btn_add_active_pending.Location = new System.Drawing.Point(3, 3);
             this.btn_add_active_pending.Name = "btn_add_active_pending";
             this.btn_add_active_pending.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_active_pending.TabIndex = 6;
+            this.btn_add_active_pending.TabIndex = 0;
             this.btn_add_active_pending.Text = "Add to Pending";
             this.btn_add_active_pending.UseVisualStyleBackColor = true;
             this.btn_add_active_pending.Click += new System.EventHandler(this.btn_add_active_pending_Click);
@@ -207,7 +207,7 @@
             this.btn_add_active_finished.Location = new System.Drawing.Point(3, 43);
             this.btn_add_active_finished.Name = "btn_add_active_finished";
             this.btn_add_active_finished.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_active_finished.TabIndex = 7;
+            this.btn_add_active_finished.TabIndex = 1;
             this.btn_add_active_finished.Text = "Add to Finished";
             this.btn_add_active_finished.UseVisualStyleBackColor = true;
             this.btn_add_active_finished.Click += new System.EventHandler(this.btn_add_active_finished_Click);
@@ -281,7 +281,7 @@
             this.drpd_main_ordertype.Location = new System.Drawing.Point(94, 28);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
             this.drpd_main_ordertype.Size = new System.Drawing.Size(145, 21);
-            this.drpd_main_ordertype.TabIndex = 20;
+            this.drpd_main_ordertype.TabIndex = 0;
             this.drpd_main_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_main_ordertype_SelectedIndexChanged);
             // 
             // lbl_sub_ordertype
@@ -300,7 +300,7 @@
             this.drpd_sub_ordertype.Location = new System.Drawing.Point(94, 55);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
             this.drpd_sub_ordertype.Size = new System.Drawing.Size(145, 21);
-            this.drpd_sub_ordertype.TabIndex = 22;
+            this.drpd_sub_ordertype.TabIndex = 1;
             this.drpd_sub_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_sub_ordertype_SelectedIndexChanged);
             // 
             // btn_choose_folder
@@ -308,7 +308,7 @@
             this.btn_choose_folder.Location = new System.Drawing.Point(94, 82);
             this.btn_choose_folder.Name = "btn_choose_folder";
             this.btn_choose_folder.Size = new System.Drawing.Size(145, 23);
-            this.btn_choose_folder.TabIndex = 24;
+            this.btn_choose_folder.TabIndex = 2;
             this.btn_choose_folder.Text = "Válassz Mappát";
             this.btn_choose_folder.UseVisualStyleBackColor = true;
             this.btn_choose_folder.Click += new System.EventHandler(this.btn_choose_folder_Click);
@@ -328,7 +328,7 @@
             this.txt_folder_target.Location = new System.Drawing.Point(94, 111);
             this.txt_folder_target.Name = "txt_folder_target";
             this.txt_folder_target.Size = new System.Drawing.Size(192, 20);
-            this.txt_folder_target.TabIndex = 26;
+            this.txt_folder_target.TabIndex = 3;
             this.txt_folder_target.TextChanged += new System.EventHandler(this.txt_folder_target_TextChanged);
             this.txt_folder_target.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_folder_target_DragDrop);
             this.txt_folder_target.DragEnter += new System.Windows.Forms.DragEventHandler(this.txt_folder_target_DragEnter);
@@ -346,7 +346,7 @@
             this.list_checked_files.Margin = new System.Windows.Forms.Padding(19, 3, 5, 3);
             this.list_checked_files.Name = "list_checked_files";
             this.list_checked_files.Size = new System.Drawing.Size(270, 169);
-            this.list_checked_files.TabIndex = 28;
+            this.list_checked_files.TabIndex = 0;
             this.list_checked_files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.list_checked_files_ItemCheck);
             // 
             // panel_add_order_bottom
@@ -376,7 +376,7 @@
             this.txt_count.Location = new System.Drawing.Point(94, 8);
             this.txt_count.Name = "txt_count";
             this.txt_count.Size = new System.Drawing.Size(129, 20);
-            this.txt_count.TabIndex = 30;
+            this.txt_count.TabIndex = 0;
             this.txt_count.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_count_KeyUp);
             // 
             // lbl_comment
@@ -393,7 +393,7 @@
             this.txt_comment.Location = new System.Drawing.Point(94, 37);
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(192, 20);
-            this.txt_comment.TabIndex = 32;
+            this.txt_comment.TabIndex = 1;
             this.txt_comment.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_comment_KeyUp);
             // 
             // tab_control
@@ -409,7 +409,7 @@
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(801, 503);
-            this.tab_control.TabIndex = 6;
+            this.tab_control.TabIndex = 1;
             // 
             // tab_page_active
             // 
@@ -505,7 +505,7 @@
             this.btn_add_pending_active.Location = new System.Drawing.Point(3, 3);
             this.btn_add_pending_active.Name = "btn_add_pending_active";
             this.btn_add_pending_active.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_pending_active.TabIndex = 8;
+            this.btn_add_pending_active.TabIndex = 0;
             this.btn_add_pending_active.Text = "Add to Active";
             this.btn_add_pending_active.UseVisualStyleBackColor = true;
             this.btn_add_pending_active.Click += new System.EventHandler(this.btn_add_pending_active_Click);
@@ -515,7 +515,7 @@
             this.btn_add_pending_finished.Location = new System.Drawing.Point(3, 43);
             this.btn_add_pending_finished.Name = "btn_add_pending_finished";
             this.btn_add_pending_finished.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_pending_finished.TabIndex = 7;
+            this.btn_add_pending_finished.TabIndex = 1;
             this.btn_add_pending_finished.Text = "Add to Finished";
             this.btn_add_pending_finished.UseVisualStyleBackColor = true;
             this.btn_add_pending_finished.Click += new System.EventHandler(this.btn_add_pending_finished_Click);
@@ -525,7 +525,7 @@
             this.btn_set_notified.Location = new System.Drawing.Point(3, 83);
             this.btn_set_notified.Name = "btn_set_notified";
             this.btn_set_notified.Size = new System.Drawing.Size(92, 34);
-            this.btn_set_notified.TabIndex = 9;
+            this.btn_set_notified.TabIndex = 2;
             this.btn_set_notified.Text = "Notify";
             this.btn_set_notified.UseVisualStyleBackColor = true;
             this.btn_set_notified.Click += new System.EventHandler(this.btn_set_notified_Click);
@@ -535,7 +535,7 @@
             this.btn_reset_notified.Location = new System.Drawing.Point(3, 123);
             this.btn_reset_notified.Name = "btn_reset_notified";
             this.btn_reset_notified.Size = new System.Drawing.Size(92, 34);
-            this.btn_reset_notified.TabIndex = 10;
+            this.btn_reset_notified.TabIndex = 3;
             this.btn_reset_notified.Text = "Reset Notify";
             this.btn_reset_notified.UseVisualStyleBackColor = true;
             this.btn_reset_notified.Click += new System.EventHandler(this.btn_reset_notified_Click);
@@ -577,7 +577,7 @@
             this.tree_view_finished.Margin = new System.Windows.Forms.Padding(6);
             this.tree_view_finished.Name = "tree_view_finished";
             this.tree_view_finished.Size = new System.Drawing.Size(675, 458);
-            this.tree_view_finished.TabIndex = 8;
+            this.tree_view_finished.TabIndex = 0;
             this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
             this.tree_view_finished.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_finished.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_finished_NodeMouseClick);
@@ -603,7 +603,7 @@
             this.btn_add_finished_pending.Location = new System.Drawing.Point(3, 43);
             this.btn_add_finished_pending.Name = "btn_add_finished_pending";
             this.btn_add_finished_pending.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_finished_pending.TabIndex = 10;
+            this.btn_add_finished_pending.TabIndex = 1;
             this.btn_add_finished_pending.Text = "Add to Pending";
             this.btn_add_finished_pending.UseVisualStyleBackColor = true;
             this.btn_add_finished_pending.Click += new System.EventHandler(this.btn_add_finished_pending_Click);
@@ -613,7 +613,7 @@
             this.btn_add_finished_active.Location = new System.Drawing.Point(3, 3);
             this.btn_add_finished_active.Name = "btn_add_finished_active";
             this.btn_add_finished_active.Size = new System.Drawing.Size(92, 34);
-            this.btn_add_finished_active.TabIndex = 9;
+            this.btn_add_finished_active.TabIndex = 0;
             this.btn_add_finished_active.Text = "Add to Active";
             this.btn_add_finished_active.UseVisualStyleBackColor = true;
             this.btn_add_finished_active.Click += new System.EventHandler(this.btn_add_finished_active_Click);
@@ -701,7 +701,7 @@
             this.btn_choose_source.Location = new System.Drawing.Point(6, 6);
             this.btn_choose_source.Name = "btn_choose_source";
             this.btn_choose_source.Size = new System.Drawing.Size(226, 23);
-            this.btn_choose_source.TabIndex = 5;
+            this.btn_choose_source.TabIndex = 0;
             this.btn_choose_source.Text = "Choose Source Folder";
             this.btn_choose_source.UseVisualStyleBackColor = true;
             this.btn_choose_source.Click += new System.EventHandler(this.Btn_ChooseSourceFolder_Click);
@@ -737,7 +737,7 @@
             this.btn_accept_source.Location = new System.Drawing.Point(6, 343);
             this.btn_accept_source.Name = "btn_accept_source";
             this.btn_accept_source.Size = new System.Drawing.Size(226, 23);
-            this.btn_accept_source.TabIndex = 21;
+            this.btn_accept_source.TabIndex = 1;
             this.btn_accept_source.Text = "Accept Source Folder";
             this.btn_accept_source.UseVisualStyleBackColor = true;
             this.btn_accept_source.Click += new System.EventHandler(this.button_accept_source_Click);
@@ -759,7 +759,7 @@
             this.txt_main_ordertype.Location = new System.Drawing.Point(3, 9);
             this.txt_main_ordertype.Name = "txt_main_ordertype";
             this.txt_main_ordertype.Size = new System.Drawing.Size(120, 20);
-            this.txt_main_ordertype.TabIndex = 11;
+            this.txt_main_ordertype.TabIndex = 0;
             this.txt_main_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_main_ordertype_KeyUp);
             // 
             // btn_add_main_ordertype
@@ -767,7 +767,7 @@
             this.btn_add_main_ordertype.Location = new System.Drawing.Point(3, 35);
             this.btn_add_main_ordertype.Name = "btn_add_main_ordertype";
             this.btn_add_main_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_add_main_ordertype.TabIndex = 10;
+            this.btn_add_main_ordertype.TabIndex = 1;
             this.btn_add_main_ordertype.Text = "Típus Hozzáadása";
             this.btn_add_main_ordertype.UseVisualStyleBackColor = true;
             this.btn_add_main_ordertype.Click += new System.EventHandler(this.btn_add_main_ordertype_Click);
@@ -778,14 +778,14 @@
             this.listbox_main_ordertype.Location = new System.Drawing.Point(3, 66);
             this.listbox_main_ordertype.Name = "listbox_main_ordertype";
             this.listbox_main_ordertype.Size = new System.Drawing.Size(120, 134);
-            this.listbox_main_ordertype.TabIndex = 9;
+            this.listbox_main_ordertype.TabIndex = 2;
             // 
             // btn_delete_main_ordertype
             // 
             this.btn_delete_main_ordertype.Location = new System.Drawing.Point(3, 206);
             this.btn_delete_main_ordertype.Name = "btn_delete_main_ordertype";
             this.btn_delete_main_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_main_ordertype.TabIndex = 15;
+            this.btn_delete_main_ordertype.TabIndex = 3;
             this.btn_delete_main_ordertype.Text = "Típus Törlése";
             this.btn_delete_main_ordertype.UseVisualStyleBackColor = true;
             this.btn_delete_main_ordertype.Click += new System.EventHandler(this.btn_delete_main_ordertype_Click);
@@ -807,7 +807,7 @@
             this.txt_sub_ordertype.Location = new System.Drawing.Point(3, 9);
             this.txt_sub_ordertype.Name = "txt_sub_ordertype";
             this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
-            this.txt_sub_ordertype.TabIndex = 14;
+            this.txt_sub_ordertype.TabIndex = 0;
             this.txt_sub_ordertype.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_sub_ordertype_KeyUp);
             // 
             // btn_add_sub_ordertype
@@ -815,7 +815,7 @@
             this.btn_add_sub_ordertype.Location = new System.Drawing.Point(3, 35);
             this.btn_add_sub_ordertype.Name = "btn_add_sub_ordertype";
             this.btn_add_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_add_sub_ordertype.TabIndex = 13;
+            this.btn_add_sub_ordertype.TabIndex = 1;
             this.btn_add_sub_ordertype.Text = "Altípus Hozzáadása";
             this.btn_add_sub_ordertype.UseVisualStyleBackColor = true;
             this.btn_add_sub_ordertype.Click += new System.EventHandler(this.btn_add_sub_ordertype_Click);
@@ -825,7 +825,7 @@
             this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(3, 206);
             this.btn_delete_sub_ordertype.Name = "btn_delete_sub_ordertype";
             this.btn_delete_sub_ordertype.Size = new System.Drawing.Size(120, 23);
-            this.btn_delete_sub_ordertype.TabIndex = 16;
+            this.btn_delete_sub_ordertype.TabIndex = 3;
             this.btn_delete_sub_ordertype.Text = "Altípus Törlése";
             this.btn_delete_sub_ordertype.UseVisualStyleBackColor = true;
             this.btn_delete_sub_ordertype.Click += new System.EventHandler(this.btn_delete_sub_ordertype_Click);
@@ -836,7 +836,7 @@
             this.listbox_sub_ordertype.Location = new System.Drawing.Point(3, 66);
             this.listbox_sub_ordertype.Name = "listbox_sub_ordertype";
             this.listbox_sub_ordertype.Size = new System.Drawing.Size(120, 134);
-            this.listbox_sub_ordertype.TabIndex = 12;
+            this.listbox_sub_ordertype.TabIndex = 2;
             // 
             // image_list_tabs
             // 
@@ -854,7 +854,7 @@
             this.toolstrip_menu.Location = new System.Drawing.Point(0, 0);
             this.toolstrip_menu.Name = "toolstrip_menu";
             this.toolstrip_menu.Size = new System.Drawing.Size(801, 24);
-            this.toolstrip_menu.TabIndex = 7;
+            this.toolstrip_menu.TabIndex = 0;
             this.toolstrip_menu.Text = "menuStrip1";
             // 
             // toolstrip_item_file
@@ -922,20 +922,20 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(126, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
             // 
             this.toolstrip_item_language_english.Name = "toolstrip_item_language_english";
-            this.toolstrip_item_language_english.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_english.Size = new System.Drawing.Size(114, 22);
             this.toolstrip_item_language_english.Text = "English";
             this.toolstrip_item_language_english.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // toolstrip_item_language_hungarian
             // 
             this.toolstrip_item_language_hungarian.Name = "toolstrip_item_language_hungarian";
-            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(114, 22);
             this.toolstrip_item_language_hungarian.Text = "Magyar";
             this.toolstrip_item_language_hungarian.Click += new System.EventHandler(this.magyarToolStripMenuItem_Click);
             // 
@@ -952,21 +952,21 @@
             // toolstrip_item_save_logs
             // 
             this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
-            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(153, 22);
             this.toolstrip_item_save_logs.Text = "Save Log";
             this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // toolstrip_item_delete_lock
             // 
             this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
-            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(153, 22);
             this.toolstrip_item_delete_lock.Text = "Delete Lock";
             this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // toolstrip_item_clear_status
             // 
             this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
-            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(153, 22);
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 

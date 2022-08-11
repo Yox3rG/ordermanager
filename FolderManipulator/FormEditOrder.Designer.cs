@@ -129,7 +129,7 @@
             this.drpd_new_sub_ordertype.Location = new System.Drawing.Point(98, 84);
             this.drpd_new_sub_ordertype.Name = "drpd_new_sub_ordertype";
             this.drpd_new_sub_ordertype.Size = new System.Drawing.Size(177, 21);
-            this.drpd_new_sub_ordertype.TabIndex = 31;
+            this.drpd_new_sub_ordertype.TabIndex = 1;
             // 
             // lbl_new_main_ordertype
             // 
@@ -149,7 +149,7 @@
             this.drpd_new_main_ordertype.Location = new System.Drawing.Point(98, 30);
             this.drpd_new_main_ordertype.Name = "drpd_new_main_ordertype";
             this.drpd_new_main_ordertype.Size = new System.Drawing.Size(177, 21);
-            this.drpd_new_main_ordertype.TabIndex = 29;
+            this.drpd_new_main_ordertype.TabIndex = 0;
             // 
             // lbl_main_ordertype
             // 
@@ -171,6 +171,7 @@
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
             this.drpd_main_ordertype.Size = new System.Drawing.Size(177, 21);
             this.drpd_main_ordertype.TabIndex = 20;
+            this.drpd_main_ordertype.TabStop = false;
             // 
             // lbl_sub_ordertype
             // 
@@ -192,6 +193,7 @@
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
             this.drpd_sub_ordertype.Size = new System.Drawing.Size(177, 21);
             this.drpd_sub_ordertype.TabIndex = 22;
+            this.drpd_sub_ordertype.TabStop = false;
             // 
             // lbl_folder
             // 
@@ -212,6 +214,7 @@
             this.txt_folder.Name = "txt_folder";
             this.txt_folder.Size = new System.Drawing.Size(314, 20);
             this.txt_folder.TabIndex = 26;
+            this.txt_folder.TabStop = false;
             // 
             // panel_add_order_bottom
             // 
@@ -245,7 +248,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(320, 216);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
-            this.btn_cancel.TabIndex = 47;
+            this.btn_cancel.TabIndex = 3;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -268,6 +271,7 @@
             this.txt_id.Name = "txt_id";
             this.txt_id.Size = new System.Drawing.Size(314, 20);
             this.txt_id.TabIndex = 46;
+            this.txt_id.TabStop = false;
             // 
             // lbl_status
             // 
@@ -287,6 +291,7 @@
             this.txt_status.Name = "txt_status";
             this.txt_status.Size = new System.Drawing.Size(314, 20);
             this.txt_status.TabIndex = 44;
+            this.txt_status.TabStop = false;
             // 
             // lbl_finished_date
             // 
@@ -306,6 +311,7 @@
             this.txt_finished_date.Name = "txt_finished_date";
             this.txt_finished_date.Size = new System.Drawing.Size(314, 20);
             this.txt_finished_date.TabIndex = 42;
+            this.txt_finished_date.TabStop = false;
             // 
             // lbl_birth_date
             // 
@@ -325,6 +331,7 @@
             this.txt_birth_date.Name = "txt_birth_date";
             this.txt_birth_date.Size = new System.Drawing.Size(314, 20);
             this.txt_birth_date.TabIndex = 40;
+            this.txt_birth_date.TabStop = false;
             // 
             // lbl_new_comment
             // 
@@ -342,7 +349,7 @@
             this.txt_new_comment.Location = new System.Drawing.Point(98, 86);
             this.txt_new_comment.Name = "txt_new_comment";
             this.txt_new_comment.Size = new System.Drawing.Size(314, 20);
-            this.txt_new_comment.TabIndex = 38;
+            this.txt_new_comment.TabIndex = 1;
             // 
             // lbl_new_count
             // 
@@ -360,7 +367,7 @@
             this.txt_new_count.Location = new System.Drawing.Point(98, 34);
             this.txt_new_count.Name = "txt_new_count";
             this.txt_new_count.Size = new System.Drawing.Size(177, 20);
-            this.txt_new_count.TabIndex = 36;
+            this.txt_new_count.TabIndex = 0;
             // 
             // lbl_count
             // 
@@ -380,6 +387,7 @@
             this.txt_count.Name = "txt_count";
             this.txt_count.Size = new System.Drawing.Size(177, 20);
             this.txt_count.TabIndex = 30;
+            this.txt_count.TabStop = false;
             // 
             // lbl_comment
             // 
@@ -399,13 +407,14 @@
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(314, 20);
             this.txt_comment.TabIndex = 32;
+            this.txt_comment.TabStop = false;
             // 
             // btn_edit
             // 
             this.btn_edit.Location = new System.Drawing.Point(16, 216);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(92, 37);
-            this.btn_edit.TabIndex = 34;
+            this.btn_edit.TabIndex = 2;
             this.btn_edit.Text = "Edit";
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
