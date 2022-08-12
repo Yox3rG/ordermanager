@@ -43,7 +43,7 @@ namespace FolderManipulator
         private List<TabPage> tabPagesShownWhenNoSource;
         private List<ToolStripItem> toolStripItems;
 
-        private ToolTip sourceToolTip = new ToolTip();
+        private ToolTip formToolTips = new ToolTip();
         private Size? editOrderWindowSize = null;
 
 
@@ -364,8 +364,8 @@ namespace FolderManipulator
             lbl_source.Text = persistentData.SourcePath == null ?
                 "NULL" : persistentData.SourcePath;
 
-            sourceToolTip.RemoveAll();
-            sourceToolTip.SetToolTip(lbl_source, lbl_source.Text);
+            formToolTips.RemoveAll();
+            formToolTips.SetToolTip(lbl_source, lbl_source.Text);
         }
 
         private void RefreshSourceTreeView()
@@ -822,6 +822,7 @@ namespace FolderManipulator
 
         private void txt_folder_target_TextChanged(object sender, EventArgs e)
         {
+            formToolTips.SetToolTip(txt_folder_target, txt_folder_target.Text);
             RefreshTargetFolderContents();
         }
 
@@ -1210,11 +1211,13 @@ namespace FolderManipulator
         private void drpd_main_ordertype_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedMainOrderTypeIndex = drpd_main_ordertype.SelectedIndex;
+            formToolTips.SetToolTip(drpd_main_ordertype, drpd_main_ordertype.Text);
         }
 
         private void drpd_sub_ordertype_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedSubOrderTypeIndex = drpd_sub_ordertype.SelectedIndex;
+            formToolTips.SetToolTip(drpd_sub_ordertype, drpd_sub_ordertype.Text);
         }
 
         private void btn_add_main_ordertype_Click(object sender, EventArgs e)
@@ -1638,6 +1641,13 @@ namespace FolderManipulator
             }
         }
 #endif
+        #endregion
+
+        #region ToolTip
+        private void txt_comment_TextChanged(object sender, EventArgs e)
+        {
+            formToolTips.SetToolTip(txt_comment, txt_comment.Text);
+        }
         #endregion
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)

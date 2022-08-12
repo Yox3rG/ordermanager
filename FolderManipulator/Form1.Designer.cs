@@ -280,7 +280,7 @@
             this.drpd_main_ordertype.FormattingEnabled = true;
             this.drpd_main_ordertype.Location = new System.Drawing.Point(94, 28);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
-            this.drpd_main_ordertype.Size = new System.Drawing.Size(145, 21);
+            this.drpd_main_ordertype.Size = new System.Drawing.Size(192, 21);
             this.drpd_main_ordertype.TabIndex = 0;
             this.drpd_main_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_main_ordertype_SelectedIndexChanged);
             // 
@@ -299,7 +299,7 @@
             this.drpd_sub_ordertype.FormattingEnabled = true;
             this.drpd_sub_ordertype.Location = new System.Drawing.Point(94, 55);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
-            this.drpd_sub_ordertype.Size = new System.Drawing.Size(145, 21);
+            this.drpd_sub_ordertype.Size = new System.Drawing.Size(192, 21);
             this.drpd_sub_ordertype.TabIndex = 1;
             this.drpd_sub_ordertype.SelectedIndexChanged += new System.EventHandler(this.drpd_sub_ordertype_SelectedIndexChanged);
             // 
@@ -307,7 +307,7 @@
             // 
             this.btn_choose_folder.Location = new System.Drawing.Point(94, 82);
             this.btn_choose_folder.Name = "btn_choose_folder";
-            this.btn_choose_folder.Size = new System.Drawing.Size(145, 23);
+            this.btn_choose_folder.Size = new System.Drawing.Size(192, 23);
             this.btn_choose_folder.TabIndex = 2;
             this.btn_choose_folder.Text = "Válassz Mappát";
             this.btn_choose_folder.UseVisualStyleBackColor = true;
@@ -375,7 +375,7 @@
             // 
             this.txt_count.Location = new System.Drawing.Point(94, 8);
             this.txt_count.Name = "txt_count";
-            this.txt_count.Size = new System.Drawing.Size(129, 20);
+            this.txt_count.Size = new System.Drawing.Size(192, 20);
             this.txt_count.TabIndex = 0;
             this.txt_count.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_count_KeyUp);
             // 
@@ -394,6 +394,7 @@
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(192, 20);
             this.txt_comment.TabIndex = 1;
+            this.txt_comment.TextChanged += new System.EventHandler(this.txt_comment_TextChanged);
             this.txt_comment.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_comment_KeyUp);
             // 
             // tab_control
