@@ -29,7 +29,7 @@ namespace FolderManipulator.UI
         {
             if (orderFont != null && pixelSize == orderFont.Size)
             {
-                AppConsole.WriteLine($"Font size already set to {pixelSize}.");
+                AppConsole.WriteLine($"trySetSameFontSize", list: pixelSize.ToString());
             }
 
             DisposeFontIfNotNull();

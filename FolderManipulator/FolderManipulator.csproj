@@ -82,9 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AppConsole.cs" />
+    <Compile Include="Analytics\ErrorManager.cs" />
+    <Compile Include="Analytics\ErrorMessage.cs" />
     <Compile Include="Data\LanguageData.cs" />
     <Compile Include="Data\LanguageHandle.cs" />
-    <Compile Include="Data\LanguageList.cs" />
+    <Compile Include="Data\LanguageDataList.cs" />
     <Compile Include="Data\LanguageManager.cs" />
     <Compile Include="Data\LocalSettingsData.cs" />
     <Compile Include="Data\OrderDataEdit.cs" />

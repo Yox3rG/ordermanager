@@ -45,7 +45,7 @@ namespace FolderManipulator.Data
         {
             if (!SettingsManager.CanChangeData)
             {
-                AppConsole.WriteLine($"Can't add new order type to settings");
+                AppConsole.WriteLine($"cantAddOrderType");
                 return;
             }
             GetOrderTypesFromCategory(category).Add(orderType);
@@ -57,7 +57,7 @@ namespace FolderManipulator.Data
         {
             if (!SettingsManager.CanChangeData)
             {
-                AppConsole.WriteLine($"Can't remove order type from settings");
+                AppConsole.WriteLine($"cantRemoveOrderType");
                 return false;
             }
             bool isSuccess = GetOrderTypesFromCategory(category).Remove(orderType);

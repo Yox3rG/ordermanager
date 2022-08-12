@@ -1,4 +1,5 @@
-﻿using FolderManipulator.Data;
+﻿using FolderManipulator.Analytics;
+using FolderManipulator.Data;
 using FolderManipulator.UI;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace FolderManipulator
         {
             if (listbox_main_ordertype.SelectedItem == null)
             {
-                StatusManager.ShowMessage("No main OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "main", "delete");
                 return;
             }
 
@@ -41,11 +42,11 @@ namespace FolderManipulator
 
             if (orderType == OrderTypes.noTypeName)
             {
-                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("cantManipulateType", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
-            if (MessageBox.Show($"Do you really want to delete main type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
             }
@@ -55,7 +56,7 @@ namespace FolderManipulator
         {
             if (listbox_sub_ordertype.SelectedItem == null)
             {
-                StatusManager.ShowMessage("No sub OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "sub", "delete");
                 return;
             }
 
@@ -63,11 +64,11 @@ namespace FolderManipulator
 
             if (orderType == OrderTypes.noTypeName)
             {
-                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("cantManipulateType", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
-            if (MessageBox.Show($"Do you really want to delete sub type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
             }
@@ -77,7 +78,7 @@ namespace FolderManipulator
         {
             if (txt_main_ordertype.Text == OrderTypes.noTypeName)
             {
-                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("cantManipulateType", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
             SettingsManager.Settings.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
@@ -87,7 +88,7 @@ namespace FolderManipulator
         {
             if (txt_sub_ordertype.Text == OrderTypes.noTypeName)
             {
-                StatusManager.ShowMessage("You can't manipulate that type!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("cantManipulateType", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
             SettingsManager.Settings.AddNewOrderType(txt_sub_ordertype.Text, OrderCategory.Sub);

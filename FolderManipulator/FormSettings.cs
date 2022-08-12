@@ -63,8 +63,8 @@ namespace FolderManipulator
             }
             else
             {
-                StatusManager.ShowMessage("Can't edit settings currently, try again later!", StatusColorType.Error, DelayTimeType.Medium);
-                MessageBox.Show("Can't edit settings currently, try again later!");
+                StatusManager.ShowMessage("cantEditSettings", StatusColorType.Error, DelayTimeType.Medium);
+                MessageBox.Show(ErrorManager.GetErrorMessage("cantEditSettings"));
             }
         }
 

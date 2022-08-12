@@ -33,15 +33,15 @@ namespace FolderManipulator.UI
             StatusMessageRegister.Initialize();
         }
 
-        public static void ShowMessage(string message, StatusColorType colorType = StatusColorType.Default, DelayTimeType resetAfter = DelayTimeType.None)
+        public static void ShowMessage(string messageOrID, StatusColorType colorType = StatusColorType.Default, DelayTimeType resetAfter = DelayTimeType.None, params object[] list)
         {
             StopCurrentDelayedMessage();
 
-            if (!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(messageOrID))
             {
-                _mainStatusMessage = message;
+                _mainStatusMessage = ErrorManager.GetErrorMessage(messageOrID, list);
                 _mainStatusStripLabel.Text = _mainStatusMessage;
-                AppConsole.WriteLine(message);
+                AppConsole.WriteLine(messageOrID);
             }
             _statusStrip.BackColor = GetStatusColorFromType(colorType);
 

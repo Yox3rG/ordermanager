@@ -1,4 +1,5 @@
-﻿using FolderManipulator.Data;
+﻿using FolderManipulator.Analytics;
+using FolderManipulator.Data;
 using FolderManipulator.UI;
 using System;
 using System.Collections.Generic;
@@ -128,8 +129,8 @@ namespace FolderManipulator
                 }
                 else
                 {
-                    StatusManager.ShowMessage("Can't edit order currently, try again later!", StatusColorType.Error, DelayTimeType.Medium);
-                    MessageBox.Show("Can't edit order currently, try again later!");
+                    StatusManager.ShowMessage("cantEditOrder", StatusColorType.Error, DelayTimeType.Medium);
+                    MessageBox.Show(ErrorManager.GetErrorMessage("cantEditOrder"));
                 }
             }
             else

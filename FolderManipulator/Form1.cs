@@ -46,7 +46,6 @@ namespace FolderManipulator
         private ToolTip formToolTips = new ToolTip();
         private Size? editOrderWindowSize = null;
 
-
         public form_main()
         {
             InitializeComponent();
@@ -207,7 +206,7 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order == null)
                         {
-                            StatusManager.ShowMessage($"Can't find selected order to edit.", StatusColorType.Warning, DelayTimeType.Short);
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "edit");
                             return;
                         }
                         OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
@@ -228,10 +227,10 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order == null)
                         {
-                            StatusManager.ShowMessage($"Can't find selected order to delete.", StatusColorType.Warning, DelayTimeType.Short);
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "delete");
                             return;
                         }
-                        if(MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if(MessageBox.Show(ErrorManager.GetErrorMessage($"doYouReallyDelete", order.GetFileName()), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
                             OrderManager.RemoveOrder(orderListType, order);
@@ -242,7 +241,7 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order == null)
                         {
-                            StatusManager.ShowMessage($"Can't find selected order to show in explorer.", StatusColorType.Warning, DelayTimeType.Short);
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "show in explorer");
                             return;
                         }
 
@@ -397,12 +396,12 @@ namespace FolderManipulator
             if (persistentData.AcceptSourcePath())
             {
                 normalHighlightManager.StopHighlightControl(btn_accept_source);
-                StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"sourceAccepted", StatusColorType.Success, DelayTimeType.Medium);
                 SetApplicationState(sourceReady: true);
             }
             else
             {
-                StatusManager.ShowMessage($"Source can't be accepted, choose a valid source", StatusColorType.Error);
+                StatusManager.ShowMessage($"sourceNotAccepted", StatusColorType.Error);
             }
         }
 
@@ -579,7 +578,7 @@ namespace FolderManipulator
         {
             if (!persistentData.ReleaseLock())
             {
-                AppConsole.WriteLine($"Lock can't be deleted!");
+                StatusManager.ShowMessage($"lockCantBeDeleted", StatusColorType.Error, DelayTimeType.Medium);
             }
         }
 
@@ -598,7 +597,7 @@ namespace FolderManipulator
         {
             if (formOrderTypeSettings != null)
             {
-                StatusManager.ShowMessage($"OrderType Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage($"orderTypeSettingsAlreadyOpen", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
@@ -643,7 +642,7 @@ namespace FolderManipulator
         {
             if (formSettings != null)
             {
-                StatusManager.ShowMessage($"Settings window already open!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage($"settingsAlreadyOpen", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
@@ -661,6 +660,16 @@ namespace FolderManipulator
         private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
         {
             formSettings = null;
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageManager.ChangeLanguage(LanguageType.English);
+        }
+
+        private void magyarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageManager.ChangeLanguage(LanguageType.Hungarian);
         }
         #endregion
 
@@ -962,7 +971,7 @@ namespace FolderManipulator
             List<string> checkedFileNames = GetCheckedItemStrings();
             if (checkedFileNames.Count <= 0)
             {
-                StatusManager.ShowMessage("No file was selected for Add operation.", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noFileSelectedToAdd", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
@@ -1082,7 +1091,7 @@ namespace FolderManipulator
         {
             if (list == null || list.Count == 0)
             {
-                StatusManager.ShowMessage("Can't handle operation because list is empty!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("checkedOrderListEmpty", StatusColorType.Warning, DelayTimeType.Short);
                 return false;
             }
             return true;
@@ -1234,12 +1243,12 @@ namespace FolderManipulator
         {
             if (listbox_main_ordertype.SelectedItem == null)
             {
-                StatusManager.ShowMessage("No main OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "main", "delete");
                 return;
             }
 
             string orderType = listbox_main_ordertype.SelectedItem.ToString();
-            if (MessageBox.Show($"Do you really want to delete main type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
             }
@@ -1249,12 +1258,12 @@ namespace FolderManipulator
         {
             if (listbox_sub_ordertype.SelectedItem == null)
             {
-                StatusManager.ShowMessage("No sub OrderType selected to delete!", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "sub", "delete");
                 return;
             }
 
             string orderType = listbox_sub_ordertype.SelectedItem.ToString();
-            if (MessageBox.Show($"Do you really want to delete sub type [{orderType}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
             }
@@ -1298,7 +1307,7 @@ namespace FolderManipulator
         #region Archive
         private void treeview_archive_DragEnter(object sender, DragEventArgs e)
         {
-            AppConsole.WriteLine("Drag Entered Archive TreeView.");
+            StatusManager.ShowMessage("dragEnteredArchive", StatusColorType.Default);
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Copy;
@@ -1309,7 +1318,7 @@ namespace FolderManipulator
             }
             else
             {
-                AppConsole.WriteLine("Drag type incompatible.");
+                StatusManager.ShowMessage("dragTypeIncompatible", StatusColorType.Warning, DelayTimeType.Medium);
                 e.Effect = DragDropEffects.None;
             }
         }
@@ -1343,11 +1352,11 @@ namespace FolderManipulator
                     tree_view_archive.ExpandAll();
                 }
 
-                AppConsole.WriteLine($"Archived file [{fileName}] loaded.");
+                StatusManager.ShowMessage($"loadedArchivedFile", StatusColorType.Success, DelayTimeType.Short, fileName);
             }
             else
             {
-                StatusManager.ShowMessage($"Can't load archived file.", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage($"cantLoadArchivedFile", StatusColorType.Warning, DelayTimeType.Short);
             }
         }
 
@@ -1373,7 +1382,7 @@ namespace FolderManipulator
                     }
                     else
                     {
-                        StatusManager.ShowMessage($"Can't archive finished orders, can't save on server", StatusColorType.Warning, DelayTimeType.Medium);
+                        StatusManager.ShowMessage($"cantArchiveOrders", StatusColorType.Warning, DelayTimeType.Medium, "save");
                     }
                 }
                 catch (Exception e)
@@ -1387,7 +1396,7 @@ namespace FolderManipulator
             }
             else
             {
-                StatusManager.ShowMessage($"Can't archive finished orders, can't create lock on server", StatusColorType.Warning, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantArchiveOrders", StatusColorType.Warning, DelayTimeType.Medium, "create lock");
             }
         }
         #endregion
@@ -1473,12 +1482,12 @@ namespace FolderManipulator
         {
             if (!IsOnLatestUpdate())
             {
-                StatusManager.ShowMessage($"Can't create change, local data is outdated", StatusColorType.Error, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantCreateChange", StatusColorType.Error, DelayTimeType.Medium, "local data is outdated");
                 return false;
             }
             if (!persistentData.CheckAndCreateLock())
             {
-                StatusManager.ShowMessage($"Can't create change, can't create lock on server", StatusColorType.Error, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantCreateChange", StatusColorType.Error, DelayTimeType.Medium, "can't create lock on server");
                 return false;
             }
             return true;
@@ -1649,15 +1658,5 @@ namespace FolderManipulator
             formToolTips.SetToolTip(txt_comment, txt_comment.Text);
         }
         #endregion
-
-        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            languageManager.ChangeLanguage(LanguageType.English);
-        }
-
-        private void magyarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            languageManager.ChangeLanguage(LanguageType.Hungarian);
-        }
     }
 }

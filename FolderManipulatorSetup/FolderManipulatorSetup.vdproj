@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1273544C7A1A4080833738415827F5E3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1F1CDFC2A9751514C7445C65B4696371"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
         "MsmSig" = "8:_UNDEFINED"
@@ -461,6 +467,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1273544C7A1A4080833738415827F5E3"
+            {
+            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\error\\errors.csv"
+            "TargetName" = "8:errors.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_314893D592224F54872429664EAD934B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F1CDFC2A9751514C7445C65B4696371"
@@ -1000,6 +1026,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_314893D592224F54872429664EAD934B"
+                    {
+                    "Name" = "8:error"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_0481C374851E43A09A79A2E1362D4001"
+                        "Folders"
+                        {
+                        }
+                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_97D0819F3BCA4555BBBBD338BE1CE9C8"
                     {
                     "Name" = "8:languages"

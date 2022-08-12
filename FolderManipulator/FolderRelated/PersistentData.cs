@@ -154,7 +154,7 @@ namespace FolderManipulator.FolderRelated
 
             orderList.Type = oldType;
 
-            AppConsole.WriteLine($"OrderList {(success ? "archived succesfully" : "archiving failed")}.");
+            AppConsole.WriteLine($"archiveOrder", list: (success ? "succesfull" : "failed"));
             return success;
         }
 
@@ -201,7 +201,7 @@ namespace FolderManipulator.FolderRelated
                 isEveryObjectPresent = false;
                 if (showStatusMessage)
                 {
-                    StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+                    StatusManager.ShowMessage($"unableToSyncServer", StatusColorType.Error, list: dataType);
                 }
             }
         }
@@ -238,7 +238,7 @@ namespace FolderManipulator.FolderRelated
 
         public bool SaveLocalSettings()
         {
-            AppConsole.WriteLine($"Trying to save local settings.");
+            AppConsole.WriteLine($"trySaveLocalSettings");
             return IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
         }
         #endregion
@@ -423,7 +423,7 @@ namespace FolderManipulator.FolderRelated
                 _currentLocalBackupIndex = 0;
             }
             _itemsWaitingForLocalSave.Clear();
-            AppConsole.WriteLine($"Local backup {(success ? "saved succesfully" : "failed")}.");
+            AppConsole.WriteLine($"Local backup", list: (success ? "succesfull" : "failed"));
             return success;
         }
         #endregion

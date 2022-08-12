@@ -31,7 +31,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || action == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle action on orderlist");
+                AppConsole.WriteLine($"cantHandleAction");
                 return;
             }
             action.Invoke(order);
@@ -42,7 +42,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || action == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle action on orderlist");
+                AppConsole.WriteLine($"cantHandleAction");
                 return;
             }
             foreach (OrderData order in orders)
@@ -56,7 +56,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle function on orderlist");
+                AppConsole.WriteLine($"cantHandleFunction");
                 return false;
             }
             bool result = func.Invoke(order);
@@ -68,7 +68,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle function on orderlist");
+                AppConsole.WriteLine($"cantHandleFunction");
                 return false;
             }
             bool result = true;
@@ -87,7 +87,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || editData == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle edit function on orderlist");
+                AppConsole.WriteLine($"cantHandleEdit");
                 return false;
             }
             bool result = func.Invoke(order, editData);
@@ -99,7 +99,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || from == null || to == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle move to orderlist");
+                AppConsole.WriteLine($"cantHandleMove");
                 return false;
             }
             bool result = MoveOrderFunction(order, from, to);
@@ -111,7 +111,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || from == null || to == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"Can't handle move to orderlist");
+                AppConsole.WriteLine($"cantHandleMove");
                 return false;
             }
             bool result = true;
@@ -141,13 +141,13 @@ namespace FolderManipulator.Data
         {
             if (order == null)
                 return;
-            AppConsole.WriteLine($"Try to add Order [{order.Id}] to active order list.");
+            AppConsole.WriteLine($"tryAddOrder", list: order.Id.ToString());
             HandleOrderAction(order, activeOrders.Add);
         }
 
         public static void AddNewOrder(IEnumerable<OrderData> orders)
         {
-            AppConsole.WriteLine($"Try to add orders to active order list.");
+            AppConsole.WriteLine($"tryAddOrders");
             HandleOrderAction(orders, activeOrders.Add);
         }
 
@@ -155,31 +155,31 @@ namespace FolderManipulator.Data
         {
             if (order == null)
                 return false;
-            AppConsole.WriteLine($"Try to remove Order [{order.Id}] from [{listType}].");
+            AppConsole.WriteLine($"tryRemoveOrder", list: new string[] { order.Id.ToString(), listType.ToString() });
             return HandleOrderFunc(order, GetOrderList(listType).Remove);
         }
 
         public static bool RemoveOrder(OrderListType listType, IEnumerable<OrderData> orders)
         {
-            AppConsole.WriteLine($"Try to remove Orders from [{listType}].");
+            AppConsole.WriteLine($"tryRemoveOrders", list: listType.ToString());
             return HandleOrderFunc(orders, GetOrderList(listType).Remove);
         }
 
         public static bool EditOrder(OrderListType listType, OrderData order, OrderEditData editData)
         {
-            AppConsole.WriteLine($"Try to edit Order in [{listType}].");
+            AppConsole.WriteLine($"tryEditOrder", list: listType.ToString());
             return HandleOrderEditFunc(order, editData, GetOrderList(listType).Edit);
         }
 
         public static bool MoveOrder(OrderData order, OrderListType from, OrderListType to)
         {
-            AppConsole.WriteLine($"Order [{order.Id}] from [{from}] to [{to}].");
+            AppConsole.WriteLine($"tryMoveOrder", list: new string[] { order.Id.ToString(), from.ToString(), to.ToString() });
             return HandleOrderMove(order, GetOrderList(from), GetOrderList(to));
         }
 
         public static bool MoveOrder(IEnumerable<OrderData> orders, OrderListType from, OrderListType to)
         {
-            AppConsole.WriteLine($"Orders from [{from}] to [{to}].");
+            AppConsole.WriteLine($"tryMoveOrders", list: new string[] { from.ToString(), to.ToString() });
             return HandleOrderMove(orders, GetOrderList(from), GetOrderList(to));
         }
 
