@@ -11,6 +11,7 @@ namespace FolderManipulator.Data
     {
         public static Func<bool> OnCanInitiateChange;
         public static Action OnSettingsChanged;
+        public static Action<string> OnCantChangeData;
 
         public static Action<int> OnOrderFontSizeChange;
 

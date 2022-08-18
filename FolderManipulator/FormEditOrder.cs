@@ -127,11 +127,6 @@ namespace FolderManipulator
                 {
                     Close();
                 }
-                else
-                {
-                    StatusManager.ShowMessage("cantEditOrder", StatusColorType.Error, DelayTimeType.Medium);
-                    MessageBox.Show(ErrorManager.GetErrorMessage("cantEditOrder"));
-                }
             }
             else
             {

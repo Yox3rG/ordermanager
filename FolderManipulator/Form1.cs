@@ -307,6 +307,7 @@ namespace FolderManipulator
             SettingsManager.OnSettingsChanged += FinishChange;
             SettingsManager.OnCanInitiateChange += CanCreateChange;
             OrderManager.OnOrderListChanged += FinishChange;
+            OrderManager.OnCantChangeData += CantChangeMessage;
             OrderManager.OnCanInitiateChange += CanCreateChange;
 
             OnOneSecondTimer += LoadAllIfDataIsOld;
@@ -322,6 +323,7 @@ namespace FolderManipulator
             SettingsManager.OnSettingsChanged -= FinishChange;
             SettingsManager.OnCanInitiateChange -= CanCreateChange;
             OrderManager.OnOrderListChanged -= FinishChange;
+            OrderManager.OnCantChangeData -= CantChangeMessage;
             OrderManager.OnCanInitiateChange -= CanCreateChange;
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
@@ -1519,6 +1521,12 @@ namespace FolderManipulator
                 return false;
             }
             return true;
+        }
+
+        private void CantChangeMessage(string error)
+        {
+            AppConsole.WriteLine(error);
+            MessageBox.Show(ErrorManager.GetErrorMessage(error));
         }
 
         private void FinishChange()

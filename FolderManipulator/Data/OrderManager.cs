@@ -11,6 +11,7 @@ namespace FolderManipulator.Data
     {
         public static Func<bool> OnCanInitiateChange;
         public static Action OnOrderListChanged;
+        public static Action<string> OnCantChangeData;
 
         private static OrderList activeOrders;
         private static OrderList pendingOrders;
@@ -31,7 +32,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || action == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleAction");
+                OnCantChangeData?.Invoke($"cantHandleAction");
                 return;
             }
             action.Invoke(order);
@@ -42,7 +43,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || action == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleAction");
+                OnCantChangeData?.Invoke($"cantHandleAction");
                 return;
             }
             foreach (OrderData order in orders)
@@ -56,7 +57,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleFunction");
+                OnCantChangeData?.Invoke($"cantHandleFunction");
                 return false;
             }
             bool result = func.Invoke(order);
@@ -68,7 +69,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleFunction");
+                OnCantChangeData?.Invoke($"cantHandleFunction");
                 return false;
             }
             bool result = true;
@@ -87,7 +88,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || editData == null || func == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleEdit");
+                OnCantChangeData?.Invoke($"cantHandleEdit");
                 return false;
             }
             bool result = func.Invoke(order, editData);
@@ -99,7 +100,7 @@ namespace FolderManipulator.Data
         {
             if (order == null || from == null || to == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleMove");
+                OnCantChangeData?.Invoke($"cantHandleMove");
                 return false;
             }
             bool result = MoveOrderFunction(order, from, to);
@@ -111,7 +112,7 @@ namespace FolderManipulator.Data
         {
             if (orders == null || from == null || to == null || !CanChangeData)
             {
-                AppConsole.WriteLine($"cantHandleMove");
+                OnCantChangeData?.Invoke($"cantHandleMove");
                 return false;
             }
             bool result = true;
