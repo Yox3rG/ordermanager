@@ -41,7 +41,7 @@ namespace FolderManipulator.UI
             {
                 _mainStatusMessage = ErrorManager.GetErrorMessage(messageOrID, list);
                 _mainStatusStripLabel.Text = _mainStatusMessage;
-                AppConsole.WriteLine(messageOrID);
+                AppConsole.WriteLine(messageOrID, list: list);
             }
             _statusStrip.BackColor = GetStatusColorFromType(colorType);
 
