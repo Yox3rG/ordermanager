@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FolderManipulator.Analytics
 {
@@ -16,6 +17,7 @@ namespace FolderManipulator.Analytics
         private const string errorFolder = "error";
         private const string errorFile = "errors.csv";
 
+        public static bool AreErrorMessagesLoaded { get { return ErrorMessages != null; } }
         private static string ErrorsFilePath { get { return Path.Combine(errorFolder, errorFile); } }
 
         static ErrorManager()
@@ -25,6 +27,9 @@ namespace FolderManipulator.Analytics
 
         public static string GetErrorMessage(string id, params object[] list)
         {
+            if (ErrorMessages == null)
+                return string.Format(id, list);
+
             string errorMessage;
             int errorIndex = ErrorMessages.FindIndex(x => x.ID == id);
             if (errorIndex >= 0)

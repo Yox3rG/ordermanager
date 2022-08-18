@@ -22,6 +22,26 @@ namespace FolderManipulator.Data
 
         private List<LanguageHandle> languageHandles;
 
+        public bool AreLanguagesLoaded
+        {
+            get
+            {
+                if (formLanguageLists == null)
+                    return false;
+                foreach (var dictionaryName in formLanguageLists.Keys)
+                {
+                    if (formLanguageLists[dictionaryName] == null)
+                        return false;
+                    foreach (var languageName in formLanguageLists[dictionaryName].Keys)
+                    {
+                        if (formLanguageLists[dictionaryName][languageName].languageDatas == null)
+                            return false;
+                    }
+                }
+                return true;
+            }
+        }
+
         public LanguageManager(string[] formNames)
         {
             this.formNames = formNames;

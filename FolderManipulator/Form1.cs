@@ -101,6 +101,25 @@ namespace FolderManipulator
         #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
+            bool criticalDataMissing = false;
+
+            if (!ErrorManager.AreErrorMessagesLoaded)
+            {
+                if (MessageBox.Show("Error message folder missing or corrupted, please reinstall the software!", "OK", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    criticalDataMissing = true;
+                }
+            }
+            if (!languageManager.AreLanguagesLoaded)
+            {
+                if (MessageBox.Show("Languages folder missing or corrupted, please reinstall the software!", "OK", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    criticalDataMissing = true;
+                }
+            }
+
+            if (criticalDataMissing)
+                this.Close();
         }
 
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
@@ -116,6 +135,11 @@ namespace FolderManipulator
 
         private void form_main_DeActivate(object sender, EventArgs e)
         {
+        }
+
+        private void CloseApplicationIfCriticalInitializationFailed()
+        {
+
         }
         #endregion
 
@@ -150,11 +174,15 @@ namespace FolderManipulator
         private void InitializeLanguageManager()
         {
             languageManager = new LanguageManager(
-                            new string[]
-                            {
-                    nameof(form_main), nameof(form_ordertype_settings), nameof(form_settings), nameof(form_edit_order)
-                            });
+                new string[]
+                {
+                    nameof(form_main),
+                    nameof(form_ordertype_settings),
+                    nameof(form_settings),
+                    nameof(form_edit_order)
+                });
             languageManager.LoadAllDataFromCSV();
+
             LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
             languageManager.ChangeLanguage(SettingsManager.LocalSettings.Language);
 
@@ -1147,7 +1175,7 @@ namespace FolderManipulator
 
                 if (order.SubOrderType == null)
                     order.SubOrderType = _dummyOrderTypeName;
-                
+
                 TreeNode parent = null;
                 if (order.SubOrderType == OrderTypes.noTypeName)
                     parent = grandParent;
