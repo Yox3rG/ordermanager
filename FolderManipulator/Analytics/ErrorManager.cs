@@ -1,4 +1,5 @@
-﻿using FolderManipulator.FolderRelated;
+﻿using FolderManipulator.Data;
+using FolderManipulator.FolderRelated;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,32 +10,63 @@ using System.Windows.Forms;
 
 namespace FolderManipulator.Analytics
 {
-    [Serializable]
     public static class ErrorManager
     {
-        public static List<ErrorMessage> ErrorMessages { get; set; }
+        private static Dictionary<LanguageType, List<ErrorMessage>> errorMessageDictionary;
 
         private const string errorFolder = "error";
-        private const string errorFile = "errors.csv";
+        private static Dictionary<LanguageType, string> errorFileNames;
 
-        public static bool AreErrorMessagesLoaded { get { return ErrorMessages != null; } }
-        private static string ErrorsFilePath { get { return Path.Combine(errorFolder, errorFile); } }
+        private const LanguageType defaultLanguage = LanguageType.English;
+
+        public static bool AreErrorMessagesLoaded
+        {
+            get
+            {
+                if (errorMessageDictionary == null)
+                    return false;
+                foreach (var language in errorMessageDictionary.Keys)
+                {
+                    if (errorMessageDictionary[language] == null)
+                        return false;
+                }
+                return true;
+            }
+        }
 
         static ErrorManager()
         {
-            LoadErrorListFromCSV(ErrorsFilePath);
+            errorFileNames = new Dictionary<LanguageType, string>() {
+                { LanguageType.English, "english_errors.csv" },
+                { LanguageType.Hungarian, "hungarian_errors.csv" }
+            };
+            errorMessageDictionary = new Dictionary<LanguageType, List<ErrorMessage>>();
+            foreach (var language in errorFileNames.Keys)
+            {
+                errorMessageDictionary[language] = LoadErrorListFromCSV(GetErrorFilePath(language));
+            }
         }
 
-        public static string GetErrorMessage(string id, params object[] list)
+        public static string GetDefaultErrorMessage(string id, params object[] list)
         {
-            if (ErrorMessages == null)
+            return GetErrorMessage(id, LanguageManager.DefaultLanguage, list);
+        }
+
+        public static string GetCurrentErrorMessage(string id, params object[] list)
+        {
+            return GetErrorMessage(id, LanguageManager.CurrentLanguage, list);
+        }
+
+        public static string GetErrorMessage(string id, LanguageType language, params object[] list)
+        {
+            if (errorMessageDictionary == null)
                 return string.Format(id, list);
 
             string errorMessage;
-            int errorIndex = ErrorMessages.FindIndex(x => x.ID == id);
+            int errorIndex = errorMessageDictionary[language].FindIndex(x => x.ID == id);
             if (errorIndex >= 0)
             {
-                errorMessage = string.Format(ErrorMessages[errorIndex].Message, list);
+                errorMessage = string.Format(errorMessageDictionary[language][errorIndex].Message, list);
             }
             else
             {
@@ -43,9 +75,14 @@ namespace FolderManipulator.Analytics
             return errorMessage;
         }
 
-        private static void LoadErrorListFromCSV(string path)
+        private static List<ErrorMessage> LoadErrorListFromCSV(string path)
         {
-            ErrorMessages = IOHandler.LoadCSV<ErrorMessage>(path);
+            return IOHandler.LoadCSV<ErrorMessage>(path);
+        }
+
+        private static string GetErrorFilePath(LanguageType language)
+        {
+            return Path.Combine(errorFolder, errorFileNames[language]);
         }
     }
 }

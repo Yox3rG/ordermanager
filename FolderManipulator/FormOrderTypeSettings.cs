@@ -46,7 +46,7 @@ namespace FolderManipulator
                 return;
             }
 
-            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
             }
@@ -68,7 +68,7 @@ namespace FolderManipulator
                 return;
             }
 
-            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
             }

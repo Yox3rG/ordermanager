@@ -25,7 +25,6 @@ namespace FolderManipulator
         private Timer formTenMinuteTimer;
 
         private PersistentData persistentData;
-        private LanguageManager languageManager;
         private HighlightManager normalHighlightManager;
 
         private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
@@ -110,7 +109,7 @@ namespace FolderManipulator
                     criticalDataMissing = true;
                 }
             }
-            if (!languageManager.AreLanguagesLoaded)
+            if (!LanguageManager.AreLanguagesLoaded)
             {
                 if (MessageBox.Show("Languages folder missing or corrupted, please reinstall the software!", "OK", MessageBoxButtons.OK) == DialogResult.OK)
                 {
@@ -173,20 +172,12 @@ namespace FolderManipulator
 
         private void InitializeLanguageManager()
         {
-            languageManager = new LanguageManager(
-                new string[]
-                {
-                    nameof(form_main),
-                    nameof(form_ordertype_settings),
-                    nameof(form_settings),
-                    nameof(form_edit_order)
-                });
-            languageManager.LoadAllDataFromCSV();
+            LanguageManager.LoadAllDataFromCSV();
 
-            LanguageHandle formMainLanguageHandle = languageManager.GetNewHandle(this, toolstrip_menu);
-            languageManager.ChangeLanguage(SettingsManager.LocalSettings.Language);
+            LanguageHandle formMainLanguageHandle = LanguageManager.GetNewHandle(this, toolstrip_menu);
+            LanguageManager.CurrentLanguage = SettingsManager.LocalSettings.Language;
 
-            languageManager.OnLanguageChanged += delegate (LanguageType language)
+            Data.LanguageManager.OnLanguageChanged += delegate (LanguageType language)
             {
                 SettingsManager.LocalSettings.SetLanguage(language); persistentData.SaveLocalSettings();
             };
@@ -248,7 +239,7 @@ namespace FolderManipulator
                         formEditOrder.OnCloseSendSize += delegate (Size size) { editOrderWindowSize = size; };
                         formEditOrder.Show();
 
-                        languageManager.GetNewHandle(formEditOrder, null);
+                        LanguageManager.GetNewHandle(formEditOrder, null);
                     }),
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
@@ -258,7 +249,7 @@ namespace FolderManipulator
                             StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "delete");
                             return;
                         }
-                        if(MessageBox.Show(ErrorManager.GetErrorMessage($"doYouReallyDelete", order.GetFileName()), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if(MessageBox.Show(ErrorManager.GetCurrentErrorMessage($"doYouReallyDelete", order.GetFileName()), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
                             OrderManager.RemoveOrder(orderListType, order);
@@ -649,7 +640,7 @@ namespace FolderManipulator
             formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
             formOrderTypeSettings.Show();
 
-            languageManager.GetNewHandle(formOrderTypeSettings, null);
+            LanguageManager.GetNewHandle(formOrderTypeSettings, null);
         }
 
         private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -684,7 +675,7 @@ namespace FolderManipulator
             formSettings.FormClosed += FormSettings_FormClosed;
             formSettings.Show();
 
-            languageManager.GetNewHandle(formSettings, null);
+            LanguageManager.GetNewHandle(formSettings, null);
         }
 
         private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
@@ -694,12 +685,12 @@ namespace FolderManipulator
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            languageManager.ChangeLanguage(LanguageType.English);
+            LanguageManager.CurrentLanguage = LanguageType.English;
         }
 
         private void magyarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            languageManager.ChangeLanguage(LanguageType.Hungarian);
+            LanguageManager.CurrentLanguage = LanguageType.Hungarian;
         }
         #endregion
 
@@ -1278,7 +1269,7 @@ namespace FolderManipulator
             }
 
             string orderType = listbox_main_ordertype.SelectedItem.ToString();
-            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
             }
@@ -1293,7 +1284,7 @@ namespace FolderManipulator
             }
 
             string orderType = listbox_sub_ordertype.SelectedItem.ToString();
-            if (MessageBox.Show(ErrorManager.GetErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
             }
@@ -1526,7 +1517,7 @@ namespace FolderManipulator
         private void CantChangeMessage(string error)
         {
             AppConsole.WriteLine(error);
-            MessageBox.Show(ErrorManager.GetErrorMessage(error));
+            MessageBox.Show(ErrorManager.GetCurrentErrorMessage(error));
         }
 
         private void FinishChange()

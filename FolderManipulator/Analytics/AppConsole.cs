@@ -16,7 +16,7 @@ namespace FolderManipulator.Analytics
 
         public static void WriteLine(string messageOrID, [CallerMemberName] string memberName = null, [CallerFilePath] string sourceFilePath = null, params object[] list)
         {
-            string message = ErrorManager.GetErrorMessage(messageOrID, list);
+            string message = ErrorManager.GetDefaultErrorMessage(messageOrID, list);
             Console.WriteLine(AddLog(message, className: Path.GetFileName(sourceFilePath), functionName: memberName));
         }
 

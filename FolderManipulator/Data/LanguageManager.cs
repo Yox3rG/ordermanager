@@ -10,19 +10,41 @@ using System.Windows.Forms;
 
 namespace FolderManipulator.Data
 {
-    public class LanguageManager
+    public static class LanguageManager
     {
-        public Action<LanguageType> OnLanguageChanged;
+        public static Action<LanguageType> OnLanguageChanged;
 
-        private string languageFolder = "languages";
-        private Dictionary<string, Dictionary<LanguageType, LanguageDataList>> formLanguageLists;
-        private string[] formNames;
+        private static string languageFolder = "languages";
+        private static Dictionary<string, Dictionary<LanguageType, LanguageDataList>> formLanguageLists;
+        private static string[] formNames = new string[] {
+            nameof(form_main),
+            nameof(form_ordertype_settings),
+            nameof(form_settings),
+            nameof(form_edit_order)
+        };
 
-        private LanguageType currentLanguageType;
+        private static LanguageType currentLanguageType;
+        private static List<LanguageHandle> languageHandles;
 
-        private List<LanguageHandle> languageHandles;
+        public static LanguageType DefaultLanguage { get { return LanguageType.English; } }
+        public static LanguageType CurrentLanguage
+        {
+            get
+            {
+                return currentLanguageType;
+            }
+            set
+            {
+                currentLanguageType = value;
+                foreach (var handle in languageHandles)
+                {
+                    handle.LoadLanguageListToForm(formLanguageLists[handle.FormName][currentLanguageType]);
+                }
+                OnLanguageChanged?.Invoke(currentLanguageType);
+            }
+        }
 
-        public bool AreLanguagesLoaded
+        public static bool AreLanguagesLoaded
         {
             get
             {
@@ -42,23 +64,12 @@ namespace FolderManipulator.Data
             }
         }
 
-        public LanguageManager(string[] formNames)
+        static LanguageManager()
         {
-            this.formNames = formNames;
             languageHandles = new List<LanguageHandle>();
         }
 
-        public void ChangeLanguage(LanguageType language)
-        {
-            currentLanguageType = language;
-            foreach (var handle in languageHandles)
-            {
-                handle.LoadLanguageListToForm(formLanguageLists[handle.FormName][language]);
-            }
-            OnLanguageChanged?.Invoke(language);
-        }
-
-        public LanguageHandle GetNewHandle(Form targetForm, MenuStrip menuStrip)
+        public static LanguageHandle GetNewHandle(Form targetForm, MenuStrip menuStrip)
         {
             LanguageHandle languageHandle = new LanguageHandle(targetForm, menuStrip);
             languageHandles.Add(languageHandle);
@@ -67,7 +78,7 @@ namespace FolderManipulator.Data
             return languageHandle;
         }
 
-        public void LoadAllDataFromCSV()
+        public static void LoadAllDataFromCSV()
         {
             if (formLanguageLists == null)
                 formLanguageLists = new Dictionary<string, Dictionary<LanguageType, LanguageDataList>>();
@@ -79,7 +90,7 @@ namespace FolderManipulator.Data
             }
         }
 
-        private Dictionary<LanguageType, LanguageDataList> LoadLanguageDataFromCSV(string formName)
+        private static Dictionary<LanguageType, LanguageDataList> LoadLanguageDataFromCSV(string formName)
         {
             var languageLists = new Dictionary<LanguageType, LanguageDataList>();
 
@@ -94,7 +105,7 @@ namespace FolderManipulator.Data
             return languageLists;
         }
 
-        public bool SaveAllDataToCSV()
+        public static bool SaveAllDataToCSV()
         {
             bool success = true;
             foreach (string formName in formNames)
@@ -104,7 +115,7 @@ namespace FolderManipulator.Data
             return success;
         }
 
-        private bool SaveLanguageDataToCSV(string formName)
+        private static bool SaveLanguageDataToCSV(string formName)
         {
             bool success = true;
             foreach (LanguageType language in Enum.GetValues(typeof(LanguageType)))
@@ -114,7 +125,7 @@ namespace FolderManipulator.Data
             return success;
         }
 
-        public void MakeLanguageDataFromForms()
+        public static void MakeLanguageDataFromForms()
         {
             if (formLanguageLists == null)
                 formLanguageLists = new Dictionary<string, Dictionary<LanguageType, LanguageDataList>>();
@@ -128,7 +139,7 @@ namespace FolderManipulator.Data
             }
         }
 
-        private string GetCSVPath(LanguageType language, string formName)
+        private static string GetCSVPath(LanguageType language, string formName)
         {
             string fileName = language.ToString().ToLower();
             fileName += "_" + formName + ".csv";

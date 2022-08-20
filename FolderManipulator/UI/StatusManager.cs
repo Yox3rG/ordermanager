@@ -39,7 +39,7 @@ namespace FolderManipulator.UI
 
             if (!string.IsNullOrEmpty(messageOrID))
             {
-                _mainStatusMessage = ErrorManager.GetErrorMessage(messageOrID, list);
+                _mainStatusMessage = ErrorManager.GetCurrentErrorMessage(messageOrID, list);
                 _mainStatusStripLabel.Text = _mainStatusMessage;
                 AppConsole.WriteLine(messageOrID, list: list);
             }

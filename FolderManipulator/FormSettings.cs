@@ -64,7 +64,7 @@ namespace FolderManipulator
             else
             {
                 StatusManager.ShowMessage("cantEditSettings", StatusColorType.Error, DelayTimeType.Medium);
-                MessageBox.Show(ErrorManager.GetErrorMessage("cantEditSettings"));
+                MessageBox.Show(ErrorManager.GetCurrentErrorMessage("cantEditSettings"));
             }
         }
 
