@@ -27,7 +27,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1273544C7A1A4080833738415827F5E3"
+        "MsmKey" = "8:_05EE9686D7554301BF551323E35A700E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -255,6 +255,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DEB2727653E74A83BAD882946C899E07"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
         "MsmSig" = "8:_UNDEFINED"
@@ -469,10 +475,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1273544C7A1A4080833738415827F5E3"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_05EE9686D7554301BF551323E35A700E"
             {
-            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\error\\errors.csv"
-            "TargetName" = "8:errors.csv"
+            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\error\\english_errors.csv"
+            "TargetName" = "8:english_errors.csv"
             "Tag" = "8:"
             "Folder" = "8:_314893D592224F54872429664EAD934B"
             "Condition" = "8:"
@@ -979,6 +985,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DEB2727653E74A83BAD882946C899E07"
+            {
+            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\error\\hungarian_errors.csv"
+            "TargetName" = "8:hungarian_errors.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_314893D592224F54872429664EAD934B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA75C2DE047F1B1B144C79694C956DDC"
             {
             "AssemblyRegister" = "3:1"
@@ -1099,15 +1125,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OrderManager"
-        "ProductCode" = "8:{E033F862-C13C-456C-9CA9-F8998FE96BAE}"
-        "PackageCode" = "8:{637B2770-8AD1-412D-83DC-FCD1B9557E73}"
+        "ProductCode" = "8:{A79BA60E-0BA5-47F6-9D1C-7A018CD548B9}"
+        "PackageCode" = "8:{32E0B6EB-5212-4B46-BAAA-EC5722AD42B1}"
         "UpgradeCode" = "8:{1DCEF0C6-C9A8-43E8-97EB-A612DD135FCA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:0.9.1"
         "Manufacturer" = "8:Yox3rG Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
