@@ -18,7 +18,7 @@ namespace FolderManipulator.FolderRelated
         public static Action OnSaveSuccessful;
         public static Action OnSaveFailed;
 
-        private static CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture) { HasHeaderRecord = false, };
+        private static CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture) { HasHeaderRecord = false, MissingFieldFound = null, BadDataFound = null, Mode = CsvMode.Escape, Delimiter = "," };
 
         public static T Load<T>(string path) where T : class
         {
@@ -103,6 +103,7 @@ namespace FolderManipulator.FolderRelated
 
         public static List<T> LoadCSV<T>(string path)
         {
+            int failIndex = 0;
             try
             {
                 using (StreamReader reader = new StreamReader (path))
