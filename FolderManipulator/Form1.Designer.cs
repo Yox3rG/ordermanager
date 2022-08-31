@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(form_main));
             this.btn_add = new System.Windows.Forms.Button();
             this.table_layout_active_orders = new System.Windows.Forms.TableLayoutPanel();
             this.tree_view_active = new System.Windows.Forms.TreeView();
@@ -137,6 +138,7 @@
             // btn_add
             // 
             this.btn_add.Location = new System.Drawing.Point(6, 91);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(92, 37);
             this.btn_add.TabIndex = 2;
@@ -152,11 +154,12 @@
             this.table_layout_active_orders.Controls.Add(this.tree_view_active, 1, 0);
             this.table_layout_active_orders.Controls.Add(this.table_layout_active_order_buttons, 0, 0);
             this.table_layout_active_orders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_active_orders.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_active_orders.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_active_orders.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_active_orders.Name = "table_layout_active_orders";
             this.table_layout_active_orders.RowCount = 1;
             this.table_layout_active_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders.Size = new System.Drawing.Size(481, 464);
+            this.table_layout_active_orders.Size = new System.Drawing.Size(486, 464);
             this.table_layout_active_orders.TabIndex = 8;
             // 
             // tree_view_active
@@ -166,9 +169,10 @@
             this.tree_view_active.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tree_view_active.HideSelection = false;
             this.tree_view_active.ItemHeight = 15;
-            this.tree_view_active.Location = new System.Drawing.Point(103, 3);
+            this.tree_view_active.Location = new System.Drawing.Point(102, 3);
+            this.tree_view_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tree_view_active.Name = "tree_view_active";
-            this.tree_view_active.Size = new System.Drawing.Size(375, 458);
+            this.tree_view_active.Size = new System.Drawing.Size(382, 458);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
             this.tree_view_active.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
@@ -194,7 +198,8 @@
             // 
             // btn_add_active_pending
             // 
-            this.btn_add_active_pending.Location = new System.Drawing.Point(3, 3);
+            this.btn_add_active_pending.Location = new System.Drawing.Point(2, 3);
+            this.btn_add_active_pending.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_active_pending.Name = "btn_add_active_pending";
             this.btn_add_active_pending.Size = new System.Drawing.Size(92, 34);
             this.btn_add_active_pending.TabIndex = 0;
@@ -204,7 +209,8 @@
             // 
             // btn_add_active_finished
             // 
-            this.btn_add_active_finished.Location = new System.Drawing.Point(3, 43);
+            this.btn_add_active_finished.Location = new System.Drawing.Point(2, 43);
+            this.btn_add_active_finished.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_active_finished.Name = "btn_add_active_finished";
             this.btn_add_active_finished.Size = new System.Drawing.Size(92, 34);
             this.btn_add_active_finished.TabIndex = 1;
@@ -216,10 +222,11 @@
             // 
             this.panel_add_order.Controls.Add(this.table_layout_add_order);
             this.panel_add_order.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_add_order.Location = new System.Drawing.Point(490, 3);
+            this.panel_add_order.Location = new System.Drawing.Point(492, 3);
+            this.panel_add_order.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_add_order.MaximumSize = new System.Drawing.Size(320, 0);
             this.panel_add_order.Name = "panel_add_order";
-            this.panel_add_order.Size = new System.Drawing.Size(294, 464);
+            this.panel_add_order.Size = new System.Drawing.Size(296, 464);
             this.panel_add_order.TabIndex = 35;
             // 
             // table_layout_add_order
@@ -232,12 +239,13 @@
             this.table_layout_add_order.Controls.Add(this.panel_add_order_bottom, 0, 2);
             this.table_layout_add_order.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_add_order.Location = new System.Drawing.Point(0, 0);
+            this.table_layout_add_order.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_add_order.Name = "table_layout_add_order";
             this.table_layout_add_order.RowCount = 3;
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 141F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 137F));
-            this.table_layout_add_order.Size = new System.Drawing.Size(294, 464);
+            this.table_layout_add_order.Size = new System.Drawing.Size(296, 464);
             this.table_layout_add_order.TabIndex = 35;
             // 
             // panel_add_order_top
@@ -251,15 +259,17 @@
             this.panel_add_order_top.Controls.Add(this.lbl_folder);
             this.panel_add_order_top.Controls.Add(this.txt_folder_target);
             this.panel_add_order_top.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_add_order_top.Location = new System.Drawing.Point(3, 3);
+            this.panel_add_order_top.Location = new System.Drawing.Point(2, 3);
+            this.panel_add_order_top.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_add_order_top.Name = "panel_add_order_top";
-            this.panel_add_order_top.Size = new System.Drawing.Size(288, 135);
+            this.panel_add_order_top.Size = new System.Drawing.Size(292, 135);
             this.panel_add_order_top.TabIndex = 0;
             // 
             // lbl_add_order_title
             // 
             this.lbl_add_order_title.AutoSize = true;
-            this.lbl_add_order_title.Location = new System.Drawing.Point(3, 9);
+            this.lbl_add_order_title.Location = new System.Drawing.Point(2, 9);
+            this.lbl_add_order_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_add_order_title.Name = "lbl_add_order_title";
             this.lbl_add_order_title.Size = new System.Drawing.Size(112, 13);
             this.lbl_add_order_title.TabIndex = 27;
@@ -268,7 +278,8 @@
             // lbl_main_ordertype
             // 
             this.lbl_main_ordertype.AutoSize = true;
-            this.lbl_main_ordertype.Location = new System.Drawing.Point(3, 31);
+            this.lbl_main_ordertype.Location = new System.Drawing.Point(2, 31);
+            this.lbl_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_main_ordertype.Name = "lbl_main_ordertype";
             this.lbl_main_ordertype.Size = new System.Drawing.Size(38, 13);
             this.lbl_main_ordertype.TabIndex = 14;
@@ -279,6 +290,7 @@
             this.drpd_main_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_main_ordertype.FormattingEnabled = true;
             this.drpd_main_ordertype.Location = new System.Drawing.Point(94, 28);
+            this.drpd_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.drpd_main_ordertype.Name = "drpd_main_ordertype";
             this.drpd_main_ordertype.Size = new System.Drawing.Size(192, 21);
             this.drpd_main_ordertype.TabIndex = 0;
@@ -287,7 +299,8 @@
             // lbl_sub_ordertype
             // 
             this.lbl_sub_ordertype.AutoSize = true;
-            this.lbl_sub_ordertype.Location = new System.Drawing.Point(3, 58);
+            this.lbl_sub_ordertype.Location = new System.Drawing.Point(2, 58);
+            this.lbl_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_sub_ordertype.Name = "lbl_sub_ordertype";
             this.lbl_sub_ordertype.Size = new System.Drawing.Size(43, 13);
             this.lbl_sub_ordertype.TabIndex = 12;
@@ -298,6 +311,7 @@
             this.drpd_sub_ordertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.drpd_sub_ordertype.FormattingEnabled = true;
             this.drpd_sub_ordertype.Location = new System.Drawing.Point(94, 55);
+            this.drpd_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.drpd_sub_ordertype.Name = "drpd_sub_ordertype";
             this.drpd_sub_ordertype.Size = new System.Drawing.Size(192, 21);
             this.drpd_sub_ordertype.TabIndex = 1;
@@ -306,6 +320,7 @@
             // btn_choose_folder
             // 
             this.btn_choose_folder.Location = new System.Drawing.Point(94, 82);
+            this.btn_choose_folder.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_choose_folder.Name = "btn_choose_folder";
             this.btn_choose_folder.Size = new System.Drawing.Size(192, 23);
             this.btn_choose_folder.TabIndex = 2;
@@ -316,7 +331,8 @@
             // lbl_folder
             // 
             this.lbl_folder.AutoSize = true;
-            this.lbl_folder.Location = new System.Drawing.Point(3, 114);
+            this.lbl_folder.Location = new System.Drawing.Point(2, 114);
+            this.lbl_folder.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_folder.Name = "lbl_folder";
             this.lbl_folder.Size = new System.Drawing.Size(43, 13);
             this.lbl_folder.TabIndex = 10;
@@ -326,6 +342,7 @@
             // 
             this.txt_folder_target.AllowDrop = true;
             this.txt_folder_target.Location = new System.Drawing.Point(94, 111);
+            this.txt_folder_target.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_folder_target.Name = "txt_folder_target";
             this.txt_folder_target.Size = new System.Drawing.Size(192, 20);
             this.txt_folder_target.TabIndex = 3;
@@ -345,7 +362,7 @@
             this.list_checked_files.Location = new System.Drawing.Point(19, 144);
             this.list_checked_files.Margin = new System.Windows.Forms.Padding(19, 3, 5, 3);
             this.list_checked_files.Name = "list_checked_files";
-            this.list_checked_files.Size = new System.Drawing.Size(270, 169);
+            this.list_checked_files.Size = new System.Drawing.Size(272, 169);
             this.list_checked_files.TabIndex = 0;
             this.list_checked_files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.list_checked_files_ItemCheck);
             // 
@@ -357,15 +374,17 @@
             this.panel_add_order_bottom.Controls.Add(this.txt_comment);
             this.panel_add_order_bottom.Controls.Add(this.btn_add);
             this.panel_add_order_bottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_add_order_bottom.Location = new System.Drawing.Point(3, 330);
+            this.panel_add_order_bottom.Location = new System.Drawing.Point(2, 330);
+            this.panel_add_order_bottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
-            this.panel_add_order_bottom.Size = new System.Drawing.Size(288, 131);
+            this.panel_add_order_bottom.Size = new System.Drawing.Size(292, 131);
             this.panel_add_order_bottom.TabIndex = 29;
             // 
             // lbl_count
             // 
             this.lbl_count.AutoSize = true;
-            this.lbl_count.Location = new System.Drawing.Point(3, 11);
+            this.lbl_count.Location = new System.Drawing.Point(2, 11);
+            this.lbl_count.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_count.Name = "lbl_count";
             this.lbl_count.Size = new System.Drawing.Size(63, 13);
             this.lbl_count.TabIndex = 6;
@@ -374,6 +393,7 @@
             // txt_count
             // 
             this.txt_count.Location = new System.Drawing.Point(94, 8);
+            this.txt_count.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_count.Name = "txt_count";
             this.txt_count.Size = new System.Drawing.Size(192, 20);
             this.txt_count.TabIndex = 0;
@@ -382,7 +402,8 @@
             // lbl_comment
             // 
             this.lbl_comment.AutoSize = true;
-            this.lbl_comment.Location = new System.Drawing.Point(3, 40);
+            this.lbl_comment.Location = new System.Drawing.Point(2, 40);
+            this.lbl_comment.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_comment.Name = "lbl_comment";
             this.lbl_comment.Size = new System.Drawing.Size(66, 13);
             this.lbl_comment.TabIndex = 4;
@@ -391,6 +412,7 @@
             // txt_comment
             // 
             this.txt_comment.Location = new System.Drawing.Point(94, 37);
+            this.txt_comment.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(192, 20);
             this.txt_comment.TabIndex = 1;
@@ -407,9 +429,10 @@
             this.tab_control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab_control.ImageList = this.image_list_tabs;
             this.tab_control.Location = new System.Drawing.Point(0, 24);
+            this.tab_control.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
-            this.tab_control.Size = new System.Drawing.Size(801, 503);
+            this.tab_control.Size = new System.Drawing.Size(802, 503);
             this.tab_control.TabIndex = 1;
             // 
             // tab_page_active
@@ -417,9 +440,10 @@
             this.tab_page_active.Controls.Add(this.table_layout_active_orders_page);
             this.tab_page_active.ImageIndex = 0;
             this.tab_page_active.Location = new System.Drawing.Point(4, 23);
+            this.tab_page_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_active.Name = "tab_page_active";
-            this.tab_page_active.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_active.Size = new System.Drawing.Size(793, 476);
+            this.tab_page_active.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tab_page_active.Size = new System.Drawing.Size(794, 476);
             this.tab_page_active.TabIndex = 0;
             this.tab_page_active.Text = "Aktív";
             this.tab_page_active.UseVisualStyleBackColor = true;
@@ -432,22 +456,24 @@
             this.table_layout_active_orders_page.Controls.Add(this.panel_add_order, 0, 0);
             this.table_layout_active_orders_page.Controls.Add(this.table_layout_active_orders, 0, 0);
             this.table_layout_active_orders_page.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_active_orders_page.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_active_orders_page.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_active_orders_page.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_active_orders_page.Name = "table_layout_active_orders_page";
             this.table_layout_active_orders_page.RowCount = 1;
             this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
-            this.table_layout_active_orders_page.Size = new System.Drawing.Size(787, 470);
+            this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 482F));
+            this.table_layout_active_orders_page.Size = new System.Drawing.Size(790, 470);
             this.table_layout_active_orders_page.TabIndex = 6;
             // 
             // tab_page_pending
             // 
             this.tab_page_pending.Controls.Add(this.table_layout_pending_orders);
             this.tab_page_pending.ImageIndex = 1;
-            this.tab_page_pending.Location = new System.Drawing.Point(4, 23);
+            this.tab_page_pending.Location = new System.Drawing.Point(4, 25);
+            this.tab_page_pending.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_pending.Name = "tab_page_pending";
-            this.tab_page_pending.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_pending.Size = new System.Drawing.Size(793, 476);
+            this.tab_page_pending.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tab_page_pending.Size = new System.Drawing.Size(794, 474);
             this.tab_page_pending.TabIndex = 1;
             this.tab_page_pending.Text = "Kész";
             this.tab_page_pending.UseVisualStyleBackColor = true;
@@ -460,11 +486,12 @@
             this.table_layout_pending_orders.Controls.Add(this.tree_view_pending, 1, 0);
             this.table_layout_pending_orders.Controls.Add(this.table_layout_pending_order_buttons, 0, 0);
             this.table_layout_pending_orders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_pending_orders.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_pending_orders.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_pending_orders.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_pending_orders.Name = "table_layout_pending_orders";
             this.table_layout_pending_orders.RowCount = 1;
             this.table_layout_pending_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_pending_orders.Size = new System.Drawing.Size(787, 470);
+            this.table_layout_pending_orders.Size = new System.Drawing.Size(790, 468);
             this.table_layout_pending_orders.TabIndex = 11;
             // 
             // tree_view_pending
@@ -472,9 +499,9 @@
             this.tree_view_pending.CheckBoxes = true;
             this.tree_view_pending.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_pending.Location = new System.Drawing.Point(106, 6);
-            this.tree_view_pending.Margin = new System.Windows.Forms.Padding(6);
+            this.tree_view_pending.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tree_view_pending.Name = "tree_view_pending";
-            this.tree_view_pending.Size = new System.Drawing.Size(675, 458);
+            this.tree_view_pending.Size = new System.Drawing.Size(678, 456);
             this.tree_view_pending.TabIndex = 6;
             this.tree_view_pending.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
@@ -489,7 +516,8 @@
             this.table_layout_pending_order_buttons.Controls.Add(this.btn_set_notified, 0, 2);
             this.table_layout_pending_order_buttons.Controls.Add(this.btn_reset_notified, 0, 3);
             this.table_layout_pending_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_pending_order_buttons.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_pending_order_buttons.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_pending_order_buttons.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_pending_order_buttons.Name = "table_layout_pending_order_buttons";
             this.table_layout_pending_order_buttons.RowCount = 5;
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -498,12 +526,13 @@
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(94, 464);
+            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(96, 462);
             this.table_layout_pending_order_buttons.TabIndex = 6;
             // 
             // btn_add_pending_active
             // 
-            this.btn_add_pending_active.Location = new System.Drawing.Point(3, 3);
+            this.btn_add_pending_active.Location = new System.Drawing.Point(2, 3);
+            this.btn_add_pending_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_pending_active.Name = "btn_add_pending_active";
             this.btn_add_pending_active.Size = new System.Drawing.Size(92, 34);
             this.btn_add_pending_active.TabIndex = 0;
@@ -513,7 +542,8 @@
             // 
             // btn_add_pending_finished
             // 
-            this.btn_add_pending_finished.Location = new System.Drawing.Point(3, 43);
+            this.btn_add_pending_finished.Location = new System.Drawing.Point(2, 43);
+            this.btn_add_pending_finished.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_pending_finished.Name = "btn_add_pending_finished";
             this.btn_add_pending_finished.Size = new System.Drawing.Size(92, 34);
             this.btn_add_pending_finished.TabIndex = 1;
@@ -523,7 +553,8 @@
             // 
             // btn_set_notified
             // 
-            this.btn_set_notified.Location = new System.Drawing.Point(3, 83);
+            this.btn_set_notified.Location = new System.Drawing.Point(2, 83);
+            this.btn_set_notified.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_set_notified.Name = "btn_set_notified";
             this.btn_set_notified.Size = new System.Drawing.Size(92, 34);
             this.btn_set_notified.TabIndex = 2;
@@ -533,7 +564,8 @@
             // 
             // btn_reset_notified
             // 
-            this.btn_reset_notified.Location = new System.Drawing.Point(3, 123);
+            this.btn_reset_notified.Location = new System.Drawing.Point(2, 123);
+            this.btn_reset_notified.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_reset_notified.Name = "btn_reset_notified";
             this.btn_reset_notified.Size = new System.Drawing.Size(92, 34);
             this.btn_reset_notified.TabIndex = 3;
@@ -545,10 +577,11 @@
             // 
             this.tab_page_finished.Controls.Add(this.table_layout_finished_orders);
             this.tab_page_finished.ImageIndex = 2;
-            this.tab_page_finished.Location = new System.Drawing.Point(4, 23);
+            this.tab_page_finished.Location = new System.Drawing.Point(4, 25);
+            this.tab_page_finished.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_finished.Name = "tab_page_finished";
-            this.tab_page_finished.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_finished.Size = new System.Drawing.Size(793, 476);
+            this.tab_page_finished.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tab_page_finished.Size = new System.Drawing.Size(794, 474);
             this.tab_page_finished.TabIndex = 3;
             this.tab_page_finished.Text = "Teljesített";
             this.tab_page_finished.UseVisualStyleBackColor = true;
@@ -561,12 +594,13 @@
             this.table_layout_finished_orders.Controls.Add(this.tree_view_finished, 1, 0);
             this.table_layout_finished_orders.Controls.Add(this.table_layout_finished_order_buttons, 0, 0);
             this.table_layout_finished_orders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_finished_orders.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_finished_orders.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_finished_orders.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_finished_orders.Name = "table_layout_finished_orders";
             this.table_layout_finished_orders.RowCount = 1;
             this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
-            this.table_layout_finished_orders.Size = new System.Drawing.Size(787, 470);
+            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 474F));
+            this.table_layout_finished_orders.Size = new System.Drawing.Size(790, 468);
             this.table_layout_finished_orders.TabIndex = 12;
             // 
             // tree_view_finished
@@ -575,9 +609,9 @@
             this.tree_view_finished.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_finished.HideSelection = false;
             this.tree_view_finished.Location = new System.Drawing.Point(106, 6);
-            this.tree_view_finished.Margin = new System.Windows.Forms.Padding(6);
+            this.tree_view_finished.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tree_view_finished.Name = "tree_view_finished";
-            this.tree_view_finished.Size = new System.Drawing.Size(675, 458);
+            this.tree_view_finished.Size = new System.Drawing.Size(678, 456);
             this.tree_view_finished.TabIndex = 0;
             this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
             this.tree_view_finished.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
@@ -590,18 +624,20 @@
             this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_pending, 0, 1);
             this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_active, 0, 0);
             this.table_layout_finished_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_finished_order_buttons.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_finished_order_buttons.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_finished_order_buttons.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_finished_order_buttons.Name = "table_layout_finished_order_buttons";
             this.table_layout_finished_order_buttons.RowCount = 3;
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(94, 464);
+            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(96, 462);
             this.table_layout_finished_order_buttons.TabIndex = 6;
             // 
             // btn_add_finished_pending
             // 
-            this.btn_add_finished_pending.Location = new System.Drawing.Point(3, 43);
+            this.btn_add_finished_pending.Location = new System.Drawing.Point(2, 43);
+            this.btn_add_finished_pending.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_finished_pending.Name = "btn_add_finished_pending";
             this.btn_add_finished_pending.Size = new System.Drawing.Size(92, 34);
             this.btn_add_finished_pending.TabIndex = 1;
@@ -611,7 +647,8 @@
             // 
             // btn_add_finished_active
             // 
-            this.btn_add_finished_active.Location = new System.Drawing.Point(3, 3);
+            this.btn_add_finished_active.Location = new System.Drawing.Point(2, 3);
+            this.btn_add_finished_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_finished_active.Name = "btn_add_finished_active";
             this.btn_add_finished_active.Size = new System.Drawing.Size(92, 34);
             this.btn_add_finished_active.TabIndex = 0;
@@ -623,10 +660,11 @@
             // 
             this.tab_page_archive.Controls.Add(this.table_layout_archive);
             this.tab_page_archive.ImageIndex = 3;
-            this.tab_page_archive.Location = new System.Drawing.Point(4, 23);
+            this.tab_page_archive.Location = new System.Drawing.Point(4, 25);
+            this.tab_page_archive.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_archive.Name = "tab_page_archive";
-            this.tab_page_archive.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_archive.Size = new System.Drawing.Size(793, 476);
+            this.tab_page_archive.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tab_page_archive.Size = new System.Drawing.Size(794, 474);
             this.tab_page_archive.TabIndex = 4;
             this.tab_page_archive.Text = "Archívum";
             this.tab_page_archive.UseVisualStyleBackColor = true;
@@ -638,22 +676,24 @@
             this.table_layout_archive.Controls.Add(this.lbl_archive_name, 0, 0);
             this.table_layout_archive.Controls.Add(this.tree_view_archive, 0, 1);
             this.table_layout_archive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.table_layout_archive.Location = new System.Drawing.Point(3, 3);
+            this.table_layout_archive.Location = new System.Drawing.Point(2, 3);
+            this.table_layout_archive.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.table_layout_archive.Name = "table_layout_archive";
             this.table_layout_archive.RowCount = 3;
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.table_layout_archive.Size = new System.Drawing.Size(787, 470);
+            this.table_layout_archive.Size = new System.Drawing.Size(790, 468);
             this.table_layout_archive.TabIndex = 11;
             // 
             // lbl_archive_name
             // 
             this.lbl_archive_name.AutoSize = true;
             this.lbl_archive_name.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbl_archive_name.Location = new System.Drawing.Point(3, 0);
+            this.lbl_archive_name.Location = new System.Drawing.Point(2, 0);
+            this.lbl_archive_name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_archive_name.Name = "lbl_archive_name";
-            this.lbl_archive_name.Size = new System.Drawing.Size(781, 13);
+            this.lbl_archive_name.Size = new System.Drawing.Size(786, 13);
             this.lbl_archive_name.TabIndex = 10;
             this.lbl_archive_name.Text = "Drag and Drop archived files to see the orders!";
             // 
@@ -663,9 +703,10 @@
             this.tree_view_archive.CheckBoxes = true;
             this.tree_view_archive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_view_archive.HideSelection = false;
-            this.tree_view_archive.Location = new System.Drawing.Point(3, 23);
+            this.tree_view_archive.Location = new System.Drawing.Point(2, 23);
+            this.tree_view_archive.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tree_view_archive.Name = "tree_view_archive";
-            this.tree_view_archive.Size = new System.Drawing.Size(781, 424);
+            this.tree_view_archive.Size = new System.Drawing.Size(786, 422);
             this.tree_view_archive.TabIndex = 9;
             this.tree_view_archive.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_archive.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragDrop);
@@ -677,10 +718,11 @@
             this.tab_page_customize.Controls.Add(this.panel_main_ordertype);
             this.tab_page_customize.Controls.Add(this.panel_sub_ordertype);
             this.tab_page_customize.ImageIndex = 4;
-            this.tab_page_customize.Location = new System.Drawing.Point(4, 23);
+            this.tab_page_customize.Location = new System.Drawing.Point(4, 25);
+            this.tab_page_customize.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_customize.Name = "tab_page_customize";
-            this.tab_page_customize.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_page_customize.Size = new System.Drawing.Size(793, 476);
+            this.tab_page_customize.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tab_page_customize.Size = new System.Drawing.Size(794, 474);
             this.tab_page_customize.TabIndex = 2;
             this.tab_page_customize.Text = "Forrás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
@@ -693,13 +735,15 @@
             this.panel_choose_source.Controls.Add(this.tree_view_hierarchy);
             this.panel_choose_source.Controls.Add(this.btn_accept_source);
             this.panel_choose_source.Location = new System.Drawing.Point(0, 0);
+            this.panel_choose_source.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_choose_source.Name = "panel_choose_source";
-            this.panel_choose_source.Size = new System.Drawing.Size(237, 477);
+            this.panel_choose_source.Size = new System.Drawing.Size(238, 477);
             this.panel_choose_source.TabIndex = 22;
             // 
             // btn_choose_source
             // 
             this.btn_choose_source.Location = new System.Drawing.Point(6, 6);
+            this.btn_choose_source.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_choose_source.Name = "btn_choose_source";
             this.btn_choose_source.Size = new System.Drawing.Size(226, 23);
             this.btn_choose_source.TabIndex = 0;
@@ -711,6 +755,7 @@
             // 
             this.lbl_const_current.AutoSize = true;
             this.lbl_const_current.Location = new System.Drawing.Point(12, 39);
+            this.lbl_const_current.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_const_current.Name = "lbl_const_current";
             this.lbl_const_current.Size = new System.Drawing.Size(44, 13);
             this.lbl_const_current.TabIndex = 6;
@@ -720,6 +765,7 @@
             // 
             this.lbl_source.AutoSize = true;
             this.lbl_source.Location = new System.Drawing.Point(62, 39);
+            this.lbl_source.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_source.Name = "lbl_source";
             this.lbl_source.Size = new System.Drawing.Size(10, 13);
             this.lbl_source.TabIndex = 7;
@@ -728,6 +774,7 @@
             // tree_view_hierarchy
             // 
             this.tree_view_hierarchy.Location = new System.Drawing.Point(6, 66);
+            this.tree_view_hierarchy.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tree_view_hierarchy.Name = "tree_view_hierarchy";
             this.tree_view_hierarchy.Size = new System.Drawing.Size(226, 271);
             this.tree_view_hierarchy.TabIndex = 8;
@@ -736,6 +783,7 @@
             // btn_accept_source
             // 
             this.btn_accept_source.Location = new System.Drawing.Point(6, 343);
+            this.btn_accept_source.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_accept_source.Name = "btn_accept_source";
             this.btn_accept_source.Size = new System.Drawing.Size(226, 23);
             this.btn_accept_source.TabIndex = 1;
@@ -749,7 +797,8 @@
             this.panel_main_ordertype.Controls.Add(this.btn_add_main_ordertype);
             this.panel_main_ordertype.Controls.Add(this.listbox_main_ordertype);
             this.panel_main_ordertype.Controls.Add(this.btn_delete_main_ordertype);
-            this.panel_main_ordertype.Location = new System.Drawing.Point(243, 0);
+            this.panel_main_ordertype.Location = new System.Drawing.Point(242, 0);
+            this.panel_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_main_ordertype.Name = "panel_main_ordertype";
             this.panel_main_ordertype.Size = new System.Drawing.Size(126, 477);
             this.panel_main_ordertype.TabIndex = 23;
@@ -757,7 +806,8 @@
             // 
             // txt_main_ordertype
             // 
-            this.txt_main_ordertype.Location = new System.Drawing.Point(3, 9);
+            this.txt_main_ordertype.Location = new System.Drawing.Point(2, 9);
+            this.txt_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_main_ordertype.Name = "txt_main_ordertype";
             this.txt_main_ordertype.Size = new System.Drawing.Size(120, 20);
             this.txt_main_ordertype.TabIndex = 0;
@@ -765,7 +815,8 @@
             // 
             // btn_add_main_ordertype
             // 
-            this.btn_add_main_ordertype.Location = new System.Drawing.Point(3, 35);
+            this.btn_add_main_ordertype.Location = new System.Drawing.Point(2, 35);
+            this.btn_add_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_main_ordertype.Name = "btn_add_main_ordertype";
             this.btn_add_main_ordertype.Size = new System.Drawing.Size(120, 23);
             this.btn_add_main_ordertype.TabIndex = 1;
@@ -776,14 +827,16 @@
             // listbox_main_ordertype
             // 
             this.listbox_main_ordertype.FormattingEnabled = true;
-            this.listbox_main_ordertype.Location = new System.Drawing.Point(3, 66);
+            this.listbox_main_ordertype.Location = new System.Drawing.Point(2, 66);
+            this.listbox_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.listbox_main_ordertype.Name = "listbox_main_ordertype";
             this.listbox_main_ordertype.Size = new System.Drawing.Size(120, 134);
             this.listbox_main_ordertype.TabIndex = 2;
             // 
             // btn_delete_main_ordertype
             // 
-            this.btn_delete_main_ordertype.Location = new System.Drawing.Point(3, 206);
+            this.btn_delete_main_ordertype.Location = new System.Drawing.Point(2, 206);
+            this.btn_delete_main_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_delete_main_ordertype.Name = "btn_delete_main_ordertype";
             this.btn_delete_main_ordertype.Size = new System.Drawing.Size(120, 23);
             this.btn_delete_main_ordertype.TabIndex = 3;
@@ -797,7 +850,8 @@
             this.panel_sub_ordertype.Controls.Add(this.btn_add_sub_ordertype);
             this.panel_sub_ordertype.Controls.Add(this.btn_delete_sub_ordertype);
             this.panel_sub_ordertype.Controls.Add(this.listbox_sub_ordertype);
-            this.panel_sub_ordertype.Location = new System.Drawing.Point(375, 0);
+            this.panel_sub_ordertype.Location = new System.Drawing.Point(374, 0);
+            this.panel_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_sub_ordertype.Name = "panel_sub_ordertype";
             this.panel_sub_ordertype.Size = new System.Drawing.Size(126, 477);
             this.panel_sub_ordertype.TabIndex = 23;
@@ -805,7 +859,8 @@
             // 
             // txt_sub_ordertype
             // 
-            this.txt_sub_ordertype.Location = new System.Drawing.Point(3, 9);
+            this.txt_sub_ordertype.Location = new System.Drawing.Point(2, 9);
+            this.txt_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_sub_ordertype.Name = "txt_sub_ordertype";
             this.txt_sub_ordertype.Size = new System.Drawing.Size(120, 20);
             this.txt_sub_ordertype.TabIndex = 0;
@@ -813,7 +868,8 @@
             // 
             // btn_add_sub_ordertype
             // 
-            this.btn_add_sub_ordertype.Location = new System.Drawing.Point(3, 35);
+            this.btn_add_sub_ordertype.Location = new System.Drawing.Point(2, 35);
+            this.btn_add_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add_sub_ordertype.Name = "btn_add_sub_ordertype";
             this.btn_add_sub_ordertype.Size = new System.Drawing.Size(120, 23);
             this.btn_add_sub_ordertype.TabIndex = 1;
@@ -823,7 +879,8 @@
             // 
             // btn_delete_sub_ordertype
             // 
-            this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(3, 206);
+            this.btn_delete_sub_ordertype.Location = new System.Drawing.Point(2, 206);
+            this.btn_delete_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_delete_sub_ordertype.Name = "btn_delete_sub_ordertype";
             this.btn_delete_sub_ordertype.Size = new System.Drawing.Size(120, 23);
             this.btn_delete_sub_ordertype.TabIndex = 3;
@@ -834,7 +891,8 @@
             // listbox_sub_ordertype
             // 
             this.listbox_sub_ordertype.FormattingEnabled = true;
-            this.listbox_sub_ordertype.Location = new System.Drawing.Point(3, 66);
+            this.listbox_sub_ordertype.Location = new System.Drawing.Point(2, 66);
+            this.listbox_sub_ordertype.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.listbox_sub_ordertype.Name = "listbox_sub_ordertype";
             this.listbox_sub_ordertype.Size = new System.Drawing.Size(120, 134);
             this.listbox_sub_ordertype.TabIndex = 2;
@@ -854,7 +912,7 @@
             this.toolstrip_item_help});
             this.toolstrip_menu.Location = new System.Drawing.Point(0, 0);
             this.toolstrip_menu.Name = "toolstrip_menu";
-            this.toolstrip_menu.Size = new System.Drawing.Size(801, 24);
+            this.toolstrip_menu.Size = new System.Drawing.Size(802, 24);
             this.toolstrip_menu.TabIndex = 0;
             this.toolstrip_menu.Text = "menuStrip1";
             // 
@@ -977,7 +1035,7 @@
             this.label_status_strip_main});
             this.status_strip.Location = new System.Drawing.Point(0, 527);
             this.status_strip.Name = "status_strip";
-            this.status_strip.Size = new System.Drawing.Size(801, 22);
+            this.status_strip.Size = new System.Drawing.Size(802, 22);
             this.status_strip.TabIndex = 8;
             this.status_strip.Text = "statusStrip1";
             // 
@@ -991,13 +1049,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(801, 549);
+            this.ClientSize = new System.Drawing.Size(802, 549);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.toolstrip_menu);
             this.Controls.Add(this.status_strip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.toolstrip_menu;
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "form_main";
-            this.Text = "PontJo";
+            this.Text = "Order Manager";
             this.Activated += new System.EventHandler(this.form_main_Activated);
             this.Deactivate += new System.EventHandler(this.form_main_DeActivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.form_main_FormClosing);

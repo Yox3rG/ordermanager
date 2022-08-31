@@ -45,12 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_25FA0229E85D4CA89D627B420A9A74C5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_26FC9FEBC61260170AA8703F4D40D388"
         "OwnerKey" = "8:_D486D75645C8EF3F48B34D9E91A345F7"
         "MsmSig" = "8:_UNDEFINED"
@@ -135,7 +129,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6D9D0C278C5249A6A29CAA952F82501C"
+        "MsmKey" = "8:_5F6081D67D6E47F9B5ED54136BB3991C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6275530862A5499D86BA38DA138BFAB1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -160,12 +160,6 @@
         "Entry"
         {
         "MsmKey" = "8:_A0B7012F578640C4A5B87B328F9094D0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A177831A82DD4E2BBBB5CA4D369A4F22"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -256,6 +250,12 @@
         "Entry"
         {
         "MsmKey" = "8:_DEB2727653E74A83BAD882946C899E07"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DFA85A476414469EBB1287EF51B560D7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -546,26 +546,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_25FA0229E85D4CA89D627B420A9A74C5"
-            {
-            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\icon.ico"
-            "TargetName" = "8:icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_26FC9FEBC61260170AA8703F4D40D388"
             {
             "AssemblyRegister" = "3:1"
@@ -781,10 +761,30 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6D9D0C278C5249A6A29CAA952F82501C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F6081D67D6E47F9B5ED54136BB3991C"
             {
             "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\languages\\english_form_settings.csv"
             "TargetName" = "8:english_form_settings.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6275530862A5499D86BA38DA138BFAB1"
+            {
+            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\languages\\hungarian_form_settings.csv"
+            "TargetName" = "8:hungarian_form_settings.csv"
             "Tag" = "8:"
             "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
             "Condition" = "8:"
@@ -836,26 +836,6 @@
             {
             "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\languages\\english_form_edit_order.csv"
             "TargetName" = "8:english_form_edit_order.csv"
-            "Tag" = "8:"
-            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A177831A82DD4E2BBBB5CA4D369A4F22"
-            {
-            "SourcePath" = "8:..\\FolderManipulator\\bin\\Debug\\languages\\hungarian_form_settings.csv"
-            "TargetName" = "8:hungarian_form_settings.csv"
             "Tag" = "8:"
             "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
             "Condition" = "8:"
@@ -1005,6 +985,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DFA85A476414469EBB1287EF51B560D7"
+            {
+            "SourcePath" = "8:..\\Pictures\\yordermanager.ico"
+            "TargetName" = "8:yordermanager_icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA75C2DE047F1B1B144C79694C956DDC"
             {
             "AssemblyRegister" = "3:1"
@@ -1124,20 +1124,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:OrderManager"
-        "ProductCode" = "8:{B566AA7C-4B11-4AD5-A7EA-DF85401DBD33}"
-        "PackageCode" = "8:{1669C5CC-5398-44E1-B822-BEC7F9447E55}"
+        "ProductName" = "8:YOrderManager"
+        "ProductCode" = "8:{E7623C96-0FF3-4AC9-AE86-DFF3B14FABE0}"
+        "PackageCode" = "8:{C1910643-3C05-44FE-8790-4959E7A3F871}"
         "UpgradeCode" = "8:{1DCEF0C6-C9A8-43E8-97EB-A612DD135FCA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.9.2"
+        "ProductVersion" = "8:0.9.3"
         "Manufacturer" = "8:Yox3rG Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:OrderManager"
+        "Title" = "8:YOrderManager"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Yox3rG"
         "Keywords" = "8:"
@@ -1248,7 +1248,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_11F78BF17EBE4F53BD2BE26D6A1F3B62"
             {
-            "Name" = "8:OrderManager"
+            "Name" = "8:Order Manager"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1257,12 +1257,12 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_31E03915972840A3B3EC84EEE7C6EC35"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:_25FA0229E85D4CA89D627B420A9A74C5"
+            "Icon" = "8:_DFA85A476414469EBB1287EF51B560D7"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FCCE2416FBE44AAA95EFC1A31CC48058"
             {
-            "Name" = "8:OrderManager"
+            "Name" = "8:Order Manager"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1271,7 +1271,7 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_7F06EC4DD33B48D6B52B3900B70F7B3B"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:_25FA0229E85D4CA89D627B420A9A74C5"
+            "Icon" = "8:_DFA85A476414469EBB1287EF51B560D7"
             "Feature" = "8:"
             }
         }

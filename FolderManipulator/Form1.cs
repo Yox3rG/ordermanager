@@ -179,7 +179,8 @@ namespace FolderManipulator
 
             Data.LanguageManager.OnLanguageChanged += delegate (LanguageType language)
             {
-                SettingsManager.LocalSettings.SetLanguage(language); persistentData.SaveLocalSettings();
+                SettingsManager.LocalSettings.SetLanguage(language);
+                persistentData.SaveLocalSettings();
             };
         }
 
