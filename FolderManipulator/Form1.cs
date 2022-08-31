@@ -928,6 +928,18 @@ namespace FolderManipulator
             }
         }
 
+        private void CheckTargetFiles(List<string> filesToCheck)
+        {
+            foreach (string file in filesToCheck)
+            {
+                int index = list_checked_files.FindStringExact(file);
+                if (index >= 0)
+                {
+                    list_checked_files.SetItemChecked(index, true);
+                }
+            }
+        }
+
         private void RefreshTargetFolderContents()
         {
             string targetPath = txt_folder_target.Text;
@@ -1473,15 +1485,52 @@ namespace FolderManipulator
 
         private void txt_folder_target_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null)
+            try
             {
-                txt_folder_target.Text = string.Join(";", files);
-                return;
-            }
+                List<string> fileNames = null;
+                string fullDirectoryPath;
 
-            string s = e.Data.GetData(DataFormats.Text).ToString();
-            txt_folder_target.Text = s;
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files != null && files.Length > 0)
+                {
+                    fullDirectoryPath = GetDirectoryNameAndFileNames(files, out fileNames);
+                }
+                else
+                {
+                    string s = e.Data.GetData(DataFormats.Text).ToString();
+                    fullDirectoryPath = GetDirectoryNameAndFileNames(s, out fileNames);
+                }
+
+                txt_folder_target.Text = fullDirectoryPath;
+                if(fileNames != null && fileNames.Count > 0)
+                    CheckTargetFiles(fileNames);
+            }
+            catch (Exception exception)
+            {
+                StatusManager.ShowMessage("Drag drop folder invalid.", StatusColorType.Warning, DelayTimeType.Short);
+                AppConsole.WriteLine(exception.Message);
+                txt_folder_target.Text = "";
+            }
+        }
+
+        private static string GetDirectoryNameAndFileNames(string file, out List<string> trimmedFileNames)
+        {
+            return GetDirectoryNameAndFileNames(new string[] { file }, out trimmedFileNames);
+        }
+
+        private static string GetDirectoryNameAndFileNames(string[] files, out List<string> trimmedFileNames)
+        {
+            trimmedFileNames = new List<string>();
+            foreach (string file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    trimmedFileNames.Add(fileName);
+                }
+            }
+            string fullDirectoryPath = Path.GetDirectoryName(files[0]);
+            return fullDirectoryPath;
         }
         #endregion
 
