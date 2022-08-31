@@ -11,12 +11,14 @@ namespace FolderManipulator.Data
     {
         public string SourcePath { get; set; }
         public int OrdersFontPixelSize { get; set; }
+        public string LocalDriveLetter { get; set; }
         public LanguageType Language { get; set; }
 
         public LocalSettingsData()
         {
             SourcePath = null;
             SetPixelSize(12);
+            LocalDriveLetter = "M";
             Language = LanguageType.English;
         }
 
@@ -24,6 +26,7 @@ namespace FolderManipulator.Data
         {
             SourcePath = sourcePath;
             SetPixelSize(pixelSize);
+            LocalDriveLetter = "M";
             Language = LanguageType.English;
         }
 
@@ -36,6 +39,11 @@ namespace FolderManipulator.Data
         public void SetLanguage(LanguageType language)
         {
             Language = language;
+        }
+
+        public void SetLocalDriveLetter(string newLetter)
+        {
+            LocalDriveLetter = newLetter;
         }
     }
 }

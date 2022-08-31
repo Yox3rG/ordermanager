@@ -17,9 +17,11 @@ namespace FolderManipulator
     public partial class form_settings : Form
     {
         public Action<int> OnFontValueChanged;
+        public Action<string> OnLocalDriveLetterChanged;
         public Func<bool> OnTrySave;
 
-        private int oldValue;
+        private int oldFontValue;
+        private string oldDriveLetter;
         LocalSettingsData targetLocalSettingsData;
 
         public form_settings()
@@ -30,16 +32,16 @@ namespace FolderManipulator
         public void SetTarget(LocalSettingsData localSettingsData)
         {
             targetLocalSettingsData = localSettingsData;
-            oldValue = localSettingsData.OrdersFontPixelSize;
+            oldFontValue = localSettingsData.OrdersFontPixelSize;
+            oldDriveLetter = localSettingsData.LocalDriveLetter;
             FillData(localSettingsData);
-
         }
 
         public void FillData(LocalSettingsData localSettingsData)
         {
             try
             {
-                txt_new_font_size.TextChanged -= txt_new_count_TextChanged;
+                txt_new_font_size.TextChanged -= txt_new_font_size_TextChanged;
                 txt_new_font_size.Text = localSettingsData.OrdersFontPixelSize.ToString();
             }
             catch (Exception e)
@@ -48,7 +50,21 @@ namespace FolderManipulator
             }
             finally
             {
-                txt_new_font_size.TextChanged += txt_new_count_TextChanged;
+                txt_new_font_size.TextChanged += txt_new_font_size_TextChanged;
+            }
+
+            try
+            {
+                txt_drive_letter.TextChanged -= txt_drive_letter_TextChanged;
+                txt_drive_letter.Text = localSettingsData.LocalDriveLetter;
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            finally
+            {
+                txt_drive_letter.TextChanged += txt_drive_letter_TextChanged;
             }
         }
 
@@ -70,16 +86,22 @@ namespace FolderManipulator
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            OnFontValueChanged?.Invoke(oldValue);
+            OnFontValueChanged?.Invoke(oldFontValue);
+            OnLocalDriveLetterChanged?.Invoke(oldDriveLetter);
             Close();
         }
 
-        private void txt_new_count_TextChanged(object sender, EventArgs e)
+        private void txt_new_font_size_TextChanged(object sender, EventArgs e)
         {
             if (Int32.TryParse(txt_new_font_size.Text, out int fontSize))
             {
                 OnFontValueChanged?.Invoke(fontSize);
             }
+        }
+
+        private void txt_drive_letter_TextChanged(object sender, EventArgs e)
+        {
+            OnLocalDriveLetterChanged?.Invoke(txt_drive_letter.Text);
         }
     }
 }

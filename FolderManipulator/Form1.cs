@@ -671,6 +671,7 @@ namespace FolderManipulator
 
             formSettings.SetTarget(SettingsManager.LocalSettings);
             formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
+            formSettings.OnLocalDriveLetterChanged += SettingsManager.LocalSettings.SetLocalDriveLetter;
             formSettings.OnTrySave += persistentData.SaveLocalSettings;
             formSettings.FormClosed += FormSettings_FormClosed;
             formSettings.Show();
@@ -1445,9 +1446,7 @@ namespace FolderManipulator
 
             if (selectedOrderData != null)
             {
-                stringCollection.Add(selectedOrderData.FullPath);
-                data.SetFileDropList(stringCollection);
-                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+                stringCollection.Add(GetFullPathWithLocalDriveLetter(selectedOrderData.FullPath));
             }
             else
             {
@@ -1457,12 +1456,12 @@ namespace FolderManipulator
                     OrderData orderData = (OrderData)node.Tag;
                     if (orderData != null)
                     {
-                        stringCollection.Add(orderData.FullPath);
+                        stringCollection.Add(GetFullPathWithLocalDriveLetter(orderData.FullPath));
                     }
                 }
-                data.SetFileDropList(stringCollection);
-                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
             }
+            data.SetFileDropList(stringCollection);
+            DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
         }
 
         private void txt_folder_target_DragEnter(object sender, DragEventArgs e)
@@ -1511,6 +1510,16 @@ namespace FolderManipulator
                 AppConsole.WriteLine(exception.Message);
                 txt_folder_target.Text = "";
             }
+        }
+
+        private static string GetFullPathWithLocalDriveLetter(string orderFullPath)
+        {
+            if (string.IsNullOrEmpty(orderFullPath))
+                return null;
+
+            string localFullPath = SettingsManager.LocalSettings.LocalDriveLetter;
+            localFullPath += orderFullPath.Substring(orderFullPath.IndexOf(':'));
+            return localFullPath;
         }
 
         private static string GetDirectoryNameAndFileNames(string file, out List<string> trimmedFileNames)
