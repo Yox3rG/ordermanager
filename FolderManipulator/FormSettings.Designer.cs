@@ -38,6 +38,7 @@
             this.txt_new_font_size = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.lbl_edit_order_title = new System.Windows.Forms.Label();
+            this.lbl_version_number = new System.Windows.Forms.Label();
             this.panel_add_order.SuspendLayout();
             this.table_layout_add_order.SuspendLayout();
             this.panel_add_order_bottom.SuspendLayout();
@@ -58,10 +59,11 @@
             this.table_layout_add_order.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_add_order.Controls.Add(this.panel_add_order_bottom, 0, 1);
             this.table_layout_add_order.Controls.Add(this.lbl_edit_order_title, 0, 0);
+            this.table_layout_add_order.Controls.Add(this.lbl_version_number, 0, 2);
             this.table_layout_add_order.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_add_order.Location = new System.Drawing.Point(0, 0);
             this.table_layout_add_order.Name = "table_layout_add_order";
-            this.table_layout_add_order.RowCount = 2;
+            this.table_layout_add_order.RowCount = 3;
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -79,7 +81,7 @@
             this.panel_add_order_bottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_add_order_bottom.Location = new System.Drawing.Point(3, 33);
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
-            this.panel_add_order_bottom.Size = new System.Drawing.Size(422, 479);
+            this.panel_add_order_bottom.Size = new System.Drawing.Size(422, 459);
             this.panel_add_order_bottom.TabIndex = 29;
             // 
             // lbl_drive_letter
@@ -151,6 +153,16 @@
             this.lbl_edit_order_title.TabIndex = 27;
             this.lbl_edit_order_title.Text = "Beállítások";
             // 
+            // lbl_version_number
+            // 
+            this.lbl_version_number.AutoSize = true;
+            this.lbl_version_number.Location = new System.Drawing.Point(6, 498);
+            this.lbl_version_number.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.lbl_version_number.Name = "lbl_version_number";
+            this.lbl_version_number.Size = new System.Drawing.Size(31, 13);
+            this.lbl_version_number.TabIndex = 30;
+            this.lbl_version_number.Text = "1.0.0";
+            // 
             // form_settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -180,5 +192,6 @@
         private System.Windows.Forms.Label lbl_edit_order_title;
         private System.Windows.Forms.Label lbl_drive_letter;
         private System.Windows.Forms.TextBox txt_drive_letter;
+        private System.Windows.Forms.Label lbl_version_number;
     }
 }
