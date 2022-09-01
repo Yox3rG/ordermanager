@@ -266,7 +266,7 @@ namespace FolderManipulator
                             return;
                         }
 
-                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(order.FullPath));
+                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(GetFullPathWithLocalDriveLetter(order.FullPath)));
                     }),
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
