@@ -1499,16 +1499,22 @@ namespace FolderManipulator
                 else
                 {
                     string s = e.Data.GetData(DataFormats.Text).ToString();
-                    fullDirectoryPath = GetDirectoryNameAndFileNames(s, out fileNames);
+                    fullDirectoryPath = GetDirectoryNameAndFileName(s, out fileNames);
                 }
 
                 txt_folder_target.Text = fullDirectoryPath;
                 if(fileNames != null && fileNames.Count > 0)
+                {
                     CheckTargetFiles(fileNames);
+                }
+                else
+                {
+                    AppConsole.WriteLine("dragDropNoFile");
+                }
             }
             catch (Exception exception)
             {
-                StatusManager.ShowMessage("Drag drop folder invalid.", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("dragDropInvalid", StatusColorType.Warning, DelayTimeType.Short);
                 AppConsole.WriteLine(exception.Message);
                 txt_folder_target.Text = "";
             }
@@ -1524,23 +1530,50 @@ namespace FolderManipulator
             return localFullPath;
         }
 
-        private static string GetDirectoryNameAndFileNames(string file, out List<string> trimmedFileNames)
+        private static string GetDirectoryNameAndFileName(string file, out List<string> trimmedFileNames)
         {
-            return GetDirectoryNameAndFileNames(new string[] { file }, out trimmedFileNames);
+            trimmedFileNames = new List<string>();
+            string fullDirectoryPath = null;
+            if (File.Exists(file))
+            {
+                string fileName = Path.GetFileName(file);
+                trimmedFileNames.Add(fileName);
+                fullDirectoryPath = Path.GetDirectoryName(file);
+            }
+            else if (Directory.Exists(file))
+            {
+                fullDirectoryPath = file;
+            }
+            return fullDirectoryPath;
         }
 
         private static string GetDirectoryNameAndFileNames(string[] files, out List<string> trimmedFileNames)
         {
             trimmedFileNames = new List<string>();
+            if (files.Length <= 0)
+            {
+                return null;
+            }
+
+            string fullDirectoryPath = null;
             foreach (string file in files)
             {
-                string fileName = Path.GetFileName(file);
-                if (!string.IsNullOrEmpty(fileName))
+                if (File.Exists(file))
                 {
-                    trimmedFileNames.Add(fileName);
+                    string fileName = Path.GetFileName(file);
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        trimmedFileNames.Add(fileName);
+                        if (fullDirectoryPath == null)
+                            fullDirectoryPath = Path.GetDirectoryName(file);
+                    }
                 }
             }
-            string fullDirectoryPath = Path.GetDirectoryName(files[0]);
+
+            if (fullDirectoryPath == null)
+            {
+                fullDirectoryPath = files[0];
+            }
             return fullDirectoryPath;
         }
         #endregion
