@@ -22,7 +22,7 @@ namespace FolderManipulator.UI
         public static void Initialize(int pixelSize)
         {
             UpdateFontSize(pixelSize);
-            SettingsManager.OnOrderFontSizeChange += UpdateFontSize;
+            SettingsManager.OnOrderFontSizeChanged += UpdateFontSize;
         }
 
         public static void UpdateFontSize(int pixelSize)

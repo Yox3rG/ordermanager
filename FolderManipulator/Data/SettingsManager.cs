@@ -13,7 +13,8 @@ namespace FolderManipulator.Data
         public static Action OnSettingsChanged;
         public static Action<string> OnCantChangeData;
 
-        public static Action<int> OnOrderFontSizeChange;
+        public static Action<int> OnOrderFontSizeChanged;
+        public static Action<int> OnOrderNameMaxLengthChanged;
 
         public static bool CanChangeData
         {

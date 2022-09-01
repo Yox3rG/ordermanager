@@ -46,6 +46,8 @@ namespace FolderManipulator
         private ToolTip formToolTips = new ToolTip();
         private Size? editOrderWindowSize = null;
 
+        private const int descriptionMaxLength = 40;
+
         public form_main()
         {
             InitializeComponent();
@@ -306,6 +308,9 @@ namespace FolderManipulator
             OnOneSecondTimer += LoadAllIfDataIsOld;
             OnTenMinuteTimer += SaveAllLocal;
             OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
+
+            SettingsManager.OnOrderNameMaxLengthChanged += delegate (int maxOrderNameLength) { OrderData.UpdateToStringBase(maxOrderNameLength, descriptionMaxLength); };
+            SettingsManager.OnOrderNameMaxLengthChanged += delegate { RefreshAll(); };
         }
 
         private void UnSubscribeFromActions()
@@ -674,6 +679,7 @@ namespace FolderManipulator
             formSettings.SetTarget(SettingsManager.LocalSettings);
             formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
             formSettings.OnLocalDriveLetterChanged += SettingsManager.LocalSettings.SetLocalDriveLetter;
+            formSettings.OnOrderNameMaxLengthChanged += SettingsManager.LocalSettings.SetOrderNameMaxLength;
             formSettings.OnTrySave += persistentData.SaveLocalSettings;
             formSettings.FormClosed += FormSettings_FormClosed;
             formSettings.Show();
@@ -1196,7 +1202,7 @@ namespace FolderManipulator
                     grandParent.Nodes.Add(parent);
                 }
 
-                TreeNode node = CreateTreeNode(order.ToString(includeFinishedDate));
+                TreeNode node = CreateTreeNode(order.ToString(SettingsManager.LocalSettings.OrderNameMaxLength, descriptionMaxLength, includeFinishedDate));
                 node.Tag = order;
 
                 parent.Nodes.Add(node);

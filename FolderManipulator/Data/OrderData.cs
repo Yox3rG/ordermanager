@@ -20,9 +20,21 @@ namespace FolderManipulator.Data
         public DateTime FinishedDate { get; set; }
         public OrderState State { get; set; }
 
+        private static string toStringBaseNormal;
+        private static string toStringBaseWithFinishedDate;
+
         public OrderData()
         {
             Id = Guid.NewGuid();
+        }
+
+        public static void UpdateToStringBase(int maxFileNameLength, int maxDescriptionLength)
+        {
+            maxFileNameLength = Math.Max(maxFileNameLength, 10);
+            maxDescriptionLength = Math.Max(maxDescriptionLength, 10);
+
+            toStringBaseNormal = "{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22}";
+            toStringBaseWithFinishedDate = "{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22} | {4,-22}";
         }
 
         public OrderData(string mainOrderType, string subOrderType, string fullPath, int count, string description) : this()
@@ -69,27 +81,52 @@ namespace FolderManipulator.Data
             return Path.GetFileName(FullPath);
         }
 
+        public string GetFileName(int maxLength)
+        {
+            string fileName = GetFileName();
+            if (fileName.Length > maxLength)
+            {
+                string extension = fileName.Substring(fileName.IndexOf('.'));
+                fileName = fileName.Substring(0, maxLength - extension.Length - 2);
+                fileName += "..";
+                fileName += extension;
+            }
+            return fileName;
+        }
+
         public string GetDirectoryName()
         {
             return Path.GetDirectoryName(FullPath);
         }
 
+        public string GetLimitedString(string text, int maxLength)
+        {
+            if (text.Length > maxLength)
+            {
+                text = text.Substring(0, maxLength - 3);
+                text += "...";
+            }
+            return text;
+        }
+
         public override string ToString()
         {
             //return $"{GetFileName()} - {Count} db {Description}";
-            
             return String.Format("{0,-40} | {1,-8} | {2,-22} | {3}", GetFileName(), Count + " db", BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), Description);
         }
 
-        public string ToString(bool includeFinishedDate)
+        public string ToString(int maxFileNameLength, int maxDescriptionLength, bool includeFinishedDate)
         {
+            maxFileNameLength = Math.Max(maxFileNameLength, 10);
+            maxDescriptionLength = Math.Max(maxDescriptionLength, 10);
+
             if (includeFinishedDate)
             {
-                return String.Format("{0,-40} | {1,-8} | {2,-22} | {3,-22} | {4}", GetFileName(), Count + " db", BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), Description);
+                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22} | {4,-22}", GetFileName(maxFileNameLength), Count + " db", Description, BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
             }
             else
             {
-                return ToString();
+                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22}", GetFileName(maxFileNameLength), Count + " db", Description, BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
             }
         }
 

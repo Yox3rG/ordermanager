@@ -19,10 +19,12 @@ namespace FolderManipulator
     public partial class form_settings : Form
     {
         public Action<int> OnFontValueChanged;
+        public Action<int> OnOrderNameMaxLengthChanged;
         public Action<string> OnLocalDriveLetterChanged;
         public Func<bool> OnTrySave;
 
         private int oldFontValue;
+        private int oldMaxLength;
         private string oldDriveLetter;
         LocalSettingsData targetLocalSettingsData;
 
@@ -60,30 +62,24 @@ namespace FolderManipulator
         {
             targetLocalSettingsData = localSettingsData;
             oldFontValue = localSettingsData.OrdersFontPixelSize;
+            oldMaxLength = localSettingsData.OrderNameMaxLength;
             oldDriveLetter = localSettingsData.LocalDriveLetter;
             FillData(localSettingsData);
         }
 
         public void FillData(LocalSettingsData localSettingsData)
         {
-            try
-            {
-                txt_new_font_size.TextChanged -= txt_new_font_size_TextChanged;
-                txt_new_font_size.Text = localSettingsData.OrdersFontPixelSize.ToString();
-            }
-            catch (Exception e)
-            {
-                AppConsole.WriteLine(e.Message);
-            }
-            finally
-            {
-                txt_new_font_size.TextChanged += txt_new_font_size_TextChanged;
-            }
+            FillField(txt_new_font_size, txt_new_font_size_TextChanged, localSettingsData.OrdersFontPixelSize.ToString());
+            FillField(txt_drive_letter, txt_drive_letter_TextChanged, localSettingsData.LocalDriveLetter);
+            FillField(txt_order_max_length, txt_drive_letter_TextChanged, localSettingsData.OrderNameMaxLength.ToString());
+        }
 
+        private void FillField(TextBox textBox, EventHandler onChangeEvent, string text)
+        {
             try
             {
-                txt_drive_letter.TextChanged -= txt_drive_letter_TextChanged;
-                txt_drive_letter.Text = localSettingsData.LocalDriveLetter;
+                textBox.TextChanged -= onChangeEvent;
+                textBox.Text = text;
             }
             catch (Exception e)
             {
@@ -91,7 +87,7 @@ namespace FolderManipulator
             }
             finally
             {
-                txt_drive_letter.TextChanged += txt_drive_letter_TextChanged;
+                textBox.TextChanged += onChangeEvent;
             }
         }
 
@@ -115,6 +111,7 @@ namespace FolderManipulator
         {
             OnFontValueChanged?.Invoke(oldFontValue);
             OnLocalDriveLetterChanged?.Invoke(oldDriveLetter);
+            OnOrderNameMaxLengthChanged?.Invoke(oldMaxLength);
             Close();
         }
 
@@ -129,6 +126,14 @@ namespace FolderManipulator
         private void txt_drive_letter_TextChanged(object sender, EventArgs e)
         {
             OnLocalDriveLetterChanged?.Invoke(txt_drive_letter.Text);
+        }
+
+        private void txt_order_max_length_TextChanged(object sender, EventArgs e)
+        {
+            if (Int32.TryParse(txt_order_max_length.Text, out int maxLength))
+            {
+                OnOrderNameMaxLengthChanged?.Invoke(maxLength);
+            }
         }
     }
 }

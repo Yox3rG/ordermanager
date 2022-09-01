@@ -31,6 +31,8 @@
             this.panel_add_order = new System.Windows.Forms.Panel();
             this.table_layout_add_order = new System.Windows.Forms.TableLayoutPanel();
             this.panel_add_order_bottom = new System.Windows.Forms.Panel();
+            this.lbl_order_max_length = new System.Windows.Forms.Label();
+            this.txt_order_max_length = new System.Windows.Forms.TextBox();
             this.lbl_drive_letter = new System.Windows.Forms.Label();
             this.txt_drive_letter = new System.Windows.Forms.TextBox();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -72,6 +74,8 @@
             // 
             // panel_add_order_bottom
             // 
+            this.panel_add_order_bottom.Controls.Add(this.lbl_order_max_length);
+            this.panel_add_order_bottom.Controls.Add(this.txt_order_max_length);
             this.panel_add_order_bottom.Controls.Add(this.lbl_drive_letter);
             this.panel_add_order_bottom.Controls.Add(this.txt_drive_letter);
             this.panel_add_order_bottom.Controls.Add(this.btn_cancel);
@@ -83,6 +87,25 @@
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
             this.panel_add_order_bottom.Size = new System.Drawing.Size(422, 459);
             this.panel_add_order_bottom.TabIndex = 29;
+            // 
+            // lbl_order_max_length
+            // 
+            this.lbl_order_max_length.AutoSize = true;
+            this.lbl_order_max_length.Location = new System.Drawing.Point(13, 63);
+            this.lbl_order_max_length.Name = "lbl_order_max_length";
+            this.lbl_order_max_length.Size = new System.Drawing.Size(95, 13);
+            this.lbl_order_max_length.TabIndex = 39;
+            this.lbl_order_max_length.Text = "Fájlnév max méret:";
+            // 
+            // txt_order_max_length
+            // 
+            this.txt_order_max_length.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_order_max_length.Location = new System.Drawing.Point(118, 60);
+            this.txt_order_max_length.Name = "txt_order_max_length";
+            this.txt_order_max_length.Size = new System.Drawing.Size(178, 20);
+            this.txt_order_max_length.TabIndex = 38;
+            this.txt_order_max_length.TextChanged += new System.EventHandler(this.txt_order_max_length_TextChanged);
             // 
             // lbl_drive_letter
             // 
@@ -97,7 +120,7 @@
             // 
             this.txt_drive_letter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_drive_letter.Location = new System.Drawing.Point(98, 34);
+            this.txt_drive_letter.Location = new System.Drawing.Point(118, 34);
             this.txt_drive_letter.Name = "txt_drive_letter";
             this.txt_drive_letter.Size = new System.Drawing.Size(178, 20);
             this.txt_drive_letter.TabIndex = 36;
@@ -106,7 +129,7 @@
             // btn_cancel
             // 
             this.btn_cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_cancel.Location = new System.Drawing.Point(321, 60);
+            this.btn_cancel.Location = new System.Drawing.Point(321, 419);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
             this.btn_cancel.TabIndex = 2;
@@ -127,7 +150,7 @@
             // 
             this.txt_new_font_size.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_new_font_size.Location = new System.Drawing.Point(98, 8);
+            this.txt_new_font_size.Location = new System.Drawing.Point(118, 8);
             this.txt_new_font_size.Name = "txt_new_font_size";
             this.txt_new_font_size.Size = new System.Drawing.Size(178, 20);
             this.txt_new_font_size.TabIndex = 0;
@@ -135,7 +158,7 @@
             // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(9, 60);
+            this.btn_save.Location = new System.Drawing.Point(9, 419);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(92, 37);
             this.btn_save.TabIndex = 1;
@@ -193,5 +216,7 @@
         private System.Windows.Forms.Label lbl_drive_letter;
         private System.Windows.Forms.TextBox txt_drive_letter;
         private System.Windows.Forms.Label lbl_version_number;
+        private System.Windows.Forms.Label lbl_order_max_length;
+        private System.Windows.Forms.TextBox txt_order_max_length;
     }
 }

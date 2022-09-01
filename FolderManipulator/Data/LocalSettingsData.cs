@@ -11,6 +11,7 @@ namespace FolderManipulator.Data
     {
         public string SourcePath { get; set; }
         public int OrdersFontPixelSize { get; set; }
+        public int OrderNameMaxLength { get; set; }
         public string LocalDriveLetter { get; set; }
         public LanguageType Language { get; set; }
 
@@ -19,6 +20,7 @@ namespace FolderManipulator.Data
             SourcePath = null;
             SetPixelSize(12);
             LocalDriveLetter = "M";
+            OrderNameMaxLength = 40;
             Language = LanguageType.English;
         }
 
@@ -27,13 +29,14 @@ namespace FolderManipulator.Data
             SourcePath = sourcePath;
             SetPixelSize(pixelSize);
             LocalDriveLetter = "M";
+            OrderNameMaxLength = 40;
             Language = LanguageType.English;
         }
 
         public void SetPixelSize(int newPixelSize)
         {
             OrdersFontPixelSize = newPixelSize;
-            SettingsManager.OnOrderFontSizeChange?.Invoke(OrdersFontPixelSize);
+            SettingsManager.OnOrderFontSizeChanged?.Invoke(OrdersFontPixelSize);
         }
 
         public void SetLanguage(LanguageType language)
@@ -44,6 +47,12 @@ namespace FolderManipulator.Data
         public void SetLocalDriveLetter(string newLetter)
         {
             LocalDriveLetter = newLetter;
+        }
+
+        public void SetOrderNameMaxLength(int newLength)
+        {
+            OrderNameMaxLength = newLength;
+            SettingsManager.OnOrderNameMaxLengthChanged?.Invoke(OrderNameMaxLength);
         }
     }
 }
