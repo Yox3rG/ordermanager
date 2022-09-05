@@ -100,6 +100,58 @@ namespace FolderManipulator
             }
         }
 
+        private void LoadUserSettings()
+        {
+            if (SystemInformation.MonitorCount > 1)
+            {
+                Top = Properties.Settings.Default.FormTop;
+                Left = Properties.Settings.Default.FormLeft;
+                Width = Properties.Settings.Default.FormWidth;
+                Height = Properties.Settings.Default.FormHeight;
+            }
+            else
+            {
+                Top = Properties.Settings.Default.FormTop;
+                if (Top > SystemInformation.PrimaryMonitorSize.Height)
+                    Top = 200;
+                Height = Properties.Settings.Default.FormHeight;
+                if (Height > SystemInformation.PrimaryMonitorSize.Height)
+                    Height = 600;
+                Left = Properties.Settings.Default.FormLeft;
+                if (Left > SystemInformation.PrimaryMonitorSize.Width)
+                    Left = 200;
+                Width = Properties.Settings.Default.FormWidth;
+                if (Width > SystemInformation.PrimaryMonitorSize.Width)
+                    Width = 800;
+            }
+
+            if (Properties.Settings.Default.Maximized)
+            {
+                WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void SaveUserSettings()
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                Properties.Settings.Default.FormTop = RestoreBounds.Top;
+                Properties.Settings.Default.FormLeft = RestoreBounds.Left;
+                Properties.Settings.Default.FormWidth = RestoreBounds.Width;
+                Properties.Settings.Default.FormHeight = RestoreBounds.Height;
+                Properties.Settings.Default.Maximized = true;
+            }
+            else
+            {
+                Properties.Settings.Default.FormTop = this.Top;
+                Properties.Settings.Default.FormLeft = this.Left;
+                Properties.Settings.Default.FormWidth = this.Width;
+                Properties.Settings.Default.FormHeight = this.Height;
+                Properties.Settings.Default.Maximized = false;
+            }
+            Properties.Settings.Default.Save();
+        }
+
         #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
@@ -122,10 +174,14 @@ namespace FolderManipulator
 
             if (criticalDataMissing)
                 this.Close();
+
+            LoadUserSettings();
         }
 
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveUserSettings();
+
             //Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
             UnSubscribeFromActions();
             FontManager.DisposeFontIfNotNull();
@@ -1509,7 +1565,7 @@ namespace FolderManipulator
                 }
 
                 txt_folder_target.Text = fullDirectoryPath;
-                if(fileNames != null && fileNames.Count > 0)
+                if (fileNames != null && fileNames.Count > 0)
                 {
                     CheckTargetFiles(fileNames);
                 }

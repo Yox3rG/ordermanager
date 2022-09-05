@@ -159,7 +159,7 @@
             this.table_layout_active_orders.Name = "table_layout_active_orders";
             this.table_layout_active_orders.RowCount = 1;
             this.table_layout_active_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders.Size = new System.Drawing.Size(486, 464);
+            this.table_layout_active_orders.Size = new System.Drawing.Size(468, 476);
             this.table_layout_active_orders.TabIndex = 8;
             // 
             // tree_view_active
@@ -172,7 +172,7 @@
             this.tree_view_active.Location = new System.Drawing.Point(102, 3);
             this.tree_view_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tree_view_active.Name = "tree_view_active";
-            this.tree_view_active.Size = new System.Drawing.Size(382, 458);
+            this.tree_view_active.Size = new System.Drawing.Size(364, 470);
             this.tree_view_active.TabIndex = 5;
             this.tree_view_active.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_active_AfterCheck);
             this.tree_view_active.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
@@ -193,7 +193,7 @@
             this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_active_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_order_buttons.Size = new System.Drawing.Size(100, 464);
+            this.table_layout_active_order_buttons.Size = new System.Drawing.Size(100, 476);
             this.table_layout_active_order_buttons.TabIndex = 6;
             // 
             // btn_add_active_pending
@@ -222,11 +222,11 @@
             // 
             this.panel_add_order.Controls.Add(this.table_layout_add_order);
             this.panel_add_order.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_add_order.Location = new System.Drawing.Point(492, 3);
+            this.panel_add_order.Location = new System.Drawing.Point(474, 3);
             this.panel_add_order.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_add_order.MaximumSize = new System.Drawing.Size(320, 0);
             this.panel_add_order.Name = "panel_add_order";
-            this.panel_add_order.Size = new System.Drawing.Size(296, 464);
+            this.panel_add_order.Size = new System.Drawing.Size(296, 476);
             this.panel_add_order.TabIndex = 35;
             // 
             // table_layout_add_order
@@ -245,7 +245,7 @@
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 141F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 137F));
-            this.table_layout_add_order.Size = new System.Drawing.Size(296, 464);
+            this.table_layout_add_order.Size = new System.Drawing.Size(296, 476);
             this.table_layout_add_order.TabIndex = 35;
             // 
             // panel_add_order_top
@@ -362,7 +362,7 @@
             this.list_checked_files.Location = new System.Drawing.Point(19, 144);
             this.list_checked_files.Margin = new System.Windows.Forms.Padding(19, 3, 5, 3);
             this.list_checked_files.Name = "list_checked_files";
-            this.list_checked_files.Size = new System.Drawing.Size(272, 169);
+            this.list_checked_files.Size = new System.Drawing.Size(272, 184);
             this.list_checked_files.TabIndex = 0;
             this.list_checked_files.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.list_checked_files_ItemCheck);
             // 
@@ -374,7 +374,7 @@
             this.panel_add_order_bottom.Controls.Add(this.txt_comment);
             this.panel_add_order_bottom.Controls.Add(this.btn_add);
             this.panel_add_order_bottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_add_order_bottom.Location = new System.Drawing.Point(2, 330);
+            this.panel_add_order_bottom.Location = new System.Drawing.Point(2, 342);
             this.panel_add_order_bottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
             this.panel_add_order_bottom.Size = new System.Drawing.Size(292, 131);
@@ -432,7 +432,7 @@
             this.tab_control.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
-            this.tab_control.Size = new System.Drawing.Size(802, 503);
+            this.tab_control.Size = new System.Drawing.Size(784, 515);
             this.tab_control.TabIndex = 1;
             // 
             // tab_page_active
@@ -443,7 +443,7 @@
             this.tab_page_active.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_active.Name = "tab_page_active";
             this.tab_page_active.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tab_page_active.Size = new System.Drawing.Size(794, 476);
+            this.tab_page_active.Size = new System.Drawing.Size(776, 488);
             this.tab_page_active.TabIndex = 0;
             this.tab_page_active.Text = "Aktív";
             this.tab_page_active.UseVisualStyleBackColor = true;
@@ -462,7 +462,7 @@
             this.table_layout_active_orders_page.RowCount = 1;
             this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
-            this.table_layout_active_orders_page.Size = new System.Drawing.Size(790, 470);
+            this.table_layout_active_orders_page.Size = new System.Drawing.Size(772, 482);
             this.table_layout_active_orders_page.TabIndex = 6;
             // 
             // tab_page_pending
@@ -599,7 +599,7 @@
             this.table_layout_finished_orders.Name = "table_layout_finished_orders";
             this.table_layout_finished_orders.RowCount = 1;
             this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 468F));
+            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
             this.table_layout_finished_orders.Size = new System.Drawing.Size(790, 470);
             this.table_layout_finished_orders.TabIndex = 12;
             // 
@@ -912,7 +912,7 @@
             this.toolstrip_item_help});
             this.toolstrip_menu.Location = new System.Drawing.Point(0, 0);
             this.toolstrip_menu.Name = "toolstrip_menu";
-            this.toolstrip_menu.Size = new System.Drawing.Size(802, 24);
+            this.toolstrip_menu.Size = new System.Drawing.Size(784, 24);
             this.toolstrip_menu.TabIndex = 0;
             this.toolstrip_menu.Text = "menuStrip1";
             // 
@@ -1033,9 +1033,9 @@
             // 
             this.status_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.label_status_strip_main});
-            this.status_strip.Location = new System.Drawing.Point(0, 527);
+            this.status_strip.Location = new System.Drawing.Point(0, 539);
             this.status_strip.Name = "status_strip";
-            this.status_strip.Size = new System.Drawing.Size(802, 22);
+            this.status_strip.Size = new System.Drawing.Size(784, 22);
             this.status_strip.TabIndex = 8;
             this.status_strip.Text = "statusStrip1";
             // 
@@ -1049,7 +1049,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 549);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.toolstrip_menu);
             this.Controls.Add(this.status_strip);

@@ -109,6 +109,7 @@ namespace FolderManipulator
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Save();
             OnFontValueChanged?.Invoke(oldFontValue);
             OnLocalDriveLetterChanged?.Invoke(oldDriveLetter);
             OnOrderNameMaxLengthChanged?.Invoke(oldMaxLength);
