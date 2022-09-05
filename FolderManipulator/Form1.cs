@@ -1507,15 +1507,39 @@ namespace FolderManipulator
 
             TreeNode selectedNode = (TreeNode)e.Item;
             OrderData selectedOrderData = (OrderData)selectedNode.Tag;
+            bool orderTypeDragged = selectedOrderData == null;
 
-            if (selectedOrderData != null)
+            if (!orderTypeDragged)
             {
-                stringCollection.Add(GetFullPathWithLocalDriveLetter(selectedOrderData.FullPath));
+                if (selectedNode.Checked)
+                {
+                    TreeNode parentNode = selectedNode.Parent;
+                    foreach (TreeNode node in parentNode.Nodes)
+                    {
+                        AddChildNodeToDrag(node, hasToBeChecked: true);
+                    }
+                }
+                else
+                {
+                    stringCollection.Add(GetFullPathWithLocalDriveLetter(selectedOrderData.FullPath));
+                }
             }
             else
             {
                 List<TreeNode> allChildNodes = selectedNode.GetAllNodes();
+                bool isAnyChildChecked = allChildNodes.Any(x => x.Checked);
                 foreach (TreeNode node in allChildNodes)
+                {
+                    AddChildNodeToDrag(node, hasToBeChecked: isAnyChildChecked);
+                }
+            }
+
+            data.SetFileDropList(stringCollection);
+            DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+
+            void AddChildNodeToDrag(TreeNode node, bool hasToBeChecked)
+            {
+                if (!hasToBeChecked || (hasToBeChecked && node.Checked))
                 {
                     OrderData orderData = (OrderData)node.Tag;
                     if (orderData != null)
@@ -1524,8 +1548,6 @@ namespace FolderManipulator
                     }
                 }
             }
-            data.SetFileDropList(stringCollection);
-            DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
         }
 
         private void txt_folder_target_DragEnter(object sender, DragEventArgs e)
