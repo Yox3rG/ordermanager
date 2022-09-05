@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderManipulator.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -117,9 +118,9 @@ namespace FolderManipulator.Data
 
         public string ToString(int maxFileNameLength, int maxDescriptionLength, bool includeFinishedDate)
         {
-            maxFileNameLength = Math.Max(maxFileNameLength, 10);
-            maxDescriptionLength = Math.Max(maxDescriptionLength, 10);
-
+            maxFileNameLength = maxFileNameLength.Clamp(10, 100);
+            maxDescriptionLength = maxDescriptionLength.Clamp(10, 100);
+            
             if (includeFinishedDate)
             {
                 return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22} | {4,-22}", GetFileName(maxFileNameLength), Count + " db", Description, BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
