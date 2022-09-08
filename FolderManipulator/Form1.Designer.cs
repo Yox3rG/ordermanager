@@ -111,6 +111,8 @@
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_customer_name = new System.Windows.Forms.Label();
+            this.txt_customer_name = new System.Windows.Forms.TextBox();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -369,6 +371,8 @@
             // 
             // panel_add_order_bottom
             // 
+            this.panel_add_order_bottom.Controls.Add(this.lbl_customer_name);
+            this.panel_add_order_bottom.Controls.Add(this.txt_customer_name);
             this.panel_add_order_bottom.Controls.Add(this.lbl_count);
             this.panel_add_order_bottom.Controls.Add(this.txt_count);
             this.panel_add_order_bottom.Controls.Add(this.lbl_comment);
@@ -403,7 +407,7 @@
             // lbl_comment
             // 
             this.lbl_comment.AutoSize = true;
-            this.lbl_comment.Location = new System.Drawing.Point(2, 40);
+            this.lbl_comment.Location = new System.Drawing.Point(2, 63);
             this.lbl_comment.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_comment.Name = "lbl_comment";
             this.lbl_comment.Size = new System.Drawing.Size(66, 13);
@@ -412,7 +416,7 @@
             // 
             // txt_comment
             // 
-            this.txt_comment.Location = new System.Drawing.Point(94, 37);
+            this.txt_comment.Location = new System.Drawing.Point(94, 60);
             this.txt_comment.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(192, 20);
@@ -983,7 +987,7 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
@@ -1003,7 +1007,7 @@
             // toolstrip_item_add_panel
             // 
             this.toolstrip_item_add_panel.Name = "toolstrip_item_add_panel";
-            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_add_panel.Text = "Show Add Panel";
             this.toolstrip_item_add_panel.Click += new System.EventHandler(this.toolstrip_item_add_panel_Click);
             // 
@@ -1053,6 +1057,25 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
+            // 
+            // lbl_customer_name
+            // 
+            this.lbl_customer_name.AutoSize = true;
+            this.lbl_customer_name.Location = new System.Drawing.Point(2, 37);
+            this.lbl_customer_name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_customer_name.Name = "lbl_customer_name";
+            this.lbl_customer_name.Size = new System.Drawing.Size(30, 13);
+            this.lbl_customer_name.TabIndex = 8;
+            this.lbl_customer_name.Text = "Név:";
+            // 
+            // txt_customer_name
+            // 
+            this.txt_customer_name.Location = new System.Drawing.Point(94, 34);
+            this.txt_customer_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txt_customer_name.Name = "txt_customer_name";
+            this.txt_customer_name.Size = new System.Drawing.Size(192, 20);
+            this.txt_customer_name.TabIndex = 7;
+            this.txt_customer_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_customer_name_KeyUp);
             // 
             // form_main
             // 
@@ -1189,6 +1212,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_english;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_hungarian;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_add_panel;
+        private System.Windows.Forms.Label lbl_customer_name;
+        private System.Windows.Forms.TextBox txt_customer_name;
     }
 }
 

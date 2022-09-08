@@ -764,6 +764,30 @@ namespace FolderManipulator
         {
             LanguageManager.CurrentLanguage = LanguageType.Hungarian;
         }
+
+        private void toolstrip_item_add_panel_Click(object sender, EventArgs e)
+        {
+            ToggleShowAddPanel();
+        }
+
+        private void ToggleShowAddPanel()
+        {
+            ShowAddPanel(!isAddPanelShown);
+        }
+
+        private void ShowAddPanel(bool show)
+        {
+            isAddPanelShown = show;
+
+            if (isAddPanelShown)
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 300;
+            }
+            else
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 0;
+            }
+        }
         #endregion
 
         #region TreeView UI
@@ -1129,9 +1153,10 @@ namespace FolderManipulator
                 string fullPath = Path.Combine(txt_folder_target.Text, selectedFileNames[i]);
                 string count = txt_count.Text;
                 Int32.TryParse(count, out int countNumber);
+                string customerName = txt_customer_name.Text;
                 string description = txt_comment.Text;
 
-                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, countNumber, description);
+                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, countNumber, customerName, description);
                 orders[i] = orderData;
             }
             return orders;
@@ -1787,6 +1812,14 @@ namespace FolderManipulator
             }
         }
 
+        private void txt_customer_name_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_order_Click(this, e);
+            }
+        }
+
         private void txt_comment_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1831,18 +1864,18 @@ namespace FolderManipulator
         {
             AppConsole.WriteLine("Test edit order bug");
             OrderData order = OrderManager.GetActiveOrders().Orders[0];
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "1234"));
-            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
         }
 
         private void DebugSelectedNode()
@@ -1869,29 +1902,5 @@ namespace FolderManipulator
             formToolTips.SetToolTip(txt_comment, txt_comment.Text);
         }
         #endregion
-
-        private void toolstrip_item_add_panel_Click(object sender, EventArgs e)
-        {
-            ToggleShowAddPanel();
-        }
-
-        private void ToggleShowAddPanel()
-        {
-            ShowAddPanel(!isAddPanelShown);
-        }
-
-        private void ShowAddPanel(bool show)
-        {
-            isAddPanelShown = show;
-
-            if (isAddPanelShown)
-            {
-                table_layout_active_orders_page.ColumnStyles[1].Width = 300;
-            }
-            else
-            {
-                table_layout_active_orders_page.ColumnStyles[1].Width = 0;
-            }
-        }
     }
 }

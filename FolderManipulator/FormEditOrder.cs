@@ -45,6 +45,7 @@ namespace FolderManipulator
             FillDropDown(drpd_new_sub_ordertype, orderData.SubOrderType, subOrderTypes);
 
             txt_new_count.Text = orderData.Count.ToString();
+            txt_new_customer_name.Text = orderData.CustomerName;
             txt_new_comment.Text = orderData.Description;
 
             // Const
@@ -64,6 +65,10 @@ namespace FolderManipulator
 
             txt_count.Text = orderData.Count.ToString();
             txt_count.Enabled = false;
+
+            txt_customer_name.Text = orderData.CustomerName.ToString();
+            txt_customer_name.Enabled = false;
+            toolTip.SetToolTip(lbl_customer_name, txt_customer_name.Text);
 
             txt_comment.Text = orderData.Description.ToString();
             txt_comment.Enabled = false;
@@ -103,6 +108,7 @@ namespace FolderManipulator
             isNotEdited &= drpd_main_ordertype.SelectedItem.ToString().Equals(drpd_new_main_ordertype.SelectedItem.ToString());
             isNotEdited &= drpd_sub_ordertype.SelectedItem.ToString().Equals(drpd_new_sub_ordertype.SelectedItem.ToString());
             isNotEdited &= txt_count.Text.Equals(txt_new_count.Text);
+            isNotEdited &= txt_customer_name.Text.Equals(txt_new_customer_name.Text);
             isNotEdited &= txt_comment.Text.Equals(txt_new_comment.Text);
 
             return !isNotEdited;
@@ -113,9 +119,10 @@ namespace FolderManipulator
             string mainOrderType = drpd_new_main_ordertype.SelectedItem.ToString();
             string subOrderType = drpd_new_sub_ordertype.SelectedItem.ToString();
             Int32.TryParse(txt_new_count.Text, out int count);
+            string customerName = txt_new_customer_name.Text;
             string description = txt_new_comment.Text;
 
-            OrderEditData orderEditData = new OrderEditData(mainOrderType, subOrderType, count, description);
+            OrderEditData orderEditData = new OrderEditData(mainOrderType, subOrderType, count, customerName, description);
             return orderEditData;
         }
 

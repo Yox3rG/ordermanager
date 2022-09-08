@@ -61,6 +61,10 @@
             this.txt_comment = new System.Windows.Forms.TextBox();
             this.btn_edit = new System.Windows.Forms.Button();
             this.lbl_edit_order_title = new System.Windows.Forms.Label();
+            this.lbl_new_customer_name = new System.Windows.Forms.Label();
+            this.txt_new_customer_name = new System.Windows.Forms.TextBox();
+            this.lbl_customer_name = new System.Windows.Forms.Label();
+            this.txt_customer_name = new System.Windows.Forms.TextBox();
             this.panel_add_order.SuspendLayout();
             this.table_layout_add_order.SuspendLayout();
             this.panel_add_order_top.SuspendLayout();
@@ -73,7 +77,7 @@
             this.panel_add_order.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_add_order.Location = new System.Drawing.Point(0, 0);
             this.panel_add_order.Name = "panel_add_order";
-            this.panel_add_order.Size = new System.Drawing.Size(427, 441);
+            this.panel_add_order.Size = new System.Drawing.Size(427, 491);
             this.panel_add_order.TabIndex = 36;
             // 
             // table_layout_add_order
@@ -90,7 +94,7 @@
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.table_layout_add_order.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_add_order.Size = new System.Drawing.Size(427, 441);
+            this.table_layout_add_order.Size = new System.Drawing.Size(427, 491);
             this.table_layout_add_order.TabIndex = 35;
             // 
             // panel_add_order_top
@@ -218,6 +222,10 @@
             // 
             // panel_add_order_bottom
             // 
+            this.panel_add_order_bottom.Controls.Add(this.lbl_new_customer_name);
+            this.panel_add_order_bottom.Controls.Add(this.txt_new_customer_name);
+            this.panel_add_order_bottom.Controls.Add(this.lbl_customer_name);
+            this.panel_add_order_bottom.Controls.Add(this.txt_customer_name);
             this.panel_add_order_bottom.Controls.Add(this.btn_cancel);
             this.panel_add_order_bottom.Controls.Add(this.lbl_id);
             this.panel_add_order_bottom.Controls.Add(this.txt_id);
@@ -239,13 +247,13 @@
             this.panel_add_order_bottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_add_order_bottom.Location = new System.Drawing.Point(3, 176);
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
-            this.panel_add_order_bottom.Size = new System.Drawing.Size(421, 262);
+            this.panel_add_order_bottom.Size = new System.Drawing.Size(421, 312);
             this.panel_add_order_bottom.TabIndex = 29;
             // 
             // btn_cancel
             // 
             this.btn_cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_cancel.Location = new System.Drawing.Point(320, 216);
+            this.btn_cancel.Location = new System.Drawing.Point(320, 270);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
             this.btn_cancel.TabIndex = 3;
@@ -256,7 +264,7 @@
             // lbl_id
             // 
             this.lbl_id.AutoSize = true;
-            this.lbl_id.Location = new System.Drawing.Point(13, 194);
+            this.lbl_id.Location = new System.Drawing.Point(13, 246);
             this.lbl_id.Name = "lbl_id";
             this.lbl_id.Size = new System.Drawing.Size(21, 13);
             this.lbl_id.TabIndex = 45;
@@ -267,7 +275,7 @@
             this.txt_id.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_id.Enabled = false;
-            this.txt_id.Location = new System.Drawing.Point(98, 191);
+            this.txt_id.Location = new System.Drawing.Point(98, 243);
             this.txt_id.Name = "txt_id";
             this.txt_id.Size = new System.Drawing.Size(314, 20);
             this.txt_id.TabIndex = 46;
@@ -276,7 +284,7 @@
             // lbl_status
             // 
             this.lbl_status.AutoSize = true;
-            this.lbl_status.Location = new System.Drawing.Point(13, 168);
+            this.lbl_status.Location = new System.Drawing.Point(13, 220);
             this.lbl_status.Name = "lbl_status";
             this.lbl_status.Size = new System.Drawing.Size(45, 13);
             this.lbl_status.TabIndex = 43;
@@ -287,7 +295,7 @@
             this.txt_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_status.Enabled = false;
-            this.txt_status.Location = new System.Drawing.Point(98, 165);
+            this.txt_status.Location = new System.Drawing.Point(98, 217);
             this.txt_status.Name = "txt_status";
             this.txt_status.Size = new System.Drawing.Size(314, 20);
             this.txt_status.TabIndex = 44;
@@ -296,7 +304,7 @@
             // lbl_finished_date
             // 
             this.lbl_finished_date.AutoSize = true;
-            this.lbl_finished_date.Location = new System.Drawing.Point(13, 142);
+            this.lbl_finished_date.Location = new System.Drawing.Point(13, 194);
             this.lbl_finished_date.Name = "lbl_finished_date";
             this.lbl_finished_date.Size = new System.Drawing.Size(47, 13);
             this.lbl_finished_date.TabIndex = 41;
@@ -307,7 +315,7 @@
             this.txt_finished_date.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_finished_date.Enabled = false;
-            this.txt_finished_date.Location = new System.Drawing.Point(98, 139);
+            this.txt_finished_date.Location = new System.Drawing.Point(98, 191);
             this.txt_finished_date.Name = "txt_finished_date";
             this.txt_finished_date.Size = new System.Drawing.Size(314, 20);
             this.txt_finished_date.TabIndex = 42;
@@ -316,7 +324,7 @@
             // lbl_birth_date
             // 
             this.lbl_birth_date.AutoSize = true;
-            this.lbl_birth_date.Location = new System.Drawing.Point(13, 116);
+            this.lbl_birth_date.Location = new System.Drawing.Point(13, 168);
             this.lbl_birth_date.Name = "lbl_birth_date";
             this.lbl_birth_date.Size = new System.Drawing.Size(62, 13);
             this.lbl_birth_date.TabIndex = 39;
@@ -327,7 +335,7 @@
             this.txt_birth_date.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_birth_date.Enabled = false;
-            this.txt_birth_date.Location = new System.Drawing.Point(98, 113);
+            this.txt_birth_date.Location = new System.Drawing.Point(98, 165);
             this.txt_birth_date.Name = "txt_birth_date";
             this.txt_birth_date.Size = new System.Drawing.Size(314, 20);
             this.txt_birth_date.TabIndex = 40;
@@ -336,7 +344,7 @@
             // lbl_new_comment
             // 
             this.lbl_new_comment.AutoSize = true;
-            this.lbl_new_comment.Location = new System.Drawing.Point(13, 89);
+            this.lbl_new_comment.Location = new System.Drawing.Point(13, 141);
             this.lbl_new_comment.Name = "lbl_new_comment";
             this.lbl_new_comment.Size = new System.Drawing.Size(79, 13);
             this.lbl_new_comment.TabIndex = 37;
@@ -346,7 +354,7 @@
             // 
             this.txt_new_comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_new_comment.Location = new System.Drawing.Point(98, 86);
+            this.txt_new_comment.Location = new System.Drawing.Point(98, 138);
             this.txt_new_comment.Name = "txt_new_comment";
             this.txt_new_comment.Size = new System.Drawing.Size(314, 20);
             this.txt_new_comment.TabIndex = 1;
@@ -392,7 +400,7 @@
             // lbl_comment
             // 
             this.lbl_comment.AutoSize = true;
-            this.lbl_comment.Location = new System.Drawing.Point(13, 63);
+            this.lbl_comment.Location = new System.Drawing.Point(13, 115);
             this.lbl_comment.Name = "lbl_comment";
             this.lbl_comment.Size = new System.Drawing.Size(66, 13);
             this.lbl_comment.TabIndex = 4;
@@ -403,7 +411,7 @@
             this.txt_comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_comment.Enabled = false;
-            this.txt_comment.Location = new System.Drawing.Point(98, 60);
+            this.txt_comment.Location = new System.Drawing.Point(98, 112);
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(314, 20);
             this.txt_comment.TabIndex = 32;
@@ -411,7 +419,7 @@
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(16, 216);
+            this.btn_edit.Location = new System.Drawing.Point(16, 270);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(92, 37);
             this.btn_edit.TabIndex = 2;
@@ -429,11 +437,49 @@
             this.lbl_edit_order_title.TabIndex = 27;
             this.lbl_edit_order_title.Text = "Rendelés szerkesztése";
             // 
+            // lbl_new_customer_name
+            // 
+            this.lbl_new_customer_name.AutoSize = true;
+            this.lbl_new_customer_name.Location = new System.Drawing.Point(13, 89);
+            this.lbl_new_customer_name.Name = "lbl_new_customer_name";
+            this.lbl_new_customer_name.Size = new System.Drawing.Size(43, 13);
+            this.lbl_new_customer_name.TabIndex = 50;
+            this.lbl_new_customer_name.Text = "Új Név:";
+            // 
+            // txt_new_customer_name
+            // 
+            this.txt_new_customer_name.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_new_customer_name.Location = new System.Drawing.Point(98, 86);
+            this.txt_new_customer_name.Name = "txt_new_customer_name";
+            this.txt_new_customer_name.Size = new System.Drawing.Size(314, 20);
+            this.txt_new_customer_name.TabIndex = 47;
+            // 
+            // lbl_customer_name
+            // 
+            this.lbl_customer_name.AutoSize = true;
+            this.lbl_customer_name.Location = new System.Drawing.Point(13, 63);
+            this.lbl_customer_name.Name = "lbl_customer_name";
+            this.lbl_customer_name.Size = new System.Drawing.Size(30, 13);
+            this.lbl_customer_name.TabIndex = 48;
+            this.lbl_customer_name.Text = "Név:";
+            // 
+            // txt_customer_name
+            // 
+            this.txt_customer_name.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_customer_name.Enabled = false;
+            this.txt_customer_name.Location = new System.Drawing.Point(98, 60);
+            this.txt_customer_name.Name = "txt_customer_name";
+            this.txt_customer_name.Size = new System.Drawing.Size(314, 20);
+            this.txt_customer_name.TabIndex = 49;
+            this.txt_customer_name.TabStop = false;
+            // 
             // form_edit_order
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 441);
+            this.ClientSize = new System.Drawing.Size(427, 491);
             this.Controls.Add(this.panel_add_order);
             this.Name = "form_edit_order";
             this.Text = "Edit Order";
@@ -484,5 +530,9 @@
         private System.Windows.Forms.Label lbl_birth_date;
         private System.Windows.Forms.TextBox txt_birth_date;
         private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.Label lbl_new_customer_name;
+        private System.Windows.Forms.TextBox txt_new_customer_name;
+        private System.Windows.Forms.Label lbl_customer_name;
+        private System.Windows.Forms.TextBox txt_customer_name;
     }
 }

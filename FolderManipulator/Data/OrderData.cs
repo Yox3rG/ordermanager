@@ -16,6 +16,7 @@ namespace FolderManipulator.Data
         public string SubOrderType { get; set; }
         public string FullPath { get; set; }
         public int Count { get; set; }
+        public string CustomerName { get; set; }
         public string Description { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime FinishedDate { get; set; }
@@ -38,12 +39,13 @@ namespace FolderManipulator.Data
             toStringBaseWithFinishedDate = "{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22} | {4,-22}";
         }
 
-        public OrderData(string mainOrderType, string subOrderType, string fullPath, int count, string description) : this()
+        public OrderData(string mainOrderType, string subOrderType, string fullPath, int count, string customerName, string description) : this()
         {
             this.MainOrderType = mainOrderType;
             this.SubOrderType = subOrderType;
             this.FullPath = fullPath;
             this.Count = count;
+            this.CustomerName = customerName;
             this.Description = description;
             this.BirthDate = DateTime.Now;
             this.State = OrderState.None;
@@ -54,14 +56,16 @@ namespace FolderManipulator.Data
             this.MainOrderType = editData.MainOrderType;
             this.SubOrderType  = editData.SubOrderType;
             this.Count         = editData.Count;
+            this.CustomerName  = editData.CustomerName;
             this.Description   = editData.Description;
         }
 
-        public void Edit(string mainOrderType, string subOrderType, int count, string description)
+        public void Edit(string mainOrderType, string subOrderType, int count, string customerName, string description)
         {
             this.MainOrderType = mainOrderType;
             this.SubOrderType  = subOrderType;
             this.Count         = count;       
+            this.CustomerName  = customerName;
             this.Description   = description;
         }
 
@@ -71,6 +75,7 @@ namespace FolderManipulator.Data
             this.SubOrderType  = other.SubOrderType;
             this.FullPath      = other.FullPath;
             this.Count         = other.Count;       
+            this.CustomerName  = other.CustomerName;
             this.Description   = other.Description;
             this.BirthDate     = other.BirthDate;
             this.FinishedDate  = other.FinishedDate;
@@ -102,6 +107,8 @@ namespace FolderManipulator.Data
 
         public string GetLimitedString(string text, int maxLength)
         {
+            if (text == null)
+                return "";
             if (text.Length > maxLength)
             {
                 text = text.Substring(0, maxLength - 3);
@@ -120,14 +127,26 @@ namespace FolderManipulator.Data
         {
             maxFileNameLength = maxFileNameLength.Clamp(10, 100);
             maxDescriptionLength = maxDescriptionLength.Clamp(10, 100);
-            
+            int customenMaxNameLength = 20;
+
             if (includeFinishedDate)
             {
-                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22} | {4,-22}", GetFileName(maxFileNameLength), Count + " db", Description, BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")), FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
+                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-20} | {3,-" + maxDescriptionLength + "} | {4,-22} | {5,-22}",
+                    GetFileName(maxFileNameLength),
+                    Count + " db",
+                    GetLimitedString(CustomerName, customenMaxNameLength),
+                    GetLimitedString(Description, maxDescriptionLength),
+                    BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")),
+                    FinishedDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
             }
             else
             {
-                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-" + maxDescriptionLength + "} | {3,-22}", GetFileName(maxFileNameLength), Count + " db", Description, BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
+                return String.Format("{0,-" + maxFileNameLength + "} | {1,-8} | {2,-20} | {3,-" + maxDescriptionLength + "} | {4,-22}",
+                    GetFileName(maxFileNameLength),
+                    Count + " db",
+                    GetLimitedString(CustomerName, customenMaxNameLength),
+                    GetLimitedString(Description, maxDescriptionLength),
+                    BirthDate.ToString("G", System.Globalization.CultureInfo.GetCultureInfo("hu-HU")));
             }
         }
 
