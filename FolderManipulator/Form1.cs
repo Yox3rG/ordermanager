@@ -46,6 +46,8 @@ namespace FolderManipulator
         private ToolTip formToolTips = new ToolTip();
         private Size? editOrderWindowSize = null;
 
+        private bool isAddPanelShown = true;
+
         private const int descriptionMaxLength = 40;
 
         public form_main()
@@ -129,6 +131,8 @@ namespace FolderManipulator
             {
                 WindowState = FormWindowState.Maximized;
             }
+
+            ShowAddPanel(Properties.Settings.Default.ShowAddPanel);
         }
 
         private void SaveUserSettings()
@@ -149,6 +153,9 @@ namespace FolderManipulator
                 Properties.Settings.Default.FormHeight = this.Height;
                 Properties.Settings.Default.Maximized = false;
             }
+
+            Properties.Settings.Default.ShowAddPanel = isAddPanelShown;
+
             Properties.Settings.Default.Save();
         }
 
@@ -1862,5 +1869,29 @@ namespace FolderManipulator
             formToolTips.SetToolTip(txt_comment, txt_comment.Text);
         }
         #endregion
+
+        private void toolstrip_item_add_panel_Click(object sender, EventArgs e)
+        {
+            ToggleShowAddPanel();
+        }
+
+        private void ToggleShowAddPanel()
+        {
+            ShowAddPanel(!isAddPanelShown);
+        }
+
+        private void ShowAddPanel(bool show)
+        {
+            isAddPanelShown = show;
+
+            if (isAddPanelShown)
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 300;
+            }
+            else
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 0;
+            }
+        }
     }
 }

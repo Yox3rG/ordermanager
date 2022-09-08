@@ -104,6 +104,7 @@
             this.toolstrip_item_language = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_language_english = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_language_hungarian = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_add_panel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
@@ -461,7 +462,7 @@
             this.table_layout_active_orders_page.Name = "table_layout_active_orders_page";
             this.table_layout_active_orders_page.RowCount = 1;
             this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
+            this.table_layout_active_orders_page.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 482F));
             this.table_layout_active_orders_page.Size = new System.Drawing.Size(772, 482);
             this.table_layout_active_orders_page.TabIndex = 6;
             // 
@@ -473,7 +474,7 @@
             this.tab_page_pending.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_pending.Name = "tab_page_pending";
             this.tab_page_pending.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tab_page_pending.Size = new System.Drawing.Size(794, 476);
+            this.tab_page_pending.Size = new System.Drawing.Size(776, 488);
             this.tab_page_pending.TabIndex = 1;
             this.tab_page_pending.Text = "Kész";
             this.tab_page_pending.UseVisualStyleBackColor = true;
@@ -491,7 +492,7 @@
             this.table_layout_pending_orders.Name = "table_layout_pending_orders";
             this.table_layout_pending_orders.RowCount = 1;
             this.table_layout_pending_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_pending_orders.Size = new System.Drawing.Size(790, 470);
+            this.table_layout_pending_orders.Size = new System.Drawing.Size(772, 482);
             this.table_layout_pending_orders.TabIndex = 11;
             // 
             // tree_view_pending
@@ -501,7 +502,7 @@
             this.tree_view_pending.Location = new System.Drawing.Point(106, 6);
             this.tree_view_pending.Margin = new System.Windows.Forms.Padding(6);
             this.tree_view_pending.Name = "tree_view_pending";
-            this.tree_view_pending.Size = new System.Drawing.Size(678, 458);
+            this.tree_view_pending.Size = new System.Drawing.Size(660, 470);
             this.tree_view_pending.TabIndex = 6;
             this.tree_view_pending.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_pending.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_view_pending_NodeMouseClick);
@@ -526,7 +527,7 @@
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_pending_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(96, 464);
+            this.table_layout_pending_order_buttons.Size = new System.Drawing.Size(96, 476);
             this.table_layout_pending_order_buttons.TabIndex = 6;
             // 
             // btn_add_pending_active
@@ -581,7 +582,7 @@
             this.tab_page_finished.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_finished.Name = "tab_page_finished";
             this.tab_page_finished.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tab_page_finished.Size = new System.Drawing.Size(794, 476);
+            this.tab_page_finished.Size = new System.Drawing.Size(776, 488);
             this.tab_page_finished.TabIndex = 3;
             this.tab_page_finished.Text = "Teljesített";
             this.tab_page_finished.UseVisualStyleBackColor = true;
@@ -599,8 +600,8 @@
             this.table_layout_finished_orders.Name = "table_layout_finished_orders";
             this.table_layout_finished_orders.RowCount = 1;
             this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 470F));
-            this.table_layout_finished_orders.Size = new System.Drawing.Size(790, 470);
+            this.table_layout_finished_orders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 482F));
+            this.table_layout_finished_orders.Size = new System.Drawing.Size(772, 482);
             this.table_layout_finished_orders.TabIndex = 12;
             // 
             // tree_view_finished
@@ -611,7 +612,7 @@
             this.tree_view_finished.Location = new System.Drawing.Point(106, 6);
             this.tree_view_finished.Margin = new System.Windows.Forms.Padding(6);
             this.tree_view_finished.Name = "tree_view_finished";
-            this.tree_view_finished.Size = new System.Drawing.Size(678, 458);
+            this.tree_view_finished.Size = new System.Drawing.Size(660, 470);
             this.tree_view_finished.TabIndex = 0;
             this.tree_view_finished.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_view_finished_AfterCheck);
             this.tree_view_finished.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
@@ -631,7 +632,7 @@
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.table_layout_finished_order_buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(96, 464);
+            this.table_layout_finished_order_buttons.Size = new System.Drawing.Size(96, 476);
             this.table_layout_finished_order_buttons.TabIndex = 6;
             // 
             // btn_add_finished_pending
@@ -664,7 +665,7 @@
             this.tab_page_archive.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_archive.Name = "tab_page_archive";
             this.tab_page_archive.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tab_page_archive.Size = new System.Drawing.Size(794, 476);
+            this.tab_page_archive.Size = new System.Drawing.Size(776, 488);
             this.tab_page_archive.TabIndex = 4;
             this.tab_page_archive.Text = "Archívum";
             this.tab_page_archive.UseVisualStyleBackColor = true;
@@ -683,7 +684,7 @@
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table_layout_archive.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.table_layout_archive.Size = new System.Drawing.Size(790, 470);
+            this.table_layout_archive.Size = new System.Drawing.Size(772, 482);
             this.table_layout_archive.TabIndex = 11;
             // 
             // lbl_archive_name
@@ -693,7 +694,7 @@
             this.lbl_archive_name.Location = new System.Drawing.Point(2, 0);
             this.lbl_archive_name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_archive_name.Name = "lbl_archive_name";
-            this.lbl_archive_name.Size = new System.Drawing.Size(786, 13);
+            this.lbl_archive_name.Size = new System.Drawing.Size(768, 13);
             this.lbl_archive_name.TabIndex = 10;
             this.lbl_archive_name.Text = "Drag and Drop archived files to see the orders!";
             // 
@@ -706,7 +707,7 @@
             this.tree_view_archive.Location = new System.Drawing.Point(2, 23);
             this.tree_view_archive.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tree_view_archive.Name = "tree_view_archive";
-            this.tree_view_archive.Size = new System.Drawing.Size(786, 424);
+            this.tree_view_archive.Size = new System.Drawing.Size(768, 436);
             this.tree_view_archive.TabIndex = 9;
             this.tree_view_archive.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.orderTreeViewDrawNode);
             this.tree_view_archive.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeview_archive_DragDrop);
@@ -722,7 +723,7 @@
             this.tab_page_customize.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tab_page_customize.Name = "tab_page_customize";
             this.tab_page_customize.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tab_page_customize.Size = new System.Drawing.Size(794, 476);
+            this.tab_page_customize.Size = new System.Drawing.Size(776, 488);
             this.tab_page_customize.TabIndex = 2;
             this.tab_page_customize.Text = "Forrás";
             this.tab_page_customize.UseVisualStyleBackColor = true;
@@ -970,7 +971,8 @@
             // toolstrip_item_view
             // 
             this.toolstrip_item_view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolstrip_item_language});
+            this.toolstrip_item_language,
+            this.toolstrip_item_add_panel});
             this.toolstrip_item_view.Name = "toolstrip_item_view";
             this.toolstrip_item_view.Size = new System.Drawing.Size(44, 20);
             this.toolstrip_item_view.Text = "View";
@@ -981,7 +983,7 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(126, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
@@ -997,6 +999,13 @@
             this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(114, 22);
             this.toolstrip_item_language_hungarian.Text = "Magyar";
             this.toolstrip_item_language_hungarian.Click += new System.EventHandler(this.magyarToolStripMenuItem_Click);
+            // 
+            // toolstrip_item_add_panel
+            // 
+            this.toolstrip_item_add_panel.Name = "toolstrip_item_add_panel";
+            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_add_panel.Text = "Show Add Panel";
+            this.toolstrip_item_add_panel.Click += new System.EventHandler(this.toolstrip_item_add_panel_Click);
             // 
             // toolstrip_item_help
             // 
@@ -1179,6 +1188,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_english;
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_language_hungarian;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_add_panel;
     }
 }
 
