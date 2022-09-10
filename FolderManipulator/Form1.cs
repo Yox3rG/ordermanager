@@ -41,8 +41,11 @@ namespace FolderManipulator
 
         private bool _sourceReady = false;
         private List<TabPage> tabPages;
+        private List<TabPage> tabPagesHidden;
         private List<TabPage> tabPagesShownWhenNoSource;
         private List<ToolStripItem> toolStripItems;
+
+        private List<Button> moveButtons;
 
         private ToolTip formToolTips = new ToolTip();
         private Size? editOrderWindowSize = null;
@@ -255,14 +258,16 @@ namespace FolderManipulator
         {
             InitialiseTreeViewParameters();
 
-            // No page should be present more than once in the 2 list.
+            // No page should be present more than once in the 3 list.
             tabPages = new List<TabPage>() {
                 tab_page_active,
                 tab_page_finished,
                 tab_page_archive,
             };
-            tabPagesShownWhenNoSource = new List<TabPage>() {
+            tabPagesHidden = new List<TabPage>() {
                 tab_page_pending,
+            };
+            tabPagesShownWhenNoSource = new List<TabPage>() {
                 tab_page_customize
             };
             toolStripItems = new List<ToolStripItem>() {
@@ -271,6 +276,16 @@ namespace FolderManipulator
                 toolstrip_item_view,
                 toolstrip_item_help
             };
+            moveButtons = new List<Button>()
+            {
+                btn_add_active_pending,
+                btn_add_active_finished,
+                btn_add_pending_active,
+                btn_add_pending_finished,
+                btn_add_finished_active,
+                btn_add_finished_pending,
+            };
+            ShowMoveButtons();
         }
 
         private void InitializeTimers()
@@ -545,9 +560,14 @@ namespace FolderManipulator
             return tabPagesToShow;
         }
 
-        private bool IsTabShown(OrderListType orderType)
+        private bool IsTabVisible(OrderListType orderType)
         {
             return GetCurrentTabPages().Contains(ListTypeToTab(orderType));
+        }
+
+        private bool IsOrderTabShown(OrderListType orderType)
+        {
+            return tabPages.Contains(ListTypeToTab(orderType));
         }
 
         private TabPage ListTypeToTab(OrderListType orderType)
@@ -566,6 +586,82 @@ namespace FolderManipulator
                     break;
             }
             return null;
+        }
+
+        private void ShowMoveButtons()
+        {
+            foreach (Button button in moveButtons)
+            {
+                if (GetMoveButtonType(button, out var buttonType))
+                {
+                    if (!IsOrderTabShown(buttonType.from) || !IsOrderTabShown(buttonType.to))
+                    {
+                        ShowButton(GetPanelFrom(buttonType.from), button, show: false);
+                    }
+                }
+            }
+        }
+
+        private void ShowButton(TableLayoutPanel table, Button button, bool show)
+        {
+            var position = table.GetPositionFromControl(button);
+            if (position.Row >= 0)
+                table.RowStyles[position.Row].Height = show ? 34 : 0;
+            button.Visible = show;
+        }
+
+        private TableLayoutPanel GetPanelFrom(OrderListType type)
+        {
+            switch (type)
+            {
+                case OrderListType.Active:
+                    return table_layout_active_order_buttons;
+                case OrderListType.Pending:
+                    return table_layout_pending_order_buttons;
+                case OrderListType.Finished:
+                    return table_layout_finished_order_buttons;
+                case OrderListType.Archived:
+                    break;
+                default:
+                    break;
+            } 
+            return null;
+        }
+
+        private bool GetMoveButtonType(Button moveButton, out (OrderListType from, OrderListType to) result)
+        {
+            result = (OrderListType.Active, OrderListType.Active);
+            if (btn_add_active_pending == moveButton)
+            {
+                result = (OrderListType.Active, OrderListType.Pending);
+                return true;
+            }
+            if (btn_add_active_finished == moveButton)
+            {
+                result = (OrderListType.Active, OrderListType.Finished);
+                return true;
+            }
+            if (btn_add_pending_active == moveButton)
+            {
+                result = (OrderListType.Pending, OrderListType.Active);
+                return true;
+            }
+            if (btn_add_pending_finished == moveButton)
+            {
+                result = (OrderListType.Pending, OrderListType.Finished);
+                return true;
+            }
+            if (btn_add_finished_active == moveButton)
+            {
+                result = (OrderListType.Finished, OrderListType.Active);
+                return true;
+            }
+            if (btn_add_finished_pending == moveButton)
+            {
+                result = (OrderListType.Finished, OrderListType.Pending);
+                return true;
+            }
+            return false;
         }
         #endregion
 
@@ -1259,8 +1355,8 @@ namespace FolderManipulator
 
         private bool IsOrderMovePossible(OrderListType from, OrderListType to)
         {
-            bool isFromTabShown = IsTabShown(from);
-            bool isToTabShown = IsTabShown(to);
+            bool isFromTabShown = IsTabVisible(from);
+            bool isToTabShown = IsTabVisible(to);
             if (isFromTabShown && isToTabShown)
             {
                 return true;
