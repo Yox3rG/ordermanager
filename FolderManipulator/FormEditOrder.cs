@@ -61,18 +61,18 @@ namespace FolderManipulator
 
             txt_folder.Text = orderData.FullPath;
             txt_folder.Enabled = false;
-            toolTip.SetToolTip(lbl_folder, txt_folder.Text);
+            toolTip.SetToolTip(txt_folder, txt_folder.Text);
 
             txt_count.Text = orderData.Count.ToString();
             txt_count.Enabled = false;
 
-            txt_customer_name.Text = orderData.CustomerName.ToString();
+            txt_customer_name.Text = orderData.CustomerName;
             txt_customer_name.Enabled = false;
-            toolTip.SetToolTip(lbl_customer_name, txt_customer_name.Text);
+            toolTip.SetToolTip(txt_customer_name, txt_customer_name.Text);
 
-            txt_comment.Text = orderData.Description.ToString();
+            txt_comment.Text = orderData.Description;
             txt_comment.Enabled = false;
-            toolTip.SetToolTip(lbl_comment, txt_comment.Text);
+            toolTip.SetToolTip(txt_comment, txt_comment.Text);
 
             txt_birth_date.Text = orderData.BirthDate.ToString();
             txt_birth_date.Enabled = false;

@@ -39,6 +39,7 @@ namespace FolderManipulator
         private List<ListControl> listsOfMainOrderTypes;
         private List<ListControl> listsOfSubOrderTypes;
 
+        private bool _sourceReady = false;
         private List<TabPage> tabPages;
         private List<TabPage> tabPagesShownWhenNoSource;
         private List<ToolStripItem> toolStripItems;
@@ -254,13 +255,14 @@ namespace FolderManipulator
         {
             InitialiseTreeViewParameters();
 
+            // No page should be present more than once in the 2 list.
             tabPages = new List<TabPage>() {
                 tab_page_active,
-                tab_page_pending,
                 tab_page_finished,
                 tab_page_archive,
             };
             tabPagesShownWhenNoSource = new List<TabPage>() {
+                tab_page_pending,
                 tab_page_customize
             };
             toolStripItems = new List<ToolStripItem>() {
@@ -509,7 +511,8 @@ namespace FolderManipulator
 
         private void SetApplicationState(bool sourceReady)
         {
-            ShowTabs(sourceReady);
+            _sourceReady = sourceReady;
+            ShowTabs();
             EnableToolStripItems(sourceReady);
         }
 
@@ -522,10 +525,11 @@ namespace FolderManipulator
         }
 
         #region Tabs
-        private void ShowTabs(bool sourceReady)
+        private void ShowTabs()
         {
             tab_control.TabPages.Clear();
-            List<TabPage> tabPagesToShow = sourceReady ? tabPages : tabPagesShownWhenNoSource;
+            List<TabPage> tabPagesToShow = GetCurrentTabPages();
+
             foreach (var tabPage in tabPagesToShow)
             {
                 tab_control.TabPages.Add(tabPage);
@@ -533,6 +537,35 @@ namespace FolderManipulator
 
             if (tab_control.TabCount > 0)
                 tab_control.SelectTab(0);
+        }
+
+        private List<TabPage> GetCurrentTabPages()
+        {
+            List<TabPage> tabPagesToShow = _sourceReady ? tabPages : tabPagesShownWhenNoSource;
+            return tabPagesToShow;
+        }
+
+        private bool IsTabShown(OrderListType orderType)
+        {
+            return GetCurrentTabPages().Contains(ListTypeToTab(orderType));
+        }
+
+        private TabPage ListTypeToTab(OrderListType orderType)
+        {
+            switch (orderType)
+            {
+                case OrderListType.Active:
+                    return tab_page_active;
+                case OrderListType.Pending:
+                    return tab_page_pending;
+                case OrderListType.Finished:
+                    return tab_page_finished;
+                case OrderListType.Archived:
+                    return tab_page_archive;
+                default:
+                    break;
+            }
+            return null;
         }
         #endregion
 
@@ -726,7 +759,7 @@ namespace FolderManipulator
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowTabs(sourceReady: false);
+            SetApplicationState(sourceReady: false);
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -929,6 +962,24 @@ namespace FolderManipulator
         private void tree_view_finished_AfterCheck(object sender, TreeViewEventArgs e)
         {
             CheckAllChildren(treeViewHandleGroup.GetHandle(tree_view_finished), e);
+        }
+
+        private TreeView GetOrderTreeView(OrderListType orderListType)
+        {
+            switch (orderListType)
+            {
+                case OrderListType.Active:
+                    return tree_view_active;
+                case OrderListType.Pending:
+                    return tree_view_pending;
+                case OrderListType.Finished:
+                    return tree_view_finished;
+                case OrderListType.Archived:
+                    return tree_view_archive;
+                default:
+                    break;
+            }
+            return null;
         }
         #endregion
 
@@ -1165,56 +1216,57 @@ namespace FolderManipulator
         #region Move Order Buttons
         private void btn_add_active_pending_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            if (IsCheckedListCorrect(orders))
-            {
-                OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Pending);
-            }
+            MoveCheckedOrders(OrderListType.Active, OrderListType.Pending);
         }
 
         private void btn_add_active_finished_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            if (IsCheckedListCorrect(orders))
-            {
-                OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Finished);
-            }
+            MoveCheckedOrders(OrderListType.Active, OrderListType.Finished);
         }
 
         private void btn_add_pending_active_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            if (IsCheckedListCorrect(orders))
-            {
-                OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Active);
-            }
+            MoveCheckedOrders(OrderListType.Pending, OrderListType.Active);
         }
 
         private void btn_add_pending_finished_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            if (IsCheckedListCorrect(orders))
-            {
-                OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Finished);
-            }
+            MoveCheckedOrders(OrderListType.Pending, OrderListType.Finished);
         }
 
         private void btn_add_finished_active_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
-            if (IsCheckedListCorrect(orders))
-            {
-                OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Active);
-            }
+            MoveCheckedOrders(OrderListType.Finished, OrderListType.Active);
         }
 
         private void btn_add_finished_pending_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
+            MoveCheckedOrders(OrderListType.Finished, OrderListType.Pending);
+        }
+
+        private void MoveCheckedOrders(OrderListType from, OrderListType to)
+        {
+            if (!IsOrderMovePossible(from, to))
+                return;
+
+            TreeView treeView = GetOrderTreeView(from);
+            List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
             if (IsCheckedListCorrect(orders))
             {
-                OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
+                OrderManager.MoveOrder(orders, from, to);
             }
+        }
+
+        private bool IsOrderMovePossible(OrderListType from, OrderListType to)
+        {
+            bool isFromTabShown = IsTabShown(from);
+            bool isToTabShown = IsTabShown(to);
+            if (isFromTabShown && isToTabShown)
+            {
+                return true;
+            }
+            StatusManager.ShowMessage("orderTabNotShown", StatusColorType.Warning, DelayTimeType.Short);
+            return false;
         }
 
         private bool IsCheckedListCorrect(List<OrderData> list)

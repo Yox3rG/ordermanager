@@ -49,6 +49,8 @@
             this.txt_folder_target = new System.Windows.Forms.TextBox();
             this.list_checked_files = new System.Windows.Forms.CheckedListBox();
             this.panel_add_order_bottom = new System.Windows.Forms.Panel();
+            this.lbl_customer_name = new System.Windows.Forms.Label();
+            this.txt_customer_name = new System.Windows.Forms.TextBox();
             this.lbl_count = new System.Windows.Forms.Label();
             this.txt_count = new System.Windows.Forms.TextBox();
             this.lbl_comment = new System.Windows.Forms.Label();
@@ -111,8 +113,6 @@
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_customer_name = new System.Windows.Forms.Label();
-            this.txt_customer_name = new System.Windows.Forms.TextBox();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -384,6 +384,25 @@
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
             this.panel_add_order_bottom.Size = new System.Drawing.Size(292, 131);
             this.panel_add_order_bottom.TabIndex = 29;
+            // 
+            // lbl_customer_name
+            // 
+            this.lbl_customer_name.AutoSize = true;
+            this.lbl_customer_name.Location = new System.Drawing.Point(2, 37);
+            this.lbl_customer_name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_customer_name.Name = "lbl_customer_name";
+            this.lbl_customer_name.Size = new System.Drawing.Size(30, 13);
+            this.lbl_customer_name.TabIndex = 8;
+            this.lbl_customer_name.Text = "Név:";
+            // 
+            // txt_customer_name
+            // 
+            this.txt_customer_name.Location = new System.Drawing.Point(94, 34);
+            this.txt_customer_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txt_customer_name.Name = "txt_customer_name";
+            this.txt_customer_name.Size = new System.Drawing.Size(192, 20);
+            this.txt_customer_name.TabIndex = 7;
+            this.txt_customer_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_customer_name_KeyUp);
             // 
             // lbl_count
             // 
@@ -1057,25 +1076,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // lbl_customer_name
-            // 
-            this.lbl_customer_name.AutoSize = true;
-            this.lbl_customer_name.Location = new System.Drawing.Point(2, 37);
-            this.lbl_customer_name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lbl_customer_name.Name = "lbl_customer_name";
-            this.lbl_customer_name.Size = new System.Drawing.Size(30, 13);
-            this.lbl_customer_name.TabIndex = 8;
-            this.lbl_customer_name.Text = "Név:";
-            // 
-            // txt_customer_name
-            // 
-            this.txt_customer_name.Location = new System.Drawing.Point(94, 34);
-            this.txt_customer_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.txt_customer_name.Name = "txt_customer_name";
-            this.txt_customer_name.Size = new System.Drawing.Size(192, 20);
-            this.txt_customer_name.TabIndex = 7;
-            this.txt_customer_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_customer_name_KeyUp);
             // 
             // form_main
             // 
