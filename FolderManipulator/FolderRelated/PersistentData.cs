@@ -201,7 +201,7 @@ namespace FolderManipulator.FolderRelated
                 isEveryObjectPresent = false;
                 if (showStatusMessage)
                 {
-                    StatusManager.ShowMessage($"unableToSyncServer", StatusColorType.Error, list: dataType);
+                    StatusManager.ShowMessage($"unableToSyncServer", StatusColorType.Error, DelayTimeType.Short, list: dataType);
                 }
             }
         }
