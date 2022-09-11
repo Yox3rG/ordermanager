@@ -1089,7 +1089,7 @@
             this.MainMenuStrip = this.toolstrip_menu;
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "form_main";
-            this.Text = "Order Manager";
+            this.Text = "ClipBroad 2.0";
             this.Activated += new System.EventHandler(this.form_main_Activated);
             this.Deactivate += new System.EventHandler(this.form_main_DeActivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.form_main_FormClosing);
