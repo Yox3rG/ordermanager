@@ -389,7 +389,7 @@ namespace FolderManipulator
             OnTenMinuteTimer += SaveAllLocal;
             OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
 
-            SettingsManager.OnOrderNameMaxLengthChanged += delegate (int maxOrderNameLength) { OrderData.UpdateToStringBase(maxOrderNameLength, descriptionMaxLength); };
+            //SettingsManager.OnOrderNameMaxLengthChanged += delegate (int maxOrderNameLength) { OrderData.UpdateToStringBase(maxOrderNameLength, descriptionMaxLength); };
             SettingsManager.OnOrderNameMaxLengthChanged += delegate { RefreshAll(); };
         }
 
@@ -624,7 +624,7 @@ namespace FolderManipulator
                     break;
                 default:
                     break;
-            } 
+            }
             return null;
         }
 
@@ -1412,36 +1412,44 @@ namespace FolderManipulator
 
         private void FillTreeViewWithOrders(TreeView treeView, OrderList orders, bool includeFinishedDate = false)
         {
-            treeView.Nodes.Clear();
-            List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
-            AddStringNodesToNode(mainOrderTypes, treeView.Nodes);
-            TreeNode dummy = treeView.Nodes.Add(_dummyOrderTypeName);
-
-            foreach (var order in orders.Orders)
+            try
             {
-                TreeNode grandParent = FindParent(order.MainOrderType, treeView.Nodes);
-                if (grandParent == null)
-                    grandParent = dummy;
+                treeView.Nodes.Clear();
+                List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
+                AddStringNodesToNode(mainOrderTypes, treeView.Nodes);
+                TreeNode dummy = treeView.Nodes.Add(_dummyOrderTypeName);
 
-                if (order.SubOrderType == null)
-                    order.SubOrderType = _dummyOrderTypeName;
-
-                TreeNode parent = null;
-                if (order.SubOrderType == OrderTypes.noTypeName)
-                    parent = grandParent;
-                else
-                    parent = FindParent(order.SubOrderType, grandParent.Nodes);
-
-                if (parent == null)
+                foreach (var order in orders.Orders)
                 {
-                    parent = CreateTreeNode(order.SubOrderType);
-                    grandParent.Nodes.Add(parent);
+                    TreeNode grandParent = FindParent(order.MainOrderType, treeView.Nodes);
+                    if (grandParent == null)
+                        grandParent = dummy;
+
+                    if (order.SubOrderType == null)
+                        order.SubOrderType = _dummyOrderTypeName;
+
+                    TreeNode parent = null;
+                    if (order.SubOrderType == OrderTypes.noTypeName)
+                        parent = grandParent;
+                    else
+                        parent = FindParent(order.SubOrderType, grandParent.Nodes);
+
+                    if (parent == null)
+                    {
+                        parent = CreateTreeNode(order.SubOrderType);
+                        grandParent.Nodes.Add(parent);
+                    }
+
+                    TreeNode node = CreateTreeNode(order.ToString(SettingsManager.LocalSettings.OrderNameMaxLength, descriptionMaxLength, includeFinishedDate));
+                    node.Tag = order;
+
+                    parent.Nodes.Add(node);
                 }
-
-                TreeNode node = CreateTreeNode(order.ToString(SettingsManager.LocalSettings.OrderNameMaxLength, descriptionMaxLength, includeFinishedDate));
-                node.Tag = order;
-
-                parent.Nodes.Add(node);
+            }
+            catch (Exception e)
+            {
+                treeView.Nodes.Clear();
+                StatusManager.ShowMessage("cantFillTreeView", StatusColorType.Error, DelayTimeType.Medium);
             }
         }
 
