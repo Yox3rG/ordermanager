@@ -107,6 +107,7 @@ namespace FolderManipulator.Data
             {
                 case OrderListType.Active:
                     orderData.State = OrderState.None;
+                    orderData.FinishedDate = default;
                     break;
                 case OrderListType.Pending:
                     if (orderData.State == OrderState.None)

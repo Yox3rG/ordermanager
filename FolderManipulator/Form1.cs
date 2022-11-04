@@ -364,6 +364,28 @@ namespace FolderManipulator
             tree_view_finished.ContextMenu = contextMenuFinishedOrderTreeView.Menu;
 
             SpecialContextMenuItem[] contextMenuItemsArchiveTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Add to Active orders", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "readd");
+                            return;
+                        }
+                        OrderManager.AddNewOrder(order);
+                    }),
+                new SpecialContextMenuItem("Open file location", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "show in explorer");
+                            return;
+                        }
+
+                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(GetFullPathWithLocalDriveLetter(order.FullPath)));
+                    }),
+                new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear", delegate(Control owner)
                     {
                         tree_view_archive.Nodes.Clear();
