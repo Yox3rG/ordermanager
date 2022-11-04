@@ -183,6 +183,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
         "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
         "MsmSig" = "8:_UNDEFINED"
@@ -239,12 +245,6 @@
         {
         "MsmKey" = "8:_D486D75645C8EF3F48B34D9E91A345F7"
         "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DFA85A476414469EBB1287EF51B560D7"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -389,7 +389,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\FolderManipulatorSetup.msi"
+        "OutputFilename" = "8:Release\\Clipboard 2.0 Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -863,6 +863,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6F6FF47960E45838F55D79C5F39E71F"
+            {
+            "SourcePath" = "8:..\\Pictures\\clipboard20.ico"
+            "TargetName" = "8:clipboard20.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B807F909CC1AC16871AD2159792D2CC8"
             {
             "AssemblyRegister" = "3:1"
@@ -943,26 +963,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DFA85A476414469EBB1287EF51B560D7"
-            {
-            "SourcePath" = "8:..\\Pictures\\yordermanager.ico"
-            "TargetName" = "8:clipboard_2_0_icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7946E833C6241D99B51EF5870B0536A"
@@ -1125,15 +1125,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ClipBoard 2.0"
-        "ProductCode" = "8:{0214AACE-0CD9-49C3-90D7-1199602A7BE4}"
-        "PackageCode" = "8:{B061CD71-013E-4E87-B841-E9ADC2B72CD3}"
+        "ProductCode" = "8:{C58D5B04-6599-45BA-B079-EEA87F0F2D62}"
+        "PackageCode" = "8:{7890A705-2EAB-4C65-A37B-B058D2537621}"
         "UpgradeCode" = "8:{1DCEF0C6-C9A8-43E8-97EB-A612DD135FCA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.9.6"
+        "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Yox3rG Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1248,7 +1248,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_11F78BF17EBE4F53BD2BE26D6A1F3B62"
             {
-            "Name" = "8:Order Manager"
+            "Name" = "8:ClipBoard 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1257,12 +1257,12 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_31E03915972840A3B3EC84EEE7C6EC35"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:_DFA85A476414469EBB1287EF51B560D7"
+            "Icon" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FCCE2416FBE44AAA95EFC1A31CC48058"
             {
-            "Name" = "8:Order Manager"
+            "Name" = "8:ClipBoard 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1271,7 +1271,7 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_7F06EC4DD33B48D6B52B3900B70F7B3B"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:_DFA85A476414469EBB1287EF51B560D7"
+            "Icon" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
             "Feature" = "8:"
             }
         }
@@ -1675,7 +1675,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C81F5ECD5AC242DEAA068F396CB29F7A"
             {
-            "SourcePath" = "8:..\\FolderManipulator\\obj\\Debug\\FolderManipulator.exe"
+            "SourcePath" = "8:..\\FolderManipulator\\obj\\Release\\FolderManipulator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
