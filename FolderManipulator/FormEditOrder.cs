@@ -63,6 +63,9 @@ namespace FolderManipulator
             txt_folder.Enabled = false;
             toolTip.SetToolTip(txt_folder, txt_folder.Text);
 
+            txt_file_name.Text = System.IO.Path.GetFileName(orderData.FullPath);
+            txt_file_name.Enabled = false;
+
             txt_count.Text = orderData.Count.ToString();
             txt_count.Enabled = false;
 

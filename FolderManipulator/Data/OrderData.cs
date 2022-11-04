@@ -90,16 +90,17 @@ namespace FolderManipulator.Data
         public string GetFileName(int maxLength)
         {
             string fileName = GetFileName();
+            int endCharactersShown = 0;
             if (fileName.Length > maxLength)
             {
-                string extension = fileName.Substring(fileName.LastIndexOf('.'));
-                if (extension.Length > maxLength - 2)
+                string extension = fileName.Substring(fileName.LastIndexOf('.') - endCharactersShown);
+                if (extension.Length > maxLength - 2 - endCharactersShown)
                 {
                     // 1.3456789AB
                     // ...3456789
                     // 12.456789AB
                     // ...456789A
-                    extension = extension.Substring(0, maxLength - 2);
+                    extension = extension.Substring(0, maxLength - 2 - endCharactersShown);
                     fileName = ".." + extension;
                 }
                 else
@@ -108,7 +109,7 @@ namespace FolderManipulator.Data
                     // ...56789AB
                     // 1234.6789AB
                     // 1...6789AB
-                    fileName = fileName.Substring(0, maxLength - extension.Length - 2);
+                    fileName = fileName.Substring(0, maxLength - extension.Length - 2 - endCharactersShown);
                     fileName += "..";
                     fileName += extension;
                 }
