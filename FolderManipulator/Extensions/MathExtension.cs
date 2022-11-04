@@ -9,6 +9,32 @@ namespace FolderManipulator.Extensions
 {
     public static class MathExtension
     {
+        public static int Clamp(this int value, int min, int max)
+        {
+            if (value < min)
+            {
+                value = min;
+            }
+            if (value > max)
+            {
+                value = max;
+            }
+            return value;
+        }
+
+        public static float Clamp(this float value, float min, float max)
+        {
+            if (value < min)
+            {
+                value = min;
+            }
+            if (value > max)
+            {
+                value = max;
+            }
+            return value;
+        }
+
         public static float Lerp(float a, float b, float t)
         {
             return a * (1 - t) + b * t;

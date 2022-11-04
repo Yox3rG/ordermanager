@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_009A1CF187464C058506CFE46AA99E25"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_056FF01A5A1031D1F91DE461895181BF"
         "OwnerKey" = "8:_4297C99BD538B3669510AC746F2E8A2F"
         "MsmSig" = "8:_UNDEFINED"
@@ -23,6 +29,18 @@
         {
         "MsmKey" = "8:_056FF01A5A1031D1F91DE461895181BF"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0CEB352D62D345E89C7D47888BC1CBEE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1414B01727554E498069CC4C14A05E29"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,6 +75,36 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2A3CFFF89FB54169A27208F902EAC27D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3234411CC04C443EB3528BDDE84EDC83"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_389028FA365BC2BE2A5CFCFF12922232"
+        "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_389028FA365BC2BE2A5CFCFF12922232"
+        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4297C99BD538B3669510AC746F2E8A2F"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
         "MsmSig" = "8:_UNDEFINED"
@@ -64,7 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_48E6C58D3325FE972FE641F922B3165C"
-        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,6 +123,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_48E6C58D3325FE972FE641F922B3165C"
+        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7A20552A209995CA116D81F2B1770111"
         "OwnerKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
         "MsmSig" = "8:_UNDEFINED"
@@ -93,20 +147,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
-        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmKey" = "8:_8DB37CC3973B4434B2875ED1B2D10B3E"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
-        "OwnerKey" = "8:_4297C99BD538B3669510AC746F2E8A2F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
-        "OwnerKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
+        "MsmKey" = "8:_ACB26F1E45024AD68475C187515BE57F"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -117,8 +165,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
+        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
+        "OwnerKey" = "8:_4297C99BD538B3669510AC746F2E8A2F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
+        "OwnerKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
+        "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -131,11 +203,23 @@
         {
         "MsmKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
         "OwnerKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
+        "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D468C504FC34462B80CE44800B7B1DA2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -159,6 +243,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D486D75645C8EF3F48B34D9E91A345F7"
+        "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E7946E833C6241D99B51EF5870B0536A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ECC5F4D849214511A18D76CE3CE5441C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
         "OwnerKey" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
         "MsmSig" = "8:_UNDEFINED"
@@ -167,12 +269,6 @@
         {
         "MsmKey" = "8:_FA75C2DE047F1B1B144C79694C956DDC"
         "OwnerKey" = "8:_4297C99BD538B3669510AC746F2E8A2F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1F1CDFC2A9751514C7445C65B4696371"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -202,6 +298,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B807F909CC1AC16871AD2159792D2CC8"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -215,6 +317,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AE06950DE4446B9D14699F2F461B5108"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_389028FA365BC2BE2A5CFCFF12922232"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -235,6 +343,12 @@
         "OwnerKey" = "8:_26FC9FEBC61260170AA8703F4D40D388"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1F1CDFC2A9751514C7445C65B4696371"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -253,13 +367,29 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\FolderManipulatorSetup.msi"
+        "OutputFilename" = "8:Release\\Clipboard 2.0 Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -269,6 +399,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -298,6 +444,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_009A1CF187464C058506CFE46AA99E25"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\english_form_main.csv"
+            "TargetName" = "8:english_form_main.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_056FF01A5A1031D1F91DE461895181BF"
             {
             "AssemblyRegister" = "3:1"
@@ -327,6 +493,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0CEB352D62D345E89C7D47888BC1CBEE"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\hungarian_form_ordertype_settings.csv"
+            "TargetName" = "8:hungarian_form_ordertype_settings.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1414B01727554E498069CC4C14A05E29"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\english_form_settings.csv"
+            "TargetName" = "8:english_form_settings.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F1CDFC2A9751514C7445C65B4696371"
@@ -374,6 +580,108 @@
                     }
                 }
             "SourcePath" = "8:System.Runtime.CompilerServices.Unsafe.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2A3CFFF89FB54169A27208F902EAC27D"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\hungarian_form_settings.csv"
+            "TargetName" = "8:hungarian_form_settings.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3234411CC04C443EB3528BDDE84EDC83"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\hungarian_form_edit_order.csv"
+            "TargetName" = "8:hungarian_form_edit_order.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CsvHelper, Version=28.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_3825C7F5B9E7E03AC5DBCE9F79C8E5BD"
+                    {
+                    "Name" = "8:CsvHelper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CsvHelper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_389028FA365BC2BE2A5CFCFF12922232"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_389028FA365BC2BE2A5CFCFF12922232"
+                    {
+                    "Name" = "8:Microsoft.Bcl.HashCode.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Bcl.HashCode.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
@@ -484,6 +792,46 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8DB37CC3973B4434B2875ED1B2D10B3E"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\hungarian_form_main.csv"
+            "TargetName" = "8:hungarian_form_main.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ACB26F1E45024AD68475C187515BE57F"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\english_errors.csv"
+            "TargetName" = "8:english_errors.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_314893D592224F54872429664EAD934B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AE06950DE4446B9D14699F2F461B5108"
             {
             "AssemblyRegister" = "3:1"
@@ -513,6 +861,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6F6FF47960E45838F55D79C5F39E71F"
+            {
+            "SourcePath" = "8:..\\Pictures\\clipboard20.ico"
+            "TargetName" = "8:clipboard20.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B807F909CC1AC16871AD2159792D2CC8"
@@ -546,6 +914,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D468C504FC34462B80CE44800B7B1DA2"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\english_form_ordertype_settings.csv"
+            "TargetName" = "8:english_form_ordertype_settings.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D486D75645C8EF3F48B34D9E91A345F7"
             {
             "AssemblyRegister" = "3:1"
@@ -575,6 +963,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7946E833C6241D99B51EF5870B0536A"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\hungarian_errors.csv"
+            "TargetName" = "8:hungarian_errors.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_314893D592224F54872429664EAD934B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ECC5F4D849214511A18D76CE3CE5441C"
+            {
+            "SourcePath" = "8:C:\\Users\\Yox3rG\\Downloads\\drive-download-20220911T083649Z-001\\english_form_edit_order.csv"
+            "TargetName" = "8:english_form_edit_order.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FA75C2DE047F1B1B144C79694C956DDC"
@@ -624,6 +1052,28 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_314893D592224F54872429664EAD934B"
+                    {
+                    "Name" = "8:error"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_0481C374851E43A09A79A2E1362D4001"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_97D0819F3BCA4555BBBBD338BE1CE9C8"
+                    {
+                    "Name" = "8:languages"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_0A087815001649B5BFA9D366CC768737"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_7F06EC4DD33B48D6B52B3900B70F7B3B"
@@ -674,20 +1124,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:OrderManager"
-        "ProductCode" = "8:{E033F862-C13C-456C-9CA9-F8998FE96BAE}"
-        "PackageCode" = "8:{637B2770-8AD1-412D-83DC-FCD1B9557E73}"
+        "ProductName" = "8:ClipBoard 2.0"
+        "ProductCode" = "8:{C58D5B04-6599-45BA-B079-EEA87F0F2D62}"
+        "PackageCode" = "8:{7890A705-2EAB-4C65-A37B-B058D2537621}"
         "UpgradeCode" = "8:{1DCEF0C6-C9A8-43E8-97EB-A612DD135FCA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Yox3rG Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:OrderManager"
+        "Title" = "8:ClipBoard 2.0"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Yox3rG"
         "Keywords" = "8:"
@@ -798,7 +1248,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_11F78BF17EBE4F53BD2BE26D6A1F3B62"
             {
-            "Name" = "8:OrderManager"
+            "Name" = "8:ClipBoard 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -807,12 +1257,12 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_31E03915972840A3B3EC84EEE7C6EC35"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:"
+            "Icon" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FCCE2416FBE44AAA95EFC1A31CC48058"
             {
-            "Name" = "8:OrderManager"
+            "Name" = "8:ClipBoard 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -821,7 +1271,7 @@
             "Target" = "8:_C81F5ECD5AC242DEAA068F396CB29F7A"
             "Folder" = "8:_7F06EC4DD33B48D6B52B3900B70F7B3B"
             "WorkingFolder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
-            "Icon" = "8:"
+            "Icon" = "8:_B6F6FF47960E45838F55D79C5F39E71F"
             "Feature" = "8:"
             }
         }
@@ -1225,7 +1675,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C81F5ECD5AC242DEAA068F396CB29F7A"
             {
-            "SourcePath" = "8:..\\FolderManipulator\\obj\\Debug\\FolderManipulator.exe"
+            "SourcePath" = "8:..\\FolderManipulator\\obj\\Release\\FolderManipulator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"

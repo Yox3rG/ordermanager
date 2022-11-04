@@ -14,8 +14,9 @@ namespace FolderManipulator.Analytics
         private static int logMaxLines = 50;
         private static Queue<string> logs = new Queue<string>();
 
-        public static void WriteLine(string message, [CallerMemberName] string memberName = null, [CallerFilePath] string sourceFilePath = null)
+        public static void WriteLine(string messageOrID, [CallerMemberName] string memberName = null, [CallerFilePath] string sourceFilePath = null, params object[] list)
         {
+            string message = ErrorManager.GetDefaultErrorMessage(messageOrID, list);
             Console.WriteLine(AddLog(message, className: Path.GetFileName(sourceFilePath), functionName: memberName));
         }
 

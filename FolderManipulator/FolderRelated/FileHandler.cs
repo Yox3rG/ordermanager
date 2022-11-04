@@ -24,12 +24,12 @@ namespace FolderManipulator.FolderRelated
                 }
                 catch (Exception win32Exception)
                 {
-                    StatusManager.ShowMessage($"Can't start explorer! Error: {win32Exception.Message}", StatusColorType.Error, DelayTimeType.Medium);
+                    StatusManager.ShowMessage($"cantStartExplorer", StatusColorType.Error, DelayTimeType.Medium, win32Exception.Message);
                 }
             }
             else
             {
-                StatusManager.ShowMessage($"Directory [{folderPath}] does not exist!", StatusColorType.Warning, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"folderDoesntExist", StatusColorType.Warning, DelayTimeType.Medium, folderPath);
             }
         }
     }

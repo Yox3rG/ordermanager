@@ -1,6 +1,11 @@
-﻿using FolderManipulator.Analytics;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using FolderManipulator.Analytics;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace FolderManipulator.FolderRelated
@@ -12,6 +17,8 @@ namespace FolderManipulator.FolderRelated
 
         public static Action OnSaveSuccessful;
         public static Action OnSaveFailed;
+
+        private static CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture) { HasHeaderRecord = false, MissingFieldFound = null, BadDataFound = null, Mode = CsvMode.Escape, Delimiter = "," };
 
         public static T Load<T>(string path) where T : class
         {
@@ -92,6 +99,47 @@ namespace FolderManipulator.FolderRelated
             }
 
             return true;
+        }
+
+        public static List<T> LoadCSV<T>(string path)
+        {
+            int failIndex = 0;
+            try
+            {
+                using (StreamReader reader = new StreamReader (path))
+                {
+                    using (CsvReader csvReader = new CsvReader(reader, csvConfig))
+                    {
+                        List<T> records = csvReader.GetRecords<T>().ToList();
+                        return records;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            return null;
+        }
+
+        public static bool SaveCSV<T>(string path, List<T> data)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    using (CsvWriter csvWriter = new CsvWriter(writer, csvConfig))
+                    {
+                        csvWriter.WriteRecords(data);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            return false;
         }
     }
 }

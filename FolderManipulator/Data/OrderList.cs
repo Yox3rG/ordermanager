@@ -71,6 +71,17 @@ namespace FolderManipulator.Data
             return success;
         }
 
+        public bool Edit(OrderData data, OrderEditData editData)
+        {
+            if (data == null || !Orders.Contains(data))
+                return false;
+
+            UpdateID.IncreaseUpdateID();
+            data.Edit(editData);
+            Orders.Sort();
+            return true;
+        }
+
         public void Clear()
         {
             UpdateID.IncreaseUpdateID();
@@ -96,9 +107,10 @@ namespace FolderManipulator.Data
             {
                 case OrderListType.Active:
                     orderData.State = OrderState.None;
+                    orderData.FinishedDate = default;
                     break;
                 case OrderListType.Pending:
-                    if(orderData.State == OrderState.None)
+                    if (orderData.State == OrderState.None)
                     {
                         orderData.State = OrderState.Pending;
                     }

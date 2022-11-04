@@ -9,8 +9,22 @@ namespace FolderManipulator.UI
 {
     public static class ColorManager
     {
-        public static Color checkedOrderColor = Color.Aqua;
-        public static Color notifiedOrderColor = Color.PeachPuff;
-        public static Color pendingOrderColor = Color.Empty;
+        public static Color checkedOrderColor;
+        public static Color notifiedOrderColor;
+        public static Color pendingOrderColor;
+
+        public static Color selectedTreeViewNodeColor;
+        public static Color mainOrderTypeTreeViewNodeColor1;
+        public static Color mainOrderTypeTreeViewNodeColor2;
+
+        static ColorManager()
+        {
+            checkedOrderColor = Color.Aqua;
+            notifiedOrderColor = Color.PeachPuff;
+            pendingOrderColor = Color.Empty;
+            selectedTreeViewNodeColor = Color.FromArgb(128, Color.MidnightBlue);
+            mainOrderTypeTreeViewNodeColor1 = Color.FromArgb(64, Color.MediumSpringGreen);
+            mainOrderTypeTreeViewNodeColor2 = Color.FromArgb(64, Color.MediumSeaGreen);
+        }
     }
 }

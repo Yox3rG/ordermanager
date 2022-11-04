@@ -9,7 +9,7 @@ namespace FolderManipulator.Data
     [Serializable]
     public class UpdateID : IEquatable<UpdateID>
     {
-        private const int MAX_UPDATE_VALUE = 10;
+        private const int MAX_UPDATE_VALUE = 1000000000;
 
         public int Value { get; set; }
 

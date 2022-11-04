@@ -6,6 +6,7 @@ using FolderManipulator.UI;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,31 +19,51 @@ namespace FolderManipulator
         private Action OnOneSecondTimer;
         private Action OnTenMinuteTimer;
 
+        private form_ordertype_settings formOrderTypeSettings;
+        private form_settings formSettings;
+
+        private Timer formOneSecondTimer;
+        private Timer formTenMinuteTimer;
+
         private PersistentData persistentData;
         private HighlightManager normalHighlightManager;
 
         private OrderTreeViewHandleGroup treeViewHandleGroup = new OrderTreeViewHandleGroup();
         private const string _dummyOrderTypeName = "Other";
+        private int selectedMainOrderTypeIndex = 0;
+        private int selectedSubOrderTypeIndex = 0;
 
         private Dictionary<TreeView, TreeViewEventHandler> treeViewToAfterCheck = new Dictionary<TreeView, TreeViewEventHandler>();
+        private List<TreeView> orderTreeViews = new List<TreeView>();
 
-        private Timer formOneSecondTimer;
-        private Timer formTenMinuteTimer;
+        private List<ListControl> listsOfMainOrderTypes;
+        private List<ListControl> listsOfSubOrderTypes;
 
+        private bool _sourceReady = false;
         private List<TabPage> tabPages;
+        private List<TabPage> tabPagesHidden;
         private List<TabPage> tabPagesShownWhenNoSource;
         private List<ToolStripItem> toolStripItems;
+
+        private List<Button> moveButtons;
+
+        private ToolTip formToolTips = new ToolTip();
+        private Size? editOrderWindowSize = null;
+
+        private bool isAddPanelShown = true;
+
+        private const int descriptionMaxLength = 40;
 
         public form_main()
         {
             InitializeComponent();
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
-            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
+            FillTreeViewLists();
 
             StatusManager.Initialize(status_strip);
+            FontManager.Initialize(12);
             InitializeFormElements();
             InitializeTimers();
+            FillListControls();
 
             SetupManagers();
             SetupPersistentData();
@@ -50,21 +71,131 @@ namespace FolderManipulator
             SubscribeToActions();
             InitializeContextMenus();
 
+            RefreshOrderTreeViewFont();
+            FontManager.OnFontSizeChanged += RefreshOrderTreeViewFont;
+
+            InitializeLanguageManager();
+
 #if DEBUG
             //ShowMessage();
             StartDebugTimer();
 #endif
         }
 
+        private void FillTreeViewLists()
+        {
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_active, tree_view_active_AfterCheck, OrderListType.Active, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_pending, tree_view_pending_AfterCheck, OrderListType.Pending, new List<Guid>()));
+            treeViewHandleGroup.AddHandle(new OrderTreeViewHandle(tree_view_finished, tree_view_finished_AfterCheck, OrderListType.Finished, new List<Guid>()));
+
+            orderTreeViews.Add(tree_view_active);
+            orderTreeViews.Add(tree_view_pending);
+            orderTreeViews.Add(tree_view_finished);
+            orderTreeViews.Add(tree_view_archive);
+        }
+
+        private void DoOnAllOrderTreeView(Action<TreeView> action)
+        {
+            if (action == null)
+            {
+                return;
+            }
+            foreach (var treeView in orderTreeViews)
+            {
+                action(treeView);
+            }
+        }
+
+        private void LoadUserSettings()
+        {
+            if (SystemInformation.MonitorCount > 1)
+            {
+                Top = Properties.Settings.Default.FormTop;
+                Left = Properties.Settings.Default.FormLeft;
+                Width = Properties.Settings.Default.FormWidth;
+                Height = Properties.Settings.Default.FormHeight;
+            }
+            else
+            {
+                Top = Properties.Settings.Default.FormTop;
+                if (Top > SystemInformation.PrimaryMonitorSize.Height)
+                    Top = 200;
+                Height = Properties.Settings.Default.FormHeight;
+                if (Height > SystemInformation.PrimaryMonitorSize.Height)
+                    Height = 600;
+                Left = Properties.Settings.Default.FormLeft;
+                if (Left > SystemInformation.PrimaryMonitorSize.Width)
+                    Left = 200;
+                Width = Properties.Settings.Default.FormWidth;
+                if (Width > SystemInformation.PrimaryMonitorSize.Width)
+                    Width = 800;
+            }
+
+            if (Properties.Settings.Default.Maximized)
+            {
+                WindowState = FormWindowState.Maximized;
+            }
+
+            ShowAddPanel(Properties.Settings.Default.ShowAddPanel);
+        }
+
+        private void SaveUserSettings()
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                Properties.Settings.Default.FormTop = RestoreBounds.Top;
+                Properties.Settings.Default.FormLeft = RestoreBounds.Left;
+                Properties.Settings.Default.FormWidth = RestoreBounds.Width;
+                Properties.Settings.Default.FormHeight = RestoreBounds.Height;
+                Properties.Settings.Default.Maximized = true;
+            }
+            else
+            {
+                Properties.Settings.Default.FormTop = this.Top;
+                Properties.Settings.Default.FormLeft = this.Left;
+                Properties.Settings.Default.FormWidth = this.Width;
+                Properties.Settings.Default.FormHeight = this.Height;
+                Properties.Settings.Default.Maximized = false;
+            }
+
+            Properties.Settings.Default.ShowAddPanel = isAddPanelShown;
+
+            Properties.Settings.Default.Save();
+        }
+
         #region Form UI
         private void form_main_Load(object sender, EventArgs e)
         {
+            bool criticalDataMissing = false;
+
+            if (!ErrorManager.AreErrorMessagesLoaded)
+            {
+                if (MessageBox.Show("Error message folder missing or corrupted, please reinstall the software!", "OK", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    criticalDataMissing = true;
+                }
+            }
+            if (!LanguageManager.AreLanguagesLoaded)
+            {
+                if (MessageBox.Show("Languages folder missing or corrupted, please reinstall the software!", "OK", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    criticalDataMissing = true;
+                }
+            }
+
+            if (criticalDataMissing)
+                this.Close();
+
+            LoadUserSettings();
         }
 
         private void form_main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveUserSettings();
+
             //Console.WriteLine(OrderManager.GetActiveOrders().Orders.Count);
             UnSubscribeFromActions();
+            FontManager.DisposeFontIfNotNull();
         }
 
         private void form_main_Activated(object sender, EventArgs e)
@@ -73,6 +204,11 @@ namespace FolderManipulator
 
         private void form_main_DeActivate(object sender, EventArgs e)
         {
+        }
+
+        private void CloseApplicationIfCriticalInitializationFailed()
+        {
+
         }
         #endregion
 
@@ -104,24 +240,52 @@ namespace FolderManipulator
             normalHighlightManager = new HighlightManager(cycleStart: Color.LightGray, cycleEnd: Color.CadetBlue, finish: Color.Transparent, 50, backColor: true);
         }
 
+        private void InitializeLanguageManager()
+        {
+            LanguageManager.LoadAllDataFromCSV();
+
+            LanguageHandle formMainLanguageHandle = LanguageManager.GetNewHandle(this, toolstrip_menu);
+            LanguageManager.CurrentLanguage = SettingsManager.LocalSettings.Language;
+
+            Data.LanguageManager.OnLanguageChanged += delegate (LanguageType language)
+            {
+                SettingsManager.LocalSettings.SetLanguage(language);
+                persistentData.SaveLocalSettings();
+            };
+        }
+
         private void InitializeFormElements()
         {
+            InitialiseTreeViewParameters();
+
+            // No page should be present more than once in the 3 list.
             tabPages = new List<TabPage>() {
                 tab_page_active,
-                tab_page_pending,
                 tab_page_finished,
                 tab_page_archive,
-                tab_page_customize
+            };
+            tabPagesHidden = new List<TabPage>() {
+                tab_page_pending,
             };
             tabPagesShownWhenNoSource = new List<TabPage>() {
                 tab_page_customize
             };
             toolStripItems = new List<ToolStripItem>() {
-                toolstrip_item_file, 
+                toolstrip_item_file,
                 toolstrip_item_edit,
                 toolstrip_item_view,
                 toolstrip_item_help
             };
+            moveButtons = new List<Button>()
+            {
+                btn_add_active_pending,
+                btn_add_active_finished,
+                btn_add_pending_active,
+                btn_add_pending_finished,
+                btn_add_finished_active,
+                btn_add_finished_pending,
+            };
+            ShowMoveButtons();
         }
 
         private void InitializeTimers()
@@ -140,15 +304,36 @@ namespace FolderManipulator
         private void InitializeContextMenus()
         {
             SpecialContextMenuItem[] contextMenuItemsOrderTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Edit", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "edit");
+                            return;
+                        }
+                        OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
+
+                        form_edit_order formEditOrder = new form_edit_order();
+                        formEditOrder.SetTarget(orderListType, order);
+                        if(editOrderWindowSize != null)
+                        {
+                            formEditOrder.Size = editOrderWindowSize.Value;
+                        }
+                        formEditOrder.OnCloseSendSize += delegate (Size size) { editOrderWindowSize = size; };
+                        formEditOrder.Show();
+
+                        LanguageManager.GetNewHandle(formEditOrder, null);
+                    }),
                 new SpecialContextMenuItem("Delete", delegate(Control owner)
                     {
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order == null)
                         {
-                            StatusManager.ShowMessage($"Can't find selected order to delete.", StatusColorType.Warning, DelayTimeType.Short);
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "delete");
                             return;
                         }
-                        if(MessageBox.Show($"Do you really want to delete [{order}]?", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if(MessageBox.Show(ErrorManager.GetCurrentErrorMessage($"doYouReallyDelete", order.GetFileName()), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             OrderListType orderListType = treeViewHandleGroup.GetHandle((TreeView)owner).OrderListType;
                             OrderManager.RemoveOrder(orderListType, order);
@@ -159,11 +344,11 @@ namespace FolderManipulator
                         OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
                         if(order == null)
                         {
-                            StatusManager.ShowMessage($"Can't find selected order to show in explorer.", StatusColorType.Warning, DelayTimeType.Short);
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "show in explorer");
                             return;
                         }
 
-                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(order.FullPath));
+                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(GetFullPathWithLocalDriveLetter(order.FullPath)));
                     }),
                 new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear all Checked", delegate(Control owner)
@@ -179,6 +364,28 @@ namespace FolderManipulator
             tree_view_finished.ContextMenu = contextMenuFinishedOrderTreeView.Menu;
 
             SpecialContextMenuItem[] contextMenuItemsArchiveTreeView = new SpecialContextMenuItem[] {
+                new SpecialContextMenuItem("Add to Active orders", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "readd");
+                            return;
+                        }
+                        OrderManager.AddNewOrder(order);
+                    }),
+                new SpecialContextMenuItem("Open file location", delegate(Control owner)
+                    {
+                        OrderData order = ((TreeView)owner).GetCurrentSelectedItem<OrderData>();
+                        if(order == null)
+                        {
+                            StatusManager.ShowMessage($"cantFindSelectedOrder", StatusColorType.Warning, DelayTimeType.Short, "show in explorer");
+                            return;
+                        }
+
+                        FileHandler.OpenFolderInExplorer(Path.GetDirectoryName(GetFullPathWithLocalDriveLetter(order.FullPath)));
+                    }),
+                new SpecialContextMenuItem("-", null),
                 new SpecialContextMenuItem("Clear", delegate(Control owner)
                     {
                         tree_view_archive.Nodes.Clear();
@@ -197,11 +404,15 @@ namespace FolderManipulator
             SettingsManager.OnSettingsChanged += FinishChange;
             SettingsManager.OnCanInitiateChange += CanCreateChange;
             OrderManager.OnOrderListChanged += FinishChange;
+            OrderManager.OnCantChangeData += CantChangeMessage;
             OrderManager.OnCanInitiateChange += CanCreateChange;
 
             OnOneSecondTimer += LoadAllIfDataIsOld;
             OnTenMinuteTimer += SaveAllLocal;
             OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
+
+            //SettingsManager.OnOrderNameMaxLengthChanged += delegate (int maxOrderNameLength) { OrderData.UpdateToStringBase(maxOrderNameLength, descriptionMaxLength); };
+            SettingsManager.OnOrderNameMaxLengthChanged += delegate { RefreshAll(); };
         }
 
         private void UnSubscribeFromActions()
@@ -212,11 +423,23 @@ namespace FolderManipulator
             SettingsManager.OnSettingsChanged -= FinishChange;
             SettingsManager.OnCanInitiateChange -= CanCreateChange;
             OrderManager.OnOrderListChanged -= FinishChange;
+            OrderManager.OnCantChangeData -= CantChangeMessage;
             OrderManager.OnCanInitiateChange -= CanCreateChange;
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
             OnTenMinuteTimer -= SaveAllLocal;
             OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+        }
+
+        private void FillListControls()
+        {
+            listsOfMainOrderTypes = new List<ListControl>();
+            listsOfMainOrderTypes.Add(listbox_main_ordertype);
+            listsOfMainOrderTypes.Add(drpd_main_ordertype);
+
+            listsOfSubOrderTypes = new List<ListControl>();
+            listsOfSubOrderTypes.Add(listbox_sub_ordertype);
+            listsOfSubOrderTypes.Add(drpd_sub_ordertype);
         }
 
         private void formDispatcher1SecTimer_Tick(object sender, EventArgs e)
@@ -269,6 +492,9 @@ namespace FolderManipulator
         {
             lbl_source.Text = persistentData.SourcePath == null ?
                 "NULL" : persistentData.SourcePath;
+
+            formToolTips.RemoveAll();
+            formToolTips.SetToolTip(lbl_source, lbl_source.Text);
         }
 
         private void RefreshSourceTreeView()
@@ -300,12 +526,12 @@ namespace FolderManipulator
             if (persistentData.AcceptSourcePath())
             {
                 normalHighlightManager.StopHighlightControl(btn_accept_source);
-                StatusManager.ShowMessage($"Source accepted, loading data", StatusColorType.Success, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"sourceAccepted", StatusColorType.Success, DelayTimeType.Medium);
                 SetApplicationState(sourceReady: true);
             }
             else
             {
-                StatusManager.ShowMessage($"Source can't be accepted, choose a valid source", StatusColorType.Error);
+                StatusManager.ShowMessage($"sourceNotAccepted", StatusColorType.Error);
             }
         }
 
@@ -322,7 +548,8 @@ namespace FolderManipulator
 
         private void SetApplicationState(bool sourceReady)
         {
-            ShowTabs(sourceReady);
+            _sourceReady = sourceReady;
+            ShowTabs();
             EnableToolStripItems(sourceReady);
         }
 
@@ -335,10 +562,11 @@ namespace FolderManipulator
         }
 
         #region Tabs
-        private void ShowTabs(bool sourceReady)
+        private void ShowTabs()
         {
             tab_control.TabPages.Clear();
-            List<TabPage> tabPagesToShow = sourceReady ? tabPages : tabPagesShownWhenNoSource;
+            List<TabPage> tabPagesToShow = GetCurrentTabPages();
+
             foreach (var tabPage in tabPagesToShow)
             {
                 tab_control.TabPages.Add(tabPage);
@@ -346,6 +574,116 @@ namespace FolderManipulator
 
             if (tab_control.TabCount > 0)
                 tab_control.SelectTab(0);
+        }
+
+        private List<TabPage> GetCurrentTabPages()
+        {
+            List<TabPage> tabPagesToShow = _sourceReady ? tabPages : tabPagesShownWhenNoSource;
+            return tabPagesToShow;
+        }
+
+        private bool IsTabVisible(OrderListType orderType)
+        {
+            return GetCurrentTabPages().Contains(ListTypeToTab(orderType));
+        }
+
+        private bool IsOrderTabShown(OrderListType orderType)
+        {
+            return tabPages.Contains(ListTypeToTab(orderType));
+        }
+
+        private TabPage ListTypeToTab(OrderListType orderType)
+        {
+            switch (orderType)
+            {
+                case OrderListType.Active:
+                    return tab_page_active;
+                case OrderListType.Pending:
+                    return tab_page_pending;
+                case OrderListType.Finished:
+                    return tab_page_finished;
+                case OrderListType.Archived:
+                    return tab_page_archive;
+                default:
+                    break;
+            }
+            return null;
+        }
+
+        private void ShowMoveButtons()
+        {
+            foreach (Button button in moveButtons)
+            {
+                if (GetMoveButtonType(button, out var buttonType))
+                {
+                    if (!IsOrderTabShown(buttonType.from) || !IsOrderTabShown(buttonType.to))
+                    {
+                        ShowButton(GetPanelFrom(buttonType.from), button, show: false);
+                    }
+                }
+            }
+        }
+
+        private void ShowButton(TableLayoutPanel table, Button button, bool show)
+        {
+            var position = table.GetPositionFromControl(button);
+            if (position.Row >= 0)
+                table.RowStyles[position.Row].Height = show ? 34 : 0;
+            button.Visible = show;
+        }
+
+        private TableLayoutPanel GetPanelFrom(OrderListType type)
+        {
+            switch (type)
+            {
+                case OrderListType.Active:
+                    return table_layout_active_order_buttons;
+                case OrderListType.Pending:
+                    return table_layout_pending_order_buttons;
+                case OrderListType.Finished:
+                    return table_layout_finished_order_buttons;
+                case OrderListType.Archived:
+                    break;
+                default:
+                    break;
+            }
+            return null;
+        }
+
+        private bool GetMoveButtonType(Button moveButton, out (OrderListType from, OrderListType to) result)
+        {
+            result = (OrderListType.Active, OrderListType.Active);
+            if (btn_add_active_pending == moveButton)
+            {
+                result = (OrderListType.Active, OrderListType.Pending);
+                return true;
+            }
+            if (btn_add_active_finished == moveButton)
+            {
+                result = (OrderListType.Active, OrderListType.Finished);
+                return true;
+            }
+            if (btn_add_pending_active == moveButton)
+            {
+                result = (OrderListType.Pending, OrderListType.Active);
+                return true;
+            }
+            if (btn_add_pending_finished == moveButton)
+            {
+                result = (OrderListType.Pending, OrderListType.Finished);
+                return true;
+            }
+            if (btn_add_finished_active == moveButton)
+            {
+                result = (OrderListType.Finished, OrderListType.Active);
+                return true;
+            }
+            if (btn_add_finished_pending == moveButton)
+            {
+                result = (OrderListType.Finished, OrderListType.Pending);
+                return true;
+            }
+            return false;
         }
         #endregion
 
@@ -473,11 +811,6 @@ namespace FolderManipulator
         #endregion
 
         #region ToolStrip
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppConsole.SaveLog();
@@ -487,7 +820,7 @@ namespace FolderManipulator
         {
             if (!persistentData.ReleaseLock())
             {
-                AppConsole.WriteLine($"Lock can't be deleted!");
+                StatusManager.ShowMessage($"lockCantBeDeleted", StatusColorType.Error, DelayTimeType.Medium);
             }
         }
 
@@ -501,9 +834,214 @@ namespace FolderManipulator
         {
             StatusManager.ResetStrip();
         }
+
+        private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formOrderTypeSettings != null)
+            {
+                StatusManager.ShowMessage($"orderTypeSettingsAlreadyOpen", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            formOrderTypeSettings = new form_ordertype_settings();
+
+            ListControl listControlMainOrderType = formOrderTypeSettings.GetMainOrderTypeListControl();
+            ListControl listControlSubOrderType = formOrderTypeSettings.GetSubOrderTypeListControl();
+
+            listControlMainOrderType.DataSource = null;
+            listControlMainOrderType.DataSource = SettingsManager.Settings.GetMainOrderTypeList();
+
+            listControlSubOrderType.DataSource = null;
+            listControlSubOrderType.DataSource = SettingsManager.Settings.GetSubOrderTypeList();
+
+            listsOfMainOrderTypes.Add(listControlMainOrderType);
+            listsOfSubOrderTypes.Add(listControlSubOrderType);
+
+            formOrderTypeSettings.FormClosing += FormOrderTypeSettings_FormClosing;
+            formOrderTypeSettings.FormClosed += FormOrderTypeSettings_FormClosed;
+            formOrderTypeSettings.Show();
+
+            LanguageManager.GetNewHandle(formOrderTypeSettings, null);
+        }
+
+        private void FormOrderTypeSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            listsOfMainOrderTypes.Remove(formOrderTypeSettings.GetMainOrderTypeListControl());
+            listsOfSubOrderTypes.Remove(formOrderTypeSettings.GetSubOrderTypeListControl());
+        }
+
+        private void FormOrderTypeSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formOrderTypeSettings = null;
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetApplicationState(sourceReady: false);
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formSettings != null)
+            {
+                StatusManager.ShowMessage($"settingsAlreadyOpen", StatusColorType.Warning, DelayTimeType.Short);
+                return;
+            }
+
+            formSettings = new form_settings();
+
+            formSettings.SetTarget(SettingsManager.LocalSettings);
+            formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
+            formSettings.OnLocalDriveLetterChanged += SettingsManager.LocalSettings.SetLocalDriveLetter;
+            formSettings.OnOrderNameMaxLengthChanged += SettingsManager.LocalSettings.SetOrderNameMaxLength;
+            formSettings.OnTrySave += persistentData.SaveLocalSettings;
+            formSettings.FormClosed += FormSettings_FormClosed;
+            formSettings.Show();
+
+            LanguageManager.GetNewHandle(formSettings, null);
+        }
+
+        private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formSettings = null;
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LanguageManager.CurrentLanguage = LanguageType.English;
+        }
+
+        private void magyarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LanguageManager.CurrentLanguage = LanguageType.Hungarian;
+        }
+
+        private void toolstrip_item_add_panel_Click(object sender, EventArgs e)
+        {
+            ToggleShowAddPanel();
+        }
+
+        private void ToggleShowAddPanel()
+        {
+            ShowAddPanel(!isAddPanelShown);
+        }
+
+        private void ShowAddPanel(bool show)
+        {
+            isAddPanelShown = show;
+
+            if (isAddPanelShown)
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 300;
+            }
+            else
+            {
+                table_layout_active_orders_page.ColumnStyles[1].Width = 0;
+            }
+        }
         #endregion
 
         #region TreeView UI
+
+        #region Draw TreeView
+        private void RefreshOrderTreeViewFont()
+        {
+            DoOnAllOrderTreeView(
+                delegate (TreeView treeView)
+                {
+                    treeView.Font = FontManager.orderFont;
+                    treeView.ItemHeight = FontManager.orderItemHeight;
+                    //treeView.Refresh();
+                    treeView.ExpandAll();
+                });
+        }
+
+        private void InitialiseTreeViewParameters()
+        {
+            DoOnAllOrderTreeView(delegate (TreeView treeView) { treeView.DrawMode = TreeViewDrawMode.OwnerDrawText; });
+        }
+
+        private void orderTreeViewDrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            TreeView treeView = sender as TreeView;
+            //Font treeViewFont = treeView.Font;
+            //Font nodeFont = e.Node.NodeFont;
+            Font nodeFont;
+            Rectangle bounds = e.Bounds;
+
+            e.DrawDefault = false;
+
+            Color backGroundColor = e.Node.BackColor;
+            if (backGroundColor.A <= 250)
+                backGroundColor = Color.White;
+
+            nodeFont = FontManager.orderFont;
+            using (SolidBrush backGroundBrush = new SolidBrush(backGroundColor))
+            {
+                e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
+            }
+
+            if (IsMainNode(treeView, e.Node, out Color mainNodeColor))
+            {
+                nodeFont = FontManager.mainOrderTypeFont;
+
+                using (SolidBrush backGroundBrush = new SolidBrush(mainNodeColor))
+                {
+                    e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, 9000, 0));
+                }
+            }
+
+            if ((e.State & TreeNodeStates.Selected) != 0)
+            {
+                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor))
+                {
+                    e.Graphics.FillRectangle(selectionBrush, bounds);
+                }
+
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.White);
+            }
+            else
+            {
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.Black);
+            }
+        }
+
+        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainNodeColor)
+        {
+            TreeNodeCollection mainTypes = treeView.Nodes;
+            int indexOfCurrentNode = mainTypes.IndexOf(treeNode);
+            if (indexOfCurrentNode >= 0)
+            {
+                mainNodeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1 : ColorManager.mainOrderTypeTreeViewNodeColor2;
+                return true;
+            }
+            mainNodeColor = Color.White;
+            return false;
+        }
+
+        private Rectangle NodeBounds(TreeView treeView, TreeNode node)
+        {
+            // Set the return value to the normal node bounds.
+            Rectangle bounds = node.Bounds;
+            Rectangle.FromLTRB(bounds.Left, bounds.Top, bounds.Right + 30, bounds.Bottom);
+            if (node.Tag != null)
+            {
+                // Retrieve a Graphics object from the TreeView handle
+                // and use it to calculate the display width of the tag.
+                Graphics g = treeView.CreateGraphics();
+                int tagWidth = (int)g.MeasureString
+                    (node.Tag.ToString(), new Font("Helvetica", 8, FontStyle.Bold)).Width + 6;
+
+                // Adjust the node bounds using the calculated value.
+                bounds.Offset(tagWidth / 2, 0);
+                bounds = Rectangle.Inflate(bounds, tagWidth / 2, 0);
+                g.Dispose();
+            }
+
+            return bounds;
+        }
+        #endregion
+
         private void tree_view_hierarchy_ItemDrag(object sender, ItemDragEventArgs e)
         {
             //TreeNode selectedNode = (TreeNode)e.Item;
@@ -543,6 +1081,24 @@ namespace FolderManipulator
         {
             CheckAllChildren(treeViewHandleGroup.GetHandle(tree_view_finished), e);
         }
+
+        private TreeView GetOrderTreeView(OrderListType orderListType)
+        {
+            switch (orderListType)
+            {
+                case OrderListType.Active:
+                    return tree_view_active;
+                case OrderListType.Pending:
+                    return tree_view_pending;
+                case OrderListType.Finished:
+                    return tree_view_finished;
+                case OrderListType.Archived:
+                    return tree_view_archive;
+                default:
+                    break;
+            }
+            return null;
+        }
         #endregion
 
         #region TargetFolder
@@ -561,6 +1117,7 @@ namespace FolderManipulator
 
         private void txt_folder_target_TextChanged(object sender, EventArgs e)
         {
+            formToolTips.SetToolTip(txt_folder_target, txt_folder_target.Text);
             RefreshTargetFolderContents();
         }
 
@@ -636,6 +1193,18 @@ namespace FolderManipulator
             }
         }
 
+        private void CheckTargetFiles(List<string> filesToCheck)
+        {
+            foreach (string file in filesToCheck)
+            {
+                int index = list_checked_files.FindStringExact(file);
+                if (index >= 0)
+                {
+                    list_checked_files.SetItemChecked(index, true);
+                }
+            }
+        }
+
         private void RefreshTargetFolderContents()
         {
             string targetPath = txt_folder_target.Text;
@@ -700,7 +1269,7 @@ namespace FolderManipulator
             List<string> checkedFileNames = GetCheckedItemStrings();
             if (checkedFileNames.Count <= 0)
             {
-                StatusManager.ShowMessage("No file was selected for Add operation.", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage("noFileSelectedToAdd", StatusColorType.Warning, DelayTimeType.Short);
                 return;
             }
 
@@ -710,22 +1279,32 @@ namespace FolderManipulator
 
         private void btn_reset_notified_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            foreach (OrderData order in orders)
+            OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
+            if (IsCheckedListCorrect(orders))
             {
-                order.State = OrderState.Pending;
+                foreach (OrderData order in orders)
+                {
+                    order.State = OrderState.Pending;
+                }
+                treeViewHandle.ClearCheckedData();
+                RefreshOrders();
             }
-            RefreshOrders();
         }
 
         private void btn_set_notified_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            foreach (OrderData order in orders)
+            OrderTreeViewHandle treeViewHandle = treeViewHandleGroup.GetHandle(tree_view_pending);
+            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandle.GetCheckedData());
+            if (IsCheckedListCorrect(orders))
             {
-                order.State = OrderState.Notified;
+                foreach (OrderData order in orders)
+                {
+                    order.State = OrderState.Notified;
+                }
+                treeViewHandle.ClearCheckedData();
+                RefreshOrders();
             }
-            RefreshOrders();
         }
 
         private OrderData[] CreateOrdersFromAddUI(List<string> selectedFileNames)
@@ -743,9 +1322,10 @@ namespace FolderManipulator
                 string fullPath = Path.Combine(txt_folder_target.Text, selectedFileNames[i]);
                 string count = txt_count.Text;
                 Int32.TryParse(count, out int countNumber);
+                string customerName = txt_customer_name.Text;
                 string description = txt_comment.Text;
 
-                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, countNumber, description);
+                OrderData orderData = new OrderData(mainOrderType, subOrderType, fullPath, countNumber, customerName, description);
                 orders[i] = orderData;
             }
             return orders;
@@ -754,43 +1334,74 @@ namespace FolderManipulator
         #region Move Order Buttons
         private void btn_add_active_pending_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Pending);
+            MoveCheckedOrders(OrderListType.Active, OrderListType.Pending);
         }
 
         private void btn_add_active_finished_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetActiveOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_active).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Active, OrderListType.Finished);
+            MoveCheckedOrders(OrderListType.Active, OrderListType.Finished);
         }
 
         private void btn_add_pending_active_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Active);
+            MoveCheckedOrders(OrderListType.Pending, OrderListType.Active);
         }
 
         private void btn_add_pending_finished_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetPendingOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_pending).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Pending, OrderListType.Finished);
+            MoveCheckedOrders(OrderListType.Pending, OrderListType.Finished);
         }
 
         private void btn_add_finished_active_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Active);
+            MoveCheckedOrders(OrderListType.Finished, OrderListType.Active);
         }
 
         private void btn_add_finished_pending_Click(object sender, EventArgs e)
         {
-            List<OrderData> orders = OrderManager.GetFinishedOrders().GetOrders(treeViewHandleGroup.GetHandle(tree_view_finished).GetCheckedData());
-            OrderManager.MoveOrder(orders, OrderListType.Finished, OrderListType.Pending);
+            MoveCheckedOrders(OrderListType.Finished, OrderListType.Pending);
+        }
+
+        private void MoveCheckedOrders(OrderListType from, OrderListType to)
+        {
+            if (!IsOrderMovePossible(from, to))
+                return;
+
+            TreeView treeView = GetOrderTreeView(from);
+            List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.MoveOrder(orders, from, to);
+            }
+        }
+
+        private bool IsOrderMovePossible(OrderListType from, OrderListType to)
+        {
+            bool isFromTabShown = IsTabVisible(from);
+            bool isToTabShown = IsTabVisible(to);
+            if (isFromTabShown && isToTabShown)
+            {
+                return true;
+            }
+            StatusManager.ShowMessage("orderTabNotShown", StatusColorType.Warning, DelayTimeType.Short);
+            return false;
+        }
+
+        private bool IsCheckedListCorrect(List<OrderData> list)
+        {
+            if (list == null || list.Count == 0)
+            {
+                StatusManager.ShowMessage("checkedOrderListEmpty", StatusColorType.Warning, DelayTimeType.Short);
+                return false;
+            }
+            return true;
         }
         #endregion
 
         private void RefreshOrders(bool expandAll = true)
         {
+            DoOnAllOrderTreeView(ResetOwnerDraw);
+
             treeViewHandleGroup.SaveCurrentScrollBarPosition();
 
             FillTreeViewWithOrders(tree_view_active, OrderManager.GetActiveOrders());
@@ -807,34 +1418,60 @@ namespace FolderManipulator
             LoadCheckedOrders(treeViewHandleGroup.GetHandle(tree_view_finished));
 
             treeViewHandleGroup.ResetToSavedScrollBarPosition();
+
+            DoOnAllOrderTreeView(SetOwnerDraw);
         }
 
-        private void FillTreeViewWithOrders(TreeView treeView, OrderList orders)
+        private void SetOwnerDraw(TreeView treeView)
         {
-            treeView.Nodes.Clear();
-            List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
-            AddStringNodesToNode(mainOrderTypes, treeView.Nodes);
-            TreeNode dummy = treeView.Nodes.Add(_dummyOrderTypeName);
+            treeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
+        }
 
-            foreach (var order in orders.Orders)
+        private void ResetOwnerDraw(TreeView treeView)
+        {
+            treeView.DrawMode = TreeViewDrawMode.Normal;
+        }
+
+        private void FillTreeViewWithOrders(TreeView treeView, OrderList orders, bool includeFinishedDate = false)
+        {
+            try
             {
-                TreeNode grandParent = FindParent(order.MainOrderType, treeView.Nodes);
-                if (grandParent == null)
-                    grandParent = dummy;
+                treeView.Nodes.Clear();
+                List<string> mainOrderTypes = SettingsManager.GetOrderTypes(OrderCategory.Main);
+                AddStringNodesToNode(mainOrderTypes, treeView.Nodes);
+                TreeNode dummy = treeView.Nodes.Add(_dummyOrderTypeName);
 
-                if (order.SubOrderType == null)
-                    order.SubOrderType = _dummyOrderTypeName;
-                TreeNode parent = FindParent(order.SubOrderType, grandParent.Nodes);
-                if (parent == null)
+                foreach (var order in orders.Orders)
                 {
-                    parent = CreateTreeNode(order.SubOrderType);
-                    grandParent.Nodes.Add(parent);
+                    TreeNode grandParent = FindParent(order.MainOrderType, treeView.Nodes);
+                    if (grandParent == null)
+                        grandParent = dummy;
+
+                    if (order.SubOrderType == null)
+                        order.SubOrderType = _dummyOrderTypeName;
+
+                    TreeNode parent = null;
+                    if (order.SubOrderType == OrderTypes.noTypeName)
+                        parent = grandParent;
+                    else
+                        parent = FindParent(order.SubOrderType, grandParent.Nodes);
+
+                    if (parent == null)
+                    {
+                        parent = CreateTreeNode(order.SubOrderType);
+                        grandParent.Nodes.Add(parent);
+                    }
+
+                    TreeNode node = CreateTreeNode(order.ToString(SettingsManager.LocalSettings.OrderNameMaxLength, descriptionMaxLength, includeFinishedDate));
+                    node.Tag = order;
+
+                    parent.Nodes.Add(node);
                 }
-
-                TreeNode node = CreateTreeNode(order.ToString());
-                node.Tag = order;
-
-                parent.Nodes.Add(node);
+            }
+            catch (Exception e)
+            {
+                treeView.Nodes.Clear();
+                StatusManager.ShowMessage("cantFillTreeView", StatusColorType.Error, DelayTimeType.Medium);
             }
         }
 
@@ -875,7 +1512,6 @@ namespace FolderManipulator
             foreach (string orderType in strings)
             {
                 TreeNode node = CreateTreeNode(orderType);
-
                 parent.Add(node);
             }
         }
@@ -889,6 +1525,18 @@ namespace FolderManipulator
         #endregion
 
         #region OrderType
+        private void drpd_main_ordertype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedMainOrderTypeIndex = drpd_main_ordertype.SelectedIndex;
+            formToolTips.SetToolTip(drpd_main_ordertype, drpd_main_ordertype.Text);
+        }
+
+        private void drpd_sub_ordertype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedSubOrderTypeIndex = drpd_sub_ordertype.SelectedIndex;
+            formToolTips.SetToolTip(drpd_sub_ordertype, drpd_sub_ordertype.Text);
+        }
+
         private void btn_add_main_ordertype_Click(object sender, EventArgs e)
         {
             SettingsManager.Settings.AddNewOrderType(txt_main_ordertype.Text, OrderCategory.Main);
@@ -901,31 +1549,73 @@ namespace FolderManipulator
 
         private void btn_delete_main_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.Settings.DeleteOrderType(listbox_main_ordertype.SelectedItem.ToString(), OrderCategory.Main);
+            if (listbox_main_ordertype.SelectedItem == null)
+            {
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "main", "delete");
+                return;
+            }
+
+            string orderType = listbox_main_ordertype.SelectedItem.ToString();
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "main", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Main);
+            }
         }
 
         private void btn_delete_sub_ordertype_Click(object sender, EventArgs e)
         {
-            SettingsManager.Settings.DeleteOrderType(listbox_sub_ordertype.SelectedItem.ToString(), OrderCategory.Sub);
+            if (listbox_sub_ordertype.SelectedItem == null)
+            {
+                StatusManager.ShowMessage("noOrderTypeSelected", StatusColorType.Warning, DelayTimeType.Short, "sub", "delete");
+                return;
+            }
+
+            string orderType = listbox_sub_ordertype.SelectedItem.ToString();
+            if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage("doYouReallyDeleteType", "sub", orderType), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SettingsManager.Settings.DeleteOrderType(orderType, OrderCategory.Sub);
+            }
         }
 
         private void RefreshOrderTypes()
         {
-            listbox_main_ordertype.DataSource = null;
-            listbox_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-            drpd_main_ordertype.DataSource = null;
-            drpd_main_ordertype.DataSource = SettingsManager.Settings.mainOrderTypes.list;
-            listbox_sub_ordertype.DataSource = null;
-            listbox_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
-            drpd_sub_ordertype.DataSource = null;
-            drpd_sub_ordertype.DataSource = SettingsManager.Settings.subOrderTypes.list;
+            drpd_main_ordertype.SelectedIndexChanged -= drpd_main_ordertype_SelectedIndexChanged;
+            drpd_sub_ordertype.SelectedIndexChanged -= drpd_sub_ordertype_SelectedIndexChanged;
+
+            try
+            {
+                foreach (var listBox in listsOfMainOrderTypes)
+                {
+                    listBox.DataSource = null;
+                    listBox.DataSource = SettingsManager.Settings.GetMainOrderTypeList();
+                }
+                foreach (var listBox in listsOfSubOrderTypes)
+                {
+                    listBox.DataSource = null;
+                    listBox.DataSource = SettingsManager.Settings.GetSubOrderTypeList();
+                }
+
+                selectedMainOrderTypeIndex = selectedMainOrderTypeIndex.Clamp(0, drpd_main_ordertype.Items.Count - 1);
+                selectedSubOrderTypeIndex = selectedSubOrderTypeIndex.Clamp(0, drpd_sub_ordertype.Items.Count - 1);
+                drpd_main_ordertype.SelectedIndex = selectedMainOrderTypeIndex;
+                drpd_sub_ordertype.SelectedIndex = selectedSubOrderTypeIndex;
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            finally
+            {
+                drpd_main_ordertype.SelectedIndexChanged += drpd_main_ordertype_SelectedIndexChanged;
+                drpd_sub_ordertype.SelectedIndexChanged += drpd_sub_ordertype_SelectedIndexChanged;
+            }
         }
         #endregion
 
         #region Archive
         private void treeview_archive_DragEnter(object sender, DragEventArgs e)
         {
-            AppConsole.WriteLine("Drag Entered Archive TreeView.");
+            StatusManager.ShowMessage("dragEnteredArchive", StatusColorType.Default);
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Copy;
@@ -936,7 +1626,7 @@ namespace FolderManipulator
             }
             else
             {
-                AppConsole.WriteLine("Drag type incompatible.");
+                StatusManager.ShowMessage("dragTypeIncompatible", StatusColorType.Warning, DelayTimeType.Medium);
                 e.Effect = DragDropEffects.None;
             }
         }
@@ -963,18 +1653,18 @@ namespace FolderManipulator
             {
                 string fileName = Path.GetFileNameWithoutExtension(path);
                 lbl_archive_name.Text = fileName;
-                FillTreeViewWithOrders(tree_view_archive, orderList);
+                FillTreeViewWithOrders(tree_view_archive, orderList, includeFinishedDate: true);
 
                 if (expandAll)
                 {
                     tree_view_archive.ExpandAll();
                 }
 
-                AppConsole.WriteLine($"Archived file [{fileName}] loaded.");
+                StatusManager.ShowMessage($"loadedArchivedFile", StatusColorType.Success, DelayTimeType.Short, fileName);
             }
             else
             {
-                StatusManager.ShowMessage($"Can't load archived file.", StatusColorType.Warning, DelayTimeType.Short);
+                StatusManager.ShowMessage($"cantLoadArchivedFile", StatusColorType.Warning, DelayTimeType.Short);
             }
         }
 
@@ -1000,7 +1690,7 @@ namespace FolderManipulator
                     }
                     else
                     {
-                        StatusManager.ShowMessage($"Can't archive finished orders, can't save on server", StatusColorType.Warning, DelayTimeType.Medium);
+                        StatusManager.ShowMessage($"cantArchiveOrders", StatusColorType.Warning, DelayTimeType.Medium, "save");
                     }
                 }
                 catch (Exception e)
@@ -1014,7 +1704,7 @@ namespace FolderManipulator
             }
             else
             {
-                StatusManager.ShowMessage($"Can't archive finished orders, can't create lock on server", StatusColorType.Warning, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantArchiveOrders", StatusColorType.Warning, DelayTimeType.Medium, "create lock");
             }
         }
         #endregion
@@ -1027,26 +1717,46 @@ namespace FolderManipulator
 
             TreeNode selectedNode = (TreeNode)e.Item;
             OrderData selectedOrderData = (OrderData)selectedNode.Tag;
+            bool orderTypeDragged = selectedOrderData == null;
 
-            if (selectedOrderData != null)
+            if (!orderTypeDragged)
             {
-                stringCollection.Add(selectedOrderData.FullPath);
-                data.SetFileDropList(stringCollection);
-                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+                if (selectedNode.Checked)
+                {
+                    TreeNode parentNode = selectedNode.Parent;
+                    foreach (TreeNode node in parentNode.Nodes)
+                    {
+                        AddChildNodeToDrag(node, hasToBeChecked: true);
+                    }
+                }
+                else
+                {
+                    stringCollection.Add(GetFullPathWithLocalDriveLetter(selectedOrderData.FullPath));
+                }
             }
             else
             {
                 List<TreeNode> allChildNodes = selectedNode.GetAllNodes();
+                bool isAnyChildChecked = allChildNodes.Any(x => x.Checked);
                 foreach (TreeNode node in allChildNodes)
+                {
+                    AddChildNodeToDrag(node, hasToBeChecked: isAnyChildChecked);
+                }
+            }
+
+            data.SetFileDropList(stringCollection);
+            DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
+
+            void AddChildNodeToDrag(TreeNode node, bool hasToBeChecked)
+            {
+                if (!hasToBeChecked || (hasToBeChecked && node.Checked))
                 {
                     OrderData orderData = (OrderData)node.Tag;
                     if (orderData != null)
                     {
-                        stringCollection.Add(orderData.FullPath);
+                        stringCollection.Add(GetFullPathWithLocalDriveLetter(orderData.FullPath));
                     }
                 }
-                data.SetFileDropList(stringCollection);
-                DragDropEffects dropEffect = tree_view_hierarchy.DoDragDrop(data, DragDropEffects.Scroll | DragDropEffects.Copy | DragDropEffects.Link);
             }
         }
 
@@ -1070,15 +1780,95 @@ namespace FolderManipulator
 
         private void txt_folder_target_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null)
+            try
             {
-                txt_folder_target.Text = string.Join(";", files);
-                return;
+                List<string> fileNames = null;
+                string fullDirectoryPath;
+
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files != null && files.Length > 0)
+                {
+                    fullDirectoryPath = GetDirectoryNameAndFileNames(files, out fileNames);
+                }
+                else
+                {
+                    string s = e.Data.GetData(DataFormats.Text).ToString();
+                    fullDirectoryPath = GetDirectoryNameAndFileName(s, out fileNames);
+                }
+
+                txt_folder_target.Text = fullDirectoryPath;
+                if (fileNames != null && fileNames.Count > 0)
+                {
+                    CheckTargetFiles(fileNames);
+                }
+                else
+                {
+                    AppConsole.WriteLine("dragDropNoFile");
+                }
+            }
+            catch (Exception exception)
+            {
+                StatusManager.ShowMessage("dragDropInvalid", StatusColorType.Warning, DelayTimeType.Short);
+                AppConsole.WriteLine(exception.Message);
+                txt_folder_target.Text = "";
+            }
+        }
+
+        private static string GetFullPathWithLocalDriveLetter(string orderFullPath)
+        {
+            if (string.IsNullOrEmpty(orderFullPath))
+                return null;
+
+            string localFullPath = SettingsManager.LocalSettings.LocalDriveLetter;
+            localFullPath += orderFullPath.Substring(orderFullPath.IndexOf(':'));
+            return localFullPath;
+        }
+
+        private static string GetDirectoryNameAndFileName(string file, out List<string> trimmedFileNames)
+        {
+            trimmedFileNames = new List<string>();
+            string fullDirectoryPath = null;
+            if (File.Exists(file))
+            {
+                string fileName = Path.GetFileName(file);
+                trimmedFileNames.Add(fileName);
+                fullDirectoryPath = Path.GetDirectoryName(file);
+            }
+            else if (Directory.Exists(file))
+            {
+                fullDirectoryPath = file;
+            }
+            return fullDirectoryPath;
+        }
+
+        private static string GetDirectoryNameAndFileNames(string[] files, out List<string> trimmedFileNames)
+        {
+            trimmedFileNames = new List<string>();
+            if (files.Length <= 0)
+            {
+                return null;
             }
 
-            string s = e.Data.GetData(DataFormats.Text).ToString();
-            txt_folder_target.Text = s;
+            string fullDirectoryPath = null;
+            foreach (string file in files)
+            {
+                if (File.Exists(file))
+                {
+                    string fileName = Path.GetFileName(file);
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        trimmedFileNames.Add(fileName);
+                        if (fullDirectoryPath == null)
+                            fullDirectoryPath = Path.GetDirectoryName(file);
+                    }
+                }
+            }
+
+            if (fullDirectoryPath == null)
+            {
+                fullDirectoryPath = files[0];
+            }
+            return fullDirectoryPath;
         }
         #endregion
 
@@ -1100,15 +1890,21 @@ namespace FolderManipulator
         {
             if (!IsOnLatestUpdate())
             {
-                StatusManager.ShowMessage($"Can't create change, local data is outdated", StatusColorType.Error, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantCreateChange", StatusColorType.Error, DelayTimeType.Medium, "local data is outdated");
                 return false;
             }
             if (!persistentData.CheckAndCreateLock())
             {
-                StatusManager.ShowMessage($"Can't create change, can't create lock on server", StatusColorType.Error, DelayTimeType.Medium);
+                StatusManager.ShowMessage($"cantCreateChange", StatusColorType.Error, DelayTimeType.Medium, "can't create lock on server");
                 return false;
             }
             return true;
+        }
+
+        private void CantChangeMessage(string error)
+        {
+            AppConsole.WriteLine(error);
+            MessageBox.Show(ErrorManager.GetCurrentErrorMessage(error));
         }
 
         private void FinishChange()
@@ -1119,8 +1915,8 @@ namespace FolderManipulator
         private void FinishChange(List<OrderList> list)
         {
             SaveAll();
-            RefreshAll();
             persistentData.ReleaseLock();
+            RefreshAll();
         }
 
         private bool IsOnLatestUpdate()
@@ -1194,6 +1990,14 @@ namespace FolderManipulator
             }
         }
 
+        private void txt_customer_name_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_add_order_Click(this, e);
+            }
+        }
+
         private void txt_comment_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1234,6 +2038,24 @@ namespace FolderManipulator
         {
         }
 
+        private void TestEditOrderBug()
+        {
+            AppConsole.WriteLine("Test edit order bug");
+            OrderData order = OrderManager.GetActiveOrders().Orders[0];
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ehngt999", 1234, "mr noname", "1234"));
+            OrderManager.EditOrder(OrderListType.Active, order, new OrderEditData("asdf1", "ewr444", 123, "mr noname", "123"));
+        }
+
         private void DebugSelectedNode()
         {
             DebugSelectedNode(null, null);
@@ -1250,6 +2072,13 @@ namespace FolderManipulator
             }
         }
 #endif
+        #endregion
+
+        #region ToolTip
+        private void txt_comment_TextChanged(object sender, EventArgs e)
+        {
+            formToolTips.SetToolTip(txt_comment, txt_comment.Text);
+        }
         #endregion
     }
 }

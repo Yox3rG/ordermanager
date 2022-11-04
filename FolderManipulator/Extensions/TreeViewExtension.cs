@@ -20,7 +20,7 @@ namespace FolderManipulator.Extensions
 
         public static int GetTreeViewScrollPosVertical(this TreeView _self)
         {
-                return GetScrollPos(_self.Handle, SB_VERT);
+            return GetScrollPos(_self.Handle, SB_VERT);
         }
 
         public static void SetTreeViewScrollPosVertical(this TreeView _self, int scrollPosition)
@@ -72,6 +72,30 @@ namespace FolderManipulator.Extensions
                 }
             }
             return nodes;
+        }
+
+        public static void RemoveAll(this TreeView _self)
+        {
+            for (int i = _self.Nodes.Count - 1; i >= 0; i--)
+            {
+                RemoveAll(_self.Nodes[i]);
+            }
+        }
+
+        public static void RemoveAll(this TreeNode _self)
+        {
+            if (_self == null)
+                return;
+            if (_self.Nodes.Count == 0)
+            {
+                _self.Remove();
+                return;
+            }
+            for (int i = _self.Nodes.Count - 1; i >= 0; i--)
+            {
+                RemoveAll(_self.Nodes[i]);
+            }
+            _self.Remove();
         }
     }
 }

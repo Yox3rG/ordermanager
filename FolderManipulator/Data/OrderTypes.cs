@@ -9,6 +9,8 @@ namespace FolderManipulator.Data
     [Serializable]
     class OrderTypes
     {
+        public const string noTypeName = "(None)";
+
         public List<string> list { get; set; }
 
         public string[] GetListAsArray()

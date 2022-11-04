@@ -98,8 +98,9 @@ namespace FolderManipulator.FolderRelated
 
         public bool LoadSourcePathFromLocal()
         {
-            string path = IOHandler.Load<string>(localDataFileName);
-            return SetSourcePath(path);
+            LocalSettingsData localSettings = IOHandler.Load<LocalSettingsData>(localDataFileName);
+            SettingsManager.InitializeLocalSettings(localSettings);
+            return SetSourcePath(SettingsManager.LocalSettings.SourcePath);
         }
 
         public string GetCombinedPath(string fileName)
@@ -153,7 +154,7 @@ namespace FolderManipulator.FolderRelated
 
             orderList.Type = oldType;
 
-            AppConsole.WriteLine($"OrderList {(success ? "archived succesfully" : "archiving failed")}.");
+            AppConsole.WriteLine($"archiveOrder", list: (success ? "succesfull" : "failed"));
             return success;
         }
 
@@ -200,7 +201,7 @@ namespace FolderManipulator.FolderRelated
                 isEveryObjectPresent = false;
                 if (showStatusMessage)
                 {
-                    StatusManager.ShowMessage($"Unable to syncronize with server. Can't load object from {dataType} file.", StatusColorType.Error);
+                    StatusManager.ShowMessage($"unableToSyncServer", StatusColorType.Error, DelayTimeType.Short, list: dataType);
                 }
             }
         }
@@ -233,6 +234,12 @@ namespace FolderManipulator.FolderRelated
         {
             SavableDataWithPath dataWithPath = new SavableDataWithPath(SettingsPath, settings);
             AddDataToWaitingForSaveList(dataWithPath);
+        }
+
+        public bool SaveLocalSettings()
+        {
+            AppConsole.WriteLine($"trySaveLocalSettings");
+            return IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
         }
         #endregion
 
@@ -416,7 +423,7 @@ namespace FolderManipulator.FolderRelated
                 _currentLocalBackupIndex = 0;
             }
             _itemsWaitingForLocalSave.Clear();
-            AppConsole.WriteLine($"Local backup {(success ? "saved succesfully" : "failed")}.");
+            AppConsole.WriteLine($"Local backup", list: (success ? "succesfull" : "failed"));
             return success;
         }
         #endregion
@@ -473,7 +480,8 @@ namespace FolderManipulator.FolderRelated
             bool isCorrectPath = System.IO.Directory.Exists(sourcePath);
             if (isCorrectPath)
             {
-                IOHandler.Save<string>(localDataFileName, sourcePath);
+                SettingsManager.LocalSettings.SourcePath = sourcePath;
+                IOHandler.Save<LocalSettingsData>(localDataFileName, SettingsManager.LocalSettings);
 
                 IsSourceReady = true;
                 //CreateGeneratedFilesIfNotPresent();

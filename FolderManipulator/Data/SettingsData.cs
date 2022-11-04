@@ -45,7 +45,7 @@ namespace FolderManipulator.Data
         {
             if (!SettingsManager.CanChangeData)
             {
-                AppConsole.WriteLine($"Can't add new order type to settings");
+                SettingsManager.OnCantChangeData($"cantAddOrderType");
                 return;
             }
             GetOrderTypesFromCategory(category).Add(orderType);
@@ -57,7 +57,7 @@ namespace FolderManipulator.Data
         {
             if (!SettingsManager.CanChangeData)
             {
-                AppConsole.WriteLine($"Can't remove order type from settings");
+                SettingsManager.OnCantChangeData($"cantRemoveOrderType");
                 return false;
             }
             bool isSuccess = GetOrderTypesFromCategory(category).Remove(orderType);
@@ -76,6 +76,19 @@ namespace FolderManipulator.Data
                     return subOrderTypes;
             }
             return null;
+        }
+
+        public List<string> GetMainOrderTypeList()
+        {
+            List<string> list = new List<string>(mainOrderTypes.list);
+            return list;
+        }
+
+        public List<string> GetSubOrderTypeList()
+        {
+            List<string> list = new List<string>(subOrderTypes.list);
+            list.Insert(0, OrderTypes.noTypeName);
+            return list;
         }
     }
 }
