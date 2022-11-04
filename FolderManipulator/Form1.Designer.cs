@@ -144,7 +144,7 @@
             this.btn_add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(92, 37);
-            this.btn_add.TabIndex = 2;
+            this.btn_add.TabIndex = 3;
             this.btn_add.Text = "Hozzáadás";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_order_Click);
@@ -401,7 +401,7 @@
             this.txt_customer_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_customer_name.Name = "txt_customer_name";
             this.txt_customer_name.Size = new System.Drawing.Size(192, 20);
-            this.txt_customer_name.TabIndex = 7;
+            this.txt_customer_name.TabIndex = 1;
             this.txt_customer_name.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_customer_name_KeyUp);
             // 
             // lbl_count
@@ -430,7 +430,7 @@
             this.lbl_comment.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_comment.Name = "lbl_comment";
             this.lbl_comment.Size = new System.Drawing.Size(66, 13);
-            this.lbl_comment.TabIndex = 4;
+            this.lbl_comment.TabIndex = 5;
             this.lbl_comment.Text = "Megjegyzés:";
             // 
             // txt_comment
@@ -439,7 +439,7 @@
             this.txt_comment.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txt_comment.Name = "txt_comment";
             this.txt_comment.Size = new System.Drawing.Size(192, 20);
-            this.txt_comment.TabIndex = 1;
+            this.txt_comment.TabIndex = 2;
             this.txt_comment.TextChanged += new System.EventHandler(this.txt_comment_TextChanged);
             this.txt_comment.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_comment_KeyUp);
             // 

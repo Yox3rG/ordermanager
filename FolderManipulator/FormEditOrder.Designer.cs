@@ -252,7 +252,7 @@
             this.panel_add_order_bottom.Location = new System.Drawing.Point(3, 200);
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
             this.panel_add_order_bottom.Size = new System.Drawing.Size(421, 311);
-            this.panel_add_order_bottom.TabIndex = 29;
+            this.panel_add_order_bottom.TabIndex = 1;
             // 
             // lbl_new_customer_name
             // 
@@ -270,7 +270,7 @@
             this.txt_new_customer_name.Location = new System.Drawing.Point(98, 86);
             this.txt_new_customer_name.Name = "txt_new_customer_name";
             this.txt_new_customer_name.Size = new System.Drawing.Size(314, 20);
-            this.txt_new_customer_name.TabIndex = 47;
+            this.txt_new_customer_name.TabIndex = 1;
             // 
             // lbl_customer_name
             // 
@@ -298,7 +298,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(320, 270);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
-            this.btn_cancel.TabIndex = 3;
+            this.btn_cancel.TabIndex = 4;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -399,7 +399,7 @@
             this.txt_new_comment.Location = new System.Drawing.Point(98, 138);
             this.txt_new_comment.Name = "txt_new_comment";
             this.txt_new_comment.Size = new System.Drawing.Size(314, 20);
-            this.txt_new_comment.TabIndex = 1;
+            this.txt_new_comment.TabIndex = 2;
             // 
             // lbl_new_count
             // 
@@ -464,7 +464,7 @@
             this.btn_edit.Location = new System.Drawing.Point(16, 270);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(92, 37);
-            this.btn_edit.TabIndex = 2;
+            this.btn_edit.TabIndex = 3;
             this.btn_edit.Text = "Edit";
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);

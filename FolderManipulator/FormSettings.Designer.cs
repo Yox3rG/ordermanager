@@ -104,7 +104,7 @@
             this.txt_order_max_length.Location = new System.Drawing.Point(118, 60);
             this.txt_order_max_length.Name = "txt_order_max_length";
             this.txt_order_max_length.Size = new System.Drawing.Size(178, 20);
-            this.txt_order_max_length.TabIndex = 38;
+            this.txt_order_max_length.TabIndex = 2;
             this.txt_order_max_length.TextChanged += new System.EventHandler(this.txt_order_max_length_TextChanged);
             // 
             // lbl_drive_letter
@@ -123,7 +123,7 @@
             this.txt_drive_letter.Location = new System.Drawing.Point(118, 34);
             this.txt_drive_letter.Name = "txt_drive_letter";
             this.txt_drive_letter.Size = new System.Drawing.Size(178, 20);
-            this.txt_drive_letter.TabIndex = 36;
+            this.txt_drive_letter.TabIndex = 1;
             this.txt_drive_letter.TextChanged += new System.EventHandler(this.txt_drive_letter_TextChanged);
             // 
             // btn_cancel
@@ -132,7 +132,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(321, 419);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(92, 37);
-            this.btn_cancel.TabIndex = 2;
+            this.btn_cancel.TabIndex = 4;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -161,7 +161,7 @@
             this.btn_save.Location = new System.Drawing.Point(9, 419);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(92, 37);
-            this.btn_save.TabIndex = 1;
+            this.btn_save.TabIndex = 3;
             this.btn_save.Text = "Save Changes";
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
