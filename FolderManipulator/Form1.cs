@@ -1398,6 +1398,28 @@ namespace FolderManipulator
         }
         #endregion
 
+        #region Delete Selected Order Buttons
+        private void btn_delete_active_selected_Click(object sender, EventArgs e)
+        {
+            DeleteCheckedOrders(OrderListType.Active);
+        }
+
+        private void btn_delete_finished_selected_Click(object sender, EventArgs e)
+        {
+            DeleteCheckedOrders(OrderListType.Finished);
+        }
+
+        private void DeleteCheckedOrders(OrderListType from)
+        {
+            TreeView treeView = GetOrderTreeView(from);
+            List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.RemoveOrder(from, orders);
+            }
+        }
+        #endregion
+
         private void RefreshOrders(bool expandAll = true)
         {
             DoOnAllOrderTreeView(ResetOwnerDraw);

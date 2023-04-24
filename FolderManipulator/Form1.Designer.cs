@@ -113,6 +113,8 @@
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btn_delete_active_selected = new System.Windows.Forms.Button();
+            this.btn_delete_finished_selected = new System.Windows.Forms.Button();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -188,6 +190,7 @@
             this.table_layout_active_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_active_order_buttons.Controls.Add(this.btn_add_active_pending, 0, 0);
             this.table_layout_active_order_buttons.Controls.Add(this.btn_add_active_finished, 0, 1);
+            this.table_layout_active_order_buttons.Controls.Add(this.btn_delete_active_selected, 0, 2);
             this.table_layout_active_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_active_order_buttons.Location = new System.Drawing.Point(0, 0);
             this.table_layout_active_order_buttons.Margin = new System.Windows.Forms.Padding(0);
@@ -647,6 +650,7 @@
             this.table_layout_finished_order_buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_pending, 0, 1);
             this.table_layout_finished_order_buttons.Controls.Add(this.btn_add_finished_active, 0, 0);
+            this.table_layout_finished_order_buttons.Controls.Add(this.btn_delete_finished_selected, 0, 2);
             this.table_layout_finished_order_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table_layout_finished_order_buttons.Location = new System.Drawing.Point(2, 3);
             this.table_layout_finished_order_buttons.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -1077,6 +1081,28 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
+            // btn_delete_active_selected
+            // 
+            this.btn_delete_active_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_active_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_active_selected.Name = "btn_delete_active_selected";
+            this.btn_delete_active_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_active_selected.TabIndex = 2;
+            this.btn_delete_active_selected.Text = "Delete Selected";
+            this.btn_delete_active_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_active_selected.Click += new System.EventHandler(this.btn_delete_active_selected_Click);
+            // 
+            // btn_delete_finished_selected
+            // 
+            this.btn_delete_finished_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_finished_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_finished_selected.Name = "btn_delete_finished_selected";
+            this.btn_delete_finished_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_finished_selected.TabIndex = 2;
+            this.btn_delete_finished_selected.Text = "Delete Selected";
+            this.btn_delete_finished_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_finished_selected.Click += new System.EventHandler(this.btn_delete_finished_selected_Click);
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1214,6 +1240,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolstrip_item_add_panel;
         private System.Windows.Forms.Label lbl_customer_name;
         private System.Windows.Forms.TextBox txt_customer_name;
+        private System.Windows.Forms.Button btn_delete_active_selected;
+        private System.Windows.Forms.Button btn_delete_finished_selected;
     }
 }
 
