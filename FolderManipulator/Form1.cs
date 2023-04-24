@@ -200,6 +200,7 @@ namespace FolderManipulator
 
         private void form_main_Activated(object sender, EventArgs e)
         {
+            RefreshTargetFolderContents();
         }
 
         private void form_main_DeActivate(object sender, EventArgs e)
@@ -1395,6 +1396,28 @@ namespace FolderManipulator
                 return false;
             }
             return true;
+        }
+        #endregion
+
+        #region Delete Selected Order Buttons
+        private void btn_delete_active_selected_Click(object sender, EventArgs e)
+        {
+            DeleteCheckedOrders(OrderListType.Active);
+        }
+
+        private void btn_delete_finished_selected_Click(object sender, EventArgs e)
+        {
+            DeleteCheckedOrders(OrderListType.Finished);
+        }
+
+        private void DeleteCheckedOrders(OrderListType from)
+        {
+            TreeView treeView = GetOrderTreeView(from);
+            List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
+            if (IsCheckedListCorrect(orders))
+            {
+                OrderManager.RemoveOrder(from, orders);
+            }
         }
         #endregion
 

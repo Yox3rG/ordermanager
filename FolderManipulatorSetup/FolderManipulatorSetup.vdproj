@@ -1125,15 +1125,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ClipBoard 2.0"
-        "ProductCode" = "8:{C58D5B04-6599-45BA-B079-EEA87F0F2D62}"
-        "PackageCode" = "8:{7890A705-2EAB-4C65-A37B-B058D2537621}"
+        "ProductCode" = "8:{A67EABD5-A3FF-4719-8280-5EC55CDD28D9}"
+        "PackageCode" = "8:{02EDD05F-9FAD-483F-A5D5-0ED3D1A4117A}"
         "UpgradeCode" = "8:{1DCEF0C6-C9A8-43E8-97EB-A612DD135FCA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:Yox3rG Software"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1675,7 +1675,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C81F5ECD5AC242DEAA068F396CB29F7A"
             {
-            "SourcePath" = "8:..\\FolderManipulator\\obj\\Release\\FolderManipulator.exe"
+            "SourcePath" = "8:..\\FolderManipulator\\obj\\Debug\\FolderManipulator.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_311D9BE6B5694FC1BA00C2FF807E32F0"
