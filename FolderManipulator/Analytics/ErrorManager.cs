@@ -59,8 +59,14 @@ namespace FolderManipulator.Analytics
 
         public static string GetErrorMessage(string id, LanguageType language, params object[] list)
         {
-            if (errorMessageDictionary == null)
+            if (errorMessageDictionary == null || !errorMessageDictionary.ContainsKey(language))
                 return string.Format(id, list);
+            if (errorMessageDictionary[language] == null)
+            {
+                return "There is a problem with the installation, language files not found." +
+                    "Please reinstall the application!\n" +
+                    "Original error message: [" + string.Format(id, list) + "]";
+            }
 
             string errorMessage;
             int errorIndex = errorMessageDictionary[language].FindIndex(x => x.ID == id);
