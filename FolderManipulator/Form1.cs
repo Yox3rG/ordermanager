@@ -200,6 +200,7 @@ namespace FolderManipulator
 
         private void form_main_Activated(object sender, EventArgs e)
         {
+            RefreshTargetFolderContents();
         }
 
         private void form_main_DeActivate(object sender, EventArgs e)
