@@ -1232,6 +1232,9 @@ namespace FolderManipulator
 
             list_checked_files.Items.Insert(0, "Select All");
 
+            if (SettingsManager.Settings == null)
+                return;
+
             if (SettingsManager.Settings.KeepCheckedFilesAfterRefresh)
             {
                 foreach (var checkedItem in checkedItems)

@@ -36,6 +36,7 @@
             this.table_layout_active_order_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btn_add_active_pending = new System.Windows.Forms.Button();
             this.btn_add_active_finished = new System.Windows.Forms.Button();
+            this.btn_delete_active_selected = new System.Windows.Forms.Button();
             this.panel_add_order = new System.Windows.Forms.Panel();
             this.table_layout_add_order = new System.Windows.Forms.TableLayoutPanel();
             this.panel_add_order_top = new System.Windows.Forms.Panel();
@@ -72,6 +73,7 @@
             this.table_layout_finished_order_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btn_add_finished_pending = new System.Windows.Forms.Button();
             this.btn_add_finished_active = new System.Windows.Forms.Button();
+            this.btn_delete_finished_selected = new System.Windows.Forms.Button();
             this.tab_page_archive = new System.Windows.Forms.TabPage();
             this.table_layout_archive = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_archive_name = new System.Windows.Forms.Label();
@@ -113,8 +115,6 @@
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btn_delete_active_selected = new System.Windows.Forms.Button();
-            this.btn_delete_finished_selected = new System.Windows.Forms.Button();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -223,6 +223,17 @@
             this.btn_add_active_finished.Text = "Add to Finished";
             this.btn_add_active_finished.UseVisualStyleBackColor = true;
             this.btn_add_active_finished.Click += new System.EventHandler(this.btn_add_active_finished_Click);
+            // 
+            // btn_delete_active_selected
+            // 
+            this.btn_delete_active_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_active_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_active_selected.Name = "btn_delete_active_selected";
+            this.btn_delete_active_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_active_selected.TabIndex = 2;
+            this.btn_delete_active_selected.Text = "Delete Selected";
+            this.btn_delete_active_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_active_selected.Click += new System.EventHandler(this.btn_delete_active_selected_Click);
             // 
             // panel_add_order
             // 
@@ -684,6 +695,17 @@
             this.btn_add_finished_active.UseVisualStyleBackColor = true;
             this.btn_add_finished_active.Click += new System.EventHandler(this.btn_add_finished_active_Click);
             // 
+            // btn_delete_finished_selected
+            // 
+            this.btn_delete_finished_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_finished_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_finished_selected.Name = "btn_delete_finished_selected";
+            this.btn_delete_finished_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_finished_selected.TabIndex = 2;
+            this.btn_delete_finished_selected.Text = "Delete Selected";
+            this.btn_delete_finished_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_finished_selected.Click += new System.EventHandler(this.btn_delete_finished_selected_Click);
+            // 
             // tab_page_archive
             // 
             this.tab_page_archive.Controls.Add(this.table_layout_archive);
@@ -1080,28 +1102,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // btn_delete_active_selected
-            // 
-            this.btn_delete_active_selected.Location = new System.Drawing.Point(2, 83);
-            this.btn_delete_active_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_delete_active_selected.Name = "btn_delete_active_selected";
-            this.btn_delete_active_selected.Size = new System.Drawing.Size(92, 34);
-            this.btn_delete_active_selected.TabIndex = 2;
-            this.btn_delete_active_selected.Text = "Delete Selected";
-            this.btn_delete_active_selected.UseVisualStyleBackColor = true;
-            this.btn_delete_active_selected.Click += new System.EventHandler(this.btn_delete_active_selected_Click);
-            // 
-            // btn_delete_finished_selected
-            // 
-            this.btn_delete_finished_selected.Location = new System.Drawing.Point(2, 83);
-            this.btn_delete_finished_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_delete_finished_selected.Name = "btn_delete_finished_selected";
-            this.btn_delete_finished_selected.Size = new System.Drawing.Size(92, 34);
-            this.btn_delete_finished_selected.TabIndex = 2;
-            this.btn_delete_finished_selected.Text = "Delete Selected";
-            this.btn_delete_finished_selected.UseVisualStyleBackColor = true;
-            this.btn_delete_finished_selected.Click += new System.EventHandler(this.btn_delete_finished_selected_Click);
             // 
             // form_main
             // 
