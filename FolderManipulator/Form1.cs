@@ -1419,7 +1419,11 @@ namespace FolderManipulator
             List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
             if (IsCheckedListCorrect(orders))
             {
-                OrderManager.RemoveOrder(from, orders);
+                string orderNames = "[ " + orders.Select(x => x.GetFileName()).Aggregate((x, y) => x + ", " + y) + " ]";
+                if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage($"doYouReallyDelete", orderNames), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    OrderManager.RemoveOrder(from, orders);
+                }
             }
         }
         #endregion
