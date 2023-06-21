@@ -902,6 +902,7 @@ namespace FolderManipulator
             formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
             formSettings.OnLocalDriveLetterChanged += SettingsManager.LocalSettings.SetLocalDriveLetter;
             formSettings.OnOrderNameMaxLengthChanged += SettingsManager.LocalSettings.SetOrderNameMaxLength;
+            formSettings.OnCanArchiveChanged += SettingsManager.LocalSettings.SetCanArchive;
             formSettings.OnTrySave += persistentData.SaveLocalSettings;
             formSettings.FormClosed += FormSettings_FormClosed;
             formSettings.Show();
@@ -1736,6 +1737,9 @@ namespace FolderManipulator
 
         private void ArchiveFinishedOrdersIfNewMonth()
         {
+            if (!SettingsManager.LocalSettings.CanArchive)
+                return;
+
             if (!persistentData.DoesArchiveForLastMonthExists())
             {
                 OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;

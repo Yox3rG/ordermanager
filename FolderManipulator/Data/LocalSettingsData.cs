@@ -14,6 +14,7 @@ namespace FolderManipulator.Data
         public int OrderNameMaxLength { get; set; }
         public string LocalDriveLetter { get; set; }
         public LanguageType Language { get; set; }
+        public bool CanArchive { get; set; }
 
         public LocalSettingsData()
         {
@@ -22,6 +23,7 @@ namespace FolderManipulator.Data
             LocalDriveLetter = "M";
             OrderNameMaxLength = 40;
             Language = LanguageType.English;
+            CanArchive = false;
         }
 
         public LocalSettingsData(string sourcePath, int pixelSize)
@@ -31,6 +33,7 @@ namespace FolderManipulator.Data
             LocalDriveLetter = "M";
             OrderNameMaxLength = 40;
             Language = LanguageType.English;
+            CanArchive = false;
         }
 
         public void SetPixelSize(int newPixelSize)
@@ -53,6 +56,11 @@ namespace FolderManipulator.Data
         {
             OrderNameMaxLength = newLength;
             SettingsManager.OnOrderNameMaxLengthChanged?.Invoke(OrderNameMaxLength);
+        }
+
+        public void SetCanArchive(bool canArchive)
+        {
+            CanArchive = canArchive;
         }
     }
 }

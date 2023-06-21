@@ -109,6 +109,9 @@
             this.toolstrip_item_language_english = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_language_hungarian = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_add_panel = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_color_scheme = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_color_default = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_color_pontjo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_help = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,9 +119,6 @@
             this.toolstrip_item_open_data_location = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolstrip_item_color_scheme = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolstrip_item_color_default = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolstrip_item_color_pontjo = new System.Windows.Forms.ToolStripMenuItem();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -1037,29 +1037,52 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
             // 
             this.toolstrip_item_language_english.Name = "toolstrip_item_language_english";
-            this.toolstrip_item_language_english.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_english.Size = new System.Drawing.Size(114, 22);
             this.toolstrip_item_language_english.Text = "English";
             this.toolstrip_item_language_english.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // toolstrip_item_language_hungarian
             // 
             this.toolstrip_item_language_hungarian.Name = "toolstrip_item_language_hungarian";
-            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(114, 22);
             this.toolstrip_item_language_hungarian.Text = "Magyar";
             this.toolstrip_item_language_hungarian.Click += new System.EventHandler(this.magyarToolStripMenuItem_Click);
             // 
             // toolstrip_item_add_panel
             // 
             this.toolstrip_item_add_panel.Name = "toolstrip_item_add_panel";
-            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_add_panel.Text = "Show Add Panel";
             this.toolstrip_item_add_panel.Click += new System.EventHandler(this.toolstrip_item_add_panel_Click);
+            // 
+            // toolstrip_item_color_scheme
+            // 
+            this.toolstrip_item_color_scheme.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_color_default,
+            this.toolstrip_item_color_pontjo});
+            this.toolstrip_item_color_scheme.Name = "toolstrip_item_color_scheme";
+            this.toolstrip_item_color_scheme.Size = new System.Drawing.Size(160, 22);
+            this.toolstrip_item_color_scheme.Text = "Color";
+            // 
+            // toolstrip_item_color_default
+            // 
+            this.toolstrip_item_color_default.Name = "toolstrip_item_color_default";
+            this.toolstrip_item_color_default.Size = new System.Drawing.Size(112, 22);
+            this.toolstrip_item_color_default.Text = "Default";
+            this.toolstrip_item_color_default.Click += new System.EventHandler(this.toolstrip_item_color_default_Click);
+            // 
+            // toolstrip_item_color_pontjo
+            // 
+            this.toolstrip_item_color_pontjo.Name = "toolstrip_item_color_pontjo";
+            this.toolstrip_item_color_pontjo.Size = new System.Drawing.Size(112, 22);
+            this.toolstrip_item_color_pontjo.Text = "PontJo";
+            this.toolstrip_item_color_pontjo.Click += new System.EventHandler(this.toolstrip_item_color_pontjo_Click);
             // 
             // toolstrip_item_help
             // 
@@ -1075,28 +1098,28 @@
             // toolstrip_item_save_logs
             // 
             this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
-            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_save_logs.Text = "Save Log";
             this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // toolstrip_item_delete_lock
             // 
             this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
-            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_delete_lock.Text = "Delete Lock";
             this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // toolstrip_item_clear_status
             // 
             this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
-            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // toolstrip_item_open_data_location
             // 
             this.toolstrip_item_open_data_location.Name = "toolstrip_item_open_data_location";
-            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_open_data_location.Text = "Open Data Location";
             this.toolstrip_item_open_data_location.Click += new System.EventHandler(this.openDataLocationToolStripMenuItem_Click);
             // 
@@ -1115,29 +1138,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // toolstrip_item_color_scheme
-            // 
-            this.toolstrip_item_color_scheme.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolstrip_item_color_default,
-            this.toolstrip_item_color_pontjo});
-            this.toolstrip_item_color_scheme.Name = "toolstrip_item_color_scheme";
-            this.toolstrip_item_color_scheme.Size = new System.Drawing.Size(180, 22);
-            this.toolstrip_item_color_scheme.Text = "Color";
-            // 
-            // toolstrip_item_color_default
-            // 
-            this.toolstrip_item_color_default.Name = "toolstrip_item_color_default";
-            this.toolstrip_item_color_default.Size = new System.Drawing.Size(180, 22);
-            this.toolstrip_item_color_default.Text = "Default";
-            this.toolstrip_item_color_default.Click += new System.EventHandler(this.toolstrip_item_color_default_Click);
-            // 
-            // toolstrip_item_color_pontjo
-            // 
-            this.toolstrip_item_color_pontjo.Name = "toolstrip_item_color_pontjo";
-            this.toolstrip_item_color_pontjo.Size = new System.Drawing.Size(180, 22);
-            this.toolstrip_item_color_pontjo.Text = "PontJo";
-            this.toolstrip_item_color_pontjo.Click += new System.EventHandler(this.toolstrip_item_color_pontjo_Click);
             // 
             // form_main
             // 

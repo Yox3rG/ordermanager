@@ -21,11 +21,13 @@ namespace FolderManipulator
         public Action<int> OnFontValueChanged;
         public Action<int> OnOrderNameMaxLengthChanged;
         public Action<string> OnLocalDriveLetterChanged;
+        public Action<bool> OnCanArchiveChanged;
         public Func<bool> OnTrySave;
 
         private int oldFontValue;
         private int oldMaxLength;
         private string oldDriveLetter;
+        private bool oldCanArchive;
         LocalSettingsData targetLocalSettingsData;
 
         public string CurrentVersion
@@ -64,6 +66,7 @@ namespace FolderManipulator
             oldFontValue = localSettingsData.OrdersFontPixelSize;
             oldMaxLength = localSettingsData.OrderNameMaxLength;
             oldDriveLetter = localSettingsData.LocalDriveLetter;
+            oldCanArchive = localSettingsData.CanArchive;
             FillData(localSettingsData);
         }
 
@@ -72,6 +75,7 @@ namespace FolderManipulator
             FillField(txt_new_font_size, txt_new_font_size_TextChanged, localSettingsData.OrdersFontPixelSize.ToString());
             FillField(txt_drive_letter, txt_drive_letter_TextChanged, localSettingsData.LocalDriveLetter);
             FillField(txt_order_max_length, txt_drive_letter_TextChanged, localSettingsData.OrderNameMaxLength.ToString());
+            FillField(chck_can_archive, chck_can_archive_CheckedChanged, localSettingsData.CanArchive);
         }
 
         private void FillField(TextBox textBox, EventHandler onChangeEvent, string text)
@@ -88,6 +92,23 @@ namespace FolderManipulator
             finally
             {
                 textBox.TextChanged += onChangeEvent;
+            }
+        }
+
+        private void FillField(CheckBox checkBox, EventHandler onChangeEvent, bool value)
+        {
+            try
+            {
+                checkBox.CheckedChanged -= onChangeEvent;
+                checkBox.Checked = value;
+            }
+            catch (Exception e)
+            {
+                AppConsole.WriteLine(e.Message);
+            }
+            finally
+            {
+                checkBox.CheckedChanged += onChangeEvent;
             }
         }
 
@@ -113,6 +134,7 @@ namespace FolderManipulator
             OnFontValueChanged?.Invoke(oldFontValue);
             OnLocalDriveLetterChanged?.Invoke(oldDriveLetter);
             OnOrderNameMaxLengthChanged?.Invoke(oldMaxLength);
+            OnCanArchiveChanged?.Invoke(oldCanArchive);
             Close();
         }
 
@@ -135,6 +157,11 @@ namespace FolderManipulator
             {
                 OnOrderNameMaxLengthChanged?.Invoke(maxLength);
             }
+        }
+
+        private void chck_can_archive_CheckedChanged(object sender, EventArgs e)
+        {
+            OnCanArchiveChanged?.Invoke(chck_can_archive.Checked);
         }
     }
 }

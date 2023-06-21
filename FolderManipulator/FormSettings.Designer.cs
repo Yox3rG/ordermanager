@@ -41,6 +41,8 @@
             this.btn_save = new System.Windows.Forms.Button();
             this.lbl_edit_order_title = new System.Windows.Forms.Label();
             this.lbl_version_number = new System.Windows.Forms.Label();
+            this.lbl_can_archive = new System.Windows.Forms.Label();
+            this.chck_can_archive = new System.Windows.Forms.CheckBox();
             this.panel_add_order.SuspendLayout();
             this.table_layout_add_order.SuspendLayout();
             this.panel_add_order_bottom.SuspendLayout();
@@ -74,6 +76,8 @@
             // 
             // panel_add_order_bottom
             // 
+            this.panel_add_order_bottom.Controls.Add(this.chck_can_archive);
+            this.panel_add_order_bottom.Controls.Add(this.lbl_can_archive);
             this.panel_add_order_bottom.Controls.Add(this.lbl_order_max_length);
             this.panel_add_order_bottom.Controls.Add(this.txt_order_max_length);
             this.panel_add_order_bottom.Controls.Add(this.lbl_drive_letter);
@@ -186,6 +190,25 @@
             this.lbl_version_number.TabIndex = 30;
             this.lbl_version_number.Text = "1.0.0";
             // 
+            // lbl_can_archive
+            // 
+            this.lbl_can_archive.AutoSize = true;
+            this.lbl_can_archive.Location = new System.Drawing.Point(13, 89);
+            this.lbl_can_archive.Name = "lbl_can_archive";
+            this.lbl_can_archive.Size = new System.Drawing.Size(101, 13);
+            this.lbl_can_archive.TabIndex = 41;
+            this.lbl_can_archive.Text = "Képes Archiválásra:";
+            // 
+            // chck_can_archive
+            // 
+            this.chck_can_archive.AutoSize = true;
+            this.chck_can_archive.Location = new System.Drawing.Point(120, 89);
+            this.chck_can_archive.Name = "chck_can_archive";
+            this.chck_can_archive.Size = new System.Drawing.Size(15, 14);
+            this.chck_can_archive.TabIndex = 42;
+            this.chck_can_archive.UseVisualStyleBackColor = true;
+            this.chck_can_archive.CheckedChanged += new System.EventHandler(this.chck_can_archive_CheckedChanged);
+            // 
             // form_settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,5 +241,7 @@
         private System.Windows.Forms.Label lbl_version_number;
         private System.Windows.Forms.Label lbl_order_max_length;
         private System.Windows.Forms.TextBox txt_order_max_length;
+        private System.Windows.Forms.Label lbl_can_archive;
+        private System.Windows.Forms.CheckBox chck_can_archive;
     }
 }
