@@ -836,6 +836,11 @@ namespace FolderManipulator
             StatusManager.ResetStrip();
         }
 
+        private void openDataLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileHandler.OpenFolderInExplorer(persistentData.SourcePath);
+        }
+
         private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (formOrderTypeSettings != null)
