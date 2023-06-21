@@ -137,6 +137,7 @@ namespace FolderManipulator
             }
 
             ShowAddPanel(Properties.Settings.Default.ShowAddPanel);
+            ColorManager.SetColorScheme(Properties.Settings.Default.ColorScheme);
         }
 
         private void SaveUserSettings()
@@ -159,6 +160,7 @@ namespace FolderManipulator
             }
 
             Properties.Settings.Default.ShowAddPanel = isAddPanelShown;
+            Properties.Settings.Default.ColorScheme = ColorManager.GetColorScheme();
 
             Properties.Settings.Default.Save();
         }
@@ -429,7 +431,7 @@ namespace FolderManipulator
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
             OnTenMinuteTimer -= SaveAllLocal;
-            OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+            //OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
         }
 
         private void FillListControls()
@@ -698,15 +700,15 @@ namespace FolderManipulator
             }
             foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Pending))
             {
-                node.BackColor = ColorManager.pendingOrderColor;
+                node.BackColor = ColorManager.pendingOrderColor.backColor;
             }
             foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Notified))
             {
-                node.BackColor = ColorManager.notifiedOrderColor;
+                node.BackColor = ColorManager.notifiedOrderColor.backColor;
             }
             foreach (var node in allNodes.Where(x => x.Checked))
             {
-                node.BackColor = ColorManager.checkedOrderColor;
+                node.BackColor = ColorManager.checkedOrderColor.backColor;
             }
 
         }
@@ -836,6 +838,11 @@ namespace FolderManipulator
             StatusManager.ResetStrip();
         }
 
+        private void openDataLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileHandler.OpenFolderInExplorer(persistentData.SourcePath);
+        }
+
         private void editOrderTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (formOrderTypeSettings != null)
@@ -922,6 +929,18 @@ namespace FolderManipulator
             ToggleShowAddPanel();
         }
 
+        private void toolstrip_item_color_default_Click(object sender, EventArgs e)
+        {
+            ColorManager.SetColorScheme(0);
+            RefreshOrders();
+        }
+
+        private void toolstrip_item_color_pontjo_Click(object sender, EventArgs e)
+        {
+            ColorManager.SetColorScheme(1);
+            RefreshOrders();
+        }
+
         private void ToggleShowAddPanel()
         {
             ShowAddPanel(!isAddPanelShown);
@@ -969,6 +988,9 @@ namespace FolderManipulator
             //Font nodeFont = e.Node.NodeFont;
             Font nodeFont;
             Rectangle bounds = e.Bounds;
+            bool isSelected = (e.State & TreeNodeStates.Selected) != 0;
+            bool isChecked = e.Node.Checked;
+            bool textWasDrawn = false;
 
             e.DrawDefault = false;
 
@@ -982,41 +1004,55 @@ namespace FolderManipulator
                 e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
             }
 
-            if (IsMainNode(treeView, e.Node, out Color mainNodeColor))
+            if (IsMainNode(treeView, e.Node, out Color mainBackColor, out Color mainForeColor))
             {
                 nodeFont = FontManager.mainOrderTypeFont;
 
-                using (SolidBrush backGroundBrush = new SolidBrush(mainNodeColor))
+                using (SolidBrush backGroundBrush = new SolidBrush(mainBackColor))
                 {
                     e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, 9000, 0));
                 }
+
+                if (!isSelected)
+                {
+                    TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, mainForeColor);
+                    textWasDrawn = true;
+                }
             }
 
-            if ((e.State & TreeNodeStates.Selected) != 0)
+            if (isChecked && !isSelected)
             {
-                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor))
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, ColorManager.checkedOrderColor.foreColor);
+                textWasDrawn = true;
+            }
+
+            if (isSelected)
+            {
+                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor.backColor))
                 {
                     e.Graphics.FillRectangle(selectionBrush, bounds);
                 }
 
-                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.White);
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, ColorManager.selectedTreeViewNodeColor.foreColor);
             }
-            else
+            else if (!textWasDrawn)
             {
                 TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.Black);
             }
         }
 
-        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainNodeColor)
+        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainBackColor, out Color mainForeColor)
         {
             TreeNodeCollection mainTypes = treeView.Nodes;
             int indexOfCurrentNode = mainTypes.IndexOf(treeNode);
             if (indexOfCurrentNode >= 0)
             {
-                mainNodeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1 : ColorManager.mainOrderTypeTreeViewNodeColor2;
+                mainBackColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1.backColor : ColorManager.mainOrderTypeTreeViewNodeColor2.backColor;
+                mainForeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1.foreColor : ColorManager.mainOrderTypeTreeViewNodeColor2.foreColor;
                 return true;
             }
-            mainNodeColor = Color.White;
+            mainBackColor = Color.White;
+            mainForeColor = Color.Black;
             return false;
         }
 
@@ -1232,6 +1268,9 @@ namespace FolderManipulator
 
             list_checked_files.Items.Insert(0, "Select All");
 
+            if (SettingsManager.Settings == null)
+                return;
+
             if (SettingsManager.Settings.KeepCheckedFilesAfterRefresh)
             {
                 foreach (var checkedItem in checkedItems)
@@ -1416,7 +1455,11 @@ namespace FolderManipulator
             List<OrderData> orders = OrderManager.GetOrderList(from).GetOrders(treeViewHandleGroup.GetHandle(treeView).GetCheckedData());
             if (IsCheckedListCorrect(orders))
             {
-                OrderManager.RemoveOrder(from, orders);
+                string orderNames = "[ " + orders.Select(x => x.GetFileName()).Aggregate((x, y) => x + ", " + y) + " ]";
+                if (MessageBox.Show(ErrorManager.GetCurrentErrorMessage($"doYouReallyDelete", orderNames), "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    OrderManager.RemoveOrder(from, orders);
+                }
             }
         }
         #endregion
@@ -1695,7 +1738,22 @@ namespace FolderManipulator
         {
             if (!persistentData.DoesArchiveForLastMonthExists())
             {
-                ArchiveFinishedOrders();
+                OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+
+                DialogResult dialogResult = MessageBox.Show("doYouReallyArchive", "Archive last month", MessageBoxButtons.YesNoCancel);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ArchiveFinishedOrders();
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    StatusManager.ShowMessage($"archiveLater", StatusColorType.Default, DelayTimeType.Medium);
+                    OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
+                }
+                else if (dialogResult == DialogResult.Cancel)
+                {
+                    StatusManager.ShowMessage($"archiveCanceled", StatusColorType.Default, DelayTimeType.Medium);
+                }
             }
         }
 

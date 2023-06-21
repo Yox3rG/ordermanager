@@ -36,6 +36,7 @@
             this.table_layout_active_order_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btn_add_active_pending = new System.Windows.Forms.Button();
             this.btn_add_active_finished = new System.Windows.Forms.Button();
+            this.btn_delete_active_selected = new System.Windows.Forms.Button();
             this.panel_add_order = new System.Windows.Forms.Panel();
             this.table_layout_add_order = new System.Windows.Forms.TableLayoutPanel();
             this.panel_add_order_top = new System.Windows.Forms.Panel();
@@ -72,6 +73,7 @@
             this.table_layout_finished_order_buttons = new System.Windows.Forms.TableLayoutPanel();
             this.btn_add_finished_pending = new System.Windows.Forms.Button();
             this.btn_add_finished_active = new System.Windows.Forms.Button();
+            this.btn_delete_finished_selected = new System.Windows.Forms.Button();
             this.tab_page_archive = new System.Windows.Forms.TabPage();
             this.table_layout_archive = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_archive_name = new System.Windows.Forms.Label();
@@ -111,10 +113,12 @@
             this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_open_data_location = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btn_delete_active_selected = new System.Windows.Forms.Button();
-            this.btn_delete_finished_selected = new System.Windows.Forms.Button();
+            this.toolstrip_item_color_scheme = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_color_default = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_color_pontjo = new System.Windows.Forms.ToolStripMenuItem();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -223,6 +227,17 @@
             this.btn_add_active_finished.Text = "Add to Finished";
             this.btn_add_active_finished.UseVisualStyleBackColor = true;
             this.btn_add_active_finished.Click += new System.EventHandler(this.btn_add_active_finished_Click);
+            // 
+            // btn_delete_active_selected
+            // 
+            this.btn_delete_active_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_active_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_active_selected.Name = "btn_delete_active_selected";
+            this.btn_delete_active_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_active_selected.TabIndex = 2;
+            this.btn_delete_active_selected.Text = "Delete Selected";
+            this.btn_delete_active_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_active_selected.Click += new System.EventHandler(this.btn_delete_active_selected_Click);
             // 
             // panel_add_order
             // 
@@ -684,6 +699,17 @@
             this.btn_add_finished_active.UseVisualStyleBackColor = true;
             this.btn_add_finished_active.Click += new System.EventHandler(this.btn_add_finished_active_Click);
             // 
+            // btn_delete_finished_selected
+            // 
+            this.btn_delete_finished_selected.Location = new System.Drawing.Point(2, 83);
+            this.btn_delete_finished_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_delete_finished_selected.Name = "btn_delete_finished_selected";
+            this.btn_delete_finished_selected.Size = new System.Drawing.Size(92, 34);
+            this.btn_delete_finished_selected.TabIndex = 2;
+            this.btn_delete_finished_selected.Text = "Delete Selected";
+            this.btn_delete_finished_selected.UseVisualStyleBackColor = true;
+            this.btn_delete_finished_selected.Click += new System.EventHandler(this.btn_delete_finished_selected_Click);
+            // 
             // tab_page_archive
             // 
             this.tab_page_archive.Controls.Add(this.table_layout_archive);
@@ -999,7 +1025,8 @@
             // 
             this.toolstrip_item_view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolstrip_item_language,
-            this.toolstrip_item_add_panel});
+            this.toolstrip_item_add_panel,
+            this.toolstrip_item_color_scheme});
             this.toolstrip_item_view.Name = "toolstrip_item_view";
             this.toolstrip_item_view.Size = new System.Drawing.Size(44, 20);
             this.toolstrip_item_view.Text = "View";
@@ -1010,27 +1037,27 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(160, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
             // 
             this.toolstrip_item_language_english.Name = "toolstrip_item_language_english";
-            this.toolstrip_item_language_english.Size = new System.Drawing.Size(114, 22);
+            this.toolstrip_item_language_english.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_language_english.Text = "English";
             this.toolstrip_item_language_english.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // toolstrip_item_language_hungarian
             // 
             this.toolstrip_item_language_hungarian.Name = "toolstrip_item_language_hungarian";
-            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(114, 22);
+            this.toolstrip_item_language_hungarian.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_language_hungarian.Text = "Magyar";
             this.toolstrip_item_language_hungarian.Click += new System.EventHandler(this.magyarToolStripMenuItem_Click);
             // 
             // toolstrip_item_add_panel
             // 
             this.toolstrip_item_add_panel.Name = "toolstrip_item_add_panel";
-            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(160, 22);
+            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_add_panel.Text = "Show Add Panel";
             this.toolstrip_item_add_panel.Click += new System.EventHandler(this.toolstrip_item_add_panel_Click);
             // 
@@ -1039,7 +1066,8 @@
             this.toolstrip_item_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolstrip_item_save_logs,
             this.toolstrip_item_delete_lock,
-            this.toolstrip_item_clear_status});
+            this.toolstrip_item_clear_status,
+            this.toolstrip_item_open_data_location});
             this.toolstrip_item_help.Name = "toolstrip_item_help";
             this.toolstrip_item_help.Size = new System.Drawing.Size(49, 20);
             this.toolstrip_item_help.Text = "Help?";
@@ -1047,23 +1075,30 @@
             // toolstrip_item_save_logs
             // 
             this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
-            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_save_logs.Text = "Save Log";
             this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // toolstrip_item_delete_lock
             // 
             this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
-            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_delete_lock.Text = "Delete Lock";
             this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // toolstrip_item_clear_status
             // 
             this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
-            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(153, 22);
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(180, 22);
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
+            // 
+            // toolstrip_item_open_data_location
+            // 
+            this.toolstrip_item_open_data_location.Name = "toolstrip_item_open_data_location";
+            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_open_data_location.Text = "Open Data Location";
+            this.toolstrip_item_open_data_location.Click += new System.EventHandler(this.openDataLocationToolStripMenuItem_Click);
             // 
             // status_strip
             // 
@@ -1081,27 +1116,28 @@
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
             // 
-            // btn_delete_active_selected
+            // toolstrip_item_color_scheme
             // 
-            this.btn_delete_active_selected.Location = new System.Drawing.Point(2, 83);
-            this.btn_delete_active_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_delete_active_selected.Name = "btn_delete_active_selected";
-            this.btn_delete_active_selected.Size = new System.Drawing.Size(92, 34);
-            this.btn_delete_active_selected.TabIndex = 2;
-            this.btn_delete_active_selected.Text = "Delete Selected";
-            this.btn_delete_active_selected.UseVisualStyleBackColor = true;
-            this.btn_delete_active_selected.Click += new System.EventHandler(this.btn_delete_active_selected_Click);
+            this.toolstrip_item_color_scheme.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolstrip_item_color_default,
+            this.toolstrip_item_color_pontjo});
+            this.toolstrip_item_color_scheme.Name = "toolstrip_item_color_scheme";
+            this.toolstrip_item_color_scheme.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_color_scheme.Text = "Color";
             // 
-            // btn_delete_finished_selected
+            // toolstrip_item_color_default
             // 
-            this.btn_delete_finished_selected.Location = new System.Drawing.Point(2, 83);
-            this.btn_delete_finished_selected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_delete_finished_selected.Name = "btn_delete_finished_selected";
-            this.btn_delete_finished_selected.Size = new System.Drawing.Size(92, 34);
-            this.btn_delete_finished_selected.TabIndex = 2;
-            this.btn_delete_finished_selected.Text = "Delete Selected";
-            this.btn_delete_finished_selected.UseVisualStyleBackColor = true;
-            this.btn_delete_finished_selected.Click += new System.EventHandler(this.btn_delete_finished_selected_Click);
+            this.toolstrip_item_color_default.Name = "toolstrip_item_color_default";
+            this.toolstrip_item_color_default.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_color_default.Text = "Default";
+            this.toolstrip_item_color_default.Click += new System.EventHandler(this.toolstrip_item_color_default_Click);
+            // 
+            // toolstrip_item_color_pontjo
+            // 
+            this.toolstrip_item_color_pontjo.Name = "toolstrip_item_color_pontjo";
+            this.toolstrip_item_color_pontjo.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_color_pontjo.Text = "PontJo";
+            this.toolstrip_item_color_pontjo.Click += new System.EventHandler(this.toolstrip_item_color_pontjo_Click);
             // 
             // form_main
             // 
@@ -1242,6 +1278,10 @@
         private System.Windows.Forms.TextBox txt_customer_name;
         private System.Windows.Forms.Button btn_delete_active_selected;
         private System.Windows.Forms.Button btn_delete_finished_selected;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_open_data_location;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_color_scheme;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_color_default;
+        private System.Windows.Forms.ToolStripMenuItem toolstrip_item_color_pontjo;
     }
 }
 
