@@ -698,15 +698,15 @@ namespace FolderManipulator
             }
             foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Pending))
             {
-                node.BackColor = ColorManager.pendingOrderColor;
+                node.BackColor = ColorManager.pendingOrderColor.backColor;
             }
             foreach (var node in allNodes.Where(x => ((OrderData)x.Tag) != null && ((OrderData)x.Tag).State == OrderState.Notified))
             {
-                node.BackColor = ColorManager.notifiedOrderColor;
+                node.BackColor = ColorManager.notifiedOrderColor.backColor;
             }
             foreach (var node in allNodes.Where(x => x.Checked))
             {
-                node.BackColor = ColorManager.checkedOrderColor;
+                node.BackColor = ColorManager.checkedOrderColor.backColor;
             }
 
         }
@@ -974,6 +974,11 @@ namespace FolderManipulator
             //Font nodeFont = e.Node.NodeFont;
             Font nodeFont;
             Rectangle bounds = e.Bounds;
+            bool isSelected = (e.State & TreeNodeStates.Selected) != 0;
+            bool isChecked = e.Node.Checked;
+            bool textWasDrawn = false;
+
+            AppConsole.WriteLine($"Node: {e.Node.Text.Substring(0, 3)}, State: {e.State}, isSelected: {isSelected}, isChecked: {isChecked}");
 
             e.DrawDefault = false;
 
@@ -987,41 +992,55 @@ namespace FolderManipulator
                 e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, -1, 0));
             }
 
-            if (IsMainNode(treeView, e.Node, out Color mainNodeColor))
+            if (IsMainNode(treeView, e.Node, out Color mainBackColor, out Color mainForeColor))
             {
                 nodeFont = FontManager.mainOrderTypeFont;
 
-                using (SolidBrush backGroundBrush = new SolidBrush(mainNodeColor))
+                using (SolidBrush backGroundBrush = new SolidBrush(mainBackColor))
                 {
                     e.Graphics.FillRectangle(backGroundBrush, Rectangle.Inflate(bounds, 9000, 0));
                 }
+
+                if (!isSelected)
+                {
+                    TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, mainForeColor);
+                    textWasDrawn = true;
+                }
             }
 
-            if ((e.State & TreeNodeStates.Selected) != 0)
+            if (isChecked && !isSelected)
             {
-                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor))
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, ColorManager.checkedOrderColor.foreColor);
+                textWasDrawn = true;
+            }
+
+            if (isSelected)
+            {
+                using (SolidBrush selectionBrush = new SolidBrush(ColorManager.selectedTreeViewNodeColor.backColor))
                 {
                     e.Graphics.FillRectangle(selectionBrush, bounds);
                 }
 
-                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.White);
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, ColorManager.selectedTreeViewNodeColor.foreColor);
             }
-            else
+            else if (!textWasDrawn)
             {
                 TextRenderer.DrawText(e.Graphics, e.Node.Text, nodeFont, bounds, Color.Black);
             }
         }
 
-        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainNodeColor)
+        private static bool IsMainNode(TreeView treeView, TreeNode treeNode, out Color mainBackColor, out Color mainForeColor)
         {
             TreeNodeCollection mainTypes = treeView.Nodes;
             int indexOfCurrentNode = mainTypes.IndexOf(treeNode);
             if (indexOfCurrentNode >= 0)
             {
-                mainNodeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1 : ColorManager.mainOrderTypeTreeViewNodeColor2;
+                mainBackColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1.backColor : ColorManager.mainOrderTypeTreeViewNodeColor2.backColor;
+                mainForeColor = indexOfCurrentNode % 2 == 0 ? ColorManager.mainOrderTypeTreeViewNodeColor1.foreColor : ColorManager.mainOrderTypeTreeViewNodeColor2.foreColor;
                 return true;
             }
-            mainNodeColor = Color.White;
+            mainBackColor = Color.White;
+            mainForeColor = Color.Black;
             return false;
         }
 

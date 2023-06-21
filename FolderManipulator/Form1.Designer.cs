@@ -1033,7 +1033,7 @@
             this.toolstrip_item_language_english,
             this.toolstrip_item_language_hungarian});
             this.toolstrip_item_language.Name = "toolstrip_item_language";
-            this.toolstrip_item_language.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_language.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_language.Text = "Language";
             // 
             // toolstrip_item_language_english
@@ -1053,7 +1053,7 @@
             // toolstrip_item_add_panel
             // 
             this.toolstrip_item_add_panel.Name = "toolstrip_item_add_panel";
-            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_add_panel.Size = new System.Drawing.Size(160, 22);
             this.toolstrip_item_add_panel.Text = "Show Add Panel";
             this.toolstrip_item_add_panel.Click += new System.EventHandler(this.toolstrip_item_add_panel_Click);
             // 
@@ -1071,28 +1071,28 @@
             // toolstrip_item_save_logs
             // 
             this.toolstrip_item_save_logs.Name = "toolstrip_item_save_logs";
-            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_save_logs.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_save_logs.Text = "Save Log";
             this.toolstrip_item_save_logs.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // toolstrip_item_delete_lock
             // 
             this.toolstrip_item_delete_lock.Name = "toolstrip_item_delete_lock";
-            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_delete_lock.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_delete_lock.Text = "Delete Lock";
             this.toolstrip_item_delete_lock.Click += new System.EventHandler(this.deleteLockToolStripMenuItem_Click_1);
             // 
             // toolstrip_item_clear_status
             // 
             this.toolstrip_item_clear_status.Name = "toolstrip_item_clear_status";
-            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_clear_status.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
             // toolstrip_item_open_data_location
             // 
             this.toolstrip_item_open_data_location.Name = "toolstrip_item_open_data_location";
-            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(179, 22);
             this.toolstrip_item_open_data_location.Text = "Open Data Location";
             this.toolstrip_item_open_data_location.Click += new System.EventHandler(this.openDataLocationToolStripMenuItem_Click);
             // 
