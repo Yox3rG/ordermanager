@@ -137,6 +137,7 @@ namespace FolderManipulator
             }
 
             ShowAddPanel(Properties.Settings.Default.ShowAddPanel);
+            ColorManager.SetColorScheme(Properties.Settings.Default.ColorScheme);
         }
 
         private void SaveUserSettings()
@@ -159,6 +160,7 @@ namespace FolderManipulator
             }
 
             Properties.Settings.Default.ShowAddPanel = isAddPanelShown;
+            Properties.Settings.Default.ColorScheme = ColorManager.GetColorScheme();
 
             Properties.Settings.Default.Save();
         }
@@ -927,6 +929,18 @@ namespace FolderManipulator
             ToggleShowAddPanel();
         }
 
+        private void toolstrip_item_color_default_Click(object sender, EventArgs e)
+        {
+            ColorManager.SetColorScheme(0);
+            RefreshOrders();
+        }
+
+        private void toolstrip_item_color_pontjo_Click(object sender, EventArgs e)
+        {
+            ColorManager.SetColorScheme(1);
+            RefreshOrders();
+        }
+
         private void ToggleShowAddPanel()
         {
             ShowAddPanel(!isAddPanelShown);
@@ -977,8 +991,6 @@ namespace FolderManipulator
             bool isSelected = (e.State & TreeNodeStates.Selected) != 0;
             bool isChecked = e.Node.Checked;
             bool textWasDrawn = false;
-
-            AppConsole.WriteLine($"Node: {e.Node.Text.Substring(0, 3)}, State: {e.State}, isSelected: {isSelected}, isChecked: {isChecked}");
 
             e.DrawDefault = false;
 

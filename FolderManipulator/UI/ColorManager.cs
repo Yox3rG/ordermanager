@@ -34,23 +34,23 @@ namespace FolderManipulator.UI
             defaultScheme = new ColorScheme()
             {
                 id = 0,
-                checkedOrderColor               = new BackForeColor(Color.FromArgb(214, 214, 214), Color.Black),
-                notifiedOrderColor              = new BackForeColor(Color.PeachPuff, Color.White),
-                pendingOrderColor               = new BackForeColor(Color.Empty, Color.White),
+                checkedOrderColor               = new BackForeColor(Color.FromArgb(214, 214, 214),      Color.Black),
+                notifiedOrderColor              = new BackForeColor(Color.PeachPuff,                    Color.White),
+                pendingOrderColor               = new BackForeColor(Color.Empty,                        Color.White),
                 selectedTreeViewNodeColor       = new BackForeColor(Color.FromArgb(200, 107, 107, 107), Color.White),
-                mainOrderTypeTreeViewNodeColor1 = new BackForeColor(Color.FromArgb(200, 41, 173, 255), Color.Black),
+                mainOrderTypeTreeViewNodeColor1 = new BackForeColor(Color.FromArgb(200, 41, 173, 255),  Color.Black),
                 mainOrderTypeTreeViewNodeColor2 = new BackForeColor(Color.FromArgb(200, 157, 216, 252), Color.Black),
             };
 
             pontjoScheme = new ColorScheme()
             {
                 id = 1,
-                checkedOrderColor = new BackForeColor(Color.GreenYellow, Color.White),
-                notifiedOrderColor = new BackForeColor(Color.PeachPuff, Color.White),
-                pendingOrderColor = new BackForeColor(Color.Empty, Color.White),
-                selectedTreeViewNodeColor = new BackForeColor(Color.FromArgb(200, 214, 255, 153), Color.White),
-                mainOrderTypeTreeViewNodeColor1 = new BackForeColor(Color.FromArgb(200, 255, 20, 147), Color.White),
-                mainOrderTypeTreeViewNodeColor2 = new BackForeColor(Color.FromArgb(200, 189, 0, 101), Color.White),
+                checkedOrderColor               = new BackForeColor(Color.GreenYellow,                  Color.Black),
+                notifiedOrderColor              = new BackForeColor(Color.PeachPuff,                    Color.White),
+                pendingOrderColor               = new BackForeColor(Color.Empty,                        Color.White),
+                selectedTreeViewNodeColor       = new BackForeColor(Color.FromArgb(200, 214, 255, 153), Color.Black),
+                mainOrderTypeTreeViewNodeColor1 = new BackForeColor(Color.FromArgb(200, 255, 20, 147),  Color.White),
+                mainOrderTypeTreeViewNodeColor2 = new BackForeColor(Color.FromArgb(200, 189, 0, 101),   Color.White),
             };
 
             SetColorScheme(0);
@@ -70,6 +70,11 @@ namespace FolderManipulator.UI
                     currentScheme = defaultScheme;
                     break;
             }
+        }
+
+        public static int GetColorScheme()
+        {
+            return currentScheme.id;
         }
     }
 }
