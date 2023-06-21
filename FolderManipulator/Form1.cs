@@ -429,7 +429,7 @@ namespace FolderManipulator
 
             OnOneSecondTimer -= LoadAllIfDataIsOld;
             OnTenMinuteTimer -= SaveAllLocal;
-            OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+            //OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
         }
 
         private void FillListControls()
@@ -1702,7 +1702,22 @@ namespace FolderManipulator
         {
             if (!persistentData.DoesArchiveForLastMonthExists())
             {
-                ArchiveFinishedOrders();
+                OnTenMinuteTimer -= ArchiveFinishedOrdersIfNewMonth;
+
+                DialogResult dialogResult = MessageBox.Show("doYouReallyArchive", "Archive last month", MessageBoxButtons.YesNoCancel);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ArchiveFinishedOrders();
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    StatusManager.ShowMessage($"archiveLater", StatusColorType.Default, DelayTimeType.Medium);
+                    OnTenMinuteTimer += ArchiveFinishedOrdersIfNewMonth;
+                }
+                else if (dialogResult == DialogResult.Cancel)
+                {
+                    StatusManager.ShowMessage($"archiveCanceled", StatusColorType.Default, DelayTimeType.Medium);
+                }
             }
         }
 
