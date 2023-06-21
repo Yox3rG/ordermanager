@@ -113,9 +113,9 @@
             this.toolstrip_item_save_logs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_delete_lock = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip_item_clear_status = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolstrip_item_open_data_location = new System.Windows.Forms.ToolStripMenuItem();
             this.status_strip = new System.Windows.Forms.StatusStrip();
             this.label_status_strip_main = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolstrip_item_open_data_location = new System.Windows.Forms.ToolStripMenuItem();
             this.table_layout_active_orders.SuspendLayout();
             this.table_layout_active_order_buttons.SuspendLayout();
             this.panel_add_order.SuspendLayout();
@@ -988,33 +988,33 @@
             // toolstrip_item_force_save
             // 
             this.toolstrip_item_force_save.Name = "toolstrip_item_force_save";
-            this.toolstrip_item_force_save.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_force_save.Size = new System.Drawing.Size(173, 22);
             this.toolstrip_item_force_save.Text = "Force Save Objects";
             this.toolstrip_item_force_save.Click += new System.EventHandler(this.forceSaveObjectsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(170, 6);
             // 
             // toolstrip_item_edit_ordertype
             // 
             this.toolstrip_item_edit_ordertype.Name = "toolstrip_item_edit_ordertype";
-            this.toolstrip_item_edit_ordertype.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_edit_ordertype.Size = new System.Drawing.Size(173, 22);
             this.toolstrip_item_edit_ordertype.Text = "Edit OrderTypes";
             this.toolstrip_item_edit_ordertype.Click += new System.EventHandler(this.editOrderTypesToolStripMenuItem_Click);
             // 
             // toolstrip_item_edit_source_path
             // 
             this.toolstrip_item_edit_source_path.Name = "toolstrip_item_edit_source_path";
-            this.toolstrip_item_edit_source_path.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_edit_source_path.Size = new System.Drawing.Size(173, 22);
             this.toolstrip_item_edit_source_path.Text = "Edit Source Path";
             this.toolstrip_item_edit_source_path.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // toolstrip_item_edit_settings
             // 
             this.toolstrip_item_edit_settings.Name = "toolstrip_item_edit_settings";
-            this.toolstrip_item_edit_settings.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_edit_settings.Size = new System.Drawing.Size(173, 22);
             this.toolstrip_item_edit_settings.Text = "Settings";
             this.toolstrip_item_edit_settings.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -1089,6 +1089,13 @@
             this.toolstrip_item_clear_status.Text = "Clear StatusBar";
             this.toolstrip_item_clear_status.Click += new System.EventHandler(this.clearStatusBarToolStripMenuItem_Click);
             // 
+            // toolstrip_item_open_data_location
+            // 
+            this.toolstrip_item_open_data_location.Name = "toolstrip_item_open_data_location";
+            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(180, 22);
+            this.toolstrip_item_open_data_location.Text = "Open Data Location";
+            this.toolstrip_item_open_data_location.Click += new System.EventHandler(this.openDataLocationToolStripMenuItem_Click);
+            // 
             // status_strip
             // 
             this.status_strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1104,13 +1111,6 @@
             this.label_status_strip_main.Name = "label_status_strip_main";
             this.label_status_strip_main.Size = new System.Drawing.Size(16, 17);
             this.label_status_strip_main.Text = "...";
-            // 
-            // toolstrip_item_open_data_location
-            // 
-            this.toolstrip_item_open_data_location.Name = "toolstrip_item_open_data_location";
-            this.toolstrip_item_open_data_location.Size = new System.Drawing.Size(180, 22);
-            this.toolstrip_item_open_data_location.Text = "Open Data Location";
-            this.toolstrip_item_open_data_location.Click += new System.EventHandler(this.openDataLocationToolStripMenuItem_Click);
             // 
             // form_main
             // 
