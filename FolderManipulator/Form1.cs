@@ -1747,7 +1747,10 @@ namespace FolderManipulator
                 DialogResult dialogResult = MessageBox.Show("doYouReallyArchive", "Archive last month", MessageBoxButtons.YesNoCancel);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    ArchiveFinishedOrders();
+                    if (!persistentData.DoesArchiveForLastMonthExists())
+                    {
+                        ArchiveFinishedOrders();
+                    }
                 }
                 else if (dialogResult == DialogResult.No)
                 {
