@@ -11,7 +11,7 @@ namespace FolderManipulator.Analytics
 {
     public static class AppConsole
     {
-        private static int logMaxLines = 50;
+        private static int logMaxLines = 150;
         private static Queue<string> logs = new Queue<string>();
 
         public static void WriteLine(string messageOrID, [CallerMemberName] string memberName = null, [CallerFilePath] string sourceFilePath = null, params object[] list)
