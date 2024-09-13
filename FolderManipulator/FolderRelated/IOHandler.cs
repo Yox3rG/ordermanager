@@ -69,16 +69,25 @@ namespace FolderManipulator.FolderRelated
                 return false;
             }
 
+            FileStream lockFileStream = null;
+            bool fileCreatedSuccessfully = false;
             try
             {
-                File.Create(path).Dispose();
+                lockFileStream = File.Create(path);
+                fileCreatedSuccessfully = true;
             }
             catch (Exception e)
             {
                 AppConsole.WriteLine(e.Message);
-                return false;
+                fileCreatedSuccessfully = false;
             }
-            return true;
+
+            if (lockFileStream != null)
+            {
+                lockFileStream.Dispose();
+            }
+
+            return fileCreatedSuccessfully;
         }
 
         public static bool ReleaseLock(string path)
@@ -106,7 +115,7 @@ namespace FolderManipulator.FolderRelated
             int failIndex = 0;
             try
             {
-                using (StreamReader reader = new StreamReader (path))
+                using (StreamReader reader = new StreamReader(path))
                 {
                     using (CsvReader csvReader = new CsvReader(reader, csvConfig))
                     {
