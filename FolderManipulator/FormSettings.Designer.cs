@@ -31,6 +31,8 @@
             this.panel_add_order = new System.Windows.Forms.Panel();
             this.table_layout_add_order = new System.Windows.Forms.TableLayoutPanel();
             this.panel_add_order_bottom = new System.Windows.Forms.Panel();
+            this.chck_can_archive = new System.Windows.Forms.CheckBox();
+            this.lbl_can_archive = new System.Windows.Forms.Label();
             this.lbl_order_max_length = new System.Windows.Forms.Label();
             this.txt_order_max_length = new System.Windows.Forms.TextBox();
             this.lbl_drive_letter = new System.Windows.Forms.Label();
@@ -41,8 +43,8 @@
             this.btn_save = new System.Windows.Forms.Button();
             this.lbl_edit_order_title = new System.Windows.Forms.Label();
             this.lbl_version_number = new System.Windows.Forms.Label();
-            this.lbl_can_archive = new System.Windows.Forms.Label();
-            this.chck_can_archive = new System.Windows.Forms.CheckBox();
+            this.lbl_new_font_name = new System.Windows.Forms.Label();
+            this.txt_new_font_name = new System.Windows.Forms.TextBox();
             this.panel_add_order.SuspendLayout();
             this.table_layout_add_order.SuspendLayout();
             this.panel_add_order_bottom.SuspendLayout();
@@ -76,6 +78,8 @@
             // 
             // panel_add_order_bottom
             // 
+            this.panel_add_order_bottom.Controls.Add(this.lbl_new_font_name);
+            this.panel_add_order_bottom.Controls.Add(this.txt_new_font_name);
             this.panel_add_order_bottom.Controls.Add(this.chck_can_archive);
             this.panel_add_order_bottom.Controls.Add(this.lbl_can_archive);
             this.panel_add_order_bottom.Controls.Add(this.lbl_order_max_length);
@@ -91,6 +95,25 @@
             this.panel_add_order_bottom.Name = "panel_add_order_bottom";
             this.panel_add_order_bottom.Size = new System.Drawing.Size(422, 459);
             this.panel_add_order_bottom.TabIndex = 29;
+            // 
+            // chck_can_archive
+            // 
+            this.chck_can_archive.AutoSize = true;
+            this.chck_can_archive.Location = new System.Drawing.Point(120, 89);
+            this.chck_can_archive.Name = "chck_can_archive";
+            this.chck_can_archive.Size = new System.Drawing.Size(15, 14);
+            this.chck_can_archive.TabIndex = 42;
+            this.chck_can_archive.UseVisualStyleBackColor = true;
+            this.chck_can_archive.CheckedChanged += new System.EventHandler(this.chck_can_archive_CheckedChanged);
+            // 
+            // lbl_can_archive
+            // 
+            this.lbl_can_archive.AutoSize = true;
+            this.lbl_can_archive.Location = new System.Drawing.Point(13, 89);
+            this.lbl_can_archive.Name = "lbl_can_archive";
+            this.lbl_can_archive.Size = new System.Drawing.Size(101, 13);
+            this.lbl_can_archive.TabIndex = 41;
+            this.lbl_can_archive.Text = "Képes Archiválásra:";
             // 
             // lbl_order_max_length
             // 
@@ -190,24 +213,24 @@
             this.lbl_version_number.TabIndex = 30;
             this.lbl_version_number.Text = "1.0.0";
             // 
-            // lbl_can_archive
+            // lbl_new_font_name
             // 
-            this.lbl_can_archive.AutoSize = true;
-            this.lbl_can_archive.Location = new System.Drawing.Point(13, 89);
-            this.lbl_can_archive.Name = "lbl_can_archive";
-            this.lbl_can_archive.Size = new System.Drawing.Size(101, 13);
-            this.lbl_can_archive.TabIndex = 41;
-            this.lbl_can_archive.Text = "Képes Archiválásra:";
+            this.lbl_new_font_name.AutoSize = true;
+            this.lbl_new_font_name.Location = new System.Drawing.Point(13, 112);
+            this.lbl_new_font_name.Name = "lbl_new_font_name";
+            this.lbl_new_font_name.Size = new System.Drawing.Size(67, 13);
+            this.lbl_new_font_name.TabIndex = 44;
+            this.lbl_new_font_name.Text = "Új Font Név:";
             // 
-            // chck_can_archive
+            // txt_new_font_name
             // 
-            this.chck_can_archive.AutoSize = true;
-            this.chck_can_archive.Location = new System.Drawing.Point(120, 89);
-            this.chck_can_archive.Name = "chck_can_archive";
-            this.chck_can_archive.Size = new System.Drawing.Size(15, 14);
-            this.chck_can_archive.TabIndex = 42;
-            this.chck_can_archive.UseVisualStyleBackColor = true;
-            this.chck_can_archive.CheckedChanged += new System.EventHandler(this.chck_can_archive_CheckedChanged);
+            this.txt_new_font_name.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_new_font_name.Location = new System.Drawing.Point(118, 109);
+            this.txt_new_font_name.Name = "txt_new_font_name";
+            this.txt_new_font_name.Size = new System.Drawing.Size(178, 20);
+            this.txt_new_font_name.TabIndex = 43;
+            this.txt_new_font_name.TextChanged += new System.EventHandler(this.txt_new_font_name_TextChanged);
             // 
             // form_settings
             // 
@@ -243,5 +266,7 @@
         private System.Windows.Forms.TextBox txt_order_max_length;
         private System.Windows.Forms.Label lbl_can_archive;
         private System.Windows.Forms.CheckBox chck_can_archive;
+        private System.Windows.Forms.Label lbl_new_font_name;
+        private System.Windows.Forms.TextBox txt_new_font_name;
     }
 }

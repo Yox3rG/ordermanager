@@ -1,9 +1,6 @@
 ﻿using FolderManipulator.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FolderManipulator.Data
 {
@@ -13,7 +10,7 @@ namespace FolderManipulator.Data
         public static Action OnSettingsChanged;
         public static Action<string> OnCantChangeData;
 
-        public static Action<int> OnOrderFontSizeChanged;
+        public static Action<int, string> OnOrderFontChanged;
         public static Action<int> OnOrderNameMaxLengthChanged;
 
         public static bool CanChangeData
@@ -55,7 +52,7 @@ namespace FolderManipulator.Data
             else
             {
                 LocalSettings = localSettingsData;
-                FontManager.UpdateFontSize(LocalSettings.OrdersFontPixelSize);
+                FontManager.UpdateFont(LocalSettings.OrdersFontPixelSize, LocalSettings.OrdersFontName);
             }
         }
 

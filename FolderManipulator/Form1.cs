@@ -59,7 +59,7 @@ namespace FolderManipulator
             FillTreeViewLists();
 
             StatusManager.Initialize(status_strip);
-            FontManager.Initialize(12);
+            FontManager.Initialize(12, null);
             InitializeFormElements();
             InitializeTimers();
             FillListControls();
@@ -898,7 +898,7 @@ namespace FolderManipulator
             formSettings = new form_settings();
 
             formSettings.SetTarget(SettingsManager.LocalSettings);
-            formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetPixelSize;
+            formSettings.OnFontValueChanged += SettingsManager.LocalSettings.SetFont;
             formSettings.OnLocalDriveLetterChanged += SettingsManager.LocalSettings.SetLocalDriveLetter;
             formSettings.OnOrderNameMaxLengthChanged += SettingsManager.LocalSettings.SetOrderNameMaxLength;
             formSettings.OnCanArchiveChanged += SettingsManager.LocalSettings.SetCanArchive;

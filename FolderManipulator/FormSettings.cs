@@ -1,24 +1,16 @@
 ﻿using FolderManipulator.Analytics;
 using FolderManipulator.Data;
-using FolderManipulator.FolderRelated;
 using FolderManipulator.UI;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Deployment.Application;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FolderManipulator
 {
     public partial class form_settings : Form
     {
-        public Action<int> OnFontValueChanged;
+        public Action<int, string> OnFontValueChanged;
         public Action<int> OnOrderNameMaxLengthChanged;
         public Action<string> OnLocalDriveLetterChanged;
         public Action<bool> OnCanArchiveChanged;
@@ -28,6 +20,7 @@ namespace FolderManipulator
         private int oldMaxLength;
         private string oldDriveLetter;
         private bool oldCanArchive;
+        private string oldFontName;
         LocalSettingsData targetLocalSettingsData;
 
         public string CurrentVersion
@@ -67,6 +60,7 @@ namespace FolderManipulator
             oldMaxLength = localSettingsData.OrderNameMaxLength;
             oldDriveLetter = localSettingsData.LocalDriveLetter;
             oldCanArchive = localSettingsData.CanArchive;
+            oldFontName = localSettingsData.OrdersFontName;
             FillData(localSettingsData);
         }
 
@@ -76,6 +70,7 @@ namespace FolderManipulator
             FillField(txt_drive_letter, txt_drive_letter_TextChanged, localSettingsData.LocalDriveLetter);
             FillField(txt_order_max_length, txt_drive_letter_TextChanged, localSettingsData.OrderNameMaxLength.ToString());
             FillField(chck_can_archive, chck_can_archive_CheckedChanged, localSettingsData.CanArchive);
+            FillField(txt_new_font_name, txt_new_font_name_TextChanged, localSettingsData.OrdersFontName);
         }
 
         private void FillField(TextBox textBox, EventHandler onChangeEvent, string text)
@@ -131,7 +126,7 @@ namespace FolderManipulator
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
-            OnFontValueChanged?.Invoke(oldFontValue);
+            OnFontValueChanged?.Invoke(oldFontValue, oldFontName);
             OnLocalDriveLetterChanged?.Invoke(oldDriveLetter);
             OnOrderNameMaxLengthChanged?.Invoke(oldMaxLength);
             OnCanArchiveChanged?.Invoke(oldCanArchive);
@@ -140,10 +135,7 @@ namespace FolderManipulator
 
         private void txt_new_font_size_TextChanged(object sender, EventArgs e)
         {
-            if (Int32.TryParse(txt_new_font_size.Text, out int fontSize))
-            {
-                OnFontValueChanged?.Invoke(fontSize);
-            }
+            UpdateFont();
         }
 
         private void txt_drive_letter_TextChanged(object sender, EventArgs e)
@@ -162,6 +154,19 @@ namespace FolderManipulator
         private void chck_can_archive_CheckedChanged(object sender, EventArgs e)
         {
             OnCanArchiveChanged?.Invoke(chck_can_archive.Checked);
+        }
+
+        private void txt_new_font_name_TextChanged(object sender, EventArgs e)
+        {
+            UpdateFont();
+        }
+
+        private void UpdateFont()
+        {
+            if (Int32.TryParse(txt_new_font_size.Text, out int fontSize))
+            {
+                OnFontValueChanged?.Invoke(fontSize, txt_new_font_name.Text);
+            }
         }
     }
 }

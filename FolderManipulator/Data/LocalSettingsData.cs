@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FolderManipulator.Data
 {
@@ -15,11 +11,12 @@ namespace FolderManipulator.Data
         public string LocalDriveLetter { get; set; }
         public LanguageType Language { get; set; }
         public bool CanArchive { get; set; }
+        public string OrdersFontName { get; set; }
 
         public LocalSettingsData()
         {
             SourcePath = null;
-            SetPixelSize(12);
+            SetFont(12, "Consolas");
             LocalDriveLetter = "M";
             OrderNameMaxLength = 40;
             Language = LanguageType.English;
@@ -29,17 +26,21 @@ namespace FolderManipulator.Data
         public LocalSettingsData(string sourcePath, int pixelSize)
         {
             SourcePath = sourcePath;
-            SetPixelSize(pixelSize);
+            SetFont(pixelSize, "Consolas");
             LocalDriveLetter = "M";
             OrderNameMaxLength = 40;
             Language = LanguageType.English;
             CanArchive = false;
         }
 
-        public void SetPixelSize(int newPixelSize)
+        public void SetFont(int newPixelSize, string newFontName)
         {
             OrdersFontPixelSize = newPixelSize;
-            SettingsManager.OnOrderFontSizeChanged?.Invoke(OrdersFontPixelSize);
+            if (newFontName != null)
+            {
+                OrdersFontName = newFontName;
+            }
+            SettingsManager.OnOrderFontChanged?.Invoke(OrdersFontPixelSize, OrdersFontName);
         }
 
         public void SetLanguage(LanguageType language)

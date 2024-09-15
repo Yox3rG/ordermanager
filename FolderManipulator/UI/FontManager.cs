@@ -1,11 +1,7 @@
 ﻿using FolderManipulator.Analytics;
 using FolderManipulator.Data;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FolderManipulator.UI
 {
@@ -17,19 +13,26 @@ namespace FolderManipulator.UI
         public static Font orderFont;
         public static int orderItemHeight;
 
+        //private static string fontName = "Lucida Console";
+        //private static string fontName = "Arial";
         private static string fontName = "Consolas";
 
-        public static void Initialize(int pixelSize)
+        public static void Initialize(int pixelSize, string fontName)
         {
-            UpdateFontSize(pixelSize);
-            SettingsManager.OnOrderFontSizeChanged += UpdateFontSize;
+            UpdateFont(pixelSize, fontName == null ? FontManager.fontName : fontName);
+            SettingsManager.OnOrderFontChanged += UpdateFont;
         }
 
-        public static void UpdateFontSize(int pixelSize)
+        public static void UpdateFont(int pixelSize, string fontName)
         {
             if (orderFont != null && pixelSize == orderFont.Size)
             {
                 AppConsole.WriteLine($"trySetSameFontSize", list: pixelSize.ToString());
+            }
+
+            if (fontName == null)
+            {
+                fontName = FontManager.fontName;
             }
 
             DisposeFontIfNotNull();
